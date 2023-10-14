@@ -25,14 +25,14 @@ class FormattedButton extends StatelessWidget {
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(defaultRadius),
               color: AppColor.buttonBackground),
-          child: const Center(
+          child: Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Entrar",
-                  style:
-                      TextStyle(fontSize: AppText.title2, color: Colors.white),
+                  content,
+                  style: const TextStyle(
+                      fontSize: AppText.title2, color: Colors.white),
                 )
               ],
             ),

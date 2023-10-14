@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/core/widgets/formated_button.dart';
-import 'package:beat_ecoprove/core/widgets/formated_text_field.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field_type.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/formatted_text_field_type.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatelessWidget {
@@ -27,7 +27,6 @@ class LoginForm extends StatelessWidget {
         child: const Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // title
               Text("Title"),
               Column(
                 children: [

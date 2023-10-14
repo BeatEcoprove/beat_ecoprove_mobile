@@ -7,9 +7,11 @@ class AppColor {
   static const Color buttonBackground = Color.fromRGBO(26, 65, 87, 1);
 
   static const Color primaryColor = Color.fromRGBO(114, 170, 69, 1);
-  static const Color darkColor = Color.fromARGB(26, 65, 192, 255);
+  static const Color darkGreen = Color.fromRGBO(30, 134, 36, 1);
 
   static const Color shadowColor = Color.fromRGBO(66, 71, 76, 0.15);
+
+  static const BorderRadius borderRadius = BorderRadius.all(Radius.circular(5));
 
   static const BoxShadow defaultShadow = BoxShadow(
     color: shadowColor,
@@ -19,7 +21,7 @@ class AppColor {
 }
 
 class AppText {
-  static const TextStyle title_1 = TextStyle(
+  static const TextStyle header = TextStyle(
       color: AppColor.buttonBackground,
       fontSize: title2,
       fontWeight: FontWeight.bold);

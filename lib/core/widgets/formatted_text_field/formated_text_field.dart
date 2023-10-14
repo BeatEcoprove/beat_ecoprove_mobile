@@ -20,10 +20,10 @@ class FormattedTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  FormattedTextFieldState createState() => FormattedTextFieldState();
+  State<FormattedTextField> createState() => _FormattedTextFieldState();
 }
 
-class FormattedTextFieldState extends State<FormattedTextField> {
+class _FormattedTextFieldState extends State<FormattedTextField> {
   static const Radius borderRadius = Radius.circular(5);
 
   bool isFocus = false;

@@ -1,6 +1,10 @@
+import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
 
-// dependency container
-final locator = GetIt.instance;
+class DependencyInjection {
+  final locator = GetIt.instance;
 
-void setupDIContainer() {}
+  void setupDIContainer() {
+    addAuth();
+  }
+}

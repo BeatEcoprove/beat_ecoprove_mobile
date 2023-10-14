@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:flutter/material.dart';
 
-class FormatedButton extends StatelessWidget {
+class FormattedButton extends StatelessWidget {
   static const double defaultHeight = 46;
   static const double defaultWidth = 247;
   static const Radius defaultRadius = Radius.circular(10);
@@ -9,7 +9,7 @@ class FormatedButton extends StatelessWidget {
   final String content;
   final double height;
 
-  const FormatedButton(
+  const FormattedButton(
       {required this.content, this.height = defaultHeight, Key? key})
       : super(key: key);
 

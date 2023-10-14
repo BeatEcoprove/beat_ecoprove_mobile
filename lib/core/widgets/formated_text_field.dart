@@ -1,46 +1,101 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:flutter/material.dart';
 
-class FormatedTextField extends StatelessWidget {
+import 'formatted_text_field_type.dart';
+
+class FormattedTextField extends StatefulWidget {
+  final FormattedTextFieldType fieldType;
+  final bool isPassword;
   final String hintText;
   final Icon leftIcon;
+  final String errorMessage;
 
-  const FormatedTextField(
-      {this.hintText = 'Default Value', required this.leftIcon, Key? key})
-      : super(key: key);
+  const FormattedTextField({
+    this.fieldType = FormattedTextFieldType.normal,
+    this.hintText = 'Default Value',
+    this.isPassword = false,
+    this.errorMessage = '', // errorMessage is now optional
+    required this.leftIcon,
+    Key? key,
+  }) : super(key: key);
 
-  // constantes
-  static const double edgeSize = 7;
-  static const double horizontalPadding = 18;
-  static const double verticalPadding = 0;
+  @override
+  FormattedTextFieldState createState() => FormattedTextFieldState();
+}
 
-  static const Color iconColor = Color.fromARGB(0, 13, 192, 255);
+class FormattedTextFieldState extends State<FormattedTextField> {
+  static const Radius borderRadius = Radius.circular(5);
+
+  bool isFocus = false;
+
+  OutlineInputBorder getInputBorder() {
+    bool isDefault = isFocus;
+
+    return OutlineInputBorder(
+      borderRadius: const BorderRadius.all(borderRadius),
+      borderSide: BorderSide(
+          color:
+              isDefault ? widget.fieldType.focusColor : widget.fieldType.color),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: horizontalPadding, vertical: verticalPadding),
-        decoration: const BoxDecoration(
-            color: AppColor.widgetBackgroud,
-            borderRadius: BorderRadius.all(Radius.circular(edgeSize))),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: TextField(
-                  cursorColor: AppColor.primaryColor,
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    hintStyle: const TextStyle(
-                        fontSize: AppText.title5,
-                        color: AppColor.widgetSecondary,
-                        fontWeight: FontWeight.bold),
-                    border: InputBorder.none,
-                  )),
+    return Column(
+      children: [
+        Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(borderRadius),
+              color: AppColor.widgetBackgroud,
+              boxShadow: [AppColor.defaultShadow],
             ),
-            leftIcon
-          ],
-        ));
+            child: Focus(
+              onFocusChange: (hasFoucs) => {
+                setState(
+                  () {
+                    isFocus = hasFoucs;
+                  },
+                )
+              },
+              child: TextField(
+                obscureText: widget.isPassword,
+                cursorColor: widget.fieldType.focusColor,
+                decoration: InputDecoration(
+                  labelText: widget.hintText,
+                  labelStyle: TextStyle(
+                    fontSize: AppText.title5,
+                    color: colorizeOnFocus(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  focusedBorder: getInputBorder(),
+                  enabledBorder: getInputBorder(),
+                  suffixIcon: Icon(
+                    widget.leftIcon.icon,
+                    color: colorizeOnFocus(),
+                  ),
+                ),
+              ),
+            )),
+        if (_isErrorType)
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                widget.errorMessage,
+                style: TextStyle(color: widget.fieldType.focusColor),
+              ),
+            ),
+          )
+      ],
+    );
   }
+
+  bool get _isErrorType {
+    return widget.fieldType == FormattedTextFieldType.error &&
+        widget.errorMessage.isNotEmpty;
+  }
+
+  Color colorizeOnFocus() =>
+      isFocus ? widget.fieldType.focusColor : AppColor.widgetSecondary;
 }

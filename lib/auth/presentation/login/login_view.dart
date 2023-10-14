@@ -13,9 +13,8 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return const ApplicationBackground(
-        content: Center(
-      child: Padding(padding: EdgeInsets.all(60), child: LoginForm()),
-    ));
+    return const ApplicationBackground(content: LoginForm());
   }
 }
+
+// Padding(padding: EdgeInsets.all(60), child: 

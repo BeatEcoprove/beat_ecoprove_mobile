@@ -12,10 +12,12 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) =>
-          LoginViewModel(DependencyInjection.locator<LoginUseCase>()),
-      child: const ApplicationBackground(content: LoginForm()),
+    return Scaffold(
+      body: ChangeNotifierProvider(
+        create: (_) =>
+            LoginViewModel(DependencyInjection.locator<LoginUseCase>()),
+        child: const ApplicationBackground(content: LoginForm()),
+      ),
     );
   }
 }

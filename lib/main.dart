@@ -1,6 +1,7 @@
-import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
+import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   // create di container
@@ -8,14 +9,16 @@ void main() {
   runApp(const MainApp());
 }
 
+final GoRouter appRouter = GoRouter(routes: [authRoutes]);
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: LoginView()),
+      routerConfig: appRouter,
     );
   }
 }

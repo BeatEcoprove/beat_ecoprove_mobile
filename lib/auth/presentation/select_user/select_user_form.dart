@@ -1,7 +1,9 @@
+import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/selector_button/selector_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SelectUserForm extends StatefulWidget {
   const SelectUserForm({super.key});
@@ -17,44 +19,38 @@ class _SelectUserFormState extends State<SelectUserForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Padding(
-      padding: const EdgeInsets.only(
-          left: _horizontalPadding,
-          right: _horizontalPadding,
-          top: _topPadding,
-          bottom: _bottomPadding),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: _calculateScreenHeight(context)),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // title
-              const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Selecione o Tipo de Utilizador",
-                  textAlign: TextAlign.center,
-                  style: AppText.header,
-                ),
-              ),
+    final goRouter = GoRouter.of(context);
 
-              SelectorButton(
-                selectors: const ["Pessoal", "Empresa"],
-                onIndexChanged: (selectedIndex) =>
-                    print(selectedIndex.toString()),
-              ),
+    return ScrollHandler(
+      topPadding: _topPadding,
+      bottomPadding: _bottomPadding,
+      leftPadding: _horizontalPadding,
+      rightPadding: _horizontalPadding,
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        // title
+        const Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Selecione o Tipo de Utilizador",
+            textAlign: TextAlign.center,
+            style: AppText.header,
+          ),
+        ),
 
-              const FormattedButton(
-                content: "Continuar",
-              ),
-              // Footer
-            ]),
-      ),
-    ));
-  }
+        SelectorButton(
+          selectors: const ["Pessoal", "Empresa"],
+          onIndexChanged: (selectedIndex) => print(selectedIndex.toString()),
+        ),
 
-  double _calculateScreenHeight(BuildContext context) {
-    return MediaQuery.of(context).size.height - (_topPadding + _bottomPadding);
+        FormattedButton(
+          content: "Continuar",
+          onPress: () {
+            goRouter.go("/sign_in");
+          },
+        ),
+        // Footer
+      ]),
+    );
   }
 }

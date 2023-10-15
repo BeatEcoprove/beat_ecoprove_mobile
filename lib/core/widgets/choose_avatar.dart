@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:flutter/material.dart';
 
 class ChooseAvatar extends StatelessWidget {
@@ -33,32 +34,9 @@ class ChooseAvatar extends StatelessWidget {
             right: 0,
             child: CircularButton(
               height: 58,
+              icon: Icon(Icons.auto_fix_normal_outlined),
             )),
       ]),
-    );
-  }
-}
-
-class CircularButton extends StatelessWidget {
-  final double height;
-  final void Function()? onTap;
-
-  const CircularButton({this.height = 10, this.onTap, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap ?? onTap,
-      child: Container(
-        height: height,
-        width: height,
-        decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            boxShadow: [AppColor.defaultShadow]),
-        child: const Icon(Icons.auto_fix_normal_outlined),
-      ),
     );
   }
 }

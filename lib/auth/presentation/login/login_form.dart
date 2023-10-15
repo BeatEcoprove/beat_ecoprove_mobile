@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_fi
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formatted_text_field_type.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -92,8 +93,9 @@ class _LoginFormState extends State<LoginForm> {
               ),
               FormattedButton(
                 content: "Entrar",
-                onPress: () {
+                onPress: () async {
                   _viewModel.handleLogin();
+                  context.go("/select-user");
                 },
                 disabled: !_viewModel.canHandleLogin,
                 loading: _viewModel.isLoading,

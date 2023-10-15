@@ -1,4 +1,5 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/third_stage.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/first_stage.dart';
+import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:flutter/material.dart';
 
 class SignInView extends StatelessWidget {
@@ -8,6 +9,8 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ThirdScene();
+    return const Scaffold(
+      body: GoBack(goBackPath: "/select-user", child: FirstStage()),
+    );
   }
 }

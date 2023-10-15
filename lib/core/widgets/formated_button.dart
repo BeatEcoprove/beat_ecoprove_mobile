@@ -23,6 +23,7 @@ class FormattedButton extends StatelessWidget {
           width: double.infinity,
           constraints: const BoxConstraints(maxWidth: defaultWidth),
           decoration: const BoxDecoration(
+              boxShadow: [AppColor.defaultShadow],
               borderRadius: BorderRadius.all(defaultRadius),
               color: AppColor.buttonBackground),
           child: Center(

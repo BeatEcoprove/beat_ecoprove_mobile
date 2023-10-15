@@ -10,7 +10,8 @@ class LoginUseCase implements UseCase<LoginRequest, Future<AuthResult>> {
 
   @override
   Future<AuthResult> handle(LoginRequest request) async {
-    _authenticationService.login(request.email, request.password);
-    return AuthResult("", "");
+    await _authenticationService.login(request.email, request.password);
+
+    return AuthResult("accessToken", "refreshToken");
   }
 }

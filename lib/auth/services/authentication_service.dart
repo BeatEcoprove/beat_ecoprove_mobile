@@ -1,5 +1,8 @@
 class AuthenticationService {
   Future login(String email, String password) {
-    return Future.error("");
+    return Future.delayed(
+      const Duration(seconds: 15),
+      () {},
+    );
   }
 }

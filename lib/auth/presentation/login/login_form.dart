@@ -1,82 +1,121 @@
+import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
-import 'package:beat_ecoprove/core/widgets/formated_button.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formatted_text_field_type.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
+  const LoginForm({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  late LoginViewModel _viewModel;
+
   static const double _topPadding = 172;
   static const double _bottomPadding = 44;
   static const double _horizontalPadding = 38;
 
-  const LoginForm({
-    super.key,
-  });
-
   @override
   Widget build(BuildContext context) {
-    return const ScrollHandler(
+    _viewModel = Provider.of(context);
+
+    return ScrollHandler(
       topPadding: _topPadding,
       bottomPadding: _bottomPadding,
       leftPadding: _horizontalPadding,
       rightPadding: _horizontalPadding,
-      child:
-          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        SvgImage(
-          path: "assets/applicationTitle.svg",
-          heigth: 74.23,
-          width: 224,
-        ),
-        Column(
-          children: [
-            FormattedTextField(
-              fieldType: FormattedTextFieldType.error,
-              hintText: "E-mail",
-              leftIcon: Icon(
-                Icons.email_outlined,
-              ),
-            ),
-            SizedBox(height: 16),
-            FormattedTextField(
-              isPassword: true,
-              hintText: "Palavra-Chave",
-              leftIcon: Icon(
-                Icons.lock_outline,
-                color: AppColor.widgetSecondary,
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                child: Text("Esqueceu-se da Palavra-chave?",
-                    style: AppText.underlineStyle),
-              ),
-            ),
-          ],
-        ),
-        FormattedButton(
-          content: "Entrar",
-        ),
-        // Footer
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      child: Form(
+        key: _formKey,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Não tem Conta?", style: AppText.strongStyle),
-              SizedBox(
-                width: 8,
+              const SvgImage(
+                path: "assets/applicationTitle.svg",
+                heigth: 74.23,
+                width: 224,
               ),
-              Text(
-                "Registar",
-                style: AppText.underlineStyle,
+              Column(
+                children: [
+                  FormattedTextField(
+                    hintText: "E-mail",
+                    leftIcon: const Icon(
+                      Icons.email_outlined,
+                    ),
+                    fieldType: _viewModel.emailError.isNotEmpty
+                        ? FormattedTextFieldType.error
+                        : FormattedTextFieldType.normal,
+                    errorMessage: _viewModel.emailError,
+                    onChange: (value) {
+                      setState(() {
+                        _viewModel.setEmail(value);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  FormattedTextField(
+                    isPassword: true,
+                    hintText: "Palavra-chave",
+                    leftIcon: const Icon(
+                      Icons.lock_outline,
+                      color: AppColor.widgetSecondary,
+                    ),
+                    fieldType: _viewModel.passwordError.isNotEmpty
+                        ? FormattedTextFieldType.error
+                        : FormattedTextFieldType.normal,
+                    errorMessage: _viewModel.passwordError,
+                    onChange: (value) {
+                      setState(() {
+                        _viewModel.setPassword(value);
+                      });
+                    },
+                  ),
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                      child: Text("Esqueceu-se da Palavra-chave?",
+                          style: AppText.underlineStyle),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        )
-      ]),
+              FormattedButton(
+                content: "Entrar",
+                onPress: () {
+                  _viewModel.handleLogin();
+                },
+                disabled: !_viewModel.canHandleLogin,
+                loading: _viewModel.isLoading,
+              ),
+              // Footer
+              const Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Não tem Conta?", style: AppText.strongStyle),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      "Registar",
+                      style: AppText.underlineStyle,
+                    ),
+                  ],
+                ),
+              )
+            ]),
+      ),
     );
   }
 }

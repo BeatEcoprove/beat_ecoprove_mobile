@@ -1,5 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/formated_button.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/selector_button/selector_button.dart';
 import 'package:flutter/material.dart';
 

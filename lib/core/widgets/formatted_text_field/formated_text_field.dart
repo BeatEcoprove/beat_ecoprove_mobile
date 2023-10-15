@@ -12,6 +12,7 @@ class FormattedTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final Icon? leftIcon;
   final List<TextInputFormatter>? inputFormatter;
+  final void Function(String)? onChange;
 
   const FormattedTextField({
     this.fieldType = FormattedTextFieldType.normal,
@@ -21,6 +22,7 @@ class FormattedTextField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.inputFormatter,
     this.leftIcon,
+    this.onChange,
     Key? key,
   }) : super(key: key);
 
@@ -63,6 +65,7 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
                 )
               },
               child: TextField(
+                onChanged: widget.onChange,
                 keyboardType: widget.keyboardType,
                 inputFormatters: widget.inputFormatter ?? widget.inputFormatter,
                 obscureText: widget.isPassword,

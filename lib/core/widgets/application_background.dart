@@ -1,7 +1,9 @@
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ApplicationBackground extends StatelessWidget {
+  static const double backgroundImageHeigth = 150;
+
   final Widget content;
 
   const ApplicationBackground({required this.content, Key? key})
@@ -11,42 +13,36 @@ class ApplicationBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Stack(children: [
-      Positioned.fill(
-        child: FittedBox(
-          alignment: Alignment.topRight,
-          fit: BoxFit.scaleDown,
-          child: SvgPicture.asset(
-            'assets/background1.svg',
-            width: 150, // Use the screen width
-            height: 150, // Use the screen height
-          ),
+      const Positioned.fill(
+          child: Align(
+        alignment: Alignment.topRight,
+        child: SvgImage(
+          path: 'assets/background1.svg',
+          heigth: backgroundImageHeigth,
+          width: backgroundImageHeigth,
         ),
-      ),
+      )),
       // Second Widget
-      Positioned.fill(
-        top: 130,
-        child: FittedBox(
-          alignment: Alignment.centerLeft,
-          fit: BoxFit.scaleDown,
-          child: SvgPicture.asset(
-            'assets/background2.svg',
-            width: 150, // Use the screen width
-            height: 150, // Use the screen height
-          ),
-        ),
-      ),
+      const Positioned.fill(
+          top: 130,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: SvgImage(
+              path: 'assets/background2.svg',
+              heigth: backgroundImageHeigth,
+              width: backgroundImageHeigth,
+            ),
+          )),
       // Second Widget
-      Positioned.fill(
-        child: FittedBox(
-          alignment: Alignment.bottomRight,
-          fit: BoxFit.scaleDown,
-          child: SvgPicture.asset(
-            'assets/background3.svg',
-            width: 150, // Use the screen width
-            height: 150, // Use the screen height
-          ),
+      const Positioned.fill(
+          child: Align(
+        alignment: Alignment.bottomRight,
+        child: SvgImage(
+          path: 'assets/background3.svg',
+          heigth: backgroundImageHeigth,
+          width: backgroundImageHeigth,
         ),
-      ),
+      )),
       content
     ]));
   }

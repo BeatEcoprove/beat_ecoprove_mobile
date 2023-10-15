@@ -76,11 +76,10 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
                   ),
                   focusedBorder: getInputBorder(),
                   enabledBorder: getInputBorder(),
-                  suffixIcon: widget.leftIcon ??
-                      Icon(
-                        widget.leftIcon?.icon,
-                        color: colorizeOnFocus(),
-                      ),
+                  suffixIcon: Icon(
+                    widget.leftIcon?.icon,
+                    color: colorizeOnFocus(),
+                  ),
                 ),
               ),
             )),

@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: SelectUserView()),
+      home: Scaffold(body: SignInView()),
     );
   }
 }

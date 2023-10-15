@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'formatted_text_field_type.dart';
 
@@ -7,15 +8,19 @@ class FormattedTextField extends StatefulWidget {
   final FormattedTextFieldType fieldType;
   final bool isPassword;
   final String hintText;
-  final Icon leftIcon;
   final String errorMessage;
+  final TextInputType keyboardType;
+  final Icon? leftIcon;
+  final List<TextInputFormatter>? inputFormatter;
 
   const FormattedTextField({
     this.fieldType = FormattedTextFieldType.normal,
     this.hintText = 'Default Value',
     this.isPassword = false,
     this.errorMessage = '', // errorMessage is now optional
-    required this.leftIcon,
+    this.keyboardType = TextInputType.text,
+    this.inputFormatter,
+    this.leftIcon,
     Key? key,
   }) : super(key: key);
 
@@ -58,6 +63,8 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
                 )
               },
               child: TextField(
+                keyboardType: widget.keyboardType,
+                inputFormatters: widget.inputFormatter ?? widget.inputFormatter,
                 obscureText: widget.isPassword,
                 cursorColor: widget.fieldType.focusColor,
                 decoration: InputDecoration(
@@ -69,10 +76,11 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
                   ),
                   focusedBorder: getInputBorder(),
                   enabledBorder: getInputBorder(),
-                  suffixIcon: Icon(
-                    widget.leftIcon.icon,
-                    color: colorizeOnFocus(),
-                  ),
+                  suffixIcon: widget.leftIcon ??
+                      Icon(
+                        widget.leftIcon?.icon,
+                        color: colorizeOnFocus(),
+                      ),
                 ),
               ),
             )),

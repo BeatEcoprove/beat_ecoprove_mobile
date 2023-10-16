@@ -5,10 +5,10 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_fi
 import 'package:beat_ecoprove/core/widgets/step_by_step.dart';
 import 'package:flutter/material.dart';
 
-class ThirdScene extends StatelessWidget {
+class FinalStage extends StatelessWidget {
   static const double textFieldsGap = 26;
 
-  const ThirdScene({super.key});
+  const FinalStage({super.key});
 
   @override
   Widget build(BuildContext context) {

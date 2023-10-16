@@ -7,7 +7,13 @@ class GoBack extends StatefulWidget {
   final String goBackPath;
   final Widget child;
 
-  const GoBack({this.goBackPath = '/', required this.child, Key? key})
+  final bool Function()? changeDefaultBehavior;
+
+  const GoBack(
+      {this.goBackPath = '/',
+      this.changeDefaultBehavior,
+      required this.child,
+      Key? key})
       : super(key: key);
 
   @override
@@ -15,9 +21,24 @@ class GoBack extends StatefulWidget {
 }
 
 class _GoBackState extends State<GoBack> {
+  late bool isOverride;
+  late GoRouter goRouter;
+
+  void handleRoute() {
+    bool callbackResult = false;
+
+    if (widget.changeDefaultBehavior != null) {
+      callbackResult = widget.changeDefaultBehavior!();
+    }
+
+    if (goRouter.canPop() && !callbackResult) {
+      goRouter.go(widget.goBackPath);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final goRouter = GoRouter.of(context);
+    goRouter = GoRouter.of(context);
 
     return Stack(
       children: [
@@ -26,11 +47,7 @@ class _GoBackState extends State<GoBack> {
           top: 48,
           left: 22,
           child: CircularButton(
-            onPress: () {
-              if (goRouter.canPop()) {
-                goRouter.go(widget.goBackPath);
-              }
-            },
+            onPress: handleRoute,
             height: 46,
             icon: const Icon(
               Icons.arrow_back_ios_new,

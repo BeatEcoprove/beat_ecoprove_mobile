@@ -4,9 +4,9 @@ import 'package:beat_ecoprove/auth/validators/email_validator.dart';
 import 'package:beat_ecoprove/auth/validators/password_validator.dart';
 import 'package:beat_ecoprove/auth/validators/validation_exception.dart';
 import 'package:beat_ecoprove/auth/validators/validator.dart';
-import 'package:flutter/material.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 
-class LoginViewModel with ChangeNotifier {
+class LoginViewModel extends ViewModel {
   final Validator _emailValidator = EmailValidator();
   final Validator _passwordValidator = PasswordValidator();
   final LoginUseCase _loginUseCase;

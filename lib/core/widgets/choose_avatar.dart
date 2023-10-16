@@ -34,7 +34,7 @@ class ChooseAvatar extends StatelessWidget {
             right: 0,
             child: CircularButton(
               height: 58,
-              icon: Icon(Icons.auto_fix_normal_outlined),
+              icon: Icon(Icons.mode_edit_outline_rounded),
             )),
       ]),
     );

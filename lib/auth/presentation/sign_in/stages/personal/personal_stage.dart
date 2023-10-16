@@ -5,7 +5,6 @@ import 'package:beat_ecoprove/core/widgets/date_picker.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
-import 'package:beat_ecoprove/core/widgets/step_by_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +33,6 @@ class _PersonalStageState extends State<PersonalStage> {
               children: [
                 const Column(
                   children: [
-                    StepByStep(),
-                    SizedBox(height: 36),
                     Text(
                       "Informações Pessoais",
                       style: AppText.header,

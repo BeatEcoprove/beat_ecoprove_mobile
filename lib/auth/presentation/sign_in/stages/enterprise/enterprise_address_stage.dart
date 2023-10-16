@@ -4,7 +4,6 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
-import 'package:beat_ecoprove/core/widgets/step_by_step.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,10 +31,6 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
               children: [
                 Column(
                   children: [
-                    StepByStep(),
-                    SizedBox(
-                      height: 36,
-                    ),
                     Text(
                       "Morada",
                       style: AppText.header,

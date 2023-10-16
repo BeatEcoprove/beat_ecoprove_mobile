@@ -4,6 +4,8 @@ import 'package:beat_ecoprove/core/view_model_provider.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewController extends StatefulWidget {
+  static const double signViewHeaderGap = 120;
+
   final List<Widget> sections;
 
   const SignInViewController({required this.sections, Key? key})
@@ -30,17 +32,16 @@ class _SignInViewControllerState extends State<SignInViewController> {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider(
-        viewModel: _signInController,
-        child: Builder(
-          builder: (context) => GoBack(
-            goBackPath: '/select-user',
-            changeDefaultBehavior: () => _signInController.defualtBehavior(),
-            child: PageView(
-              controller: _signInController.controller,
-              physics: const NeverScrollableScrollPhysics(),
-              children: widget.sections,
-            ),
-          ),
-        ));
+      viewModel: _signInController,
+      child: GoBack(
+        goBackPath: '/select-user',
+        changeDefaultBehavior: () => _signInController.defualtBehavior(),
+        child: PageView(
+          controller: _signInController.controller,
+          physics: const NeverScrollableScrollPhysics(),
+          children: widget.sections,
+        ),
+      ),
+    );
   }
 }

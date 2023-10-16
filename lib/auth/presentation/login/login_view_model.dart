@@ -43,7 +43,7 @@ class LoginViewModel extends ViewModel {
       _emailValidator.validate(email);
       cleanError(0);
     } on ValidationException catch (e) {
-      return setError(e.message, 0);
+      setError(e.message, 0);
     }
 
     _email = email;
@@ -57,7 +57,7 @@ class LoginViewModel extends ViewModel {
       _passwordValidator.validate(password);
       cleanError(1);
     } on ValidationException catch (e) {
-      return setError(e.message, 1);
+      setError(e.message, 1);
     }
 
     notifyListeners();
@@ -66,6 +66,13 @@ class LoginViewModel extends ViewModel {
 
   bool get canHandleLogin {
     if (_password.isEmpty || _email.isEmpty) {
+      return false;
+    }
+
+    try {
+      _passwordValidator.validate(_password);
+      _emailValidator.validate(_email);
+    } on ValidationException catch (_) {
       return false;
     }
 

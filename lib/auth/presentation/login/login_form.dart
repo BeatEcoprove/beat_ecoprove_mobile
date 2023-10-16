@@ -95,24 +95,28 @@ class _LoginFormState extends State<LoginForm> {
                 content: "Entrar",
                 onPress: () async {
                   _viewModel.handleLogin();
-                  context.go("/select-user");
                 },
                 disabled: !_viewModel.canHandleLogin,
                 loading: _viewModel.isLoading,
               ),
               // Footer
-              const Center(
+              Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Não tem Conta?", style: AppText.strongStyle),
-                    SizedBox(
+                    const Text("Não tem Conta?", style: AppText.strongStyle),
+                    const SizedBox(
                       width: 8,
                     ),
-                    Text(
-                      "Registar",
-                      style: AppText.underlineStyle,
-                    ),
+                    GestureDetector(
+                      onTap: () {
+                        context.go("/select-user");
+                      },
+                      child: const Text(
+                        "Registar",
+                        style: AppText.underlineStyle,
+                      ),
+                    )
                   ],
                 ),
               )

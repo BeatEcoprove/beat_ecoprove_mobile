@@ -39,6 +39,8 @@ class _FormattedDropDownState extends State<FormattedDropDown> {
         child: Padding(
           padding: const EdgeInsets.only(left: 12, right: 20),
           child: DropdownButton<String>(
+            icon: const Icon(Icons.keyboard_arrow_down_rounded,
+                color: AppColor.widgetSecondary),
             focusColor: Colors.transparent,
             style: const TextStyle(
               fontSize: AppText.title5,

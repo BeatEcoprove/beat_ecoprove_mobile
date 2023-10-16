@@ -11,10 +11,10 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: ViewModelProvider(
+    return ApplicationBackground(
+        content: ViewModelProvider(
       viewModel: DependencyInjection.locator<LoginViewModel>(),
-      child: const ApplicationBackground(content: LoginForm()),
+      child: const Scaffold(body: LoginForm()),
     ));
   }
 }

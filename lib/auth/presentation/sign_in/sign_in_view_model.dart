@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/postal_code.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInViewModel extends ViewModel {
   final List<String> _errorList = List.filled(11, '');
@@ -201,5 +202,9 @@ class SignInViewModel extends ViewModel {
   void setTypeOption(String type) {
     _currentTypeOption = type;
     notifyListeners();
+  }
+
+  void handleSignIn(GoRouter router) {
+    router.go("/sign_in_complete");
   }
 }

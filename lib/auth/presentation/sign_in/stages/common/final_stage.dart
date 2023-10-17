@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FinalStage extends StatelessWidget {
   static const double textFieldsGap = 26;
@@ -12,6 +13,7 @@ class FinalStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
     final viewModel = ViewModel.of<SignInViewModel>(context);
 
     return Column(
@@ -60,7 +62,10 @@ class FinalStage extends StatelessWidget {
             ),
           ],
         ),
-        const FormattedButton(content: "Concluir")
+        FormattedButton(
+          content: "Concluir",
+          onPress: () => viewModel.handleSignIn(router),
+        )
       ],
     );
   }

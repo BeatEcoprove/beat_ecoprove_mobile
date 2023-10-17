@@ -2,7 +2,8 @@ import 'package:beat_ecoprove/core/widgets/step_by_step/step_by_step.dart';
 import 'package:flutter/material.dart';
 
 class Circle extends StatefulWidget {
-  static const double strokeWidth = 2;
+  final double strokeWidth;
+  final Color? color;
   final double height;
   final Widget child;
   final bool isFull;
@@ -10,6 +11,8 @@ class Circle extends StatefulWidget {
   const Circle(
       {required this.height,
       required this.child,
+      this.strokeWidth = 2,
+      this.color,
       this.isFull = false,
       Key? key})
       : super(key: key);
@@ -29,9 +32,10 @@ class _CircleState extends State<Circle> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
-    _animation =
-        ColorTween(begin: Colors.transparent, end: StepByStep.mainColor)
-            .animate(_controller);
+    _animation = ColorTween(
+            begin: Colors.transparent,
+            end: widget.color ?? StepByStep.mainColor)
+        .animate(_controller);
   }
 
   @override
@@ -49,7 +53,8 @@ class _CircleState extends State<Circle> with SingleTickerProviderStateMixin {
             shape: BoxShape.circle,
             color: _animation.value,
             border: Border.all(
-                color: StepByStep.mainColor, width: Circle.strokeWidth)),
+                color: widget.color ?? StepByStep.mainColor,
+                width: widget.strokeWidth)),
         height: widget.height,
         width: widget.height,
         child: Center(child: widget.child),

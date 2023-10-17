@@ -8,7 +8,9 @@ class AppColor {
 
   static const Color primaryColor = Color.fromRGBO(114, 170, 69, 1);
   static const Color darkGreen = Color.fromRGBO(30, 134, 36, 1);
+  static const Color lightGreen = Color.fromRGBO(77, 168, 5, 1);
 
+  static const Color darkGrey = Color.fromRGBO(65, 67, 71, 1);
   static const Color disabledColor = Color.fromRGBO(94, 116, 77, 1);
 
   static const Color shadowColor = Color.fromRGBO(66, 71, 76, 0.15);
@@ -27,6 +29,9 @@ class AppText {
       color: AppColor.buttonBackground,
       fontSize: title2,
       fontWeight: FontWeight.bold);
+
+  static const TextStyle alternativeHeader = TextStyle(
+      color: AppColor.darkGrey, fontSize: title2, fontWeight: FontWeight.bold);
 
   // Widget Colors
   static const double title1 = 32;

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
@@ -22,4 +23,7 @@ final GoRoute authRoutes = GoRoute(
           );
         },
       ),
+      GoRoute(
+          path: 'sign_in_complete',
+          builder: (context, state) => const CompleteSignInView()),
     ]);

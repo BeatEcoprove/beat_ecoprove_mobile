@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
-import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/choose_avatar.dart';
@@ -22,38 +21,35 @@ class AvatarStageState extends State<AvatarStage> {
     final SignInController signController = Provider.of(context);
     final viewModel = ViewModel.of<SignInViewModel>(context);
 
-    return ScrollHandler.similiar(
-        verticalPadding: 110,
-        horizontalPadding: 38,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Column(
           children: [
-            const Column(
-              children: [
-                Text(
-                  "Avatar",
-                  style: AppText.header,
-                ),
-              ],
+            Text(
+              "Avatar",
+              style: AppText.header,
             ),
-            Column(
-              children: [
-                FormattedTextField(
-                  hintText: "Nome de exibição",
-                  onChange: (value) => viewModel.setUserName(value),
-                  initialValue: viewModel.userName,
-                ),
-                const SizedBox(
-                  height: 54,
-                ),
-                const ChooseAvatar()
-              ],
-            ),
-            FormattedButton(
-              content: "Continuar",
-              onPress: () => signController.nextPage(),
-            )
           ],
-        ));
+        ),
+        Column(
+          children: [
+            FormattedTextField(
+              hintText: "Nome de exibição",
+              onChange: (value) => viewModel.setUserName(value),
+              initialValue: viewModel.userName,
+            ),
+            const SizedBox(
+              height: 54,
+            ),
+            const ChooseAvatar()
+          ],
+        ),
+        FormattedButton(
+          content: "Continuar",
+          onPress: () => signController.nextPage(),
+        )
+      ],
+    );
   }
 }

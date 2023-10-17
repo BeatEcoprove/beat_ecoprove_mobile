@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
-import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -24,86 +23,83 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
     final SignInController signController = Provider.of(context);
     final viewModel = ViewModel.of<SignInViewModel>(context);
 
-    return ScrollHandler.similiar(
-        verticalPadding: 110,
-        horizontalPadding: 38,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
           children: [
-            Column(
+            const Column(
               children: [
-                const Column(
-                  children: [
-                    Text(
-                      "Morada",
-                      style: AppText.header,
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 78),
-                  child: Column(
-                    children: [
-                      FormattedDropDown(
-                        options: viewModel.countries.keys.toList(),
-                        onValueChanged: (country) =>
-                            viewModel.chooseCountry(country),
-                        value: viewModel.choosenCountry,
-                      ),
-                      const SizedBox(
-                        height: _textBoxGap,
-                      ),
-                      FormattedDropDown(
-                        options: viewModel.currentLocalities,
-                        onValueChanged: (locality) =>
-                            viewModel.setLocality(locality),
-                        value: viewModel.choosenLocality,
-                      ),
-                      const SizedBox(
-                        height: _textBoxGap,
-                      ),
-                      FormattedTextField(
-                        hintText: "Rua",
-                        onChange: (street) => viewModel.setStreet(street),
-                        initialValue: viewModel.street,
-                        errorMessage: viewModel.streetError,
-                      ),
-                      const SizedBox(
-                        height: _textBoxGap,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: FormattedTextField(
-                            hintText: "Codigo Postal",
-                            initialValue: viewModel.postalCode,
-                            onChange: (postalCode) =>
-                                viewModel.setPostalCode(postalCode),
-                            errorMessage: viewModel.postalCodeError,
-                          )),
-                          // ignore: prefer_const_constructors
-                          SizedBox(width: 24),
-                          Expanded(
-                              child: FormattedTextField(
-                            hintText: "Porta",
-                            initialValue: viewModel.port,
-                            onChange: (port) => viewModel.setPort(port),
-                            errorMessage: viewModel.portError,
-                          )),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                Text(
+                  "Morada",
+                  style: AppText.header,
+                  textAlign: TextAlign.center,
+                )
               ],
             ),
-            FormattedButton(
-              content: "Continuar",
-              onPress: () => signController.nextPage(),
-            )
+            Padding(
+              padding: const EdgeInsets.only(top: 78),
+              child: Column(
+                children: [
+                  FormattedDropDown(
+                    options: viewModel.countries.keys.toList(),
+                    onValueChanged: (country) =>
+                        viewModel.chooseCountry(country),
+                    value: viewModel.choosenCountry,
+                  ),
+                  const SizedBox(
+                    height: _textBoxGap,
+                  ),
+                  FormattedDropDown(
+                    options: viewModel.currentLocalities,
+                    onValueChanged: (locality) =>
+                        viewModel.setLocality(locality),
+                    value: viewModel.choosenLocality,
+                  ),
+                  const SizedBox(
+                    height: _textBoxGap,
+                  ),
+                  FormattedTextField(
+                    hintText: "Rua",
+                    onChange: (street) => viewModel.setStreet(street),
+                    initialValue: viewModel.street,
+                    errorMessage: viewModel.streetError,
+                  ),
+                  const SizedBox(
+                    height: _textBoxGap,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: FormattedTextField(
+                        hintText: "Codigo Postal",
+                        initialValue: viewModel.postalCode,
+                        onChange: (postalCode) =>
+                            viewModel.setPostalCode(postalCode),
+                        errorMessage: viewModel.postalCodeError,
+                      )),
+                      // ignore: prefer_const_constructors
+                      SizedBox(width: 24),
+                      Expanded(
+                          child: FormattedTextField(
+                        hintText: "Porta",
+                        initialValue: viewModel.port,
+                        onChange: (port) => viewModel.setPort(port),
+                        errorMessage: viewModel.portError,
+                      )),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ],
-        ));
+        ),
+        FormattedButton(
+          content: "Continuar",
+          onPress: () => signController.nextPage(),
+        )
+      ],
+    );
   }
 }

@@ -21,13 +21,9 @@ class FinalStage extends StatelessWidget {
       children: [
         Column(
           children: [
-            const Column(
-              children: [
-                Text(
-                  "Conta",
-                  style: AppText.header,
-                )
-              ],
+            const Text(
+              "Conta",
+              style: AppText.header,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 78),

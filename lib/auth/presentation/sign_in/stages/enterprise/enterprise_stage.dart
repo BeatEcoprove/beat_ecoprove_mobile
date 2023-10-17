@@ -28,14 +28,10 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
       children: [
         Column(
           children: [
-            const Column(
-              children: [
-                Text(
-                  "Informações Do Prestador de Serviço",
-                  style: AppText.header,
-                  textAlign: TextAlign.center,
-                )
-              ],
+            const Text(
+              "Informações Do Prestador de Serviço",
+              style: AppText.header,
+              textAlign: TextAlign.center,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 78),

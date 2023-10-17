@@ -12,6 +12,8 @@ dependencies:
 
   go_router: ^11.1.4
 
+  image_picker: ^1.0.4
+
   provider: ^6.0.5
   intl: ^0.18.1
   flutter_svg: ^2.0.7
@@ -32,3 +34,5 @@ flutter:
     - assets/background2.svg
     - assets/background3.svg
     - assets/applicationTitle.svg
+    - assets/default_avatar.png
+    - assets/Icon.png

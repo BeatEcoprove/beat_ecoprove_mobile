@@ -30,14 +30,10 @@ class _PersonalStageState extends State<PersonalStage> {
       children: [
         Column(
           children: [
-            const Column(
-              children: [
-                Text(
-                  "Informações Pessoais",
-                  style: AppText.header,
-                  textAlign: TextAlign.center,
-                )
-              ],
+            const Text(
+              "Informações Pessoais",
+              style: AppText.header,
+              textAlign: TextAlign.center,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 78),

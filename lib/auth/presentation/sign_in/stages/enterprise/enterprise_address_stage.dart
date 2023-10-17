@@ -28,14 +28,10 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
       children: [
         Column(
           children: [
-            const Column(
-              children: [
-                Text(
-                  "Morada",
-                  style: AppText.header,
-                  textAlign: TextAlign.center,
-                )
-              ],
+            const Text(
+              "Morada",
+              style: AppText.header,
+              textAlign: TextAlign.center,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 78),

@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/postal_code.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignInViewModel extends ViewModel {
   final List<String> _errorList = List.filled(11, '');
@@ -26,6 +27,8 @@ class SignInViewModel extends ViewModel {
 
   late String _currentTypeOption;
 
+  late String _avatar;
+
   SignInViewModel() {
     _typeOptions = ["Lavandaria", "Reparador", "Reciclador"];
 
@@ -33,6 +36,8 @@ class SignInViewModel extends ViewModel {
       "Portugal": ["Póvoa de Varzim", "Vila do Conde"],
       "Inglaterra": ["Manchester"]
     };
+
+    _avatar = "assets/default_avatar.png";
 
     _street = '';
     _port = 0;
@@ -56,6 +61,8 @@ class SignInViewModel extends ViewModel {
 
     _passwordTemp = _confirmPassword = _authUser.password;
   }
+
+  String get avatar => _avatar;
 
   List<String> get currentLocalities => _countries[_choosenCountry] ?? [];
   String get choosenCountry => _choosenCountry;
@@ -206,5 +213,15 @@ class SignInViewModel extends ViewModel {
 
   void handleSignIn(GoRouter router) {
     router.go("/sign_in_complete");
+  }
+
+  void setAvatarImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image == null) return;
+
+    _avatar = image.path;
+    notifyListeners();
   }
 }

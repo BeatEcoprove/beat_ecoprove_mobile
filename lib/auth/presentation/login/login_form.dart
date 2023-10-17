@@ -37,83 +37,83 @@ class _LoginFormState extends State<LoginForm> {
       child: Form(
         key: _formKey,
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SvgImage(
-                path: "assets/applicationTitle.svg",
-                heigth: 74.23,
-                width: 224,
-              ),
-              Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SvgImage(
+              path: "assets/applicationTitle.svg",
+              heigth: 74.23,
+              width: 224,
+            ),
+            Column(
+              children: [
+                FormattedTextField(
+                  hintText: "E-mail",
+                  leftIcon: const Icon(
+                    Icons.email_outlined,
+                  ),
+                  errorMessage: _viewModel.emailError,
+                  onChange: (value) {
+                    setState(() {
+                      _viewModel.setEmail(value);
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                FormattedTextField(
+                  isPassword: true,
+                  hintText: "Palavra-chave",
+                  leftIcon: const Icon(
+                    Icons.lock_outline,
+                    color: AppColor.widgetSecondary,
+                  ),
+                  errorMessage: _viewModel.passwordError,
+                  onChange: (value) {
+                    setState(() {
+                      _viewModel.setPassword(value);
+                    });
+                  },
+                ),
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: Text("Esqueceu-se da Palavra-chave?",
+                        style: AppText.underlineStyle),
+                  ),
+                ),
+              ],
+            ),
+            FormattedButton(
+              content: "Entrar",
+              onPress: () async {
+                _viewModel.handleLogin();
+              },
+              disabled: !_viewModel.canHandleLogin,
+              loading: _viewModel.isLoading,
+            ),
+            // Footer
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FormattedTextField(
-                    hintText: "E-mail",
-                    leftIcon: const Icon(
-                      Icons.email_outlined,
-                    ),
-                    errorMessage: _viewModel.emailError,
-                    onChange: (value) {
-                      setState(() {
-                        _viewModel.setEmail(value);
-                      });
+                  const Text("Não tem Conta?", style: AppText.strongStyle),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context.go("/select-user");
                     },
-                  ),
-                  const SizedBox(height: 16),
-                  FormattedTextField(
-                    isPassword: true,
-                    hintText: "Palavra-chave",
-                    leftIcon: const Icon(
-                      Icons.lock_outline,
-                      color: AppColor.widgetSecondary,
+                    child: const Text(
+                      "Registar",
+                      style: AppText.underlineStyle,
                     ),
-                    errorMessage: _viewModel.passwordError,
-                    onChange: (value) {
-                      setState(() {
-                        _viewModel.setPassword(value);
-                      });
-                    },
-                  ),
-                  const Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                      child: Text("Esqueceu-se da Palavra-chave?",
-                          style: AppText.underlineStyle),
-                    ),
-                  ),
+                  )
                 ],
               ),
-              FormattedButton(
-                content: "Entrar",
-                onPress: () async {
-                  _viewModel.handleLogin();
-                },
-                disabled: !_viewModel.canHandleLogin,
-                loading: _viewModel.isLoading,
-              ),
-              // Footer
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Não tem Conta?", style: AppText.strongStyle),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.go("/select-user");
-                      },
-                      child: const Text(
-                        "Registar",
-                        style: AppText.underlineStyle,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ]),
+            )
+          ],
+        ),
       ),
     );
   }

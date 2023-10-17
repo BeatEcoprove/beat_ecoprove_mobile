@@ -1,23 +1,22 @@
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class ApplicationBackground extends StatelessWidget {
+class AppBackground extends StatelessWidget {
   static const double backgroundImageHeigth = 150;
 
   final Widget content;
+  final AppBackgrounds type;
 
-  const ApplicationBackground({required this.content, Key? key})
+  const AppBackground({required this.content, required this.type, Key? key})
       : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Stack(children: [
+  Widget background1(Widget content) {
+    return Stack(children: [
       const Positioned.fill(
           child: Align(
         alignment: Alignment.topRight,
         child: SvgImage(
-          path: 'assets/background1.svg',
+          path: 'assets/background1/background1.svg',
           heigth: backgroundImageHeigth,
           width: backgroundImageHeigth,
         ),
@@ -28,7 +27,7 @@ class ApplicationBackground extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: SvgImage(
-              path: 'assets/background2.svg',
+              path: 'assets/background1/background2.svg',
               heigth: backgroundImageHeigth,
               width: backgroundImageHeigth,
             ),
@@ -38,12 +37,58 @@ class ApplicationBackground extends StatelessWidget {
           child: Align(
         alignment: Alignment.bottomRight,
         child: SvgImage(
-          path: 'assets/background3.svg',
+          path: 'assets/background1/background3.svg',
           heigth: backgroundImageHeigth,
           width: backgroundImageHeigth,
         ),
       )),
       content
-    ]));
+    ]);
+  }
+
+  Widget background2(Widget content) {
+    return Stack(children: [
+      const Positioned.fill(
+        child: Align(
+          alignment: Alignment.topRight,
+          child: SvgImage(
+            path: 'assets/background2/background1.svg',
+            heigth: 200,
+            width: 200,
+          ),
+        ),
+      ),
+      // Second Widget
+      const Positioned.fill(
+        top: 130,
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: SvgImage(
+            path: 'assets/background2/background2.svg',
+            heigth: backgroundImageHeigth,
+            width: backgroundImageHeigth,
+          ),
+        ),
+      ),
+      content
+    ]);
+  }
+
+  Widget defualtBackground(Widget content) {
+    switch (type) {
+      case AppBackgrounds.login:
+        return background1(content);
+      case AppBackgrounds.completed:
+        return background2(content);
+      default:
+        return background1(content);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: defualtBackground(content));
   }
 }
+
+enum AppBackgrounds { login, completed }

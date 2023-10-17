@@ -30,16 +30,20 @@ class ScrollHandler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Padding(
-            padding: EdgeInsets.only(
-                left: leftPadding,
-                right: rightPadding,
-                top: topPadding,
-                bottom: bottomPadding),
-            child: ConstrainedBox(
-                constraints:
-                    BoxConstraints(minHeight: _calculateScreenHeight(context)),
-                child: child)));
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: leftPadding,
+          right: rightPadding,
+          top: topPadding,
+          bottom: bottomPadding,
+        ),
+        child: ConstrainedBox(
+          constraints:
+              BoxConstraints(minHeight: _calculateScreenHeight(context)),
+          child: child,
+        ),
+      ),
+    );
   }
 
   double _calculateScreenHeight(BuildContext context) {

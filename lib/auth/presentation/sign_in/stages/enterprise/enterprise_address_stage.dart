@@ -78,12 +78,13 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                       // ignore: prefer_const_constructors
                       SizedBox(width: 24),
                       Expanded(
-                          child: FormattedTextField(
-                        hintText: "Porta",
-                        initialValue: viewModel.port,
-                        onChange: (port) => viewModel.setPort(port),
-                        errorMessage: viewModel.portError,
-                      )),
+                        child: FormattedTextField(
+                          hintText: "Porta",
+                          initialValue: viewModel.port,
+                          onChange: (port) => viewModel.setPort(port),
+                          errorMessage: viewModel.portError,
+                        ),
+                      ),
                     ],
                   )
                 ],

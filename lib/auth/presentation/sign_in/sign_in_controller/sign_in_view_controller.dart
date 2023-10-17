@@ -32,7 +32,8 @@ class _SignInViewControllerState extends State<SignInViewController> {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider(
-        viewModel: _signInController,
-        child: SignInWrapper(sections: widget.sections));
+      viewModel: _signInController,
+      child: SignInWrapper(sections: widget.sections),
+    );
   }
 }

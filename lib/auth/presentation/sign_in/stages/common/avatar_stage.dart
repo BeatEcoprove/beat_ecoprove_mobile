@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/choose_avatar.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
@@ -18,6 +20,7 @@ class AvatarStageState extends State<AvatarStage> {
   @override
   Widget build(BuildContext context) {
     final SignInController signController = Provider.of(context);
+    final viewModel = ViewModel.of<SignInViewModel>(context);
 
     return ScrollHandler.similiar(
         verticalPadding: 110,
@@ -33,15 +36,17 @@ class AvatarStageState extends State<AvatarStage> {
                 ),
               ],
             ),
-            const Column(
+            Column(
               children: [
                 FormattedTextField(
                   hintText: "Nome de exibição",
+                  onChange: (value) => viewModel.setUserName(value),
+                  initialValue: viewModel.userName,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 54,
                 ),
-                ChooseAvatar()
+                const ChooseAvatar()
               ],
             ),
             FormattedButton(

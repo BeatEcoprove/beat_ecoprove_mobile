@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 
 class FormattedDropDown extends StatefulWidget {
   final List<String> options;
+  final String? value;
+  final void Function(String value)? onValueChanged;
 
-  const FormattedDropDown({required this.options, Key? key}) : super(key: key);
+  const FormattedDropDown(
+      {required this.options, this.onValueChanged, this.value, Key? key})
+      : super(key: key);
 
   @override
   State<FormattedDropDown> createState() => _FormattedDropDownState();
@@ -17,11 +21,13 @@ class _FormattedDropDownState extends State<FormattedDropDown> {
   @override
   void initState() {
     super.initState();
-    _value = widget.options.first;
+    _value = widget.value ?? widget.options.first;
   }
 
   @override
   Widget build(BuildContext context) {
+    _value = widget.value ?? widget.options.first;
+
     return Focus(
       onFocusChange: (value) {
         setState(() {
@@ -63,6 +69,10 @@ class _FormattedDropDownState extends State<FormattedDropDown> {
               setState(() {
                 if (value != null) {
                   _value = value;
+
+                  if (widget.onValueChanged != null) {
+                    widget.onValueChanged!(_value);
+                  }
                 }
               });
             },

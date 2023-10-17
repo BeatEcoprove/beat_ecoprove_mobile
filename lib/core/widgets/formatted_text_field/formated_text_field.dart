@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'formatted_text_field_type.dart';
 
 class FormattedTextField extends StatefulWidget {
-  final FormattedTextFieldType fieldType;
   final bool isPassword;
   final String hintText;
   final String errorMessage;
@@ -13,9 +12,9 @@ class FormattedTextField extends StatefulWidget {
   final Icon? leftIcon;
   final List<TextInputFormatter>? inputFormatter;
   final void Function(String)? onChange;
+  final String? initialValue;
 
   const FormattedTextField({
-    this.fieldType = FormattedTextFieldType.normal,
     this.hintText = 'Default Value',
     this.isPassword = false,
     this.errorMessage = '', // errorMessage is now optional
@@ -23,6 +22,7 @@ class FormattedTextField extends StatefulWidget {
     this.inputFormatter,
     this.leftIcon,
     this.onChange,
+    this.initialValue,
     Key? key,
   }) : super(key: key);
 
@@ -33,6 +33,8 @@ class FormattedTextField extends StatefulWidget {
 class _FormattedTextFieldState extends State<FormattedTextField> {
   static const Radius borderRadius = Radius.circular(5);
 
+  late FormattedTextFieldType _fieldType;
+  late TextEditingController _controller;
   bool isFocus = false;
 
   OutlineInputBorder getInputBorder() {
@@ -41,13 +43,22 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
     return OutlineInputBorder(
       borderRadius: const BorderRadius.all(borderRadius),
       borderSide: BorderSide(
-          color:
-              isDefault ? widget.fieldType.focusColor : widget.fieldType.color),
+          color: isDefault ? _fieldType.focusColor : _fieldType.color),
     );
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _fieldType = widget.errorMessage.isNotEmpty
+        ? FormattedTextFieldType.error
+        : FormattedTextFieldType.normal;
+
     return Column(
       children: [
         Container(
@@ -65,11 +76,12 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
                 )
               },
               child: TextField(
+                controller: _controller,
                 onChanged: widget.onChange,
                 keyboardType: widget.keyboardType,
                 inputFormatters: widget.inputFormatter ?? widget.inputFormatter,
                 obscureText: widget.isPassword,
-                cursorColor: widget.fieldType.focusColor,
+                cursorColor: _fieldType.focusColor,
                 decoration: InputDecoration(
                   labelText: widget.hintText,
                   labelStyle: TextStyle(
@@ -93,7 +105,7 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
               alignment: Alignment.centerLeft,
               child: Text(
                 widget.errorMessage,
-                style: TextStyle(color: widget.fieldType.focusColor),
+                style: TextStyle(color: _fieldType.focusColor),
               ),
             ),
           )
@@ -102,10 +114,10 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
   }
 
   bool get _isErrorType {
-    return widget.fieldType == FormattedTextFieldType.error &&
+    return _fieldType == FormattedTextFieldType.error &&
         widget.errorMessage.isNotEmpty;
   }
 
   Color colorizeOnFocus() =>
-      isFocus ? widget.fieldType.focusColor : AppColor.widgetSecondary;
+      isFocus ? _fieldType.focusColor : AppColor.widgetSecondary;
 }

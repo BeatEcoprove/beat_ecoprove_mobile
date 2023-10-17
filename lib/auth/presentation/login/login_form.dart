@@ -1,13 +1,12 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formatted_text_field_type.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -28,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel = Provider.of(context);
+    _viewModel = ViewModel.of<LoginViewModel>(context);
 
     return ScrollHandler(
       topPadding: _topPadding,
@@ -52,9 +51,6 @@ class _LoginFormState extends State<LoginForm> {
                     leftIcon: const Icon(
                       Icons.email_outlined,
                     ),
-                    fieldType: _viewModel.emailError.isNotEmpty
-                        ? FormattedTextFieldType.error
-                        : FormattedTextFieldType.normal,
                     errorMessage: _viewModel.emailError,
                     onChange: (value) {
                       setState(() {
@@ -70,9 +66,6 @@ class _LoginFormState extends State<LoginForm> {
                       Icons.lock_outline,
                       color: AppColor.widgetSecondary,
                     ),
-                    fieldType: _viewModel.passwordError.isNotEmpty
-                        ? FormattedTextFieldType.error
-                        : FormattedTextFieldType.normal,
                     errorMessage: _viewModel.passwordError,
                     onChange: (value) {
                       setState(() {

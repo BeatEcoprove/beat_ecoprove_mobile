@@ -1,5 +1,7 @@
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,9 @@ class FinalStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScrollHandler.similiar(
+    final viewModel = ViewModel.of<SignInViewModel>(context);
+
+    return ScrollHandler.similiar(
         verticalPadding: 110,
         horizontalPadding: 38,
         child: Column(
@@ -19,7 +23,7 @@ class FinalStage extends StatelessWidget {
           children: [
             Column(
               children: [
-                Column(
+                const Column(
                   children: [
                     Text(
                       "Conta",
@@ -28,24 +32,31 @@ class FinalStage extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 78),
+                  padding: const EdgeInsets.only(top: 78),
                   child: Column(
                     children: [
                       FormattedTextField(
                         hintText: "E-mail",
+                        onChange: (email) => viewModel.setEmail(email),
+                        initialValue: viewModel.email,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: textFieldsGap,
                       ),
                       FormattedTextField(
                         hintText: "Palavra-chave",
+                        onChange: (password) => viewModel.setPassword(password),
+                        initialValue: viewModel.password,
                         isPassword: true,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: textFieldsGap,
                       ),
                       FormattedTextField(
                         hintText: "Confirmar palavra-chave",
+                        onChange: (confirmPassword) =>
+                            viewModel.setConfirmPassword(confirmPassword),
+                        initialValue: viewModel.confirmPassword,
                         isPassword: true,
                       ),
                     ],
@@ -53,7 +64,7 @@ class FinalStage extends StatelessWidget {
                 ),
               ],
             ),
-            FormattedButton(content: "Concluir")
+            const FormattedButton(content: "Concluir")
           ],
         ));
   }

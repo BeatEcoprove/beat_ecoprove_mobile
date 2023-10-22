@@ -1,24 +1,34 @@
 import 'package:beat_ecoprove/auth/routes.dart';
+import 'package:beat_ecoprove/core/providers/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  // create di container
   DependencyInjection().setupDIContainer();
-  runApp(const MainApp());
+  AppRouter appRouter = AppRouter([authRoutes]);
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AuthenticationProvider())
+    ],
+    child: MainApp(
+      appRouter: appRouter,
+    ),
+  ));
 }
 
-final GoRouter appRouter = GoRouter(routes: [authRoutes]);
-
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final AppRouter appRouter;
+
+  const MainApp({super.key, required this.appRouter});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
+      routerConfig: appRouter.appRouter,
     );
   }
 }

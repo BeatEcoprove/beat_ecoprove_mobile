@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class AuthenticationProvider extends ViewModel {
-  late final User? _appUser = null;
+  late final User? _appUser = User();
 
   bool get isAuthenticated => _appUser != null;
 

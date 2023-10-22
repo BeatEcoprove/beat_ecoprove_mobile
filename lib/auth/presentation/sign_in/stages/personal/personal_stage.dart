@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/date_picker.dart';
@@ -22,8 +23,12 @@ class _PersonalStageState extends State<PersonalStage> {
 
   @override
   Widget build(BuildContext context) {
-    final SignInController flowController = Provider.of(context);
-    final viewModel = ViewModel.of<SignInViewModel>(context);
+    final controller = Provider.of<SignInController>(context);
+    final viewModel = ViewModel.of<PersonalViewModel>(context);
+
+    void handleNextPage() {
+      controller.nextPage(viewModel.fields);
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,9 +46,11 @@ class _PersonalStageState extends State<PersonalStage> {
                 children: [
                   FormattedTextField(
                     hintText: 'Nome',
-                    errorMessage: viewModel.nameError,
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.name).error,
                     onChange: (value) => viewModel.setName(value),
-                    initialValue: viewModel.name,
+                    initialValue:
+                        viewModel.getValue(FormFieldValues.name).value,
                   ),
                   const SizedBox(
                     height: _textBoxGap,
@@ -61,7 +68,8 @@ class _PersonalStageState extends State<PersonalStage> {
                         ),
                       ),
                       DatePicker(
-                        value: viewModel.bornDate,
+                        value:
+                            viewModel.getValue(FormFieldValues.bornDate).value,
                       )
                     ],
                   ),
@@ -70,8 +78,9 @@ class _PersonalStageState extends State<PersonalStage> {
                   ),
                   FormattedDropDown(
                     options: Gender.getAllTypes(),
-                    value: viewModel.gender,
-                    onValueChanged: (value) => viewModel.setGender(value),
+                    value: viewModel.getValue(FormFieldValues.gender).value,
+                    onValueChanged: (value) =>
+                        viewModel.setValue(FormFieldValues.gender, value),
                   ),
                   const SizedBox(
                     height: _textBoxGap,
@@ -79,10 +88,13 @@ class _PersonalStageState extends State<PersonalStage> {
                   FormattedTextField(
                     hintText: "Telemóvel",
                     keyboardType: TextInputType.number,
-                    onChange: (value) =>
-                        viewModel.setPhone("+351", value.toString()),
-                    initialValue: viewModel.phone,
-                    errorMessage: viewModel.phoneError,
+                    onChange: (value) => viewModel.setPhone(value),
+                    initialValue: viewModel
+                        .getValue(FormFieldValues.phone)
+                        .value
+                        .toString(),
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.phone).error,
                   ),
                 ],
               ),
@@ -91,7 +103,8 @@ class _PersonalStageState extends State<PersonalStage> {
         ),
         FormattedButton(
           content: "Concluir",
-          onPress: () => flowController.nextPage(),
+          disabled: viewModel.thereAreErrors,
+          onPress: () => handleNextPage(),
         )
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_address_stage_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -20,8 +21,8 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
 
   @override
   Widget build(BuildContext context) {
-    final SignInController signController = Provider.of(context);
-    final viewModel = ViewModel.of<SignInViewModel>(context);
+    final controller = Provider.of<SignInController>(context);
+    final viewModel = ViewModel.of<EnterpriseAddressStageViewModel>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,19 +39,19 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
               child: Column(
                 children: [
                   FormattedDropDown(
-                    options: viewModel.countries.keys.toList(),
                     onValueChanged: (country) =>
-                        viewModel.chooseCountry(country),
-                    value: viewModel.choosenCountry,
+                        viewModel.setValue(FormFieldValues.country, country),
+                    value: viewModel.getValue(FormFieldValues.country).value,
+                    options: viewModel.countries,
                   ),
                   const SizedBox(
                     height: _textBoxGap,
                   ),
                   FormattedDropDown(
-                    options: viewModel.currentLocalities,
+                    options: viewModel.getLocalities(),
                     onValueChanged: (locality) =>
-                        viewModel.setLocality(locality),
-                    value: viewModel.choosenLocality,
+                        viewModel.setValue(FormFieldValues.locality, locality),
+                    value: viewModel.getValue(FormFieldValues.locality).value,
                   ),
                   const SizedBox(
                     height: _textBoxGap,
@@ -58,8 +59,10 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                   FormattedTextField(
                     hintText: "Rua",
                     onChange: (street) => viewModel.setStreet(street),
-                    initialValue: viewModel.street,
-                    errorMessage: viewModel.streetError,
+                    initialValue:
+                        viewModel.getValue(FormFieldValues.street).value,
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.street).error,
                   ),
                   const SizedBox(
                     height: _textBoxGap,
@@ -70,19 +73,28 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                       Expanded(
                           child: FormattedTextField(
                         hintText: "Codigo Postal",
-                        initialValue: viewModel.postalCode,
+                        initialValue: viewModel
+                            .getValue(FormFieldValues.postalCode)
+                            .value
+                            .toString(),
                         onChange: (postalCode) =>
                             viewModel.setPostalCode(postalCode),
-                        errorMessage: viewModel.postalCodeError,
+                        errorMessage: viewModel
+                            .getValue(FormFieldValues.postalCode)
+                            .error,
                       )),
                       // ignore: prefer_const_constructors
                       SizedBox(width: 24),
                       Expanded(
                         child: FormattedTextField(
                           hintText: "Porta",
-                          initialValue: viewModel.port,
+                          initialValue: viewModel
+                              .getValue(FormFieldValues.port)
+                              .value
+                              .toString(),
                           onChange: (port) => viewModel.setPort(port),
-                          errorMessage: viewModel.portError,
+                          errorMessage:
+                              viewModel.getValue(FormFieldValues.port).error,
                         ),
                       ),
                     ],
@@ -94,7 +106,8 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
         ),
         FormattedButton(
           content: "Continuar",
-          onPress: () => signController.nextPage(),
+          disabled: viewModel.thereAreErrors,
+          onPress: () => controller.nextPage(viewModel.fields),
         )
       ],
     );

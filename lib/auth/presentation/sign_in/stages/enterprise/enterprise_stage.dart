@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_stage_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -20,8 +21,8 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
 
   @override
   Widget build(BuildContext context) {
-    final SignInController signController = Provider.of(context);
-    final viewModel = ViewModel.of<SignInViewModel>(context);
+    final controller = Provider.of<SignInController>(context);
+    final viewModel = ViewModel.of<EnterpriseStageViewModel>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,16 +41,19 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
                   FormattedTextField(
                     hintText: 'Nome',
                     onChange: (value) => viewModel.setName(value),
-                    initialValue: viewModel.name,
-                    errorMessage: viewModel.nameError,
+                    initialValue:
+                        viewModel.getValue(FormFieldValues.name).value,
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.name).error,
                   ),
                   const SizedBox(
                     height: _textBoxGap,
                   ),
                   FormattedDropDown(
                     options: viewModel.typeOptions,
-                    value: viewModel.currentTypeOption,
-                    onValueChanged: (value) => viewModel.setTypeOption(value),
+                    value: viewModel.getValue(FormFieldValues.typeOption).value,
+                    onValueChanged: (value) => viewModel.setValue<String>(
+                        FormFieldValues.typeOption, value),
                   ),
                   const SizedBox(
                     height: _textBoxGap,
@@ -57,9 +61,13 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
                   FormattedTextField(
                     hintText: "Telemóvel",
                     keyboardType: TextInputType.number,
-                    onChange: (value) => viewModel.setPhone("+351", value),
-                    initialValue: viewModel.phone,
-                    errorMessage: viewModel.phoneError,
+                    onChange: (value) => viewModel.setPhone(value),
+                    initialValue: viewModel
+                        .getValue(FormFieldValues.phone)
+                        .value
+                        .toString(),
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.phone).error,
                   ),
                 ],
               ),
@@ -68,7 +76,8 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
         ),
         FormattedButton(
           content: "Continuar",
-          onPress: () => signController.nextPage(),
+          disabled: viewModel.thereAreErrors,
+          onPress: () => controller.nextPage(viewModel.fields),
         )
       ],
     );

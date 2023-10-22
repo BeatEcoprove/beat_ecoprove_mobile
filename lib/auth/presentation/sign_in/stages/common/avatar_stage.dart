@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/avatar_stage_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
@@ -18,8 +19,12 @@ class AvatarStage extends StatefulWidget {
 class AvatarStageState extends State<AvatarStage> {
   @override
   Widget build(BuildContext context) {
-    final SignInController signController = Provider.of(context);
-    final viewModel = ViewModel.of<SignInViewModel>(context);
+    final controller = Provider.of<SignInController>(context);
+    final viewModel = ViewModel.of<AvatarStageViewModel>(context);
+
+    void handleNextPage() {
+      controller.nextPage(viewModel.fields);
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,7 +42,10 @@ class AvatarStageState extends State<AvatarStage> {
                   FormattedTextField(
                     hintText: "Nome de exibição",
                     onChange: (value) => viewModel.setUserName(value),
-                    initialValue: viewModel.userName,
+                    initialValue:
+                        viewModel.getValue(FormFieldValues.userName).value,
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.userName).error,
                   ),
                   const SizedBox(
                     height: 54,
@@ -45,8 +53,10 @@ class AvatarStageState extends State<AvatarStage> {
                   CircleAvatarChooser(
                     height: 200,
                     color: AppColor.widgetSecondary,
-                    picturePath: viewModel.avatar,
-                    onPress: () => viewModel.setAvatarImage(),
+                    picturePath:
+                        viewModel.getValue(FormFieldValues.avatar).value,
+                    onPress: () =>
+                        viewModel.setValue(FormFieldValues.avatar, ""),
                   )
                 ],
               ),
@@ -55,7 +65,8 @@ class AvatarStageState extends State<AvatarStage> {
         ),
         FormattedButton(
           content: "Continuar",
-          onPress: () => signController.nextPage(),
+          disabled: viewModel.thereAreErrors,
+          onPress: () => handleNextPage(),
         )
       ],
     );

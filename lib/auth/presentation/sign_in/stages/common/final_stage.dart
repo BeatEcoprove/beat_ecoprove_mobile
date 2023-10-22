@@ -1,10 +1,12 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/final_stage_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class FinalStage extends StatelessWidget {
   static const double textFieldsGap = 26;
@@ -13,8 +15,8 @@ class FinalStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final router = GoRouter.of(context);
-    final viewModel = ViewModel.of<SignInViewModel>(context);
+    final controller = Provider.of<SignInController>(context);
+    final viewModel = ViewModel.of<FinalStageViewModel>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,7 +34,10 @@ class FinalStage extends StatelessWidget {
                   FormattedTextField(
                     hintText: "E-mail",
                     onChange: (email) => viewModel.setEmail(email),
-                    initialValue: viewModel.email,
+                    initialValue:
+                        viewModel.getValue(FormFieldValues.email).value,
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.email).error,
                   ),
                   const SizedBox(
                     height: textFieldsGap,
@@ -40,7 +45,10 @@ class FinalStage extends StatelessWidget {
                   FormattedTextField(
                     hintText: "Palavra-chave",
                     onChange: (password) => viewModel.setPassword(password),
-                    initialValue: viewModel.password,
+                    initialValue:
+                        viewModel.getValue(FormFieldValues.password).value,
+                    errorMessage:
+                        viewModel.getValue(FormFieldValues.password).error,
                     isPassword: true,
                   ),
                   const SizedBox(
@@ -50,7 +58,12 @@ class FinalStage extends StatelessWidget {
                     hintText: "Confirmar palavra-chave",
                     onChange: (confirmPassword) =>
                         viewModel.setConfirmPassword(confirmPassword),
-                    initialValue: viewModel.confirmPassword,
+                    initialValue: viewModel
+                        .getValue(FormFieldValues.confirmPassword)
+                        .value,
+                    errorMessage: viewModel
+                        .getValue(FormFieldValues.confirmPassword)
+                        .error,
                     isPassword: true,
                   ),
                 ],
@@ -60,7 +73,8 @@ class FinalStage extends StatelessWidget {
         ),
         FormattedButton(
           content: "Concluir",
-          onPress: () => viewModel.handleSignIn(router),
+          disabled: viewModel.thereAreErrors,
+          onPress: () => controller.nextPage(viewModel.fields),
         )
       ],
     );

@@ -28,8 +28,7 @@ class SignInWrapper extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: StepByStep(
                   numberOfSteps: sections.length,
-                  currentStep: signInController
-                      .currentPage, //_signInController.currentPage
+                  currentStep: signInController.currentPage,
                 ),
               ),
             ),

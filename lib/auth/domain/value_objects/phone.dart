@@ -22,6 +22,9 @@ class Phone {
     return Phone._(countryCode: code, value: formatPhoneNumber(phone));
   }
 
+  @override
+  String toString() => "$countryCode $value";
+
   static String formatPhoneNumber(String phone) {
     String formattedPhone = '';
 

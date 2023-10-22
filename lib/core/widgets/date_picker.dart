@@ -29,11 +29,11 @@ class _DatePickerState extends State<DatePicker> {
         builder: (context, child) => Theme(
             data: ThemeData(
               colorScheme: const ColorScheme.light(
-                primary: AppColor.primaryColor, // header background color
+                primary: AppColor.primaryColor,
               ),
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  foregroundColor: AppColor.darkGreen, // button text color
+                  foregroundColor: AppColor.darkGreen,
                 ),
               ),
             ),
@@ -55,7 +55,7 @@ class _DatePickerState extends State<DatePicker> {
     return Container(
       decoration: const BoxDecoration(
           boxShadow: [AppColor.defaultShadow],
-          color: AppColor.widgetBackgroud,
+          color: AppColor.widgetBackground,
           borderRadius: AppColor.borderRadius),
       child: InkWell(
         onTap: () async {

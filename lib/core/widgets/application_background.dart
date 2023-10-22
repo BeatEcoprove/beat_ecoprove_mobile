@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class AppBackground extends StatelessWidget {
-  static const double backgroundImageHeigth = 150;
+  static const double backgroundImageHeight = 150;
 
   final Widget content;
   final AppBackgrounds type;
@@ -17,8 +17,8 @@ class AppBackground extends StatelessWidget {
         alignment: Alignment.topRight,
         child: SvgImage(
           path: 'assets/background1/background1.svg',
-          heigth: backgroundImageHeigth,
-          width: backgroundImageHeigth,
+          height: backgroundImageHeight,
+          width: backgroundImageHeight,
         ),
       )),
       // Second Widget
@@ -28,8 +28,8 @@ class AppBackground extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: SvgImage(
               path: 'assets/background1/background2.svg',
-              heigth: backgroundImageHeigth,
-              width: backgroundImageHeigth,
+              height: backgroundImageHeight,
+              width: backgroundImageHeight,
             ),
           )),
       // Second Widget
@@ -38,8 +38,8 @@ class AppBackground extends StatelessWidget {
         alignment: Alignment.bottomRight,
         child: SvgImage(
           path: 'assets/background1/background3.svg',
-          heigth: backgroundImageHeigth,
-          width: backgroundImageHeigth,
+          height: backgroundImageHeight,
+          width: backgroundImageHeight,
         ),
       )),
       content
@@ -53,7 +53,7 @@ class AppBackground extends StatelessWidget {
           alignment: Alignment.topRight,
           child: SvgImage(
             path: 'assets/background2/background1.svg',
-            heigth: 200,
+            height: 200,
             width: 200,
           ),
         ),
@@ -65,8 +65,8 @@ class AppBackground extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           child: SvgImage(
             path: 'assets/background2/background2.svg',
-            heigth: backgroundImageHeigth,
-            width: backgroundImageHeigth,
+            height: backgroundImageHeight,
+            width: backgroundImageHeight,
           ),
         ),
       ),

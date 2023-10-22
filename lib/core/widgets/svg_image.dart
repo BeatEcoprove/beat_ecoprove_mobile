@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SvgImage extends StatelessWidget {
-  final double heigth;
+  final double height;
   final double width;
 
   final String path;
 
   const SvgImage(
-      {required this.path, this.heigth = 0, this.width = 0, Key? key})
+      {required this.path, this.height = 0, this.width = 0, Key? key})
       : super(key: key);
 
   @override
@@ -17,8 +17,8 @@ class SvgImage extends StatelessWidget {
       fit: BoxFit.scaleDown,
       child: SvgPicture.asset(
         path,
-        width: width, // Use the screen width
-        height: heigth, // Use the screen height
+        width: width,
+        height: height,
       ),
     );
   }

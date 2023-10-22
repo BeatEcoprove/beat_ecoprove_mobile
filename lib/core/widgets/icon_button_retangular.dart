@@ -39,35 +39,35 @@ enum IconButtonRetangularType implements Comparable<IconButtonRetangularType> {
   recycle(
       colorBackground: AppColor.darkGreen,
       object: SvgImage(
-        path: 'assets/recycle.svg',
+        path: 'assets/services/recycle.svg',
         width: 30,
         height: 30,
       )),
   iron(
       colorBackground: AppColor.orange,
       object: SvgImage(
-        path: 'assets/iron.svg',
+        path: 'assets/services/iron.svg',
         width: 30,
         height: 30,
       )),
   dry(
       colorBackground: AppColor.yellow,
       object: SvgImage(
-        path: 'assets/dry.svg',
+        path: 'assets/services/dry.svg',
         width: 30,
         height: 30,
       )),
   wash(
       colorBackground: AppColor.lightBlue,
       object: SvgImage(
-        path: 'assets/wash.svg',
+        path: 'assets/services/wash.svg',
         width: 50,
         height: 50,
       )),
   repair(
       colorBackground: AppColor.darkBlue,
       object: SvgImage(
-        path: 'assets/repair.svg',
+        path: 'assets/services/repair.svg',
         width: 30,
         height: 30,
       ));

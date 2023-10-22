@@ -1,12 +1,12 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/icon_button_retangular.dart';
+import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
 
 class AdvertisementCardProviderContext extends StatelessWidget {
   final String title;
   final String subTitle;
-  final IconButtonRetangular icon;
+  final IconButtonRectangular icon;
   final List<IconButtonRetangularType> services;
   final double rating;
 
@@ -69,7 +69,7 @@ class AdvertisementCardProviderContext extends StatelessWidget {
                   runSpacing: 6,
                   children: [
                     for (int i = 0; i < services.length; i++) ...[
-                      IconButtonRetangular(
+                      IconButtonRectangular(
                         colorBackground: services[i].colorBackground,
                         object: services[i].object,
                       ),

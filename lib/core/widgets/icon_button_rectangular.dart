@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class IconButtonRetangular extends StatelessWidget {
+class IconButtonRectangular extends StatelessWidget {
   static const Radius borderRadius = Radius.circular(10);
 
   final VoidCallback? onPress;
@@ -10,8 +10,9 @@ class IconButtonRetangular extends StatelessWidget {
   final Color colorBackground;
   final Widget? object;
   final double dimension;
+  final bool isCircular = false;
 
-  const IconButtonRetangular({
+  const IconButtonRectangular({
     super.key,
     this.colorBackground = AppColor.widgetBackground,
     this.object,
@@ -28,7 +29,9 @@ class IconButtonRetangular extends StatelessWidget {
           height: dimension,
           decoration: BoxDecoration(
               color: colorBackground,
-              borderRadius: const BorderRadius.all(borderRadius),
+              shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
+              borderRadius:
+                  isCircular ? null : const BorderRadius.all(borderRadius),
               boxShadow: const [AppColor.defaultShadow]),
           child: object),
     );

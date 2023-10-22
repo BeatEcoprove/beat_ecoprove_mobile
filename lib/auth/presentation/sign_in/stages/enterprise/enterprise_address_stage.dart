@@ -73,10 +73,8 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                       Expanded(
                           child: FormattedTextField(
                         hintText: "Codigo Postal",
-                        initialValue: viewModel
-                            .getValue(FormFieldValues.postalCode)
-                            .value
-                            .toString(),
+                        initialValue:
+                            viewModel.getDefault(FormFieldValues.postalCode),
                         onChange: (postalCode) =>
                             viewModel.setPostalCode(postalCode),
                         errorMessage: viewModel
@@ -88,10 +86,8 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                       Expanded(
                         child: FormattedTextField(
                           hintText: "Porta",
-                          initialValue: viewModel
-                              .getValue(FormFieldValues.port)
-                              .value
-                              .toString(),
+                          initialValue:
+                              viewModel.getDefault(FormFieldValues.port),
                           onChange: (port) => viewModel.setPort(port),
                           errorMessage:
                               viewModel.getValue(FormFieldValues.port).error,

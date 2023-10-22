@@ -89,10 +89,8 @@ class _PersonalStageState extends State<PersonalStage> {
                     hintText: "Telemóvel",
                     keyboardType: TextInputType.number,
                     onChange: (value) => viewModel.setPhone(value),
-                    initialValue: viewModel
-                        .getValue(FormFieldValues.phone)
-                        .value
-                        .toString(),
+                    initialValue:
+                        viewModel.getDefault<String>(FormFieldValues.phone),
                     errorMessage:
                         viewModel.getValue(FormFieldValues.phone).error,
                   ),

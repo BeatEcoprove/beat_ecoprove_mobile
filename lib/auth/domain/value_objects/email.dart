@@ -10,6 +10,10 @@ class Email {
 
   Email._(this.value);
   factory Email.create(String email) {
+    if (email.isEmpty) {
+      throw DomainException("Porfavor introduza o email");
+    }
+
     if (!emailRegex.hasMatch(email)) {
       throw DomainException("O email não é valido");
     }

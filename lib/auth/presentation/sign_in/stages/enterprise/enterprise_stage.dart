@@ -62,10 +62,7 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
                     hintText: "Telemóvel",
                     keyboardType: TextInputType.number,
                     onChange: (value) => viewModel.setPhone(value),
-                    initialValue: viewModel
-                        .getValue(FormFieldValues.phone)
-                        .value
-                        .toString(),
+                    initialValue: viewModel.getDefault(FormFieldValues.phone),
                     errorMessage:
                         viewModel.getValue(FormFieldValues.phone).error,
                   ),

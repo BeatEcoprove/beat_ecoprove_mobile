@@ -41,6 +41,16 @@ abstract class FormViewModel extends ViewModel {
     }
   }
 
+  T getDefault<T>(FormFieldValues key) {
+    var value = getValue(key);
+
+    if (value.isValueEmpty) {
+      return "" as T;
+    }
+
+    return value.value.toString() as T;
+  }
+
   get thereAreErrors => _fields.values
       .any((element) => element.error.isNotEmpty || _hasValue(element));
 

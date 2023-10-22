@@ -7,8 +7,10 @@ class FormFieldModel<T> {
     _value = null;
   }
 
-  T get value => _value == null ? "" as T : _value as T;
+  T get value => _value as T;
   String get error => _error;
+
+  bool get isValueEmpty => _value == null;
 
   void setValue(T value) {
     _value = value;

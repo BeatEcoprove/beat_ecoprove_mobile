@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -19,7 +20,6 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  late LoginViewModel _viewModel;
 
   static const double _topPadding = 172;
   static const double _bottomPadding = 44;
@@ -27,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel = ViewModel.of<LoginViewModel>(context);
+    final viewModel = ViewModel.of<LoginViewModel>(context);
 
     return ScrollHandler(
       topPadding: _topPadding,
@@ -51,12 +51,9 @@ class _LoginFormState extends State<LoginForm> {
                   leftIcon: const Icon(
                     Icons.email_outlined,
                   ),
-                  errorMessage: _viewModel.emailError,
-                  onChange: (value) {
-                    setState(() {
-                      _viewModel.setEmail(value);
-                    });
-                  },
+                  initialValue: viewModel.getValue(FormFieldValues.email).value,
+                  errorMessage: viewModel.getValue(FormFieldValues.email).error,
+                  onChange: (value) => viewModel.setEmail(value),
                 ),
                 const SizedBox(height: 16),
                 FormattedTextField(
@@ -66,12 +63,11 @@ class _LoginFormState extends State<LoginForm> {
                     Icons.lock_outline,
                     color: AppColor.widgetSecondary,
                   ),
-                  errorMessage: _viewModel.passwordError,
-                  onChange: (value) {
-                    setState(() {
-                      _viewModel.setPassword(value);
-                    });
-                  },
+                  initialValue:
+                      viewModel.getValue(FormFieldValues.password).value,
+                  errorMessage:
+                      viewModel.getValue(FormFieldValues.password).error,
+                  onChange: (value) => viewModel.setPassword(value),
                 ),
                 const Align(
                   alignment: Alignment.centerRight,
@@ -86,10 +82,10 @@ class _LoginFormState extends State<LoginForm> {
             FormattedButton(
               content: "Entrar",
               onPress: () async {
-                _viewModel.handleLogin();
+                viewModel.handleLogin();
               },
-              disabled: !_viewModel.canHandleLogin,
-              loading: _viewModel.isLoading,
+              disabled: viewModel.thereAreErrors,
+              loading: viewModel.isLoading,
             ),
             // Footer
             Center(

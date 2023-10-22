@@ -6,6 +6,10 @@ class Password {
   Password._(this.value);
 
   factory Password.create(String password) {
+    if (password.isEmpty) {
+      throw DomainException("Porfavor introduza a palavra-chave");
+    }
+
     if (!isLengthValid(password)) {
       throw DomainException("A palavra-chave deve ter entre 6 a 16 caracteres");
     }

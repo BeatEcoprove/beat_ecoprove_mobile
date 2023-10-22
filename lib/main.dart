@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/core/providers/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -26,7 +27,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return MaterialApp.router(
+      theme: ThemeData(fontFamily: 'Lato'),
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter.appRouter,
     );

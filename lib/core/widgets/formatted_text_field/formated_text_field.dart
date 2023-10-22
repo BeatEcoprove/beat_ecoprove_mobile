@@ -64,7 +64,7 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
         Container(
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(borderRadius),
-              color: AppColor.widgetBackgroud,
+              color: AppColor.widgetBackground,
               boxShadow: [AppColor.defaultShadow],
             ),
             child: Focus(

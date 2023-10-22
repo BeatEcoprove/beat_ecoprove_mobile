@@ -22,7 +22,7 @@ class SelectorItem extends StatelessWidget {
         decoration: const BoxDecoration(
           boxShadow: [AppColor.defaultShadow],
           borderRadius: AppColor.borderRadius,
-          color: AppColor.widgetBackgroud,
+          color: AppColor.widgetBackground,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(

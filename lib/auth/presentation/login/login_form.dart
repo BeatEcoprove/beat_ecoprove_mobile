@@ -41,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
           children: [
             const SvgImage(
               path: "assets/applicationTitle.svg",
-              heigth: 74.23,
+              height: 74.23,
               width: 224,
             ),
             Column(

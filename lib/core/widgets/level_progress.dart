@@ -76,7 +76,7 @@ class LevelProgress extends StatelessWidget {
                         style: AppText.smallHeader,
                       ),
                       Text(
-                        "${percent}%",
+                        "${percent.toStringAsFixed(0)}%",
                         style: AppText.percentText,
                       ),
                     ],

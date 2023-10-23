@@ -1,14 +1,10 @@
+import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/level_progress.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeCard extends StatefulWidget {
-  final String path = "assets/default_avatar.png";
-  final String name = "Diogo Assunção"; //Max: 18
-  final double percent = 100;
-  final int level = 1;
-
   const WelcomeCard({
     super.key,
   });
@@ -58,7 +54,7 @@ class _WelcomeCardState extends State<WelcomeCard> {
                         style: AppText.firstHeaderWhite,
                       ),
                       Text(
-                        widget.name,
+                        user.name,
                         style: AppText.strongStyle,
                       ),
                     ],
@@ -94,10 +90,10 @@ class _WelcomeCardState extends State<WelcomeCard> {
           if (MediaQuery.of(context).size.width > AppColor.maxWidthToImage)
             LevelProgress(
                 height: 175,
-                percent: widget.percent,
-                level: widget.level,
+                percent: user.percent,
+                level: user.level,
                 color: AppColor.levelProgressGreen,
-                path: widget.path),
+                path: user.path),
         ],
       ),
     );

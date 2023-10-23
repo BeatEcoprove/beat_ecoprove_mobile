@@ -10,12 +10,14 @@ class CompactListItem extends StatelessWidget {
   final Widget widget;
   final String title;
   final String subTitle;
+  final bool isCircular;
 
   const CompactListItem(
       {super.key,
       required this.widget,
       required this.title,
       required this.subTitle,
+      this.isCircular = false,
       this.options});
 
   @override
@@ -31,7 +33,11 @@ class CompactListItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButtonRectangular(dimension: 60, object: widget),
+          IconButtonRectangular(
+            isCircular: isCircular,
+            dimension: 60,
+            object: widget,
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 12),

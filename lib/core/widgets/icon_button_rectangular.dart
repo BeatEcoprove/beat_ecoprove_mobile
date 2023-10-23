@@ -6,34 +6,35 @@ class IconButtonRectangular extends StatelessWidget {
   static const Radius borderRadius = Radius.circular(10);
 
   final VoidCallback? onPress;
-
   final Color colorBackground;
   final Widget? object;
   final double dimension;
-  final bool isCircular = false;
+  final bool isCircular;
 
   const IconButtonRectangular({
-    super.key,
+    Key? key,
     this.colorBackground = AppColor.widgetBackground,
     this.object,
     this.onPress,
     this.dimension = 40,
-  });
+    this.isCircular = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-          width: dimension,
-          height: dimension,
-          decoration: BoxDecoration(
-              color: colorBackground,
-              shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
-              borderRadius:
-                  isCircular ? null : const BorderRadius.all(borderRadius),
-              boxShadow: const [AppColor.defaultShadow]),
-          child: object),
+        width: dimension,
+        height: dimension,
+        decoration: BoxDecoration(
+          color: colorBackground,
+          shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
+          borderRadius: isCircular ? null : BorderRadius.all(borderRadius),
+          boxShadow: [AppColor.defaultShadow],
+        ),
+        child: object,
+      ),
     );
   }
 }

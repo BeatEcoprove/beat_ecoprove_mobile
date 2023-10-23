@@ -63,15 +63,13 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildAdvertisementCard(card) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: const EdgeInsets.symmetric(
+        vertical: 6,
+      ),
       child: SizedBox(
         width: 378,
         child: AdvertisementCard(
-          widget: Image.asset(
-            "assets/default_avatar.png",
-            fit: BoxFit.cover,
-            alignment: Alignment.center,
-          ),
+          widget: card.widget,
           cardContext: AdvertisementCardTextContext(
             title: card.title,
             subTitle: card.subtitle,

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
+import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
 import 'package:flutter/material.dart';
 
 class CardData {
@@ -157,13 +158,140 @@ class User {
   final String name; //Max: 18
   final double percent;
   final int level;
+  final int sustainablePoints;
 
   User({
-    this.path = "assets/default_avatar.png",
-    this.name = "Diogo Assunção",
-    this.percent = 78.5,
-    this.level = 1,
+    required this.path,
+    required this.name,
+    required this.percent,
+    required this.level,
+    required this.sustainablePoints,
   });
 }
 
-User user = User();
+User user = User(
+  path: "assets/default_avatar.png",
+  level: 1,
+  name: "Diogo Assunção",
+  percent: 79,
+  sustainablePoints: 100,
+);
+
+class Clothing {
+  final String typeOfCloth;
+  final bool isSelected;
+
+  Clothing({
+    required this.typeOfCloth,
+    this.isSelected = false,
+  });
+}
+
+List<Clothing> clothes = [
+  Clothing(
+    typeOfCloth: "Tudo",
+    isSelected: true,
+  ),
+  Clothing(
+    typeOfCloth: "Calças",
+  ),
+  Clothing(
+    typeOfCloth: "Casacos",
+  ),
+  Clothing(
+    typeOfCloth: "T-shirts",
+  ),
+  Clothing(
+    typeOfCloth: "Camisas",
+  ),
+  Clothing(
+    typeOfCloth: "Saias",
+  ),
+];
+
+class ClothItem {
+  final String name;
+  final Widget image;
+  final bool isOtherProfile;
+
+  ClothItem({
+    required this.name,
+    required this.image,
+    required this.isOtherProfile,
+  });
+}
+
+List<ClothItem> clothesItem = [
+  ClothItem(
+    name: "Calças",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: false,
+  ),
+  ClothItem(
+    name: "Camisa Nike",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: true,
+  ),
+  ClothItem(
+    name: "Calças Salsa",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: false,
+  ),
+  ClothItem(
+    name: "Bata Ciências",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: false,
+  ),
+  ClothItem(
+    name: "Bata Ciências",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: false,
+  ),
+  ClothItem(
+    name: "Bata Ciências",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: true,
+  ),
+  ClothItem(
+    name: "Bata Ciências",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: true,
+  ),
+  ClothItem(
+    name: "Bata Ciências",
+    image: Image.asset(
+      "assets/default_avatar.png",
+      fit: BoxFit.cover,
+      alignment: Alignment.center,
+    ),
+    isOtherProfile: false,
+  ),
+];

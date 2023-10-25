@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
+import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/providers/authentication_provider.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header_with_search_bar.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
@@ -23,9 +24,10 @@ class AppRouter {
 
   static Widget checkAuthorization() =>
       DependencyInjection.locator<AuthenticationProvider>().isAuthenticated
-          ? const DefaultLayoutView(
+          ? DefaultLayoutView(
               header: HeaderWithSearchBar(
-                standardHeader: StandardHeader(sustainablePoints: 100),
+                standardHeader:
+                    StandardHeader(sustainablePoints: user.sustainablePoints),
               ),
             )
           : const LoginView();

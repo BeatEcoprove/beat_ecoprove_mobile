@@ -25,10 +25,9 @@ class FloatingButton extends StatelessWidget {
       ),
       height: dimension,
       width: dimension,
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
-        color: AppColor.widgetBackground,
+      child: InkWell(
+        onTap: onPressed,
+        child: icon,
       ),
     );
   }

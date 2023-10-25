@@ -74,12 +74,33 @@ class AppBackground extends StatelessWidget {
     ]);
   }
 
+  Widget background3(Widget content) {
+    return Stack(
+      children: [
+        const Positioned.fill(
+          bottom: -70,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: SvgImage(
+              path: "assets/others/decoration1.svg",
+              height: 200,
+              width: 200,
+            ),
+          ),
+        ),
+        content,
+      ],
+    );
+  }
+
   Widget defualtBackground(Widget content) {
     switch (type) {
       case AppBackgrounds.login:
         return background1(content);
       case AppBackgrounds.completed:
         return background2(content);
+      case AppBackgrounds.clothing:
+        return background3(content);
       default:
         return background1(content);
     }
@@ -91,4 +112,4 @@ class AppBackground extends StatelessWidget {
   }
 }
 
-enum AppBackgrounds { login, completed }
+enum AppBackgrounds { login, completed, clothing }

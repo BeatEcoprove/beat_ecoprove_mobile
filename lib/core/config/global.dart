@@ -5,8 +5,12 @@ class AppColor {
 
   // Widget Colors
   static const Color widgetBackground = Color(0xFFFFFFFF);
+  static const Color widgetBackgroundBlurry =
+      Color.fromARGB(128, 255, 255, 255);
   static const Color widgetSecondary = Color.fromRGBO(106, 119, 138, 1);
   static const Color buttonBackground = Color.fromRGBO(26, 65, 87, 1);
+
+  static const Color bucketButton = Color.fromRGBO(100, 145, 187, 1);
 
   static const Color primaryColor = Color.fromRGBO(114, 170, 69, 1);
   static const Color darkGreen = Color.fromRGBO(30, 134, 36, 1);

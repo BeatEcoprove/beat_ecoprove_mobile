@@ -18,7 +18,7 @@ class DefaultLayoutView extends StatelessWidget {
       appBar: Header(content: header),
       body: PageView(
         children: const [
-          LoginView(),
+          ClothingView(),
         ],
       ),
       bottomNavigationBar: const Footer(),

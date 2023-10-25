@@ -8,6 +8,7 @@ class ClothsCardItem extends StatefulWidget {
   final Widget image;
   final bool isSelectedToDelete;
   final bool isOtherProfile; // TODO: Change
+  final bool isSelect;
 
   const ClothsCardItem({
     super.key,
@@ -15,6 +16,7 @@ class ClothsCardItem extends StatefulWidget {
     required this.image,
     this.isSelectedToDelete = false,
     this.isOtherProfile = false,
+    this.isSelect = false,
   });
 
   @override
@@ -34,21 +36,19 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
       return Stack(
         children: [
           CompactListItem(
-              widget: Padding(
-                padding: const EdgeInsets.all(4),
-                child: Image.asset(
-                  "assets/default_avatar.png", //TODO: Change
-                  alignment: Alignment.center,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: widget.name,
-              subTitle: '',
-              options: () => {
-                    setState(() {
-                      isSelectedToDelete = !isSelectedToDelete;
-                    }),
-                  }),
+            widget: Image.asset(
+              "assets/default_avatar.png", //TODO: Change
+              alignment: Alignment.center,
+              fit: BoxFit.cover,
+            ),
+            title: widget.name,
+            subTitle: '',
+            options: () => {
+              setState(() {
+                isSelectedToDelete = !isSelectedToDelete;
+              }),
+            },
+          ),
           if (widget.isOtherProfile)
             Positioned(
               left: 46,
@@ -62,6 +62,24 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
                     alignment: Alignment.center,
                     fit: BoxFit.cover,
                   ),
+                ),
+              ),
+            ),
+          if (widget.isSelect)
+            Positioned(
+              right: 0,
+              left: 0,
+              bottom: 0,
+              top: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: AppColor.widgetBackgroundBlurry,
+                  borderRadius: BorderRadius.all(borderRadius),
+                ),
+                child: const Icon(
+                  size: 50,
+                  Icons.check_circle_outline_rounded,
+                  color: AppColor.buttonBackground,
                 ),
               ),
             ),
@@ -81,7 +99,7 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
                   color: AppColor.widgetBackground,
                 ),
               ),
-            )
+            ),
         ],
       );
     }
@@ -152,6 +170,24 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
                   alignment: Alignment.center,
                   fit: BoxFit.cover,
                 ),
+              ),
+            ),
+          ),
+        if (widget.isSelect)
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: Container(
+              height: height,
+              width: width,
+              decoration: const BoxDecoration(
+                color: AppColor.widgetBackgroundBlurry,
+                borderRadius: BorderRadius.all(borderRadius),
+              ),
+              child: const Icon(
+                size: 100,
+                Icons.check_circle_outline_rounded,
+                color: AppColor.buttonBackground,
               ),
             ),
           ),

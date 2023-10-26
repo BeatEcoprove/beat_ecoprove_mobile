@@ -1,5 +1,5 @@
-import 'package:beat_ecoprove/auth/domain/model/form_field_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 abstract class FormViewModel extends ViewModel {

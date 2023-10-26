@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:flutter/material.dart';
 

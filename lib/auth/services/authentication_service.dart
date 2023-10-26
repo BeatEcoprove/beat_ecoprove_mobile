@@ -13,23 +13,32 @@ class AuthenticationService {
 
   Future<AuthResult> signInPersonal(SignInPersonalRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestMultiPart(
-        method: HttpMethods.post, path: "auth/signIn/personal", body: request));
+        method: HttpMethods.post,
+        path: "auth/signIn/personal",
+        body: request,
+        expectedCode: 201));
   }
 
   Future<AuthResult> signInEnterprise(SignInEnterpriseRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestMultiPart(
         method: HttpMethods.post,
         path: "auth/signIn/enterprise",
-        body: request));
+        body: request,
+        expectedCode: 201));
   }
 
   Future<AuthResult> refreshTokens(RefreshTokensRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestJson(
-        method: HttpMethods.get, path: "auth/refresh_tokens"));
+        method: HttpMethods.get,
+        path: "auth/refresh_tokens",
+        expectedCode: 200));
   }
 
   Future<AuthResult> login(LoginRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestJson(
-        method: HttpMethods.post, path: "auth/login", body: request));
+        method: HttpMethods.post,
+        path: "auth/login",
+        body: request,
+        expectedCode: 200));
   }
 }

@@ -4,11 +4,12 @@ import 'package:beat_ecoprove/default_layout/presentation/default_layout_view.da
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final GoRoute homeRoutes = GoRoute(
-  name: 'home',
+final GoRoute clothingRoutes = GoRoute(
+  name: 'clothing',
   path: '/',
   builder: (BuildContext context, GoRouterState state) => DefaultLayoutView(
     header: StandardHeader(
+      title: "Vestuário",
       sustainablePoints: user.sustainablePoints,
     ),
   ),

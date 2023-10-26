@@ -91,19 +91,25 @@ class _HomeViewState extends State<HomeView> {
               style: AppText.titleToScrollSection,
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              for (var service in services)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: CompactListItem(
-                    widget: service.widget,
-                    title: service.title,
-                    subTitle: service.subtitle,
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                for (var service in services)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: CompactListItem(
+                      widget: service.widget,
+                      title: service.title,
+                      subTitle: service.subtitle,
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

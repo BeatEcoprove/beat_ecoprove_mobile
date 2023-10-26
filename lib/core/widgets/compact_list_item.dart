@@ -23,13 +23,13 @@ class CompactListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 12, right: 12),
       padding: const EdgeInsets.all(8),
       height: 75,
       decoration: const BoxDecoration(
-          color: AppColor.widgetBackground,
-          borderRadius: BorderRadius.all(borderRadius),
-          boxShadow: [AppColor.defaultShadow]),
+        color: AppColor.widgetBackground,
+        borderRadius: BorderRadius.all(borderRadius),
+        boxShadow: [AppColor.defaultShadow],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -78,3 +78,6 @@ flutter:
     - assets/services/recycle.svg
     - assets/services/repair.svg
     - assets/services/wash.svg
+    - assets/services/bucket.svg
+    - assets/others/decoration.svg
+    - assets/others/decoration1.svg

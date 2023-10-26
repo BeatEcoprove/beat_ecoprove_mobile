@@ -59,20 +59,26 @@ class _ServiceViewState extends State<ServiceView> {
               style: AppText.titleToScrollSection,
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              for (var store in stores)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: CompactListItem(
-                    isCircular: true,
-                    widget: store.image,
-                    title: store.name,
-                    subTitle: store.serviceProvider,
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                for (var store in stores)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: CompactListItem(
+                      isCircular: true,
+                      widget: store.image,
+                      title: store.name,
+                      subTitle: store.serviceProvider,
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

@@ -2,8 +2,8 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/name.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 
 class PersonalViewModel extends FormViewModel {
   PersonalViewModel() {

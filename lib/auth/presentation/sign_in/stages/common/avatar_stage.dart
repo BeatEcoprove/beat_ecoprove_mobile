@@ -1,6 +1,6 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/avatar_stage_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
@@ -53,10 +53,8 @@ class AvatarStageState extends State<AvatarStage> {
                   CircleAvatarChooser(
                     height: 200,
                     color: AppColor.widgetSecondary,
-                    picturePath:
-                        viewModel.getValue(FormFieldValues.avatar).value,
-                    onPress: () =>
-                        viewModel.setValue(FormFieldValues.avatar, ""),
+                    imageProvider: viewModel.getAvatarImage(),
+                    onPress: () => viewModel.getImageFromGallery(),
                   )
                 ],
               ),

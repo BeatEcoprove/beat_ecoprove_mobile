@@ -1,5 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';

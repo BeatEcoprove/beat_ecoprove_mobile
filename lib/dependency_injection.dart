@@ -1,5 +1,8 @@
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
-import 'package:beat_ecoprove/core/providers/authentication_provider.dart';
+import 'package:beat_ecoprove/auth/routes.dart';
+import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
+import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjection {
@@ -8,7 +11,12 @@ class DependencyInjection {
   static GetIt get locator => DependencyInjection._locator;
 
   void setupDIContainer() {
-    locator.registerSingleton(AuthenticationProvider());
+    var authProvider = locator.registerSingleton(AuthenticationProvider());
+    authProvider.checkAuth();
+
+    locator.registerSingleton(AppRouter([authRoutes]));
+
+    locator.registerFactory(() => HttpClient());
 
     addAuth();
   }

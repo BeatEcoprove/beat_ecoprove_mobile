@@ -1,8 +1,8 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 
 class FinalStageViewModel extends FormViewModel {
   FinalStageViewModel() {

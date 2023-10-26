@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';

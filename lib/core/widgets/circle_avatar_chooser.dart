@@ -8,12 +8,12 @@ class CircleAvatarChooser extends StatelessWidget {
   final double height;
   final Color color;
   final VoidCallback? onPress;
-  final String picturePath;
+  final ImageProvider imageProvider;
 
   const CircleAvatarChooser({
     required this.height,
     required this.color,
-    required this.picturePath,
+    required this.imageProvider,
     Key? key,
     this.onPress,
   }) : super(key: key);
@@ -31,8 +31,8 @@ class CircleAvatarChooser extends StatelessWidget {
             size: Size(height, height),
             foregroundPainter: MyPainter(completeColor: color, width: 2),
             child: ClipOval(
-              child: Image.asset(
-                picturePath,
+              child: Image(
+                image: imageProvider,
                 width: height,
                 height: height,
                 fit: BoxFit.cover,

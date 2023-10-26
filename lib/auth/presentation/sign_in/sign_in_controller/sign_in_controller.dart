@@ -1,7 +1,7 @@
-import 'package:beat_ecoprove/auth/domain/model/form_field_model.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:flutter/material.dart';
 

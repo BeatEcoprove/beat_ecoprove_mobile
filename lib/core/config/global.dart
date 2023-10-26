@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static const maxWidthToImage = 362;
+  static const maxWidthToImage = 313;
 
   // Widget Colors
   static const Color widgetBackground = Color(0xFFFFFFFF);

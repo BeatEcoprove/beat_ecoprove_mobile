@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
-import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
 import 'package:flutter/material.dart';
 
 class CardData {
@@ -205,12 +204,12 @@ List<Clothing> clothes = [
 
 class ClothItem {
   final String name;
-  final Widget image;
+  final Widget content;
   final bool isOtherProfile;
 
   ClothItem({
     required this.name,
-    required this.image,
+    required this.content,
     required this.isOtherProfile,
   });
 }
@@ -218,58 +217,104 @@ class ClothItem {
 List<ClothItem> clothesItem = [
   ClothItem(
     name: "Calças",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Camisa Nike",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: true,
   ),
   ClothItem(
     name: "Calças Salsa",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: true,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: true,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: const PresentImage(
+    content: const PresentImage(
       path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
+  ),
+];
+
+class BucketItem {
+  final String name;
+  final List<ClothItem> items;
+
+  const BucketItem({
+    required this.name,
+    required this.items,
+  });
+}
+
+List<BucketItem> bucket = [
+  BucketItem(
+    name: "Cesto",
+    items: [
+      ClothItem(
+        name: "Calças",
+        content: const PresentImage(
+          path: AssetImage("assets/default_avatar.png"),
+        ),
+        isOtherProfile: false,
+      ),
+      ClothItem(
+        name: "Camisa Nike",
+        content: const PresentImage(
+          path: AssetImage("assets/default_avatar.png"),
+        ),
+        isOtherProfile: true,
+      ),
+      ClothItem(
+        name: "Calças Salsa",
+        content: const PresentImage(
+          path: AssetImage("assets/default_avatar.png"),
+        ),
+        isOtherProfile: false,
+      ),
+      ClothItem(
+        name: "Bata Ciências",
+        content: const PresentImage(
+          path: AssetImage("assets/default_avatar.png"),
+        ),
+        isOtherProfile: false,
+      ),
+    ],
   ),
 ];

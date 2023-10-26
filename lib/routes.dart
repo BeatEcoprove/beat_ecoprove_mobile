@@ -1,5 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
-import 'package:beat_ecoprove/core/providers/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/default_layout/presentation/default_layout_view.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -20,12 +20,15 @@ class AppRouter {
         checkAuthorization(),
   );
 
-  static Widget checkAuthorization() =>
-      DependencyInjection.locator<AuthenticationProvider>().isAuthenticated
-          ? const DefaultLayoutView(
-              header: StandardHeader(sustainablePoints: 100),
-            )
-          : const LoginView();
+  static Widget checkAuthorization() {
+    var authProvider = DependencyInjection.locator<AuthenticationProvider>();
+
+    return authProvider.isAuthenticated
+        ? const DefaultLayoutView(
+            header: StandardHeader(sustainablePoints: 100),
+          )
+        : const LoginView();
+  }
 
   List<RouteBase> _setupRoutes() {
     return [_defaultRoute, ...routes];

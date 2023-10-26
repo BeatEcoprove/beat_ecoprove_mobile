@@ -1,21 +1,25 @@
-import 'package:beat_ecoprove/auth/routes.dart';
-import 'package:beat_ecoprove/core/providers/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageService.initStorage();
+
   DependencyInjection().setupDIContainer();
-  AppRouter appRouter = AppRouter([authRoutes]);
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => AuthenticationProvider())
+      ChangeNotifierProvider(
+          create: (context) =>
+              DependencyInjection.locator<AuthenticationProvider>())
     ],
     child: MainApp(
-      appRouter: appRouter,
+      appRouter: DependencyInjection.locator<AppRouter>(),
     ),
   ));
 }
@@ -28,6 +32,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
     return MaterialApp.router(
       theme: ThemeData(fontFamily: 'Lato'),
       debugShowCheckedModeBanner: false,

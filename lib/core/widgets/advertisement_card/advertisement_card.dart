@@ -17,6 +17,7 @@ class AdvertisementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 220,
+      margin: const EdgeInsetsDirectional.only(start: 12, end: 12),
       padding: const EdgeInsets.all(8),
       decoration: const BoxDecoration(
           color: AppColor.widgetBackground,

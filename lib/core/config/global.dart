@@ -18,7 +18,7 @@ class AppColor {
   static const Color darkGrey = Color.fromRGBO(65, 67, 71, 1);
   static const Color disabledColor = Color.fromRGBO(94, 116, 77, 1);
 
-  static const Color shadowColor = Color.fromRGBO(66, 71, 76, 0.15);
+  static const Color shadowColor = Color.fromRGBO(66, 71, 76, 0.07);
 
   static const Color bottomNavigationBar = Color.fromRGBO(26, 65, 87, 1);
   static const Color bottomNavigationBarSelected =
@@ -35,7 +35,7 @@ class AppColor {
 
   static const BoxShadow defaultShadow = BoxShadow(
     color: shadowColor,
-    blurRadius: 40,
+    blurRadius: 10,
     spreadRadius: 0.0,
   );
 }
@@ -59,6 +59,11 @@ class AppText {
 
   static const TextStyle headerBlack = TextStyle(
       color: AppColor.black, fontSize: title2, fontWeight: FontWeight.bold);
+
+  static const TextStyle titleToScrollSection = TextStyle(
+      color: AppColor.buttonBackground,
+      fontSize: title3,
+      fontWeight: FontWeight.bold);
 
   static const TextStyle smallHeader = TextStyle(
       color: AppColor.black, fontSize: title4, fontWeight: FontWeight.bold);

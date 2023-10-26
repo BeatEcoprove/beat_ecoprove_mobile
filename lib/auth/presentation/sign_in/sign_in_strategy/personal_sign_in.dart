@@ -1,9 +1,8 @@
-import 'package:beat_ecoprove/auth/contracts/auth_result.dart';
-import 'package:beat_ecoprove/auth/contracts/sign_in_personal_request.dart';
-import 'package:beat_ecoprove/auth/domain/model/form_field_model.dart';
+import 'package:beat_ecoprove/auth/contracts/sign_in/sign_in_personal_request.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_personal_use_case.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in_strategy.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 
 class PersonalSignIn implements SignInStratagy {
   final SignInPersonalUseCase _signInPersonalUseCase;
@@ -11,19 +10,18 @@ class PersonalSignIn implements SignInStratagy {
   PersonalSignIn(this._signInPersonalUseCase);
 
   @override
-  Future<AuthResult> handleSignIn(
-      Map<FormFieldValues, FormFieldModel> dataList) async {
+  Future handleSignIn(Map<FormFieldValues, FormFieldModel> dataList) async {
     var request = SignInPersonalRequest(
         name: getFormValue(dataList, FormFieldValues.name),
         bornDate: getFormValue(dataList, FormFieldValues.bornDate).toString(),
         gender: getFormValue(dataList, FormFieldValues.gender),
         userName: getFormValue(dataList, FormFieldValues.userName),
-        avatarUrl: Uri.file(getFormValue(dataList, FormFieldValues.avatar)),
+        avatarPicture: getFormValue(dataList, FormFieldValues.avatar),
         email: getFormValue(dataList, FormFieldValues.email),
         password: getFormValue(dataList, FormFieldValues.password),
         phone: getFormValue(dataList, FormFieldValues.phone));
 
-    return _signInPersonalUseCase.handle(request);
+    _signInPersonalUseCase.handle(request);
   }
 
   @override

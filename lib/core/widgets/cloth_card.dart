@@ -1,31 +1,33 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
-class ClothsCardItem extends StatefulWidget {
+class ClothCard extends StatefulWidget {
   final String name;
-  final Widget image;
+  final ImageProvider image;
+  final Widget content;
   final bool isSelectedToDelete;
   final bool isOtherProfile; // TODO: Change
   final bool isSelect;
 
-  const ClothsCardItem({
+  const ClothCard({
     super.key,
     required this.name,
-    required this.image,
+    this.image = const AssetImage("assets/default_avatar.png"),
+    required this.content,
     this.isSelectedToDelete = false,
     this.isOtherProfile = false,
     this.isSelect = false,
   });
 
   @override
-  State<ClothsCardItem> createState() => _ClothsCardItemState();
+  State<ClothCard> createState() => _ClothCardState();
 }
 
-class _ClothsCardItemState extends State<ClothsCardItem> {
-  static const Radius borderRadius = Radius.circular(10);
-
+class _ClothCardState extends State<ClothCard> {
+  final Radius borderRadius = const Radius.circular(10);
   late bool isSelectedToDelete = widget.isSelectedToDelete;
   final double height = 218;
   final double width = 150;
@@ -36,11 +38,7 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
       return Stack(
         children: [
           CompactListItem(
-            widget: Image.asset(
-              "assets/default_avatar.png", //TODO: Change
-              alignment: Alignment.center,
-              fit: BoxFit.cover,
-            ),
+            widget: widget.content,
             title: widget.name,
             subTitle: '',
             options: () => {
@@ -56,11 +54,9 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
               child: IconButtonRectangular(
                 dimension: 35,
                 object: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Image.asset(
-                    "assets/default_avatar.png", //TODO: Change
-                    alignment: Alignment.center,
-                    fit: BoxFit.cover,
+                  padding: EdgeInsets.all(4),
+                  child: PresentImage(
+                    path: widget.image,
                   ),
                 ),
               ),
@@ -72,7 +68,7 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
               bottom: 0,
               top: 0,
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColor.widgetBackgroundBlurry,
                   borderRadius: BorderRadius.all(borderRadius),
                 ),
@@ -90,7 +86,7 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
               child: Container(
                 height: 75,
                 width: 75,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColor.buttonBackground,
                   borderRadius: BorderRadius.all(borderRadius),
                 ),
@@ -110,7 +106,7 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
           padding: const EdgeInsets.all(8),
           height: height,
           width: width,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               color: AppColor.widgetBackground,
               borderRadius: BorderRadius.all(borderRadius),
               boxShadow: [AppColor.defaultShadow]),
@@ -123,14 +119,15 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                        height: height - 44,
-                        width: width - 6,
-                        decoration: const BoxDecoration(
-                          color: AppColor.widgetBackground,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          boxShadow: [AppColor.defaultShadow],
-                        ),
-                        child: widget.image),
+                      height: height - 44,
+                      width: width - 6,
+                      decoration: const BoxDecoration(
+                        color: AppColor.widgetBackground,
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        boxShadow: [AppColor.defaultShadow],
+                      ),
+                      child: widget.content,
+                    ),
                     Text(
                       widget.name,
                       style: AppText.smallHeader,
@@ -164,11 +161,9 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
             child: IconButtonRectangular(
               dimension: 50,
               object: Padding(
-                padding: const EdgeInsets.all(4),
-                child: Image.asset(
-                  "assets/default_avatar.png", //TODO: Change
-                  alignment: Alignment.center,
-                  fit: BoxFit.cover,
+                padding: EdgeInsets.all(4),
+                child: PresentImage(
+                  path: widget.image, //TODO: Change
                 ),
               ),
             ),
@@ -180,7 +175,7 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
             child: Container(
               height: height,
               width: width,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColor.widgetBackgroundBlurry,
                 borderRadius: BorderRadius.all(borderRadius),
               ),
@@ -197,7 +192,7 @@ class _ClothsCardItemState extends State<ClothsCardItem> {
             child: Container(
               height: 49,
               width: width,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColor.buttonBackground,
                 borderRadius: BorderRadius.only(
                   bottomLeft: borderRadius,

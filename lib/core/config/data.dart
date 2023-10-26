@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
 import 'package:flutter/material.dart';
 
@@ -8,44 +9,40 @@ class CardData {
   final String subtitle;
   final Widget widget;
 
-  CardData({required this.title, required this.subtitle, required this.widget});
+  CardData({
+    required this.title,
+    required this.subtitle,
+    required this.widget,
+  });
 }
 
 List<CardData> cards = [
   CardData(
     title: "Título do Cartão 1",
     subtitle: "Subtítulo do Cartão 1",
-    widget: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    widget: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
   ),
   CardData(
     title: "Título do Cartão 2",
     subtitle: "Subtítulo do Cartão 2",
-    widget: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    widget: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
   ),
   CardData(
     title: "Título do Cartão 3",
     subtitle: "Subtítulo do Cartão 3",
-    widget: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    widget: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
   ),
   CardData(
     title: "Título do Cartão 4",
     subtitle: "Subtítulo do Cartão 4",
-    widget: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    widget: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
   ),
 ];
@@ -98,10 +95,8 @@ class ServiceViewData {
 ServiceViewData serviceView = ServiceViewData(
   title: "Título do Cartão 1",
   subtitle: "Subtítulo do Cartão 1",
-  widget: Image.asset(
-    "assets/default_avatar.png",
-    fit: BoxFit.cover,
-    alignment: Alignment.center,
+  widget: const PresentImage(
+    path: AssetImage("assets/default_avatar.png"),
   ),
   icon: const IconButtonRectangular(
     dimension: 50,
@@ -224,73 +219,57 @@ class ClothItem {
 List<ClothItem> clothesItem = [
   ClothItem(
     name: "Calças",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Camisa Nike",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: true,
   ),
   ClothItem(
     name: "Calças Salsa",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: true,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: true,
   ),
   ClothItem(
     name: "Bata Ciências",
-    image: Image.asset(
-      "assets/default_avatar.png",
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+    image: const PresentImage(
+      path: AssetImage("assets/default_avatar.png"),
     ),
     isOtherProfile: false,
   ),

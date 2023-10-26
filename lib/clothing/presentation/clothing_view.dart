@@ -1,6 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/cloths_card_item.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card.dart';
 import 'package:beat_ecoprove/core/widgets/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/filter_card_type.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
@@ -181,9 +181,9 @@ SliverToBoxAdapter _buildClothsCardsSection() {
               for (int i = 0; i < clothesItem.length; i++) ...[
                 Container(
                   margin: const EdgeInsets.all(4),
-                  child: ClothsCardItem(
+                  child: ClothCard(
                     name: clothesItem[i].name,
-                    image: clothesItem[i].image,
+                    content: clothesItem[i].image,
                     isOtherProfile: clothesItem[i].isOtherProfile,
                   ),
                 ),

@@ -41,14 +41,16 @@ class HttpAuthClient implements HttpClient {
       {required String method,
       required String path,
       BaseJsonRequest? body,
-      Map<String, String>? headers}) {
+      Map<String, String>? headers,
+      int expectedCode = 200}) {
     refreshTokens();
 
     return _httpClient.makeRequestJson(
         method: method,
         path: path,
         body: body,
-        headers: {"Authorization": _authenticationProvider.accessToken});
+        headers: {"Authorization": _authenticationProvider.accessToken},
+        expectedCode: expectedCode);
   }
 
   @override
@@ -56,13 +58,15 @@ class HttpAuthClient implements HttpClient {
       {required String method,
       required String path,
       required BaseMultiPartRequest body,
-      Map<String, String>? headers}) {
+      Map<String, String>? headers,
+      int expectedCode = 200}) {
     refreshTokens();
 
     return _httpClient.makeRequestMultiPart(
         method: method,
         path: path,
         body: body,
-        headers: {"Authorization": _authenticationProvider.accessToken});
+        headers: {"Authorization": _authenticationProvider.accessToken},
+        expectedCode: expectedCode);
   }
 }

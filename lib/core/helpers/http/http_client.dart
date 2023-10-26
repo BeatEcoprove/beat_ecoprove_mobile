@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
+import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert' as convert;
@@ -6,7 +7,7 @@ import 'dart:convert' as convert;
 import 'package:image_picker/image_picker.dart';
 
 class HttpClient {
-  final String _baseAddress = "http://10.0.2.2:5182";
+  final String _baseAddress = ServerConfig.backendUrl;
 
   static const defaultHeaders = {"Content-Type": "application/json"};
   static const multipartFrom = {"Content-Type": "multipart/form-data"};
@@ -15,7 +16,8 @@ class HttpClient {
       {required String method,
       required String path,
       required BaseMultiPartRequest body,
-      Map<String, String>? headers}) async {
+      Map<String, String>? headers,
+      int expectedCode = 200}) async {
     var request =
         http.MultipartRequest(method, Uri.parse("$_baseAddress/$path"));
 
@@ -33,7 +35,7 @@ class HttpClient {
 
     var stream = await request.send();
 
-    if (stream.statusCode != 200) {
+    if (stream.statusCode != expectedCode) {
       throw Exception(stream.reasonPhrase);
     }
 
@@ -45,7 +47,8 @@ class HttpClient {
       {required String method,
       required String path,
       BaseJsonRequest? body,
-      Map<String, String>? headers}) async {
+      Map<String, String>? headers,
+      int expectedCode = 200}) async {
     var request = http.Request(method, Uri.parse("$_baseAddress/$path"));
     request.headers.addAll(defaultHeaders);
 
@@ -55,7 +58,7 @@ class HttpClient {
 
     var stream = await request.send();
 
-    if (stream.statusCode != 200) {
+    if (stream.statusCode != expectedCode) {
       throw Exception(stream.reasonPhrase);
     }
 

@@ -17,9 +17,10 @@ class AuthenticationProvider extends ViewModel {
   }
 
   void checkAuth() async {
-    var refreshToken = await StorageService.getValue(Store.refreshToken);
+    String refreshToken =
+        await StorageService.getValue(Store.refreshToken) ?? '';
 
-    if (refreshToken == null && !validateToken(refreshToken)) return;
+    if (refreshToken.isEmpty || !validateToken(refreshToken)) return;
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
 
@@ -35,7 +36,13 @@ class AuthenticationProvider extends ViewModel {
     );
   }
 
-  bool validateToken(String refreshToken) => JwtDecoder.isExpired(refreshToken);
+  bool validateToken(String refreshToken) {
+    if (refreshToken.isEmpty) {
+      return false;
+    }
+
+    return JwtDecoder.isExpired(refreshToken);
+  }
 
   void authenticate(Authentication authentication) {
     StorageService.setValue(Store.refreshToken, authentication.refreshToken);

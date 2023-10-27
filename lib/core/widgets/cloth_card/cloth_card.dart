@@ -10,6 +10,7 @@ class ClothCard extends StatefulWidget {
   final Widget content;
   final bool isSelectedToDelete;
   final bool isOtherProfile; // TODO: Change
+  final VoidCallback action;
   final bool isSelect;
 
   const ClothCard({
@@ -19,6 +20,7 @@ class ClothCard extends StatefulWidget {
     required this.content,
     this.isSelectedToDelete = false,
     this.isOtherProfile = false,
+    required this.action,
     this.isSelect = false,
   });
 
@@ -43,6 +45,7 @@ class _ClothCardState extends State<ClothCard> {
               setState(
                 () {
                   isSelect = !isSelect;
+                  widget.action();
                 },
               )
             },
@@ -73,11 +76,7 @@ class _ClothCardState extends State<ClothCard> {
                     ),
                   ),
                 if (isSelect)
-                  Positioned(
-                    right: 0,
-                    left: 0,
-                    bottom: 0,
-                    top: 0,
+                  Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
                         color: AppColor.widgetBackgroundBlurry,
@@ -115,6 +114,7 @@ class _ClothCardState extends State<ClothCard> {
             onLongPress: () => {
               setState(() {
                 isSelect = !isSelect;
+                widget.action();
               }),
             },
             child: Stack(
@@ -187,12 +187,8 @@ class _ClothCardState extends State<ClothCard> {
                     ),
                   ),
                 if (isSelect)
-                  Positioned(
-                    left: 0,
-                    bottom: 0,
+                  Positioned.fill(
                     child: Container(
-                      height: height,
-                      width: width,
                       decoration: BoxDecoration(
                         color: AppColor.widgetBackgroundBlurry,
                         borderRadius: BorderRadius.all(borderRadius),

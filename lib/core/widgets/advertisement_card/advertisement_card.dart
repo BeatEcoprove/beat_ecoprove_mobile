@@ -15,6 +15,7 @@ class AdvertisementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double maxWidth = MediaQuery.of(context).size.width;
     return Container(
       height: 220,
       margin: const EdgeInsetsDirectional.only(start: 12, end: 12),
@@ -26,7 +27,7 @@ class AdvertisementCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (MediaQuery.of(context).size.width > AppColor.maxWidthToImage)
+          if (maxWidth > AppColor.maxWidthToImageWithMediaQuery)
             Container(
                 width: 136,
                 height: 196,

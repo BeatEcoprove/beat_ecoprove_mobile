@@ -20,7 +20,8 @@ class _WelcomeCardState extends State<WelcomeCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width <= AppColor.maxWidthToImage) {
+    double maxWidth = MediaQuery.of(context).size.width;
+    if (maxWidth < AppColor.maxWidthToImageWithMediaQuery) {
       alignment = CrossAxisAlignment.center;
       mainAlignment = MainAxisAlignment.center;
       height = 160;
@@ -87,7 +88,7 @@ class _WelcomeCardState extends State<WelcomeCard> {
               ),
             ],
           ),
-          if (MediaQuery.of(context).size.width > AppColor.maxWidthToImage)
+          if (maxWidth > AppColor.maxWidthToImageWithMediaQuery)
             LevelProgress(
                 height: 175,
                 percent: user.percent,

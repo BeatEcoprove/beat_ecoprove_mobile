@@ -5,11 +5,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class RatingBarWidget extends StatefulWidget {
   final double rating;
   final bool canRating;
+  final Function(double)? onRatingChange;
 
   const RatingBarWidget({
     Key? key,
     required this.rating,
     this.canRating = true,
+    this.onRatingChange,
   }) : super(key: key);
 
   @override
@@ -31,15 +33,20 @@ class _RatingBarWidgetState extends State<RatingBarWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          widget.rating.toString(),
-          style: AppText.rating,
+          ratingValue.toString(),
+          style: TextStyle(
+              color: ratingValue == 0
+                  ? AppColor.widgetSecondary
+                  : AppColor.primaryColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
         ),
         const Padding(
           padding: EdgeInsets.only(left: 6),
         ),
         RatingBar.builder(
           itemSize: 28,
-          initialRating: widget.rating,
+          initialRating: ratingValue,
           minRating: 0,
           allowHalfRating: true,
           itemCount: 5,
@@ -55,6 +62,9 @@ class _RatingBarWidgetState extends State<RatingBarWidget> {
             setState(
               () {
                 ratingValue = rating;
+                if (widget.onRatingChange != null) {
+                  widget.onRatingChange!(ratingValue);
+                }
               },
             );
           },

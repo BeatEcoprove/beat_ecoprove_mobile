@@ -1,74 +1,67 @@
-// import 'package:beat_ecoprove/core/config/data.dart';
-// import 'package:beat_ecoprove/core/config/global.dart';
-// import 'package:beat_ecoprove/core/widgets/cloth_card/cloth_card.dart';
-// import 'package:flutter/material.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/cardItem.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:flutter/material.dart';
 
-// class Bucket extends StatelessWidget {
-//   final String name;
-//   final List<ClothItem> items;
+class CardItemModel {
+  final String title;
+  final String? subTitle;
+  final ImageProvider image;
 
-//   const Bucket({
-//     super.key,
-//     required this.name,
-//     required this.items,
-//   });
+  CardItemModel({
+    required this.title,
+    required this.subTitle,
+    required this.image,
+  });
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return LayoutBuilder(
-//       builder: (context, constraints) {
-//         if (constraints.maxWidth > AppColor.maxWidthToImage) {
-//           return ClothCard(
-//             name: name,
-//             content: Center(
-//               child: Wrap(
-//                 alignment: WrapAlignment.start,
-//                 runSpacing: 1,
-//                 spacing: 1,
-//                 children: [
-//                   for (int i = 0; useFourItemsImagesToBucket(i); i++) ...[
-//                     Container(
-//                       margin: const EdgeInsets.all(6),
-//                       child: Container(
-//                         height: 50,
-//                         width: 40,
-//                         color: AppColor.widgetBackground,
-//                         child: items[i].content,
-//                       ),
-//                     ),
-//                   ],
-//                 ],
-//               ),
-//             ),
-//           );
-//         } else {
-//           return ClothCard(
-//             name: name,
-//             content: Center(
-//               child: Wrap(
-//                 alignment: WrapAlignment.start,
-//                 runSpacing: 1,
-//                 spacing: 1,
-//                 children: [
-//                   for (int i = 0; useFourItemsImagesToBucket(i); i++) ...[
-//                     Container(
-//                       margin: const EdgeInsets.all(2),
-//                       child: Container(
-//                         height: 20,
-//                         width: 20,
-//                         color: AppColor.widgetBackground,
-//                         child: items[i].content,
-//                       ),
-//                     ),
-//                   ],
-//                 ],
-//               ),
-//             ),
-//           );
-//         }
-//       },
-//     );
-//   }
+class Bucket extends CardItemTemplate {
+  final List<CardItemModel> items;
 
-//   bool useFourItemsImagesToBucket(int i) => i < items.length && i < 4;
-// }
+  const Bucket({
+    super.key,
+    required this.items,
+    required super.title,
+    super.otherProfileImage,
+    super.selectionAction,
+  });
+
+  @override
+  Widget body(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double maxWidth = MediaQuery.of(context).size.width;
+        double margin =
+            maxWidth < AppColor.maxWidthToImageWithMediaQuery ? 4 : 6;
+        double height =
+            maxWidth < AppColor.maxWidthToImageWithMediaQuery ? 20 : 50;
+        double width =
+            maxWidth < AppColor.maxWidthToImageWithMediaQuery ? 20 : 40;
+        return Center(
+          child: Wrap(
+            alignment: WrapAlignment.start,
+            runSpacing: 1,
+            spacing: 1,
+            children: [
+              for (int i = 0; useFourItemsImagesToBucket(i); i++) ...[
+                Container(
+                  margin: EdgeInsets.all(margin),
+                  child: Container(
+                    height: height,
+                    width: width,
+                    color: AppColor.widgetBackground,
+                    child: PresentImage(
+                      path: items[i].image,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  bool useFourItemsImagesToBucket(int i) => i < items.length && i < 4;
+}

@@ -1,10 +1,10 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/headers/headers.dart';
+import 'package:beat_ecoprove/core/widgets/headers/header.dart';
 import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class StandardHeader extends StatelessWidget implements Headers {
+class StandardHeader extends Header {
   final VoidCallback? helpPress;
   final VoidCallback? settingsPress;
 
@@ -24,7 +24,10 @@ class StandardHeader extends StatelessWidget implements Headers {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Size get preferredSize => const Size.fromHeight(96);
+
+  @override
+  Widget body(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -83,7 +86,4 @@ class StandardHeader extends StatelessWidget implements Headers {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(96);
 }

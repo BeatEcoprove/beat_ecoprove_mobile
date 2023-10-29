@@ -74,5 +74,5 @@ class AuthenticationProvider extends ViewModel {
     return true;
   }
 
-  bool get isAuthenticated => !(_appUser != null);
+  bool get isAuthenticated => _appUser != null;
 }

@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/clothing/presentation/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/cloth_card/cloth_card.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
 import 'package:beat_ecoprove/core/widgets/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/filter_card_type.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
@@ -175,34 +175,8 @@ SliverToBoxAdapter _buildClothsCardsSection(ClothingViewModel viewModel) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Wrap(
-            alignment: WrapAlignment.start,
-            runSpacing: 8,
-            spacing: 4,
-            children: [
-              // for (int i = 0; i < bucket.length; i++) ...[
-              //   Container(
-              //     margin: const EdgeInsets.all(4),
-              //     child: Bucket(
-              //       name: bucket[i].name,
-              //       items: bucket[i].items,
-              //     ),
-              //   ),
-              // ],
-              for (int i = 0; i < clothesItem.length; i++) ...[
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  child: ClothCard(
-                    name: clothesItem[i].name,
-                    content: clothesItem[i].content,
-                    isOtherProfile: clothesItem[i].isOtherProfile,
-                    action: () {
-                      viewModel.changeSelection(clothesItem[i]);
-                    },
-                  ),
-                ),
-              ],
-            ],
+          CardList(
+            selectedOnChange: (card) => {viewModel.changeSelection(card)},
           ),
         ],
       ),

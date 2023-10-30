@@ -81,6 +81,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             FormattedButton(
               content: "Entrar",
+              textColor: Colors.white,
               onPress: () async {
                 viewModel.handleLogin();
               },

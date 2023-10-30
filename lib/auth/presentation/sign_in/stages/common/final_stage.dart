@@ -73,6 +73,7 @@ class FinalStage extends StatelessWidget {
         ),
         FormattedButton(
           content: "Concluir",
+          textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => controller.nextPage(viewModel.fields),
         )

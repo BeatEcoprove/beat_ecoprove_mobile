@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/dialog_card.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
   void select() {
     setState(() {
       _isSelect = !_isSelect;
+      _isSelectedToDelete = false;
       widget.handleSelection();
     });
   }
@@ -97,6 +99,46 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
                     ),
                   ),
                 ),
+              if (_isSelectedToDelete)
+                Positioned(
+                  left: maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                      ? null
+                      : 0,
+                  bottom: 0,
+                  child: InkWell(
+                    onTap: () {
+                      _removeCard(
+                        context,
+                        ExtendedItem(
+                          content: widget.body(context),
+                          title: widget.title,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                          ? 49
+                          : 75,
+                      width: maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                          ? 150
+                          : 75,
+                      decoration: BoxDecoration(
+                        color: AppColor.buttonBackground,
+                        borderRadius:
+                            maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                                ? BorderRadius.only(
+                                    bottomLeft: borderRadius,
+                                    bottomRight: borderRadius)
+                                : BorderRadius.all(borderRadius),
+                        boxShadow: const [AppColor.defaultShadow],
+                      ),
+                      child: const Icon(
+                        Icons.delete_outline_rounded,
+                        color: AppColor.widgetBackground,
+                      ),
+                    ),
+                  ),
+                ),
               if (_isSelect)
                 Positioned.fill(
                   child: Container(
@@ -113,37 +155,24 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
                     ),
                   ),
                 ),
-              if (_isSelectedToDelete)
-                Positioned(
-                  left: maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                      ? null
-                      : 0,
-                  bottom: 0,
-                  child: Container(
-                    height: maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                        ? 49
-                        : 75,
-                    width: maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                        ? 150
-                        : 75,
-                    decoration: BoxDecoration(
-                      color: AppColor.buttonBackground,
-                      borderRadius:
-                          maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                              ? BorderRadius.only(
-                                  bottomLeft: borderRadius,
-                                  bottomRight: borderRadius)
-                              : BorderRadius.all(borderRadius),
-                      boxShadow: const [AppColor.defaultShadow],
-                    ),
-                    child: const Icon(
-                      Icons.delete_outline_rounded,
-                      color: AppColor.widgetBackground,
-                    ),
-                  ),
-                ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void _removeCard(BuildContext context, ExtendedItem card) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogCard(
+          card: card,
+          text: "Tem a certeza que pretende remover esta peça de roupa?",
+          firstAction: () {},
+          secondAction: () {
+            Navigator.of(context).pop();
+          },
         );
       },
     );
@@ -177,7 +206,6 @@ class ExtendedItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Radius borderRadius = Radius.circular(10);
     const double height = 218;
     const double width = 150;
 
@@ -189,7 +217,7 @@ class ExtendedItem extends StatelessWidget {
           width: width,
           decoration: const BoxDecoration(
               color: AppColor.widgetBackground,
-              borderRadius: BorderRadius.all(borderRadius),
+              borderRadius: AppColor.borderRadius,
               boxShadow: [AppColor.defaultShadow]),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -200,7 +228,7 @@ class ExtendedItem extends StatelessWidget {
                 width: width - 6,
                 decoration: const BoxDecoration(
                   color: AppColor.widgetBackground,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  borderRadius: AppColor.borderRadius,
                   boxShadow: [AppColor.defaultShadow],
                 ),
                 child: content,

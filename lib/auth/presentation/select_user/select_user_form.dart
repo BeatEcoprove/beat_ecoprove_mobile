@@ -52,6 +52,7 @@ class _SelectUserFormState extends State<SelectUserForm> {
 
           FormattedButton(
             content: "Continuar",
+            textColor: Colors.white,
             onPress: () {
               _viewModel.handleSignIn(goRouter);
             },

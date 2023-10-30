@@ -10,15 +10,19 @@ class FormattedButton extends StatefulWidget {
   final void Function()? onPress;
   final bool disabled;
   final bool loading;
+  final Color? buttonColor;
+  final Color textColor;
 
-  const FormattedButton(
-      {required this.content,
-      this.height = defaultHeight,
-      this.onPress,
-      this.disabled = false,
-      this.loading = false,
-      Key? key})
-      : super(key: key);
+  const FormattedButton({
+    required this.content,
+    this.height = defaultHeight,
+    this.onPress,
+    this.disabled = false,
+    this.loading = false,
+    Key? key,
+    this.buttonColor,
+    required this.textColor,
+  }) : super(key: key);
 
   @override
   State<FormattedButton> createState() => _FormattedButtonState();
@@ -39,38 +43,43 @@ class _FormattedButtonState extends State<FormattedButton> {
     return InkWell(
       onTap: widget.disabled ? null : widget.onPress,
       child: Container(
-          height: widget.height,
-          width: double.infinity,
-          constraints: const BoxConstraints(maxWidth: defaultWidth),
-          decoration: BoxDecoration(
-              boxShadow: const [AppColor.defaultShadow],
-              borderRadius: const BorderRadius.all(defaultRadius),
-              color: buttonType.color),
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                if (widget.loading)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 12, bottom: 12, right: 12),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: CircularProgressIndicator(
-                        strokeCap: StrokeCap.round,
-                        backgroundColor: AppColor.primaryColor,
-                        color: Colors.white,
-                      ),
+        height: widget.height,
+        width: double.infinity,
+        constraints: const BoxConstraints(maxWidth: defaultWidth),
+        decoration: BoxDecoration(
+          boxShadow: const [AppColor.defaultShadow],
+          borderRadius: const BorderRadius.all(defaultRadius),
+          color: widget.buttonColor ?? buttonType.color,
+        ),
+        child: Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              if (widget.loading)
+                const Padding(
+                  padding: EdgeInsets.only(top: 12, bottom: 12, right: 12),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: CircularProgressIndicator(
+                      strokeCap: StrokeCap.round,
+                      backgroundColor: AppColor.primaryColor,
+                      color: Colors.white,
                     ),
                   ),
-                Text(
-                  widget.loading ? "Loading" : widget.content,
-                  style: const TextStyle(
-                      fontSize: AppText.title2, color: Colors.white),
                 ),
-              ],
-            ),
-          )),
+              Text(
+                widget.loading ? "Loading" : widget.content,
+                style: TextStyle(
+                  fontSize: AppText.title3,
+                  color: widget.textColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

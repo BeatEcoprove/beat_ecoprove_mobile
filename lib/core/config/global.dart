@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 class AppColor {
   static const maxWidthToImage = 313;
   static const maxWidthToImageWithMediaQuery = 359;
+  static const maxWidthToImageWithMediaQueryCards = 353;
 
   // Widget Colors
   static const Color widgetBackground = Color(0xFFFFFFFF);
   static const Color widgetBackgroundBlurry =
       Color.fromARGB(128, 255, 255, 255);
+  static const Color widgetBackgroundWithNothing =
+      Color.fromRGBO(249, 249, 249, 1);
   static const Color widgetSecondary = Color.fromRGBO(106, 119, 138, 1);
   static const Color buttonBackground = Color.fromRGBO(26, 65, 87, 1);
 

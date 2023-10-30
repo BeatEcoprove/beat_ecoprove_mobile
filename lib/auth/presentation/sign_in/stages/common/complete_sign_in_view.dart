@@ -42,6 +42,7 @@ class CompleteSignInView extends StatelessWidget {
               ),
               FormattedButton(
                 content: "Entrar",
+                textColor: Colors.white,
                 onPress: () => router.go("/"),
               ),
             ],

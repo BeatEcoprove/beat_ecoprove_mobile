@@ -102,6 +102,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
         ),
         FormattedButton(
           content: "Continuar",
+          textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => controller.nextPage(viewModel.fields),
         )

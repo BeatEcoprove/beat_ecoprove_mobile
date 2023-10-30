@@ -37,6 +37,8 @@ class AppColor {
   static const Color darkBlue = Color.fromRGBO(3, 101, 247, 1);
 
   static const BorderRadius borderRadius = BorderRadius.all(Radius.circular(5));
+  static const BorderRadius borderRadius10 =
+      BorderRadius.all(Radius.circular(10));
 
   static const BoxShadow defaultShadow = BoxShadow(
     color: shadowColor,

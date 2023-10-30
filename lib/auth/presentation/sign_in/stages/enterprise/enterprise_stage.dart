@@ -73,6 +73,7 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
         ),
         FormattedButton(
           content: "Continuar",
+          textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => controller.nextPage(viewModel.fields),
         )

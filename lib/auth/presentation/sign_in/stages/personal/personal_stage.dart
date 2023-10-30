@@ -101,6 +101,7 @@ class _PersonalStageState extends State<PersonalStage> {
         ),
         FormattedButton(
           content: "Concluir",
+          textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => handleNextPage(),
         )

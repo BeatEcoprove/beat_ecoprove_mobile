@@ -63,6 +63,7 @@ class AvatarStageState extends State<AvatarStage> {
         ),
         FormattedButton(
           content: "Continuar",
+          textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => handleNextPage(),
         )

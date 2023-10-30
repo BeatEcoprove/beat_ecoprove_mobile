@@ -32,27 +32,33 @@ class Bucket extends CardItemTemplate {
       builder: (context, constraints) {
         double maxWidth = MediaQuery.of(context).size.width;
         double margin =
-            maxWidth < AppColor.maxWidthToImageWithMediaQuery ? 4 : 6;
+            maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 4 : 6;
         double height =
-            maxWidth < AppColor.maxWidthToImageWithMediaQuery ? 20 : 50;
+            maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 20 : 50;
         double width =
-            maxWidth < AppColor.maxWidthToImageWithMediaQuery ? 20 : 40;
+            maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 20 : 40;
         return Center(
           child: Wrap(
             alignment: WrapAlignment.start,
             runSpacing: 1,
             spacing: 1,
             children: [
-              for (int i = 0; useFourItemsImagesToBucket(i); i++) ...[
+              for (int i = 0; i < 4; i++) ...[
                 Container(
                   margin: EdgeInsets.all(margin),
                   child: Container(
                     height: height,
                     width: width,
                     color: AppColor.widgetBackground,
-                    child: PresentImage(
-                      path: items[i].image,
-                    ),
+                    child: i < items.length
+                        ? PresentImage(
+                            path: items[i].image,
+                          )
+                        : Container(
+                            height: height,
+                            width: width,
+                            color: AppColor.widgetBackgroundWithNothing,
+                          ),
                   ),
                 ),
               ],
@@ -62,6 +68,4 @@ class Bucket extends CardItemTemplate {
       },
     );
   }
-
-  bool useFourItemsImagesToBucket(int i) => i < items.length && i < 4;
 }

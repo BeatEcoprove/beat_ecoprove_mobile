@@ -64,7 +64,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
           child: Stack(
             children: [
               _defineListItem(constraints, context),
-              if (maxWidth > AppColor.maxWidthToImageWithMediaQuery)
+              if (maxWidth > AppColor.maxWidthToImageWithMediaQueryCards)
                 Positioned(
                   top: 10,
                   right: 4,
@@ -78,19 +78,20 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
                 ),
               if (widget.otherProfileImage != null)
                 Positioned(
-                  left: maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                  left: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
                       ? null
                       : 46,
-                  right: maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                  right: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
                       ? 16
                       : null,
-                  bottom: maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                  bottom: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
                       ? 54
                       : 4,
                   child: IconButtonRectangular(
-                    dimension: maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                        ? 50
-                        : 35,
+                    dimension:
+                        maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                            ? 50
+                            : 35,
                     object: Padding(
                       padding: const EdgeInsets.all(4),
                       child: PresentImage(
@@ -101,7 +102,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
                 ),
               if (_isSelectedToDelete)
                 Positioned(
-                  left: maxWidth > AppColor.maxWidthToImageWithMediaQuery
+                  left: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
                       ? null
                       : 0,
                   bottom: 0,
@@ -116,20 +117,22 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
                       );
                     },
                     child: Container(
-                      height: maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                          ? 49
-                          : 75,
-                      width: maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                          ? 150
-                          : 75,
+                      height:
+                          maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                              ? 49
+                              : 75,
+                      width:
+                          maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                              ? 150
+                              : 75,
                       decoration: BoxDecoration(
                         color: AppColor.buttonBackground,
-                        borderRadius:
-                            maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                                ? BorderRadius.only(
-                                    bottomLeft: borderRadius,
-                                    bottomRight: borderRadius)
-                                : BorderRadius.all(borderRadius),
+                        borderRadius: maxWidth >
+                                AppColor.maxWidthToImageWithMediaQueryCards
+                            ? BorderRadius.only(
+                                bottomLeft: borderRadius,
+                                bottomRight: borderRadius)
+                            : BorderRadius.all(borderRadius),
                         boxShadow: const [AppColor.defaultShadow],
                       ),
                       child: const Icon(
@@ -147,9 +150,10 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
                       borderRadius: AppColor.borderRadius,
                     ),
                     child: Icon(
-                      size: maxWidth > AppColor.maxWidthToImageWithMediaQuery
-                          ? 100
-                          : 50,
+                      size:
+                          maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                              ? 100
+                              : 50,
                       Icons.check_circle_outline_rounded,
                       color: AppColor.buttonBackground,
                     ),

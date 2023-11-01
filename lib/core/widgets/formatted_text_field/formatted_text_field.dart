@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 abstract class FormattedTextField extends StatefulWidget {
+  final int? maxLength;
   final bool isPassword;
   final String hintText;
   final String errorMessage;
@@ -14,6 +15,7 @@ abstract class FormattedTextField extends StatefulWidget {
   final String? initialValue;
 
   const FormattedTextField({
+    this.maxLength,
     this.hintText = 'Default Value',
     this.isPassword = false,
     this.errorMessage = '',

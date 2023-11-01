@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class DefaultFormattedTextField extends FormattedTextField {
   const DefaultFormattedTextField({
+    super.maxLength,
     super.hintText = 'Default Value',
     super.isPassword = false,
     super.errorMessage = '',
@@ -27,6 +28,7 @@ class _DefaultFormattedFieldState
   @override
   Widget body(BuildContext context) {
     return TextField(
+      maxLength: widget.maxLength,
       controller: controller,
       onChanged: widget.onChange,
       keyboardType: widget.keyboardType,

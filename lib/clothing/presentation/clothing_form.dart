@@ -7,7 +7,7 @@ import 'package:beat_ecoprove/core/widgets/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/filter_card_type.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
@@ -122,7 +122,7 @@ SliverAppBar _buildSearchBarAndFilter() {
         child: const Row(
           children: [
             Expanded(
-              child: FormattedTextField(
+              child: DefaultFormattedTextField(
                 hintText: "Pesquisar",
                 leftIcon: Icon(Icons.search_rounded),
               ),

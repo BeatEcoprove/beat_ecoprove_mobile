@@ -35,9 +35,9 @@ class PersonalViewModel extends FormViewModel {
     }
   }
 
-  void setPhone(String phone) {
+  void setPhone(String countryCode, String phone) {
     try {
-      setValue<Phone>(FormFieldValues.phone, Phone.create("+351", phone));
+      setValue<Phone>(FormFieldValues.phone, Phone.create(countryCode, phone));
     } on DomainException catch (e) {
       setError(FormFieldValues.phone, e.message);
     }

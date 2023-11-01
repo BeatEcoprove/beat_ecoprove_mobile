@@ -1,10 +1,9 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/formatted_text_field_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'formatted_text_field_type.dart';
-
-class FormattedTextField extends StatefulWidget {
+abstract class FormattedTextField extends StatefulWidget {
   final bool isPassword;
   final String hintText;
   final String errorMessage;
@@ -17,7 +16,7 @@ class FormattedTextField extends StatefulWidget {
   const FormattedTextField({
     this.hintText = 'Default Value',
     this.isPassword = false,
-    this.errorMessage = '', // errorMessage is now optional
+    this.errorMessage = '',
     this.keyboardType = TextInputType.text,
     this.inputFormatter,
     this.leftIcon,
@@ -25,16 +24,17 @@ class FormattedTextField extends StatefulWidget {
     this.initialValue,
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<FormattedTextField> createState() => _FormattedTextFieldState();
 }
 
-class _FormattedTextFieldState extends State<FormattedTextField> {
+abstract class FormattedTextFieldState<Page extends FormattedTextField>
+    extends State<Page> {}
+
+mixin BaseFormattedTextField<Page extends FormattedTextField>
+    on FormattedTextFieldState<Page> {
   static const Radius borderRadius = Radius.circular(5);
 
-  late FormattedTextFieldType _fieldType;
-  late TextEditingController _controller;
+  late TextEditingController controller;
+  late FormattedTextFieldType fieldType;
   bool isFocus = false;
 
   OutlineInputBorder getInputBorder() {
@@ -42,27 +42,29 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
 
     return OutlineInputBorder(
       borderRadius: const BorderRadius.all(borderRadius),
-      borderSide: BorderSide(
-          color: isDefault ? _fieldType.focusColor : _fieldType.color),
+      borderSide:
+          BorderSide(color: isDefault ? fieldType.focusColor : fieldType.color),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.initialValue);
+    controller = TextEditingController(text: widget.initialValue);
   }
 
   @override
   Widget build(BuildContext context) {
-    _fieldType = widget.errorMessage.isNotEmpty
+    fieldType = widget.errorMessage.isNotEmpty
         ? FormattedTextFieldType.error
         : FormattedTextFieldType.normal;
 
     return Column(
       children: [
-        Container(
+        LayoutBuilder(
+          builder: (context, constraints) => Container(
             height: 50,
+            width: constraints.maxWidth,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(borderRadius),
               color: AppColor.widgetBackground,
@@ -76,29 +78,10 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
                   },
                 )
               },
-              child: TextField(
-                controller: _controller,
-                onChanged: widget.onChange,
-                keyboardType: widget.keyboardType,
-                inputFormatters: widget.inputFormatter ?? widget.inputFormatter,
-                obscureText: widget.isPassword,
-                cursorColor: _fieldType.focusColor,
-                decoration: InputDecoration(
-                  labelText: widget.hintText,
-                  labelStyle: TextStyle(
-                    fontSize: AppText.title5,
-                    color: colorizeOnFocus(),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  focusedBorder: getInputBorder(),
-                  enabledBorder: getInputBorder(),
-                  suffixIcon: Icon(
-                    widget.leftIcon?.icon,
-                    color: colorizeOnFocus(),
-                  ),
-                ),
-              ),
-            )),
+              child: body(context),
+            ),
+          ),
+        ),
         if (_isErrorType)
           Padding(
             padding: const EdgeInsets.only(left: 20, top: 10),
@@ -106,7 +89,7 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
               alignment: Alignment.centerLeft,
               child: Text(
                 widget.errorMessage,
-                style: TextStyle(color: _fieldType.focusColor),
+                style: TextStyle(color: fieldType.focusColor),
               ),
             ),
           )
@@ -114,11 +97,13 @@ class _FormattedTextFieldState extends State<FormattedTextField> {
     );
   }
 
+  Widget body(BuildContext context);
+
   bool get _isErrorType {
-    return _fieldType == FormattedTextFieldType.error &&
+    return fieldType == FormattedTextFieldType.error &&
         widget.errorMessage.isNotEmpty;
   }
 
   Color colorizeOnFocus() =>
-      isFocus ? _fieldType.focusColor : AppColor.widgetSecondary;
+      isFocus ? fieldType.focusColor : AppColor.widgetSecondary;
 }

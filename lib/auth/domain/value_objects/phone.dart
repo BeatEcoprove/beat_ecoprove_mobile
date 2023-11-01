@@ -23,7 +23,7 @@ class Phone {
   }
 
   @override
-  String toString() => "$countryCode $value";
+  String toString() => value;
 
   static String formatPhoneNumber(String phone) {
     String formattedPhone = '';

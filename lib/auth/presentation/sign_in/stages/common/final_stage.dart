@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ class FinalStage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 78),
               child: Column(
                 children: [
-                  FormattedTextField(
+                  DefaultFormattedTextField(
                     hintText: "E-mail",
                     onChange: (email) => viewModel.setEmail(email),
                     initialValue:
@@ -42,7 +42,7 @@ class FinalStage extends StatelessWidget {
                   const SizedBox(
                     height: textFieldsGap,
                   ),
-                  FormattedTextField(
+                  DefaultFormattedTextField(
                     hintText: "Palavra-chave",
                     onChange: (password) => viewModel.setPassword(password),
                     initialValue:
@@ -54,7 +54,7 @@ class FinalStage extends StatelessWidget {
                   const SizedBox(
                     height: textFieldsGap,
                   ),
-                  FormattedTextField(
+                  DefaultFormattedTextField(
                     hintText: "Confirmar palavra-chave",
                     onChange: (confirmPassword) =>
                         viewModel.setConfirmPassword(confirmPassword),

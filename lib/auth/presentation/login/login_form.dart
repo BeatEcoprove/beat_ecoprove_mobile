@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +46,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             Column(
               children: [
-                FormattedTextField(
+                DefaultFormattedTextField(
                   hintText: "E-mail",
                   leftIcon: const Icon(
                     Icons.email_outlined,
@@ -56,7 +56,7 @@ class _LoginFormState extends State<LoginForm> {
                   onChange: (value) => viewModel.setEmail(value),
                 ),
                 const SizedBox(height: 16),
-                FormattedTextField(
+                DefaultFormattedTextField(
                   isPassword: true,
                   hintText: "Palavra-chave",
                   leftIcon: const Icon(

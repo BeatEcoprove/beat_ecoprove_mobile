@@ -5,7 +5,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +56,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                   const SizedBox(
                     height: _textBoxGap,
                   ),
-                  FormattedTextField(
+                  DefaultFormattedTextField(
                     hintText: "Rua",
                     onChange: (street) => viewModel.setStreet(street),
                     initialValue:
@@ -71,7 +71,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                          child: FormattedTextField(
+                          child: DefaultFormattedTextField(
                         hintText: "Codigo Postal",
                         initialValue:
                             viewModel.getDefault(FormFieldValues.postalCode),
@@ -84,7 +84,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                       // ignore: prefer_const_constructors
                       SizedBox(width: 24),
                       Expanded(
-                        child: FormattedTextField(
+                        child: DefaultFormattedTextField(
                           hintText: "Porta",
                           initialValue:
                               viewModel.getDefault(FormFieldValues.port),

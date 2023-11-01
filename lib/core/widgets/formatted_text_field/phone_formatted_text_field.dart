@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/formatters/phone_formatter.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formatted_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,6 +90,7 @@ class _PhoneFormattedTextFieldState
                 keyboardType: widget.keyboardType,
                 inputFormatters: [
                   PhoneNumberFormatter(),
+                  LengthLimitingTextInputFormatter(11),
                   ...widget.inputFormatter ?? widget.inputFormatter ?? []
                 ],
                 style: const TextStyle(
@@ -124,37 +126,5 @@ class _PhoneFormattedTextFieldState
 
   String _comboOutput(String countryCode, String countryId) {
     return "${_toContryFlag(countryCode)} $countryId";
-  }
-}
-
-class PhoneNumberFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    if (newValue.text.isEmpty) {
-      return newValue.copyWith(
-        text: '',
-      );
-    }
-
-    final cleanText = newValue.text.replaceAll(RegExp(r'\D'), '');
-    final formattedText = _formatPhoneNumber(cleanText);
-
-    return TextEditingValue(
-      text: formattedText,
-      selection: TextSelection.collapsed(offset: formattedText.length),
-    );
-  }
-
-  String _formatPhoneNumber(String input) {
-    if (input.length <= 3) {
-      return input;
-    } else if (input.length <= 6) {
-      return '${input.substring(0, 3)} ${input.substring(3)}';
-    } else {
-      return '${input.substring(0, 3)} ${input.substring(3, 6)} ${input.substring(6)}';
-    }
   }
 }

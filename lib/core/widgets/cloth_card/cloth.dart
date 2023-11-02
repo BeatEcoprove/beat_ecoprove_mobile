@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/core/widgets/cloth_card/cardItem.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +11,7 @@ class Cloth extends CardItemTemplate {
     required super.title,
     super.otherProfileImage,
     super.selectionAction,
+    super.removeAction,
   });
 
   @override

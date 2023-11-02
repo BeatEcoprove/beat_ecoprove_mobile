@@ -301,6 +301,7 @@ List<Item> clothItems = [
       ClothItem(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
+        otherProfileImage: const AssetImage("assets/default_avatar.png"),
       ),
     ],
     title: "Cesto",

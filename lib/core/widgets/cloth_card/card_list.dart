@@ -1,15 +1,19 @@
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/bucket.dart';
-import 'package:beat_ecoprove/core/widgets/cloth_card/cardItem.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
 import 'package:flutter/material.dart';
 
 class CardList extends StatelessWidget {
   final Function(CardItemTemplate)? selectedOnChange;
+  final Function(CardItemTemplate)? removeOnAction;
+  final Widget? removedCardVersion;
 
   const CardList({
     Key? key,
     this.selectedOnChange,
+    this.removeOnAction,
+    this.removedCardVersion,
   }) : super(key: key);
 
   List<CardItemTemplate> _convertDataToView() {
@@ -23,6 +27,7 @@ class CardList extends StatelessWidget {
               title: item.title,
               otherProfileImage: item.otherProfileImage,
               selectionAction: selectedOnChange,
+              removeAction: removeOnAction,
             )
           : Cloth(
               key: Key(index.toString()),
@@ -30,6 +35,7 @@ class CardList extends StatelessWidget {
               title: item.title,
               otherProfileImage: item.otherProfileImage,
               selectionAction: selectedOnChange,
+              removeAction: removeOnAction,
             );
     }).toList();
   }

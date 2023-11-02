@@ -1,11 +1,10 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/cloth_card/cardItem.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:flutter/material.dart';
 
 class DialogCard extends StatelessWidget {
   final String text;
-  final ExtendedItem card;
+  final Widget card;
   final VoidCallback? firstAction;
   final VoidCallback? secondAction;
 

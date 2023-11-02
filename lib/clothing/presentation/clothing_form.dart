@@ -34,7 +34,7 @@ class _ClothingFormState extends State<ClothingForm> {
               slivers: [
                 _buildSearchBarAndFilter(),
                 _buildFilterSelector(),
-                _buildClothsCardsSection(viewModel),
+                _buildClothsCardsSection(context, viewModel),
               ],
             ),
             if (haveSelectedCards) ...[
@@ -168,7 +168,8 @@ Widget _buildFilters(cloth) {
   );
 }
 
-SliverToBoxAdapter _buildClothsCardsSection(ClothingViewModel viewModel) {
+SliverToBoxAdapter _buildClothsCardsSection(
+    BuildContext context, ClothingViewModel viewModel) {
   return SliverToBoxAdapter(
     child: Padding(
       padding: const EdgeInsets.all(16),
@@ -177,6 +178,7 @@ SliverToBoxAdapter _buildClothsCardsSection(ClothingViewModel viewModel) {
         children: [
           CardList(
             selectedOnChange: (card) => {viewModel.changeSelection(card)},
+            removeOnAction: (card) => {viewModel.removeCard(card)},
           ),
         ],
       ),

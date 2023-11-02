@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/bucket.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/dialog_card.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
@@ -12,6 +13,7 @@ abstract class CardItemTemplate extends StatefulWidget {
   final bool isSelect;
   final bool isSelectedToDelete;
   final Function(CardItemTemplate)? selectionAction;
+  final Function(CardItemTemplate)? removeAction;
 
   const CardItemTemplate({
     Key? key,
@@ -21,6 +23,7 @@ abstract class CardItemTemplate extends StatefulWidget {
     this.isSelectedToDelete = false,
     this.otherProfileImage,
     this.selectionAction,
+    this.removeAction,
   }) : super(key: key);
 
   Widget body(BuildContext context);
@@ -28,6 +31,12 @@ abstract class CardItemTemplate extends StatefulWidget {
   void handleSelection() {
     if (selectionAction != null) {
       selectionAction!(this);
+    }
+  }
+
+  void handleRemove() {
+    if (removeAction != null) {
+      removeAction!(this);
     }
   }
 
@@ -110,10 +119,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
                     onTap: () {
                       _removeCard(
                         context,
-                        ExtendedItem(
-                          content: widget.body(context),
-                          title: widget.title,
-                        ),
+                        _removedCardVersion(widget),
                       );
                     },
                     child: Container(
@@ -166,19 +172,36 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     );
   }
 
-  void _removeCard(BuildContext context, ExtendedItem card) {
+  void _removeCard(BuildContext context, Widget card) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return DialogCard(
           card: card,
           text: "Tem a certeza que pretende remover esta peça de roupa?",
-          firstAction: () {},
+          firstAction: () {
+            widget.handleRemove();
+          },
           secondAction: () {
             Navigator.of(context).pop();
           },
         );
       },
+    );
+  }
+
+  Widget _removedCardVersion(CardItemTemplate card) {
+    if (card is Bucket) {
+      return ExtendedItem(
+        content: ExtendedBucket(items: card.items).build(context),
+        title: card.title,
+        otherProfileImage: card.otherProfileImage,
+      );
+    }
+    return ExtendedItem(
+      content: card.body(context),
+      title: card.title,
+      otherProfileImage: card.otherProfileImage,
     );
   }
 
@@ -201,11 +224,13 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
 class ExtendedItem extends StatelessWidget {
   final Widget content;
   final String title;
+  final ImageProvider? otherProfileImage;
 
   const ExtendedItem({
     super.key,
     required this.content,
     required this.title,
+    this.otherProfileImage,
   });
 
   @override
@@ -245,6 +270,20 @@ class ExtendedItem extends StatelessWidget {
             ],
           ),
         ),
+        if (otherProfileImage != null)
+          Positioned(
+            right: 16,
+            bottom: 54,
+            child: IconButtonRectangular(
+              dimension: 50,
+              object: Padding(
+                padding: const EdgeInsets.all(4),
+                child: PresentImage(
+                  path: otherProfileImage!,
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }

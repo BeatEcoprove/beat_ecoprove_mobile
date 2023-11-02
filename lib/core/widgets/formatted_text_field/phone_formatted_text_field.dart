@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class PhoneFormattedTextField extends FormattedTextField {
+  final String? initialCountryCode;
   final Function(String, String) onChangeCountryCode;
   final Map<String, String> countryCodes;
 
   const PhoneFormattedTextField({
+    this.initialCountryCode,
     super.hintText = 'Default Value',
     super.isPassword = false,
     super.errorMessage = '',
@@ -30,12 +32,25 @@ class PhoneFormattedTextField extends FormattedTextField {
 class _PhoneFormattedTextFieldState
     extends FormattedTextFieldState<PhoneFormattedTextField>
     with BaseFormattedTextField {
-  late String selectedCountry = _comboOutput("pt", "+351");
+  late String selectedCountry;
 
   convertStringToMap() {
     return widget.countryCodes.entries.map((entry) {
       return _comboOutput(entry.key, entry.value);
     }).toList();
+  }
+
+  setDefaultCountryCode() {
+    var value = widget.initialCountryCode?.split(" ").first.trim() ?? "pt";
+
+    return _comboOutput(_toContryFlag(value.toLowerCase()),
+        widget.countryCodes[value] ?? "+351");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCountry = setDefaultCountryCode();
   }
 
   @override
@@ -64,7 +79,7 @@ class _PhoneFormattedTextFieldState
                 setState(() {
                   selectedCountry = value!;
                   widget.onChangeCountryCode(
-                      value.split(" ").last.trim(), _getPhoneValue());
+                      _getCountryValue(), _getPhoneValue());
                 });
               },
               underline: Container(
@@ -86,7 +101,7 @@ class _PhoneFormattedTextFieldState
               child: TextField(
                 controller: controller,
                 onChanged: (value) => widget.onChangeCountryCode(
-                    selectedCountry, _getPhoneValue()),
+                    _getCountryValue(), _getPhoneValue()),
                 keyboardType: widget.keyboardType,
                 inputFormatters: [
                   PhoneNumberFormatter(),
@@ -117,6 +132,10 @@ class _PhoneFormattedTextFieldState
 
   String _getPhoneValue() {
     return controller.text.trim().replaceAll(" ", "");
+  }
+
+  String _getCountryValue() {
+    return selectedCountry.split(" ").last.trim();
   }
 
   String _toContryFlag(String countryCode) {

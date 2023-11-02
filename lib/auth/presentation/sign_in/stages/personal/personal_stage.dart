@@ -88,6 +88,7 @@ class _PersonalStageState extends State<PersonalStage> {
                   ),
                   PhoneFormattedTextField(
                     countryCodes: const {
+                      "us": "+1",
                       "pt": "+351",
                       "br": "+55",
                       "es": "+34",
@@ -95,6 +96,10 @@ class _PersonalStageState extends State<PersonalStage> {
                       "it": "+33",
                       "gb": "+33",
                     },
+                    initialCountryCode: viewModel
+                        .getValue(FormFieldValues.phone)
+                        .value
+                        ?.countryCode,
                     onChangeCountryCode: (countryCode, phone) =>
                         viewModel.setPhone(countryCode, phone),
                     hintText: "Telemóvel",

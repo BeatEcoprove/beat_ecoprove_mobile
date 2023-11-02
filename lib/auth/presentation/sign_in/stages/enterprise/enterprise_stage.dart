@@ -61,6 +61,7 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
                   ),
                   PhoneFormattedTextField(
                     countryCodes: const {
+                      "us": "+1",
                       "pt": "+351",
                       "br": "+55",
                       "es": "+34",

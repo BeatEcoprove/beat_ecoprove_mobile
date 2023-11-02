@@ -1,6 +1,9 @@
+import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/bucket.dart';
+import 'package:beat_ecoprove/core/widgets/filter/wrap_filter_options.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class CardData {
@@ -314,5 +317,339 @@ List<Item> clothItems = [
       ),
     ],
     title: "Cesto",
+  ),
+];
+
+List<WrapFilterOptions> optionsToFilter = [
+  const WrapFilterOptions(
+    title: "Tamanho",
+    filterOptions: [
+      IconButtonRectangular(
+        object: Text(
+          "XS",
+          style: AppText.smallHeader,
+        ),
+      ),
+      IconButtonRectangular(
+        object: Text(
+          "S",
+          style: AppText.smallHeader,
+        ),
+      ),
+      IconButtonRectangular(
+        object: Text(
+          "M",
+          style: AppText.smallHeader,
+        ),
+      ),
+      IconButtonRectangular(
+        object: Text(
+          "L",
+          style: AppText.smallHeader,
+        ),
+      ),
+      IconButtonRectangular(
+        object: Text(
+          "XL",
+          style: AppText.smallHeader,
+        ),
+      ),
+      IconButtonRectangular(
+        object: Text(
+          "XXL",
+          style: AppText.smallHeader,
+        ),
+      ),
+    ],
+  ),
+  WrapFilterOptions(
+    title: "Cor",
+    filterOptions: [
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(255, 230, 159, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(152, 179, 200, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(41, 57, 74, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(242, 231, 212, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(195, 165, 114, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(255, 109, 109, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(255, 255, 255, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(148, 128, 102, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(74, 45, 22, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(76, 76, 76, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(190, 89, 103, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(139, 95, 60, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(245, 130, 33, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(210, 170, 197, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(192, 192, 192, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(0, 0, 0, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(249, 199, 196, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(214, 37, 152, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(80, 156, 117, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(194, 188, 139, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+      IconButtonRectangular(
+        isCircular: true,
+        dimension: 30,
+        object: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(218, 37, 46, 1),
+            shape: BoxShape.circle,
+            boxShadow: [AppColor.defaultShadow],
+          ),
+        ),
+      ),
+    ],
+  ),
+  const WrapFilterOptions(
+    title: "Marca",
+    filterOptions: [
+      IconButtonRectangular(
+        object: PresentImage(path: AssetImage("assets/salsa.png")),
+      ),
+    ],
+  ),
+  const WrapFilterOptions(
+    title: "Ordenar Por",
+    filterOptions: [
+      IconButtonRectangular(
+        object: Text(
+          "Az",
+          style: AppText.smallHeader,
+        ),
+      ),
+      IconButtonRectangular(
+        object: Text(
+          "Za",
+          style: AppText.smallHeader,
+        ),
+      ),
+      IconButtonRectangular(
+        object: SvgImage(
+          path: "assets/filter/time_desc.svg",
+          height: 20,
+          width: 20,
+        ),
+      ),
+      IconButtonRectangular(
+        object: SvgImage(
+          path: "assets/filter/time_asc.svg",
+          height: 20,
+          width: 20,
+        ),
+      ),
+      IconButtonRectangular(
+        object: SvgImage(
+          path: "assets/filter/bucket_black.svg",
+          height: 15,
+          width: 15,
+        ),
+      ),
+    ],
+  ),
+  const WrapFilterOptions(
+    title: "Perfis",
+    filterOptions: [
+      IconButtonRectangular(
+        object: PresentImage(path: AssetImage("assets/default_avatar.png")),
+      ),
+    ],
   ),
 ];

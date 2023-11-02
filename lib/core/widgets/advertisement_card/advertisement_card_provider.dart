@@ -89,7 +89,7 @@ class AdvertisementCardProviderContext extends StatelessWidget {
                   "Rating Global",
                   style: AppText.subHeader,
                 ),
-                RatingBarWidget(canRating: true, rating: rating),
+                RatingBarWidget(rating: rating),
               ],
             )
           ],

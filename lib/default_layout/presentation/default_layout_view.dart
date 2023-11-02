@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/clothing/presentation/clothing_view.dart';
 import 'package:beat_ecoprove/core/widgets/footer/footer.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
-import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
 import 'package:flutter/material.dart';
 
 class DefaultLayoutView extends StatelessWidget {

@@ -26,7 +26,7 @@ class AppColor {
   static const Color darkGrey = Color.fromRGBO(65, 67, 71, 1);
   static const Color disabledColor = Color.fromRGBO(94, 116, 77, 1);
 
-  static const Color shadowColor = Color.fromRGBO(66, 71, 76, 0.07);
+  static const Color shadowColor = Color.fromRGBO(66, 71, 76, 0.08);
 
   static const Color bottomNavigationBar = Color.fromRGBO(26, 65, 87, 1);
   static const Color bottomNavigationBarSelected =
@@ -52,46 +52,72 @@ class AppColor {
 
 class AppText {
   static const TextStyle firstHeader = TextStyle(
-      color: AppColor.black, fontSize: title2, fontWeight: FontWeight.bold);
+    color: AppColor.black,
+    fontSize: title2,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle firstHeaderWhite = TextStyle(
-      color: AppColor.widgetBackground,
-      fontSize: title2,
-      fontWeight: FontWeight.bold);
+    color: AppColor.widgetBackground,
+    fontSize: title2,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle header = TextStyle(
-      color: AppColor.buttonBackground,
-      fontSize: title2,
-      fontWeight: FontWeight.bold);
+    color: AppColor.buttonBackground,
+    fontSize: title2,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle alternativeHeader = TextStyle(
-      color: AppColor.darkGrey, fontSize: title2, fontWeight: FontWeight.bold);
+    color: AppColor.darkGrey,
+    fontSize: title2,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle headerBlack = TextStyle(
-      color: AppColor.black, fontSize: title2, fontWeight: FontWeight.bold);
+    color: AppColor.black,
+    fontSize: title2,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle titleToScrollSection = TextStyle(
       color: AppColor.buttonBackground,
       fontSize: title3,
-      fontWeight: FontWeight.bold);
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.none);
 
   static const TextStyle smallHeader = TextStyle(
-      color: AppColor.black, fontSize: title4, fontWeight: FontWeight.bold);
+      color: AppColor.black,
+      fontSize: title4,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.none);
 
   static const TextStyle rating = TextStyle(
-      color: AppColor.primaryColor,
-      fontSize: title3,
-      fontWeight: FontWeight.bold);
+    color: AppColor.primaryColor,
+    fontSize: title3,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle subHeader = TextStyle(
-      color: AppColor.widgetSecondary,
-      fontSize: title5,
-      fontWeight: FontWeight.bold);
+    color: AppColor.widgetSecondary,
+    fontSize: title5,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle smallSubHeader = TextStyle(
-      color: AppColor.widgetSecondary,
-      fontSize: title6,
-      fontWeight: FontWeight.bold);
+    color: AppColor.widgetSecondary,
+    fontSize: title6,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle underlineStyle = TextStyle(
       color: AppColor.primaryColor,
@@ -100,19 +126,24 @@ class AppText {
       decoration: TextDecoration.underline);
 
   static const TextStyle strongStyle = TextStyle(
-      color: AppColor.buttonBackground,
-      fontSize: AppText.title5,
-      fontWeight: FontWeight.bold);
+    color: AppColor.buttonBackground,
+    fontSize: AppText.title5,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle superSmallSubHeader = TextStyle(
-      color: AppColor.widgetSecondary,
-      fontSize: title7,
-      fontWeight: FontWeight.bold);
+    color: AppColor.widgetSecondary,
+    fontSize: title7,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle percentText = TextStyle(
     color: AppColor.darkGreen,
     fontSize: title8,
     fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
   );
 
   // Widget Colors

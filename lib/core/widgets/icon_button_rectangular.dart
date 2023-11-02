@@ -30,10 +30,11 @@ class IconButtonRectangular extends StatelessWidget {
         decoration: BoxDecoration(
           color: colorBackground,
           shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
-          borderRadius: isCircular ? null : BorderRadius.all(borderRadius),
-          boxShadow: [AppColor.defaultShadow],
+          borderRadius:
+              isCircular ? null : const BorderRadius.all(borderRadius),
+          boxShadow: const [AppColor.defaultShadow],
         ),
-        child: object,
+        child: Center(child: object),
       ),
     );
   }

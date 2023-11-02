@@ -119,18 +119,18 @@ SliverAppBar _buildSearchBarAndFilter() {
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Container(
         padding: const EdgeInsets.all(12),
-        child: const Row(
+        child: Row(
           children: [
-            Expanded(
+            const Expanded(
               child: FormattedTextField(
                 hintText: "Pesquisar",
                 leftIcon: Icon(Icons.search_rounded),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(right: 6),
             ),
-            FilterButton(),
+            FilterButton(options: optionsToFilter),
           ],
         ),
       ),

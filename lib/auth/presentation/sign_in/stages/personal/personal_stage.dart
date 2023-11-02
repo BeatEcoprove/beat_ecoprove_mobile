@@ -93,8 +93,8 @@ class _PersonalStageState extends State<PersonalStage> {
                       "br": "+55",
                       "es": "+34",
                       "fr": "+33",
-                      "it": "+33",
-                      "gb": "+33",
+                      "it": "+32",
+                      "gb": "+31",
                     },
                     initialCountryCode: viewModel
                         .getValue(FormFieldValues.phone)

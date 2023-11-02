@@ -66,9 +66,13 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
                       "br": "+55",
                       "es": "+34",
                       "fr": "+33",
-                      "it": "+33",
-                      "gb": "+33",
+                      "it": "+32",
+                      "gb": "+31",
                     },
+                    initialCountryCode: viewModel
+                        .getValue(FormFieldValues.phone)
+                        .value
+                        ?.countryCode,
                     onChangeCountryCode: (countryCode, phone) =>
                         viewModel.setPhone(countryCode, phone),
                     hintText: "Telemóvel",

@@ -41,10 +41,15 @@ class _PhoneFormattedTextFieldState
   }
 
   setDefaultCountryCode() {
-    var value = widget.initialCountryCode?.split(" ").first.trim() ?? "pt";
+    var countryCode = widget.initialCountryCode ?? "+351";
 
-    return _comboOutput(_toContryFlag(value.toLowerCase()),
-        widget.countryCodes[value] ?? "+351");
+    widget.countryCodes.forEach((key, value) {
+      if (value == countryCode) {
+        countryCode = _comboOutput(key, value);
+      }
+    });
+
+    return countryCode;
   }
 
   @override
@@ -106,7 +111,7 @@ class _PhoneFormattedTextFieldState
                 inputFormatters: [
                   PhoneNumberFormatter(),
                   LengthLimitingTextInputFormatter(11),
-                  ...widget.inputFormatter ?? widget.inputFormatter ?? []
+                  ...?widget.inputFormatter
                 ],
                 style: const TextStyle(
                   fontSize: AppText.title4,

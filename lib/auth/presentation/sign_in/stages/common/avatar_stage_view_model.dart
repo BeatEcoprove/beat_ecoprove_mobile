@@ -13,7 +13,6 @@ class AvatarStageViewModel extends FormViewModel {
   AvatarStageViewModel() {
     initializeFields([FormFieldValues.userName, FormFieldValues.avatar]);
     setValue(FormFieldValues.avatar, XFile(defaultImage));
-    setValue(FormFieldValues.userName, "user_name");
   }
 
   void setUserName(String userName) {

@@ -7,13 +7,11 @@ import 'package:flutter/material.dart';
 class CardList extends StatelessWidget {
   final Function(CardItemTemplate)? selectedOnChange;
   final Function(CardItemTemplate)? removeOnAction;
-  final Widget? removedCardVersion;
 
   const CardList({
     Key? key,
     this.selectedOnChange,
     this.removeOnAction,
-    this.removedCardVersion,
   }) : super(key: key);
 
   List<CardItemTemplate> _convertDataToView() {

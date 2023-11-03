@@ -2,9 +2,11 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class IconButtonRectangular extends StatelessWidget {
+class IconButtonRectangular extends StatefulWidget {
   static const Radius borderRadius = Radius.circular(10);
 
+  final String? idText;
+  final bool isSelected;
   final VoidCallback? onPress;
   final Color colorBackground;
   final Widget? object;
@@ -13,6 +15,8 @@ class IconButtonRectangular extends StatelessWidget {
 
   const IconButtonRectangular({
     Key? key,
+    this.idText,
+    this.isSelected = false,
     this.colorBackground = AppColor.widgetBackground,
     this.object,
     this.onPress,
@@ -20,21 +24,50 @@ class IconButtonRectangular extends StatelessWidget {
     this.isCircular = false,
   }) : super(key: key);
 
+  void handleSelection() {
+    if (onPress != null) {
+      onPress!();
+    }
+  }
+
+  @override
+  State<IconButtonRectangular> createState() => _IconButtonRectangularState();
+}
+
+class _IconButtonRectangularState extends State<IconButtonRectangular> {
+  static const Radius borderRadius = Radius.circular(5);
+  late bool _isSelected = widget.isSelected;
+
+  void handleClick() {
+    setState(() {
+      _isSelected = !_isSelected;
+      widget.handleSelection();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPress,
+      onTap: () {
+        handleClick();
+      },
       child: Container(
-        width: dimension,
-        height: dimension,
+        width: widget.dimension,
+        height: widget.dimension,
         decoration: BoxDecoration(
-          color: colorBackground,
-          shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
+          color: widget.colorBackground,
+          shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
+          border: _isSelected
+              ? Border.all(
+                  color: AppColor.darkGreen,
+                  width: 2.0,
+                )
+              : null,
           borderRadius:
-              isCircular ? null : const BorderRadius.all(borderRadius),
+              widget.isCircular ? null : const BorderRadius.all(borderRadius),
           boxShadow: const [AppColor.defaultShadow],
         ),
-        child: Center(child: object),
+        child: Center(child: widget.object),
       ),
     );
   }

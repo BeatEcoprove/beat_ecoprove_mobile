@@ -3,11 +3,13 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
-import 'package:beat_ecoprove/core/widgets/filter_button.dart';
+import 'package:beat_ecoprove/core/widgets/filter/wrap_filter_options.dart';
+import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/filter_card_type.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +34,7 @@ class _ClothingFormState extends State<ClothingForm> {
           children: [
             CustomScrollView(
               slivers: [
-                _buildSearchBarAndFilter(),
+                _buildSearchBarAndFilter(viewModel),
                 _buildFilterSelector(),
                 _buildClothsCardsSection(context, viewModel),
               ],
@@ -109,7 +111,7 @@ class _ClothingFormState extends State<ClothingForm> {
   }
 }
 
-SliverAppBar _buildSearchBarAndFilter() {
+SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
   return SliverAppBar(
     toolbarHeight: 76, // TODO: Change
     shadowColor: Colors.transparent,
@@ -130,12 +132,41 @@ SliverAppBar _buildSearchBarAndFilter() {
             const Padding(
               padding: EdgeInsets.only(right: 6),
             ),
-            FilterButton(options: optionsToFilter),
+            FilterButton(options: _convertDataToView(viewModel)),
           ],
         ),
       ),
     ),
   );
+}
+
+List<WrapFilterOptions> _convertDataToView(ClothingViewModel viewModel) {
+  return optionsToFilter.map((item) {
+    int index = optionsToFilter.indexOf(item);
+
+    return WrapFilterOptions(
+      key: Key(index.toString()),
+      title: item.title,
+      filterOptions: _convertFilterButtons(item.options, viewModel),
+    );
+  }).toList();
+}
+
+List<IconButtonRectangular> _convertFilterButtons(
+    List<FilterButtonItem> options, ClothingViewModel viewModel) {
+  return options.map((filter) {
+    int index = options.indexOf(filter);
+
+    return IconButtonRectangular(
+      key: Key(index.toString()),
+      idText: filter.text,
+      object: filter.content,
+      isCircular: filter.isCircular,
+      dimension: filter.dimension,
+      isSelected: viewModel.haveThisFilter(filter.text),
+      onPress: () => {viewModel.changeFilterSelection(filter.text)},
+    );
+  }).toList();
 }
 
 SliverAppBar _buildFilterSelector() {

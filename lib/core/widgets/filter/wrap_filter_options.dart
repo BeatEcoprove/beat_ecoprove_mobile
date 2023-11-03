@@ -32,8 +32,8 @@ class _WrapFilterOptionsState extends State<WrapFilterOptions> {
         ),
         Wrap(
           alignment: WrapAlignment.start,
-          runSpacing: 4,
-          spacing: 4,
+          runSpacing: 6,
+          spacing: 6,
           children: [
             for (int i = 0; i < widget.filterOptions.length; i++) ...[
               widget.filterOptions[i],

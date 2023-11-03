@@ -678,6 +678,7 @@ List<RowFilter> optionsToFilter = [
         text: "order_desc",
         content: const SvgImage(
           path: "assets/filter/time_desc.svg",
+          color: AppColor.black,
           height: 20,
           width: 20,
         ),
@@ -686,6 +687,7 @@ List<RowFilter> optionsToFilter = [
         text: "order_asc",
         content: const SvgImage(
           path: "assets/filter/time_asc.svg",
+          color: AppColor.black,
           height: 20,
           width: 20,
         ),
@@ -693,7 +695,8 @@ List<RowFilter> optionsToFilter = [
       FilterButtonItem(
         text: "order_bucket",
         content: const SvgImage(
-          path: "assets/filter/bucket_black.svg",
+          path: "assets/services/bucket.svg",
+          color: AppColor.black,
           height: 15,
           width: 15,
         ),

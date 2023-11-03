@@ -1,18 +1,21 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_card.dart';
 import 'package:beat_ecoprove/core/widgets/filter/wrap_filter_options.dart';
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class FilterButton extends StatefulWidget {
   final VoidCallback? onPress;
-  final Icon icon;
+  final SvgImage icon;
   final List<WrapFilterOptions> options;
 
   const FilterButton({
     super.key,
     this.onPress,
-    this.icon = const Icon(
-      Icons.filter_alt,
+    this.icon = const SvgImage(
+      path: "assets/filter/settings.svg",
+      height: 24,
+      width: 24,
       color: AppColor.widgetSecondary,
     ),
     required this.options,

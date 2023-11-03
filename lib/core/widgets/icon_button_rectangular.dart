@@ -34,9 +34,25 @@ class IconButtonRectangular extends StatefulWidget {
   State<IconButtonRectangular> createState() => _IconButtonRectangularState();
 }
 
-class _IconButtonRectangularState extends State<IconButtonRectangular> {
+class _IconButtonRectangularState extends State<IconButtonRectangular>
+    with SingleTickerProviderStateMixin {
   static const Radius borderRadius = Radius.circular(5);
+  late Animation<Color?> _animation;
+  late AnimationController _controller;
   late bool _isSelected = widget.isSelected;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 240),
+    );
+    _animation = ColorTween(
+      begin: Colors.transparent,
+      end: AppColor.darkGreen,
+    ).animate(_controller);
+  }
 
   void handleClick() {
     setState(() {
@@ -47,27 +63,34 @@ class _IconButtonRectangularState extends State<IconButtonRectangular> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isSelected) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+
     return GestureDetector(
       onTap: () {
         handleClick();
       },
-      child: Container(
-        width: widget.dimension,
-        height: widget.dimension,
-        decoration: BoxDecoration(
-          color: widget.colorBackground,
-          shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
-          border: _isSelected
-              ? Border.all(
-                  color: AppColor.darkGreen,
-                  width: 2.0,
-                )
-              : null,
-          borderRadius:
-              widget.isCircular ? null : const BorderRadius.all(borderRadius),
-          boxShadow: const [AppColor.defaultShadow],
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) => Container(
+          width: widget.dimension,
+          height: widget.dimension,
+          decoration: BoxDecoration(
+            color: widget.colorBackground,
+            shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
+            border: Border.all(
+              color: _animation.value ?? AppColor.darkGreen,
+              width: 2.0,
+            ),
+            borderRadius:
+                widget.isCircular ? null : const BorderRadius.all(borderRadius),
+            boxShadow: const [AppColor.defaultShadow],
+          ),
+          child: Center(child: widget.object),
         ),
-        child: Center(child: widget.object),
       ),
     );
   }

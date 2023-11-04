@@ -173,37 +173,13 @@ User user = User(
   sustainablePoints: 100,
 );
 
-class Clothing {
-  final String typeOfCloth;
-  final bool isSelected;
-
-  Clothing({
-    required this.typeOfCloth,
-    this.isSelected = false,
-  });
-}
-
-List<Clothing> clothes = [
-  Clothing(
-    typeOfCloth: "Tudo",
-    isSelected: true,
-  ),
-  Clothing(
-    typeOfCloth: "Calças",
-  ),
-  Clothing(
-    typeOfCloth: "Casacos",
-  ),
-  Clothing(
-    typeOfCloth: "T-shirts",
-  ),
-  Clothing(
-    typeOfCloth: "Camisas",
-  ),
-  Clothing(
-    typeOfCloth: "Saias",
-  ),
-];
+Map<String, String> clothes = {
+  "jeans": "Calças",
+  "jackets": "Casacos",
+  "t_shirt": "T-shirts",
+  "shirts": "Camisas",
+  "skirts": "Saias",
+};
 
 abstract class Item {
   final String title;

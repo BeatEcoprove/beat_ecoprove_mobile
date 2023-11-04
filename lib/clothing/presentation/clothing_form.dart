@@ -5,10 +5,10 @@ import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
 import 'package:beat_ecoprove/core/widgets/filter/wrap_filter_options.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
-import 'package:beat_ecoprove/core/widgets/filter_card_type.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _ClothingFormState extends State<ClothingForm> {
             CustomScrollView(
               slivers: [
                 _buildSearchBarAndFilter(viewModel),
-                _buildFilterSelector(),
+                _buildFilterSelector(viewModel),
                 _buildClothsCardsSection(context, viewModel),
               ],
             ),
@@ -169,32 +169,22 @@ List<IconButtonRectangular> _convertFilterButtons(
   }).toList();
 }
 
-SliverAppBar _buildFilterSelector() {
+SliverAppBar _buildFilterSelector(ClothingViewModel viewModel) {
   return SliverAppBar(
     toolbarHeight: 46,
     pinned: true,
     backgroundColor: AppColor.widgetBackground,
     flexibleSpace: SizedBox(
       height: 40,
-      child: ListView.builder(
+      child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         scrollDirection: Axis.horizontal,
-        itemCount: clothes.length,
-        itemBuilder: (BuildContext context, int index) {
-          var cloth = clothes[index];
-          return _buildFilters(cloth);
-        },
+        children: [
+          HorizontalSelectorList(
+            list: clothes,
+          ),
+        ],
       ),
-    ),
-  );
-}
-
-Widget _buildFilters(cloth) {
-  return Padding(
-    padding: const EdgeInsets.only(right: 6),
-    child: FilterCardType(
-      title: cloth.typeOfCloth,
-      isSelected: cloth.isSelected,
     ),
   );
 }

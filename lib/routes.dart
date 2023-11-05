@@ -26,7 +26,8 @@ class AppRouter {
 
     return authProvider.isAuthenticated
         ? DefaultLayoutView(
-            header: StandardHeader(sustainablePoints: user.sustainablePoints),
+            header:
+                StandardHeader(sustainablePoints: notUser.sustainablePoints),
           )
         : const LoginView();
   }

@@ -9,6 +9,9 @@ class AppColor {
   static const Color widgetBackground = Color(0xFFFFFFFF);
   static const Color widgetBackgroundBlurry =
       Color.fromARGB(128, 255, 255, 255);
+
+  static const Color midGreen = Color.fromARGB(110, 2, 97, 83);
+
   static const Color widgetBackgroundWithNothing =
       Color.fromRGBO(249, 249, 249, 1);
   static const Color widgetSecondary = Color.fromRGBO(106, 119, 138, 1);

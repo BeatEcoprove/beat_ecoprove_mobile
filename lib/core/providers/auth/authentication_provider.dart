@@ -41,7 +41,7 @@ class AuthenticationProvider extends ViewModel {
       return false;
     }
 
-    return JwtDecoder.isExpired(refreshToken);
+    return !JwtDecoder.isExpired(refreshToken);
   }
 
   void authenticate(Authentication authentication) {

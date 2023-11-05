@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
 class LevelProgress extends StatelessWidget {
@@ -8,14 +9,14 @@ class LevelProgress extends StatelessWidget {
   final double height;
   final Color color;
   final VoidCallback? onPress;
-  final String path;
+  final String url;
   final double percent;
   final int level;
 
   const LevelProgress({
     required this.height,
     required this.color,
-    required this.path,
+    required this.url,
     this.percent = 0,
     this.level = 0,
     Key? key,
@@ -47,14 +48,7 @@ class LevelProgress extends StatelessWidget {
                   width: 7,
                   percent: value,
                 ),
-                child: ClipOval(
-                  child: Image.asset(
-                    path,
-                    width: height,
-                    height: height,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                child: ClipOval(child: PresentImage(path: NetworkImage(url))),
               ),
             ),
             Positioned.fill(

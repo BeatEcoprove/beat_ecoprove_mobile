@@ -27,7 +27,7 @@ class EnterpriseSignIn implements SignInStratagy {
         email: getFormValue(dataList, FormFieldValues.email),
         password: getFormValue(dataList, FormFieldValues.password));
 
-    _signInEnterpriseUseCase.handle(request);
+    await _signInEnterpriseUseCase.handle(request);
   }
 
   @override

@@ -21,7 +21,7 @@ class PersonalSignIn implements SignInStratagy {
         password: getFormValue(dataList, FormFieldValues.password),
         phone: getFormValue(dataList, FormFieldValues.phone));
 
-    _signInPersonalUseCase.handle(request);
+    await _signInPersonalUseCase.handle(request);
   }
 
   @override

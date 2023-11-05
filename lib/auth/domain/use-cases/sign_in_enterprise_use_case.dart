@@ -1,4 +1,6 @@
+import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sing_in_enterprise_request.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
@@ -16,7 +18,13 @@ class SignInEnterpriseUseCase
 
   @override
   Future handle(SignInEnterpriseRequest request) async {
-    var tokens = await _authenticationService.signInEnterprise(request);
+    AuthResult tokens;
+
+    try {
+      tokens = await _authenticationService.signInEnterprise(request);
+    } on HttpError catch (e) {
+      throw Exception(e.getError().title);
+    }
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);
 

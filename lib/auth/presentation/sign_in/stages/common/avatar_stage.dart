@@ -45,7 +45,8 @@ class AvatarStageState extends State<AvatarStage> {
                     inputFormatter: [
                       LengthLimitingTextInputFormatter(18),
                     ],
-                    onChange: (value) => viewModel.setUserName(value),
+                    onChange: (value) async =>
+                        await viewModel.setUserName(value),
                     initialValue:
                         viewModel.getValue(FormFieldValues.userName).value,
                     errorMessage:

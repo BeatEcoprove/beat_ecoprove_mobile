@@ -37,7 +37,8 @@ extension AuthDependencyInjection on DependencyInjection {
     var singInEnterpriseUseCase = locator<SignInEnterpriseUseCase>();
     var router = locator<AppRouter>();
 
-    locator.registerFactory(() => LoginViewModel(locator<LoginUseCase>()));
+    locator.registerFactory(
+        () => LoginViewModel(locator<LoginUseCase>(), router.appRouter));
     locator.registerFactory(() => SignInViewModel(
         router.appRouter, singInPersonalUseCase, singInEnterpriseUseCase));
 

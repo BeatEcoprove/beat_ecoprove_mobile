@@ -1,4 +1,6 @@
+import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sign_in_personal_request.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
@@ -15,7 +17,13 @@ class SignInPersonalUseCase implements UseCase<SignInPersonalRequest, Future> {
 
   @override
   Future handle(SignInPersonalRequest request) async {
-    var tokens = await _authenticationService.signInPersonal(request);
+    AuthResult tokens;
+
+    try {
+      tokens = await _authenticationService.signInPersonal(request);
+    } on HttpBadRequestError catch (e) {
+      throw Exception(e.getError().title);
+    }
 
     // Get Token value to populate the User Object
     Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);

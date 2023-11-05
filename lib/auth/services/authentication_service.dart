@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/auth/contracts/login_request.dart';
 import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sign_in_personal_request.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sing_in_enterprise_request.dart';
+import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 
@@ -40,5 +41,17 @@ class AuthenticationService {
         path: "auth/login",
         body: request,
         expectedCode: 200));
+  }
+
+  Future<bool> validateFields(ValidateFieldRequest request) async {
+    var jsonRequest = request.toJson();
+
+    var result = await _httpClient.makeRequestJson(
+        method: HttpMethods.get,
+        path:
+            "auth/validate/check-field?fieldName=${jsonRequest['fieldName']}&value=${jsonRequest['value']}",
+        expectedCode: 200);
+
+    return result['isAvailable'];
   }
 }

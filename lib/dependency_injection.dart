@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/clothing/dependency_injection.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/home/dependency_injection.dart';
 import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
 
@@ -20,6 +21,7 @@ class DependencyInjection {
     locator.registerFactory(() => HttpClient());
 
     addAuth();
+    addHome();
     addCloth();
   }
 }

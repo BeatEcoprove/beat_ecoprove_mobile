@@ -12,13 +12,14 @@ class CompactListItem extends StatelessWidget {
   final String subTitle;
   final bool isCircular;
 
-  const CompactListItem(
-      {super.key,
-      required this.widget,
-      required this.title,
-      required this.subTitle,
-      this.isCircular = false,
-      this.options});
+  const CompactListItem({
+    super.key,
+    required this.widget,
+    required this.title,
+    required this.subTitle,
+    this.isCircular = false,
+    this.options,
+  });
 
   @override
   Widget build(BuildContext context) {

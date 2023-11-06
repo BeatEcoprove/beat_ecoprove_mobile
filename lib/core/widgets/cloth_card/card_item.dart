@@ -184,7 +184,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
         subTitle: widget.subTitle ?? '',
         options: () {
           setState(() {
-            _isSelectedToDelete != _isSelectedToDelete;
+            _isSelectedToDelete = !_isSelectedToDelete;
           });
         },
       );

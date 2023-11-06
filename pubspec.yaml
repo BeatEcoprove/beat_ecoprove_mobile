@@ -72,6 +72,7 @@ flutter:
     - assets/background2/background2.svg
     - assets/applicationTitle.svg
     - assets/default_avatar.png
+    - assets/salsa.png
     - assets/points/sustainable_points_icon.svg
     - assets/services/dry.svg
     - assets/services/iron.svg
@@ -81,3 +82,6 @@ flutter:
     - assets/services/bucket.svg
     - assets/others/decoration.svg
     - assets/others/decoration1.svg
+    - assets/filter/time_asc.svg
+    - assets/filter/time_desc.svg
+    - assets/filter/settings.svg

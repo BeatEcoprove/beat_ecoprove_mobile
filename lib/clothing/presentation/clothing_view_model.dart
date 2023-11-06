@@ -1,20 +1,41 @@
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:beat_ecoprove/core/widgets/cloth_card/cardItem.dart';
+import 'package:flutter/material.dart';
 
 class ClothingViewModel extends ViewModel {
-  late List<CardItemTemplate> _selectedClothCards = [];
+  late List<int> _selectedClothCards = [];
+  late List<String> _selectedFilters = [];
+  late List<String> _selectedHorizontalFilters = [];
 
-  void changeSelection(CardItemTemplate card) {
-    int index = _selectedClothCards.indexWhere((item) => item.key == card.key);
+  bool get haveSelectedCards => _selectedClothCards.isNotEmpty;
 
-    if (index != -1) {
-      _selectedClothCards.removeAt(index);
-    } else {
-      _selectedClothCards.add(card);
-    }
+  void changeCardsSelection(List<int> cards) {
+    _selectedClothCards = cards;
 
     notifyListeners();
   }
 
-  bool get haveSelectedCards => _selectedClothCards.isNotEmpty;
+  bool get haveHorizontalFilters => _selectedHorizontalFilters.isNotEmpty;
+
+  List<String> get allSelectedHorizontalFilters => _selectedHorizontalFilters;
+
+  bool haveThisHorizontalFilter(String filter) =>
+      _selectedHorizontalFilters.contains(filter);
+
+  void changeHorizontalFiltersSelection(List<String> filters) {
+    _selectedHorizontalFilters = filters;
+
+    notifyListeners();
+  }
+
+  bool haveThisFilter(String filter) => _selectedFilters.contains(filter);
+
+  List<String> get allSelectedFilters => _selectedFilters;
+
+  void changeFilterSelection(List<String> filters) {
+    _selectedFilters = filters;
+
+    notifyListeners();
+  }
+
+  void removeCard(Key card) {} // TODO: Complete
 }

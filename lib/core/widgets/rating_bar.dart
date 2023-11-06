@@ -10,7 +10,7 @@ class RatingBarWidget extends StatefulWidget {
   const RatingBarWidget({
     Key? key,
     required this.rating,
-    this.canRating = true,
+    this.canRating = false,
     this.onRatingChange,
   }) : super(key: key);
 

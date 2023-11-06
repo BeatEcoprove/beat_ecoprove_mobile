@@ -3,11 +3,11 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
-import 'package:beat_ecoprove/core/widgets/filter_button.dart';
-import 'package:beat_ecoprove/core/widgets/filter_card_type.dart';
+import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
@@ -32,9 +32,9 @@ class _ClothingFormState extends State<ClothingForm> {
           children: [
             CustomScrollView(
               slivers: [
-                _buildSearchBarAndFilter(),
-                _buildFilterSelector(),
-                _buildClothsCardsSection(viewModel),
+                _buildSearchBarAndFilter(viewModel),
+                _buildFilterSelector(viewModel),
+                _buildClothsCardsSection(context, viewModel),
               ],
             ),
             if (haveSelectedCards) ...[
@@ -109,7 +109,7 @@ class _ClothingFormState extends State<ClothingForm> {
   }
 }
 
-SliverAppBar _buildSearchBarAndFilter() {
+SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
   return SliverAppBar(
     toolbarHeight: 76, // TODO: Change
     shadowColor: Colors.transparent,
@@ -119,18 +119,26 @@ SliverAppBar _buildSearchBarAndFilter() {
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Container(
         padding: const EdgeInsets.all(12),
-        child: const Row(
+        child: Row(
           children: [
-            Expanded(
+            const Expanded(
               child: DefaultFormattedTextField(
                 hintText: "Pesquisar",
                 leftIcon: Icon(Icons.search_rounded),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(right: 6),
             ),
-            FilterButton(),
+            FilterButton(
+              options: optionsToFilter
+                  .map((filter) => filter.toFilterRow())
+                  .toList(),
+              onSelectionChanged: (filter) =>
+                  {viewModel.changeFilterSelection(filter)},
+              filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
+              selectedFilters: viewModel.allSelectedFilters,
+            ),
           ],
         ),
       ),
@@ -138,37 +146,32 @@ SliverAppBar _buildSearchBarAndFilter() {
   );
 }
 
-SliverAppBar _buildFilterSelector() {
+SliverAppBar _buildFilterSelector(ClothingViewModel viewModel) {
   return SliverAppBar(
     toolbarHeight: 46,
     pinned: true,
     backgroundColor: AppColor.widgetBackground,
     flexibleSpace: SizedBox(
       height: 40,
-      child: ListView.builder(
+      child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         scrollDirection: Axis.horizontal,
-        itemCount: clothes.length,
-        itemBuilder: (BuildContext context, int index) {
-          var cloth = clothes[index];
-          return _buildFilters(cloth);
-        },
+        children: [
+          HorizontalSelectorList(
+            list: clothes,
+            onSelectionChanged: (ids) =>
+                {viewModel.changeHorizontalFiltersSelection(ids)},
+            isHorizontalFilterSelected: (filter) =>
+                viewModel.haveThisHorizontalFilter(filter),
+          ),
+        ],
       ),
     ),
   );
 }
 
-Widget _buildFilters(cloth) {
-  return Padding(
-    padding: const EdgeInsets.only(right: 6),
-    child: FilterCardType(
-      title: cloth.typeOfCloth,
-      isSelected: cloth.isSelected,
-    ),
-  );
-}
-
-SliverToBoxAdapter _buildClothsCardsSection(ClothingViewModel viewModel) {
+SliverToBoxAdapter _buildClothsCardsSection(
+    BuildContext context, ClothingViewModel viewModel) {
   return SliverToBoxAdapter(
     child: Padding(
       padding: const EdgeInsets.all(16),
@@ -176,7 +179,10 @@ SliverToBoxAdapter _buildClothsCardsSection(ClothingViewModel viewModel) {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CardList(
-            selectedOnChange: (card) => {viewModel.changeSelection(card)},
+            clothesItems: clothItems.map((item) => item.toCardItem()).toList(),
+            onSelectionChanged: (cards) =>
+                {viewModel.changeCardsSelection(cards)},
+            onSelectionToDelete: (card) => {viewModel.removeCard(card)},
           ),
         ],
       ),

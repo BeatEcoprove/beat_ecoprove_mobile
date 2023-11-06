@@ -1,38 +1,45 @@
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:beat_ecoprove/core/widgets/cloth_card/card_item.dart';
+import 'package:flutter/material.dart';
 
 class ClothingViewModel extends ViewModel {
-  late List<CardItemTemplate> _selectedClothCards = [];
+  late List<int> _selectedClothCards = [];
   late List<String> _selectedFilters = [];
+  late List<String> _selectedHorizontalFilters = [];
 
-  void changeSelection(CardItemTemplate card) {
-    int index = _selectedClothCards.indexWhere((item) => item.key == card.key);
+  bool get haveSelectedCards => _selectedClothCards.isNotEmpty;
 
-    if (index != -1) {
-      _selectedClothCards.removeAt(index);
-    } else {
-      _selectedClothCards.add(card);
-    }
+  void changeCardsSelection(List<int> cards) {
+    _selectedClothCards = cards;
 
     notifyListeners();
   }
 
-  bool get haveSelectedCards => _selectedClothCards.isNotEmpty;
+  bool get haveHorizontalFilters => _selectedHorizontalFilters.isNotEmpty;
 
-  void removeCard(CardItemTemplate card) {
-    print(card);
-  } // TODO: Complete
+  void changeHorizontalFiltersSelection(List<String> filters) {
+    _selectedHorizontalFilters = filters;
 
-  void changeFilterSelection(String filter) {
-    if (_selectedFilters.contains(filter)) {
-      _selectedFilters.remove(filter);
-    } else {
-      _selectedFilters.add(filter);
-    }
-
-    print(_selectedFilters);
     notifyListeners();
   }
 
   bool haveThisFilter(String filter) => _selectedFilters.contains(filter);
+
+  List<String> get allSelectedFilters => _selectedFilters;
+
+  void changeFilterSelection(List<String> filters) {
+    // for (int i = 0; i < filters.length; i++) {
+    //   if (_selectedFilters.contains(filters[i])) {
+    //     _selectedFilters.remove(filters[i]);
+    //   } else {
+    //     _selectedFilters.add(filters[i]);
+    //   }
+
+    _selectedFilters = filters;
+
+    print(_selectedFilters);
+
+    notifyListeners();
+  }
+
+  void removeCard(Key card) {} // TODO: Complete
 }

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/cloth_card/bucket.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
@@ -192,13 +193,13 @@ abstract class Item {
     this.otherProfileImage,
   });
 
-  dynamic toItemModel();
+  CardItem toCardItem();
 }
 
-class ClothItem extends Item {
+class Cloth extends Item {
   final ImageProvider content;
 
-  ClothItem({
+  Cloth({
     required this.content,
     required super.title,
     super.subTitle,
@@ -206,15 +207,20 @@ class ClothItem extends Item {
   });
 
   @override
-  ImageProvider toItemModel() {
-    return content;
+  CardItem toCardItem() {
+    return CardItem(
+      title: title,
+      subTitle: subTitle,
+      child: content,
+      hasProfile: otherProfileImage,
+    );
   }
 }
 
-class BucketItem extends Item {
-  final List<ClothItem> list;
+class Bucket extends Item {
+  final List<Cloth> list;
 
-  BucketItem({
+  Bucket({
     required this.list,
     required super.title,
     super.subTitle,
@@ -222,61 +228,63 @@ class BucketItem extends Item {
   });
 
   @override
-  List<CardItemModel> toItemModel() {
-    return list.map((item) {
-      return CardItemModel(
-        title: item.title,
-        subTitle: item.subTitle,
-        image: item.content,
-      );
-    }).toList();
+  CardItem toCardItem() {
+    return CardItem(
+        title: title,
+        child: list.map((item) {
+          return CardItem(
+            title: item.title,
+            subTitle: item.subTitle,
+            child: item.content,
+          );
+        }).toList());
   }
 }
 
 List<Item> clothItems = [
-  ClothItem(
+  Cloth(
     title: "T-Shirt",
     subTitle: "Nike",
     content: const AssetImage("assets/default_avatar.png"),
     otherProfileImage: const AssetImage("assets/default_avatar.png"),
   ),
-  ClothItem(
+  Cloth(
     title: "T-Shirt",
     subTitle: "Nike",
     content: const AssetImage("assets/default_avatar.png"),
   ),
-  BucketItem(
+  Bucket(
     list: [
-      ClothItem(
+      Cloth(
         title: "T-Shirt",
         subTitle: "Nike",
         content: const AssetImage("assets/default_avatar.png"),
         otherProfileImage: const AssetImage("assets/default_avatar.png"),
       ),
-      ClothItem(
+      Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
       ),
     ],
     title: "Cesto",
   ),
-  BucketItem(
+  Bucket(
     list: [
-      ClothItem(
+      Cloth(
         title: "T-Shirt",
         subTitle: "Nike",
         content: const AssetImage("assets/default_avatar.png"),
       ),
-      ClothItem(
+      Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
       ),
-      ClothItem(
+      Cloth(
         title: "T-Shirt",
         subTitle: "Nike",
         content: const AssetImage("assets/default_avatar.png"),
       ),
-      ClothItem(
+      Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
         otherProfileImage: const AssetImage("assets/default_avatar.png"),
@@ -284,9 +292,9 @@ List<Item> clothItems = [
     ],
     title: "Cesto",
   ),
-  BucketItem(
+  Bucket(
     list: [
-      ClothItem(
+      Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
       ),
@@ -295,70 +303,86 @@ List<Item> clothItems = [
   ),
 ];
 
-class FilterButtonItem {
+class Filter {
   final String text;
   final Widget content;
   final bool isCircular;
   final double dimension;
 
-  FilterButtonItem({
+  Filter({
     required this.text,
     required this.content,
     this.isCircular = false,
     this.dimension = 40,
   });
+
+  FilterButtonItem toFilterButton() {
+    return FilterButtonItem(
+        text: text,
+        content: content,
+        isCircular: isCircular,
+        dimension: dimension);
+  }
 }
 
 class RowFilter {
-  final List<FilterButtonItem> options;
+  final List<Filter> options;
   final String title;
 
   RowFilter({
     required this.options,
     required this.title,
   });
+
+  FilterRow toFilterRow() {
+    return FilterRow(
+        title: title,
+        options: options.map((option) {
+          return option.toFilterButton();
+        }).toList());
+  }
 }
 
 List<RowFilter> optionsToFilter = [
   RowFilter(
     title: "Tamanho",
     options: [
-      FilterButtonItem(
+      Filter(
         text: "size_xs",
         content: const Text(
           "XS",
           style: AppText.smallHeader,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "size_s",
         content: const Text(
           "S",
           style: AppText.smallHeader,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "size_m",
         content: const Text(
           "M",
           style: AppText.smallHeader,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "size_l",
         content: const Text(
           "L",
           style: AppText.smallHeader,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "size_xl",
         content: const Text(
           "XL",
           style: AppText.smallHeader,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "size_xxl",
         content: const Text(
           "XXL",
@@ -370,7 +394,7 @@ List<RowFilter> optionsToFilter = [
   RowFilter(
     title: "Cor",
     options: [
-      FilterButtonItem(
+      Filter(
         text: "color_yellow",
         dimension: 30,
         isCircular: true,
@@ -382,7 +406,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_light_blue",
         dimension: 30,
         isCircular: true,
@@ -394,7 +418,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_dark_blue",
         dimension: 30,
         isCircular: true,
@@ -406,7 +430,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_super_light_yellow",
         dimension: 30,
         isCircular: true,
@@ -418,7 +442,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_light_yellow",
         dimension: 30,
         isCircular: true,
@@ -430,7 +454,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_light_red",
         dimension: 30,
         isCircular: true,
@@ -442,7 +466,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_white",
         dimension: 30,
         isCircular: true,
@@ -454,7 +478,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_light_brown",
         dimension: 30,
         isCircular: true,
@@ -466,7 +490,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_brown",
         dimension: 30,
         isCircular: true,
@@ -478,7 +502,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_light_grey",
         dimension: 30,
         isCircular: true,
@@ -490,7 +514,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_pink",
         dimension: 30,
         isCircular: true,
@@ -502,7 +526,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_super_light_brown",
         dimension: 30,
         isCircular: true,
@@ -514,7 +538,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_orange",
         dimension: 30,
         isCircular: true,
@@ -526,7 +550,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_light_purple",
         dimension: 30,
         isCircular: true,
@@ -538,7 +562,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_super_light_grey",
         dimension: 30,
         isCircular: true,
@@ -550,7 +574,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_black",
         dimension: 30,
         isCircular: true,
@@ -562,7 +586,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_light_pink",
         dimension: 30,
         isCircular: true,
@@ -574,7 +598,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_purple",
         dimension: 30,
         isCircular: true,
@@ -586,7 +610,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_green",
         dimension: 30,
         isCircular: true,
@@ -598,7 +622,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_lime",
         dimension: 30,
         isCircular: true,
@@ -610,7 +634,7 @@ List<RowFilter> optionsToFilter = [
           ),
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "color_red",
         dimension: 30,
         isCircular: true,
@@ -627,7 +651,7 @@ List<RowFilter> optionsToFilter = [
   RowFilter(
     title: "Marca",
     options: [
-      FilterButtonItem(
+      Filter(
         text: "brand_salsa",
         content: const PresentImage(path: AssetImage("assets/salsa.png")),
       ),
@@ -636,21 +660,21 @@ List<RowFilter> optionsToFilter = [
   RowFilter(
     title: "Ordenar Por",
     options: [
-      FilterButtonItem(
+      Filter(
         text: "order_az",
         content: const Text(
           "Az",
           style: AppText.smallHeader,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "order_za",
         content: const Text(
           "Za",
           style: AppText.smallHeader,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "order_desc",
         content: const SvgImage(
           path: "assets/filter/time_desc.svg",
@@ -659,7 +683,7 @@ List<RowFilter> optionsToFilter = [
           width: 20,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "order_asc",
         content: const SvgImage(
           path: "assets/filter/time_asc.svg",
@@ -668,7 +692,7 @@ List<RowFilter> optionsToFilter = [
           width: 20,
         ),
       ),
-      FilterButtonItem(
+      Filter(
         text: "order_bucket",
         content: const SvgImage(
           path: "assets/services/bucket.svg",
@@ -682,7 +706,7 @@ List<RowFilter> optionsToFilter = [
   RowFilter(
     title: "Perfis",
     options: [
-      FilterButtonItem(
+      Filter(
         text: "profile_1",
         content:
             const PresentImage(path: AssetImage("assets/default_avatar.png")),

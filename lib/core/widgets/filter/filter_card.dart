@@ -1,13 +1,21 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/widgets/filter/wrap_filter_options.dart';
 import 'package:flutter/material.dart';
 
 class FilterCard extends StatefulWidget {
-  final List<WrapFilterOptions> options;
+  final Function(List<String>) onSelectionChanged;
+  final bool Function(String) filterIsSelect;
+  final List<String> selectedFilters;
+
+  final List<FilterRow> options;
 
   const FilterCard({
     Key? key,
     required this.options,
+    required this.onSelectionChanged,
+    required this.filterIsSelect,
+    required this.selectedFilters,
   }) : super(key: key);
 
   @override
@@ -15,6 +23,7 @@ class FilterCard extends StatefulWidget {
 }
 
 class _FilterCardState extends State<FilterCard> {
+  late List<String> selectedFilterButtons = widget.selectedFilters;
   @override
   Widget build(BuildContext context) {
     const Radius borderRadius = Radius.circular(5);
@@ -37,7 +46,7 @@ class _FilterCardState extends State<FilterCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (int i = 0; i < widget.options.length; i++) ...[
-              widget.options[i],
+              renderFilterRow(i),
               const SizedBox(
                 height: 16,
               ),
@@ -45,6 +54,29 @@ class _FilterCardState extends State<FilterCard> {
           ],
         ),
       ),
+    );
+  }
+
+  getAllFilters(List<String> filters) {
+    for (int i = 0; i < filters.length; i++) {
+      if (widget.filterIsSelect(filters[i])) {
+        selectedFilterButtons.remove(filters[i]);
+      } else {
+        selectedFilterButtons.add(filters[i]);
+      }
+    }
+
+    widget.onSelectionChanged(selectedFilterButtons);
+  }
+
+  renderFilterRow(int i) {
+    var filterRow = widget.options[i];
+
+    return WrapFilterOptions(
+      title: filterRow.title,
+      filterOptions: filterRow.options,
+      filterIsSelect: widget.filterIsSelect,
+      onSelectionChanged: getAllFilters,
     );
   }
 }

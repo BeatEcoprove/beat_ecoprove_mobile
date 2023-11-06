@@ -1,30 +1,20 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
-class CardItemModel {
-  final String title;
-  final String? subTitle;
-  final ImageProvider image;
+class BucketItem extends CardItemTemplate {
+  final List<CardItem> items;
 
-  CardItemModel({
-    required this.title,
-    required this.subTitle,
-    required this.image,
-  });
-}
-
-class Bucket extends CardItemTemplate {
-  final List<CardItemModel> items;
-
-  const Bucket({
+  const BucketItem({
     super.key,
     required this.items,
     required super.title,
     super.otherProfileImage,
-    super.selectionAction,
-    super.removeAction,
+    super.isSelect,
+    super.isSelectedToDelete,
+    required super.cardSelectedToDelete,
   });
 
   @override
@@ -35,9 +25,9 @@ class Bucket extends CardItemTemplate {
         double margin =
             maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 4 : 6;
         double height =
-            maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 20 : 50;
+            maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 15 : 50;
         double width =
-            maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 20 : 40;
+            maxWidth < AppColor.maxWidthToImageWithMediaQueryCards ? 15 : 40;
         return Center(
           child: Wrap(
             alignment: WrapAlignment.start,
@@ -53,7 +43,7 @@ class Bucket extends CardItemTemplate {
                     color: AppColor.widgetBackground,
                     child: i < items.length
                         ? PresentImage(
-                            path: items[i].image,
+                            path: items[i].child,
                           )
                         : Container(
                             height: height,
@@ -71,10 +61,10 @@ class Bucket extends CardItemTemplate {
   }
 }
 
-class ExtendedBucket {
-  final List<CardItemModel> items;
+class ExtendedBucketItem {
+  final List<CardItem> items;
 
-  const ExtendedBucket({
+  const ExtendedBucketItem({
     required this.items,
   });
 
@@ -101,7 +91,7 @@ class ExtendedBucket {
                     color: AppColor.widgetBackground,
                     child: i < items.length
                         ? PresentImage(
-                            path: items[i].image,
+                            path: items[i].child,
                           )
                         : Container(
                             height: height,

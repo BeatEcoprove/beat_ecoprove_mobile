@@ -8,6 +8,7 @@ class IconButtonRectangular extends StatefulWidget {
   final String? idText;
   final bool isSelected;
   final VoidCallback? onPress;
+  final bool addBorderOnPress;
   final Color colorBackground;
   final Widget? object;
   final double dimension;
@@ -20,15 +21,10 @@ class IconButtonRectangular extends StatefulWidget {
     this.colorBackground = AppColor.widgetBackground,
     this.object,
     this.onPress,
+    this.addBorderOnPress = false,
     this.dimension = 40,
     this.isCircular = false,
   }) : super(key: key);
-
-  void handleSelection() {
-    if (onPress != null) {
-      onPress!();
-    }
-  }
 
   @override
   State<IconButtonRectangular> createState() => _IconButtonRectangularState();
@@ -37,9 +33,9 @@ class IconButtonRectangular extends StatefulWidget {
 class _IconButtonRectangularState extends State<IconButtonRectangular>
     with SingleTickerProviderStateMixin {
   static const Radius borderRadius = Radius.circular(5);
-  late Animation<Color?> _animation;
   late AnimationController _controller;
-  late bool _isSelected = widget.isSelected;
+  late Animation<Color?> _animation;
+  late bool _isSelect = widget.isSelected;
 
   @override
   void initState() {
@@ -54,16 +50,9 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
     ).animate(_controller);
   }
 
-  void handleClick() {
-    setState(() {
-      _isSelected = !_isSelected;
-      widget.handleSelection();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_isSelected) {
+    if (_isSelect) {
       _controller.forward();
     } else {
       _controller.reverse();
@@ -71,7 +60,8 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
 
     return GestureDetector(
       onTap: () {
-        handleClick();
+        if (widget.onPress != null) widget.onPress!();
+        if (widget.addBorderOnPress) _isSelect = !_isSelect;
       },
       child: AnimatedBuilder(
         animation: _animation,
@@ -81,10 +71,7 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
           decoration: BoxDecoration(
             color: widget.colorBackground,
             shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
-            border: Border.all(
-              color: _animation.value ?? AppColor.darkGreen,
-              width: 2.0,
-            ),
+            border: Border.all(color: _animation.value!, width: 2.0),
             borderRadius:
                 widget.isCircular ? null : const BorderRadius.all(borderRadius),
             boxShadow: const [AppColor.defaultShadow],

@@ -7,13 +7,12 @@ import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
 abstract class CardItemTemplate extends StatefulWidget {
+  final Function(Key) cardSelectedToDelete;
   final String title;
   final String? subTitle;
   final ImageProvider? otherProfileImage;
   final bool isSelect;
   final bool isSelectedToDelete;
-  final Function(CardItemTemplate)? selectionAction;
-  final Function(CardItemTemplate)? removeAction;
 
   const CardItemTemplate({
     Key? key,
@@ -22,23 +21,10 @@ abstract class CardItemTemplate extends StatefulWidget {
     this.isSelect = false,
     this.isSelectedToDelete = false,
     this.otherProfileImage,
-    this.selectionAction,
-    this.removeAction,
+    required this.cardSelectedToDelete,
   }) : super(key: key);
 
   Widget body(BuildContext context);
-
-  void handleSelection() {
-    if (selectionAction != null) {
-      selectionAction!(this);
-    }
-  }
-
-  void handleRemove() {
-    if (removeAction != null) {
-      removeAction!(this);
-    }
-  }
 
   @override
   State<CardItemTemplate> createState() => _CardItemTemplateState();
@@ -46,127 +32,112 @@ abstract class CardItemTemplate extends StatefulWidget {
 
 class _CardItemTemplateState extends State<CardItemTemplate> {
   late bool _isSelectedToDelete = widget.isSelectedToDelete;
-  late bool _isSelect = widget.isSelect;
-
-  void toggleSelectedToDelete() {
-    setState(() {
-      _isSelectedToDelete = !_isSelectedToDelete;
-    });
-  }
-
-  void select() {
-    setState(() {
-      _isSelect = !_isSelect;
-      _isSelectedToDelete = false;
-      widget.handleSelection();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     double maxWidth = MediaQuery.of(context).size.width;
     return LayoutBuilder(
       builder: (context, constraints) {
-        Radius borderRadius = const Radius.circular(10);
-        return InkWell(
-          onLongPress: select,
-          child: Stack(
-            children: [
-              _defineListItem(constraints, context),
-              if (maxWidth > AppColor.maxWidthToImageWithMediaQueryCards)
-                Positioned(
-                  top: 10,
-                  right: 4,
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.more_vert_rounded,
-                      color: AppColor.widgetSecondary,
-                    ),
-                    onPressed: toggleSelectedToDelete,
+        Radius borderRadius = const Radius.circular(5);
+        return Stack(
+          children: [
+            _defineListItem(constraints, context),
+            if (maxWidth > AppColor.maxWidthToImageWithMediaQueryCards)
+              Positioned(
+                top: 10,
+                right: 4,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.more_vert_rounded,
+                    color: AppColor.widgetSecondary,
                   ),
+                  onPressed: () {
+                    setState(() {
+                      _isSelectedToDelete = !_isSelectedToDelete;
+                    });
+                  },
                 ),
-              if (widget.otherProfileImage != null)
-                Positioned(
-                  left: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                      ? null
-                      : 46,
-                  right: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                      ? 16
-                      : null,
-                  bottom: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                      ? 54
-                      : 4,
-                  child: IconButtonRectangular(
-                    dimension:
-                        maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                            ? 50
-                            : 35,
-                    object: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: PresentImage(
-                        path: widget.otherProfileImage!,
-                      ),
-                    ),
-                  ),
-                ),
-              if (_isSelectedToDelete)
-                Positioned(
-                  left: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                      ? null
-                      : 0,
-                  bottom: 0,
-                  child: InkWell(
-                    onTap: () {
-                      _removeCard(
-                        context,
-                        _removedCardVersion(widget),
-                      );
-                    },
-                    child: Container(
-                      height:
-                          maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                              ? 49
-                              : 75,
-                      width:
-                          maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                              ? 150
-                              : 75,
-                      decoration: BoxDecoration(
-                        color: AppColor.buttonBackground,
-                        borderRadius: maxWidth >
-                                AppColor.maxWidthToImageWithMediaQueryCards
-                            ? BorderRadius.only(
-                                bottomLeft: borderRadius,
-                                bottomRight: borderRadius)
-                            : BorderRadius.all(borderRadius),
-                        boxShadow: const [AppColor.defaultShadow],
-                      ),
-                      child: const Icon(
-                        Icons.delete_outline_rounded,
-                        color: AppColor.widgetBackground,
-                      ),
+              ),
+            if (widget.otherProfileImage != null)
+              Positioned(
+                left: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                    ? null
+                    : 46,
+                right: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                    ? 16
+                    : null,
+                bottom: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                    ? 54
+                    : 4,
+                child: IconButtonRectangular(
+                  dimension:
+                      maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                          ? 50
+                          : 35,
+                  object: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: PresentImage(
+                      path: widget.otherProfileImage!,
                     ),
                   ),
                 ),
-              if (_isSelect)
-                Positioned.fill(
+              ),
+            if (_isSelectedToDelete)
+              Positioned(
+                left: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                    ? null
+                    : 0,
+                bottom: 0,
+                child: InkWell(
+                  onTap: () {
+                    _removeCard(
+                      context,
+                      _removedCardVersion(widget, context),
+                    );
+                  },
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: AppColor.widgetBackgroundBlurry,
-                      borderRadius: AppColor.borderRadius,
-                    ),
-                    child: Icon(
-                      size:
-                          maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
-                              ? 100
-                              : 50,
-                      Icons.check_circle_outline_rounded,
+                    height:
+                        maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                            ? 49
+                            : 75,
+                    width:
+                        maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                            ? 150
+                            : 75,
+                    decoration: BoxDecoration(
                       color: AppColor.buttonBackground,
+                      borderRadius:
+                          maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                              ? BorderRadius.only(
+                                  bottomLeft: borderRadius,
+                                  bottomRight: borderRadius)
+                              : BorderRadius.all(borderRadius),
+                      boxShadow: const [AppColor.defaultShadow],
+                    ),
+                    child: const Icon(
+                      Icons.delete_outline_rounded,
+                      color: AppColor.widgetBackground,
                     ),
                   ),
                 ),
-            ],
-          ),
+              ),
+            if (widget.isSelect)
+              Positioned.fill(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: AppColor.widgetBackgroundBlurry,
+                    borderRadius: AppColor.borderRadius,
+                  ),
+                  child: Icon(
+                    size: maxWidth > AppColor.maxWidthToImageWithMediaQueryCards
+                        ? 100
+                        : 50,
+                    Icons.check_circle_outline_rounded,
+                    color: AppColor.buttonBackground,
+                  ),
+                ),
+              ),
+          ],
         );
       },
     );
@@ -180,7 +151,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
           card: card,
           text: "Tem a certeza que pretende remover esta peça de roupa?",
           firstAction: () {
-            widget.handleRemove();
+            widget.cardSelectedToDelete(card.key!);
           },
           secondAction: () {
             Navigator.of(context).pop();
@@ -190,10 +161,10 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     );
   }
 
-  Widget _removedCardVersion(CardItemTemplate card) {
-    if (card is Bucket) {
+  Widget _removedCardVersion(CardItemTemplate card, BuildContext context) {
+    if (card is BucketItem) {
       return ExtendedItem(
-        content: ExtendedBucket(items: card.items).build(context),
+        content: ExtendedBucketItem(items: card.items).build(context),
         title: card.title,
         otherProfileImage: card.otherProfileImage,
       );
@@ -208,10 +179,15 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
   Widget _defineListItem(BoxConstraints constraints, BuildContext context) {
     if (constraints.maxWidth < AppColor.maxWidthToImage) {
       return CompactListItem(
-          widget: widget.body(context),
-          title: widget.title,
-          subTitle: widget.subTitle ?? '',
-          options: toggleSelectedToDelete);
+        widget: widget.body(context),
+        title: widget.title,
+        subTitle: widget.subTitle ?? '',
+        options: () {
+          setState(() {
+            _isSelectedToDelete != _isSelectedToDelete;
+          });
+        },
+      );
     }
 
     return ExtendedItem(

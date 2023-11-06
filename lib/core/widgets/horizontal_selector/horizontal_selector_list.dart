@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class HorizontalSelectorList extends StatefulWidget {
   final Map<String, String> list;
+  final Function(List<String>) onSelectionChanged;
 
   const HorizontalSelectorList({
     super.key,
     required this.list,
+    required this.onSelectionChanged,
   });
 
   @override
@@ -53,7 +55,7 @@ class _HorizontalSelectorListState extends State<HorizontalSelectorList> {
                   }
                 }
 
-                print(selectedItems);
+                widget.onSelectionChanged(getIds());
               });
             },
             child: Container(
@@ -67,6 +69,12 @@ class _HorizontalSelectorListState extends State<HorizontalSelectorList> {
         ],
       ],
     );
+  }
+
+  List<String> getIds() {
+    return widget.list.keys
+        .where((id) => selectedItems.contains(widget.list[id]))
+        .toList();
   }
 
   bool isHeadSelected(int i) => selectedIndex == 0;

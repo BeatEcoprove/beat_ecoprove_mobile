@@ -16,6 +16,11 @@ class ClothingViewModel extends ViewModel {
 
   bool get haveHorizontalFilters => _selectedHorizontalFilters.isNotEmpty;
 
+  List<String> get allSelectedHorizontalFilters => _selectedHorizontalFilters;
+
+  bool haveThisHorizontalFilter(String filter) =>
+      _selectedHorizontalFilters.contains(filter);
+
   void changeHorizontalFiltersSelection(List<String> filters) {
     _selectedHorizontalFilters = filters;
 
@@ -27,16 +32,7 @@ class ClothingViewModel extends ViewModel {
   List<String> get allSelectedFilters => _selectedFilters;
 
   void changeFilterSelection(List<String> filters) {
-    // for (int i = 0; i < filters.length; i++) {
-    //   if (_selectedFilters.contains(filters[i])) {
-    //     _selectedFilters.remove(filters[i]);
-    //   } else {
-    //     _selectedFilters.add(filters[i]);
-    //   }
-
     _selectedFilters = filters;
-
-    print(_selectedFilters);
 
     notifyListeners();
   }

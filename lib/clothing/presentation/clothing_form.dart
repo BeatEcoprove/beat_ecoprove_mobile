@@ -161,6 +161,8 @@ SliverAppBar _buildFilterSelector(ClothingViewModel viewModel) {
             list: clothes,
             onSelectionChanged: (ids) =>
                 {viewModel.changeHorizontalFiltersSelection(ids)},
+            isHorizontalFilterSelected: (filter) =>
+                viewModel.haveThisHorizontalFilter(filter),
           ),
         ],
       ),

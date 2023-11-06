@@ -10,7 +10,7 @@ final GoRoute clothingRoutes = GoRoute(
   builder: (BuildContext context, GoRouterState state) => DefaultLayoutView(
     header: StandardHeader(
       title: "Vestuário",
-      sustainablePoints: user.sustainablePoints,
+      sustainablePoints: notUser.sustainablePoints,
     ),
   ),
 );

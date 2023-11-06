@@ -7,7 +7,8 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/date_picker.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/phone_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,7 @@ class _PersonalStageState extends State<PersonalStage> {
               padding: const EdgeInsets.only(top: 78),
               child: Column(
                 children: [
-                  FormattedTextField(
+                  DefaultFormattedTextField(
                     hintText: 'Nome',
                     errorMessage:
                         viewModel.getValue(FormFieldValues.name).error,
@@ -85,10 +86,24 @@ class _PersonalStageState extends State<PersonalStage> {
                   const SizedBox(
                     height: _textBoxGap,
                   ),
-                  FormattedTextField(
+                  PhoneFormattedTextField(
+                    countryCodes: const {
+                      "us": "+1",
+                      "pt": "+351",
+                      "br": "+55",
+                      "es": "+34",
+                      "fr": "+33",
+                      "it": "+32",
+                      "gb": "+31",
+                    },
+                    initialCountryCode: viewModel
+                        .getValue(FormFieldValues.phone)
+                        .value
+                        ?.countryCode,
+                    onChangeCountryCode: (countryCode, phone) =>
+                        viewModel.setPhone(countryCode, phone),
                     hintText: "Telemóvel",
                     keyboardType: TextInputType.number,
-                    onChange: (value) => viewModel.setPhone(value),
                     initialValue:
                         viewModel.getDefault<String>(FormFieldValues.phone),
                     errorMessage:

@@ -150,14 +150,14 @@ List<Store> stores = [
       serviceProvider: "Serviços Prestados"),
 ];
 
-class User {
+class NotUser {
   final String path;
   final String name; //Max: 18
   final double percent;
   final int level;
   final int sustainablePoints;
 
-  User({
+  NotUser({
     required this.path,
     required this.name,
     required this.percent,
@@ -166,7 +166,7 @@ class User {
   });
 }
 
-User user = User(
+NotUser notUser = NotUser(
   path: "assets/default_avatar.png",
   level: 1,
   name: "Diogo Assunção",

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
 class LevelProgress extends StatelessWidget {
@@ -8,14 +9,14 @@ class LevelProgress extends StatelessWidget {
   final double height;
   final Color color;
   final VoidCallback? onPress;
-  final String path;
+  final String url;
   final double percent;
   final int level;
 
   const LevelProgress({
     required this.height,
     required this.color,
-    required this.path,
+    required this.url,
     this.percent = 0,
     this.level = 0,
     Key? key,
@@ -24,68 +25,68 @@ class LevelProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Tween<double> tween = Tween<double>(begin: 0, end: percent);
+
     return SizedBox(
       height: height + calculateOffset,
       width: height,
-      child: Stack(
-        children: [
-          Container(
-            height: height,
-            width: height,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            alignment: Alignment.center,
-            child: CustomPaint(
-              size: Size(height, height),
-              foregroundPainter: LevelProgressPainter(
-                completeColor: color,
-                width: 7,
-                percent: percent,
-              ),
-              child: ClipOval(
-                child: Image.asset(
-                  path,
-                  width: height,
-                  height: height,
-                  fit: BoxFit.cover,
+      child: TweenAnimationBuilder(
+        tween: tween,
+        duration: const Duration(milliseconds: 1000),
+        curve: Curves.easeInOut,
+        builder: (context, value, child) => Stack(
+          children: [
+            Container(
+              height: height,
+              width: height,
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              alignment: Alignment.center,
+              child: CustomPaint(
+                size: Size(height, height),
+                foregroundPainter: LevelProgressPainter(
+                  completeColor: AppColor.midGreen,
+                  width: 7,
+                  percent: value,
                 ),
+                child: ClipOval(child: PresentImage(path: NetworkImage(url))),
               ),
             ),
-          ),
-          Positioned.fill(
-            bottom: 0,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ClipOval(
-                child: Container(
-                  width: ratioOffset,
-                  height: ratioOffset,
-                  decoration: const BoxDecoration(
-                      color: AppColor.widgetBackground,
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      boxShadow: [AppColor.defaultShadow]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Nível",
-                        style: AppText.superSmallSubHeader,
-                      ),
-                      Text(
-                        level.toString(),
-                        style: AppText.smallHeader,
-                      ),
-                      Text(
-                        "${percent.toStringAsFixed(0)}%",
-                        style: AppText.percentText,
-                      ),
-                    ],
+            Positioned.fill(
+              bottom: 0,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ClipOval(
+                  child: Container(
+                    width: ratioOffset,
+                    height: ratioOffset,
+                    decoration: const BoxDecoration(
+                        color: AppColor.widgetBackground,
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        boxShadow: [AppColor.defaultShadow]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Nível",
+                          style: AppText.superSmallSubHeader,
+                        ),
+                        Text(
+                          level.toString(),
+                          style: AppText.smallHeader,
+                        ),
+                        Text(
+                          "${value.toStringAsFixed(0)}%",
+                          style: AppText.percentText,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

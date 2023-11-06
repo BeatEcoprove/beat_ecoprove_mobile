@@ -5,8 +5,9 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AvatarStage extends StatefulWidget {
@@ -39,9 +40,13 @@ class AvatarStageState extends State<AvatarStage> {
               padding: const EdgeInsets.only(top: 78),
               child: Column(
                 children: [
-                  FormattedTextField(
+                  DefaultFormattedTextField(
                     hintText: "Nome de exibição",
-                    onChange: (value) => viewModel.setUserName(value),
+                    inputFormatter: [
+                      LengthLimitingTextInputFormatter(18),
+                    ],
+                    onChange: (value) async =>
+                        await viewModel.setUserName(value),
                     initialValue:
                         viewModel.getValue(FormFieldValues.userName).value,
                     errorMessage:

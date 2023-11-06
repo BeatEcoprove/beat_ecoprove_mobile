@@ -1,12 +1,14 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_address_stage_view_model.dart';
+import 'package:beat_ecoprove/core/formatters/postal_code_formatter.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class EnterpriseAddressStage extends StatefulWidget {
@@ -56,7 +58,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                   const SizedBox(
                     height: _textBoxGap,
                   ),
-                  FormattedTextField(
+                  DefaultFormattedTextField(
                     hintText: "Rua",
                     onChange: (street) => viewModel.setStreet(street),
                     initialValue:
@@ -71,20 +73,26 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                          child: FormattedTextField(
-                        hintText: "Codigo Postal",
-                        initialValue:
-                            viewModel.getDefault(FormFieldValues.postalCode),
-                        onChange: (postalCode) =>
-                            viewModel.setPostalCode(postalCode),
-                        errorMessage: viewModel
-                            .getValue(FormFieldValues.postalCode)
-                            .error,
-                      )),
+                        child: DefaultFormattedTextField(
+                          hintText: "Codigo Postal",
+                          inputFormatter: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(7),
+                            PostalCodeFormatter(),
+                          ],
+                          initialValue:
+                              viewModel.getDefault(FormFieldValues.postalCode),
+                          onChange: (postalCode) =>
+                              viewModel.setPostalCode(postalCode),
+                          errorMessage: viewModel
+                              .getValue(FormFieldValues.postalCode)
+                              .error,
+                        ),
+                      ),
                       // ignore: prefer_const_constructors
                       SizedBox(width: 24),
                       Expanded(
-                        child: FormattedTextField(
+                        child: DefaultFormattedTextField(
                           hintText: "Porta",
                           initialValue:
                               viewModel.getDefault(FormFieldValues.port),

@@ -9,7 +9,7 @@ final GoRoute homeRoutes = GoRoute(
   path: '/',
   builder: (BuildContext context, GoRouterState state) => DefaultLayoutView(
     header: StandardHeader(
-      sustainablePoints: user.sustainablePoints,
+      sustainablePoints: notUser.sustainablePoints,
     ),
   ),
 );

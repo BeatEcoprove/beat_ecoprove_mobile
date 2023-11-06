@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/formated_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class HeaderWithSearchBar extends Header {
     return Column(
       children: [
         standardHeader,
-        const FormattedTextField(
+        const DefaultFormattedTextField(
           hintText: "Pesquisar",
           leftIcon: Icon(Icons.search_rounded),
         )

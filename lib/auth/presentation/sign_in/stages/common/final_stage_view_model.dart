@@ -1,11 +1,16 @@
+import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 
 class FinalStageViewModel extends FormViewModel {
-  FinalStageViewModel() {
+  final AuthenticationService _authenticationService;
+
+  FinalStageViewModel(this._authenticationService) {
     initializeFields([
       FormFieldValues.email,
       FormFieldValues.password,
@@ -13,7 +18,22 @@ class FinalStageViewModel extends FormViewModel {
     ]);
   }
 
-  void setEmail(String email) {
+  Future<void> setEmail(String email) async {
+    email = email.trim();
+
+    try {
+      bool isValid = await _authenticationService
+          .validateFields(ValidateFieldRequest("email", email));
+
+      if (!isValid) {
+        setError(
+            FormFieldValues.email, "O email já é utilizado por um utilizador");
+        return;
+      }
+    } on HttpError {
+      return;
+    }
+
     try {
       setValue<String>(FormFieldValues.email, Email.create(email).toString());
     } on DomainException catch (e) {

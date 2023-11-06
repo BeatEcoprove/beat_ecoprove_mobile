@@ -5,11 +5,13 @@ import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginViewModel extends FormViewModel {
   final LoginUseCase _loginUseCase;
+  final GoRouter _navigationRouter;
 
-  LoginViewModel(this._loginUseCase) {
+  LoginViewModel(this._loginUseCase, this._navigationRouter) {
     initializeFields([FormFieldValues.email, FormFieldValues.password]);
   }
 
@@ -44,7 +46,13 @@ class LoginViewModel extends FormViewModel {
 
     setLoading(true);
 
-    await _loginUseCase.handle(LoginRequest(email, password));
+    try {
+      await _loginUseCase.handle(LoginRequest(email, password));
+
+      _navigationRouter.go("/");
+    } catch (e) {
+      print("$e");
+    }
 
     setLoading(false);
     notifyListeners();

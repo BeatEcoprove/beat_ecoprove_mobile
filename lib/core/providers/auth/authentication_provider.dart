@@ -41,7 +41,7 @@ class AuthenticationProvider extends ViewModel {
       return false;
     }
 
-    return JwtDecoder.isExpired(refreshToken);
+    return !JwtDecoder.isExpired(refreshToken);
   }
 
   void authenticate(Authentication authentication) {
@@ -61,6 +61,7 @@ class AuthenticationProvider extends ViewModel {
 
   String get refreshToken => _refreshToken!;
   String get accessToken => _accessToken!;
+  User get appUser => _appUser!;
 
   bool accessTokenIsValid() {
     if (_accessToken == null) {

@@ -33,8 +33,12 @@ class SignInViewModel extends ViewModel {
         stratagy = EnterpriseSignIn(_signInEnterpriseUseCase);
     }
 
-    // TODO: Decline access if user not sign in with sucess
-    await stratagy.handleSignIn(dataList);
-    _navigationRouter.go("/sign_in_complete");
+    try {
+      await stratagy.handleSignIn(dataList);
+      _navigationRouter.go("/sign_in_complete");
+    } catch (e) {
+      print("Error on authentication: $e!");
+      return;
+    }
   }
 }

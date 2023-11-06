@@ -35,16 +35,18 @@ extension AuthDependencyInjection on DependencyInjection {
   void _addViewModels(GetIt locator) {
     var singInPersonalUseCase = locator<SignInPersonalUseCase>();
     var singInEnterpriseUseCase = locator<SignInEnterpriseUseCase>();
+    var authService = locator<AuthenticationService>();
     var router = locator<AppRouter>();
 
-    locator.registerFactory(() => LoginViewModel(locator<LoginUseCase>()));
+    locator.registerFactory(
+        () => LoginViewModel(locator<LoginUseCase>(), router.appRouter));
     locator.registerFactory(() => SignInViewModel(
         router.appRouter, singInPersonalUseCase, singInEnterpriseUseCase));
 
     locator.registerFactory(() => SelectUserViewModel());
     locator.registerFactory(() => PersonalViewModel());
-    locator.registerFactory(() => AvatarStageViewModel());
-    locator.registerFactory(() => FinalStageViewModel());
+    locator.registerFactory(() => AvatarStageViewModel(authService));
+    locator.registerFactory(() => FinalStageViewModel(authService));
     locator.registerFactory(() => EnterpriseStageViewModel());
     locator.registerFactory(() => EnterpriseAddressStageViewModel());
   }

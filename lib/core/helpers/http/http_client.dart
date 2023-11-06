@@ -1,6 +1,11 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:beat_ecoprove/core/config/server_config.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_unauthorized_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/http_statuscodes.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert' as convert;
 
@@ -12,12 +17,43 @@ class HttpClient {
   static const defaultHeaders = {"Content-Type": "application/json"};
   static const multipartFrom = {"Content-Type": "multipart/form-data"};
 
-  Future<U> makeRequestMultiPart<U>(
+  Future<Map<String, dynamic>> _makeRequest(
+      BaseRequest request, int expectedCode) async {
+    String jsonResponse;
+    int statusCode;
+    StreamedResponse stream;
+
+    try {
+      stream = await request.send();
+    } catch (e) {
+      throw HttpInternalError.empty();
+    }
+
+    statusCode = stream.statusCode;
+    jsonResponse = await stream.stream.bytesToString();
+
+    var response = convert.jsonDecode(jsonResponse) as Map<String, dynamic>;
+
+    if (statusCode != expectedCode) {
+      switch (statusCode) {
+        case HttpStatusCodes.badRequest:
+          throw HttpBadRequestError(response);
+        case HttpStatusCodes.unAuthorized:
+          throw HttpUnAuthorizedError(response);
+        default:
+          throw HttpInternalError(response);
+      }
+    }
+
+    return response;
+  }
+
+  Future<Map<String, dynamic>> makeRequestMultiPart(
       {required String method,
       required String path,
       required BaseMultiPartRequest body,
       Map<String, String>? headers,
-      int expectedCode = 200}) async {
+      int expectedCode = HttpStatusCodes.ok}) async {
     var request =
         http.MultipartRequest(method, Uri.parse("$_baseAddress/$path"));
 
@@ -33,22 +69,15 @@ class HttpClient {
       }
     });
 
-    var stream = await request.send();
-
-    if (stream.statusCode != expectedCode) {
-      throw Exception(stream.reasonPhrase);
-    }
-
-    var response = await stream.stream.bytesToString();
-    return convert.jsonDecode(response);
+    return _makeRequest(request, expectedCode);
   }
 
-  Future<T> makeRequestJson<T, U>(
+  Future<Map<String, dynamic>> makeRequestJson<U>(
       {required String method,
       required String path,
       BaseJsonRequest? body,
       Map<String, String>? headers,
-      int expectedCode = 200}) async {
+      int expectedCode = HttpStatusCodes.ok}) async {
     var request = http.Request(method, Uri.parse("$_baseAddress/$path"));
     request.headers.addAll(defaultHeaders);
 
@@ -56,13 +85,6 @@ class HttpClient {
       request.body = convert.jsonEncode(body.toJson());
     }
 
-    var stream = await request.send();
-
-    if (stream.statusCode != expectedCode) {
-      throw Exception(stream.reasonPhrase);
-    }
-
-    var response = await stream.stream.bytesToString();
-    return convert.jsonDecode(response);
+    return _makeRequest(request, expectedCode);
   }
 }

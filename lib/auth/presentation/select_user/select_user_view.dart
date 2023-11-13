@@ -14,6 +14,8 @@ class SelectUserView extends StatelessWidget {
       viewModel: DependencyInjection.locator<SelectUserViewModel>(),
       child: const Scaffold(
         body: GoBack(
+          posTop: 48,
+          posLeft: 22,
           child: SelectUserForm(),
         ),
       ),

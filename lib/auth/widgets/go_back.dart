@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 class GoBack extends StatefulWidget {
   final String goBackPath;
   final Widget child;
+  final double posTop;
+  final double posLeft;
 
   final bool Function()? changeDefaultBehavior;
 
@@ -13,7 +15,9 @@ class GoBack extends StatefulWidget {
       {this.goBackPath = '/',
       this.changeDefaultBehavior,
       required this.child,
-      Key? key})
+      Key? key,
+      required this.posTop,
+      required this.posLeft})
       : super(key: key);
 
   @override
@@ -44,8 +48,8 @@ class _GoBackState extends State<GoBack> {
       children: [
         widget.child,
         Positioned(
-          top: 48,
-          left: 22,
+          top: widget.posTop,
+          left: widget.posLeft,
           child: CircularButton(
             onPress: handleRoute,
             height: 46,

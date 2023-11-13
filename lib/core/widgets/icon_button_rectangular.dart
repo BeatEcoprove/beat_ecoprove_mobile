@@ -10,16 +10,16 @@ class IconButtonRectangular extends StatefulWidget {
   final VoidCallback? onPress;
   final bool addBorderOnPress;
   final Color colorBackground;
-  final Widget? object;
+  final Widget object;
   final double dimension;
   final bool isCircular;
 
   const IconButtonRectangular({
     Key? key,
+    required this.object,
     this.idText,
     this.isSelected = false,
     this.colorBackground = AppColor.widgetBackground,
-    this.object,
     this.onPress,
     this.addBorderOnPress = false,
     this.dimension = 40,

@@ -1,6 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
-import 'package:beat_ecoprove/core/widgets/step_by_step/line.dart';
+import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:flutter/material.dart';
 
 class StepByStep extends StatefulWidget {
@@ -52,6 +52,7 @@ class _StepByStepState extends State<StepByStep> {
           isStepCompleted(i),
           if (i < widget.numberOfSteps - 1)
             Line(
+              color: StepByStep.mainColor,
               width: lineWidth,
             ),
         ],

@@ -44,7 +44,7 @@ class _SustainablePointsState extends State<SustainablePoints> {
               child: SvgImage(
                 width: 24,
                 height: 24,
-                path: "assets/sustainable_points_icon.svg",
+                path: "assets/points/sustainable_points_icon.svg",
               ),
             )
           ],

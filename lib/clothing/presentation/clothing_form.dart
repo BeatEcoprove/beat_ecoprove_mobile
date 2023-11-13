@@ -114,7 +114,8 @@ SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
     toolbarHeight: 76, // TODO: Change
     shadowColor: Colors.transparent,
     backgroundColor: AppColor.widgetBackground,
-    pinned: true,
+    pinned: false,
+    floating: true,
     flexibleSpace: PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Container(

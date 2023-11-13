@@ -5,12 +5,12 @@ class Circle extends StatefulWidget {
   final double strokeWidth;
   final Color? color;
   final double height;
-  final Widget child;
+  final Widget? child;
   final bool isFull;
 
   const Circle(
       {required this.height,
-      required this.child,
+      this.child,
       this.strokeWidth = 2,
       this.color,
       this.isFull = false,

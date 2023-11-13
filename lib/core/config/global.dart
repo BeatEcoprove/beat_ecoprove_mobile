@@ -15,6 +15,7 @@ class AppColor {
   static const Color widgetBackgroundWithNothing =
       Color.fromRGBO(249, 249, 249, 1);
   static const Color widgetSecondary = Color.fromRGBO(106, 119, 138, 1);
+  static const Color separatedLine = Color.fromRGBO(235, 237, 240, 1);
   static const Color buttonBackground = Color.fromRGBO(26, 65, 87, 1);
 
   static const Color bucketButton = Color.fromRGBO(100, 145, 187, 1);
@@ -95,15 +96,22 @@ class AppText {
       fontWeight: FontWeight.bold,
       decoration: TextDecoration.none);
 
+  static const TextStyle rating = TextStyle(
+    color: AppColor.primaryColor,
+    fontSize: title3,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.none,
+  );
+
   static const TextStyle smallHeader = TextStyle(
       color: AppColor.black,
       fontSize: title4,
       fontWeight: FontWeight.bold,
       decoration: TextDecoration.none);
 
-  static const TextStyle rating = TextStyle(
-    color: AppColor.primaryColor,
-    fontSize: title3,
+  static const TextStyle textButton = TextStyle(
+    color: AppColor.widgetBackground,
+    fontSize: title5,
     fontWeight: FontWeight.bold,
     decoration: TextDecoration.none,
   );

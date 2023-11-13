@@ -21,6 +21,7 @@ dependencies:
   provider: ^6.0.5
   intl: ^0.18.1
   flutter_svg: ^2.0.7
+  palette_generator: ^0.3.3+3
 
   flutter:
     sdk: flutter
@@ -73,6 +74,7 @@ flutter:
     - assets/applicationTitle.svg
     - assets/default_avatar.png
     - assets/salsa.png
+    - assets/sueter.png
     - assets/points/sustainable_points_icon.svg
     - assets/services/dry.svg
     - assets/services/iron.svg

@@ -15,6 +15,8 @@ class SignInWrapper extends StatelessWidget {
     final signInController = ViewModel.of<SignInController>(context);
 
     return GoBack(
+      posTop: 48,
+      posLeft: 22,
       goBackPath: '/select-user',
       changeDefaultBehavior: () => signInController.defualtBehavior(),
       child: Column(

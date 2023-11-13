@@ -1,3 +1,5 @@
+import 'package:beat_ecoprove/clothing/presentation/clothing_view.dart';
+import 'package:beat_ecoprove/clothing/presentation/info_cloth/info_cloth_view.dart';
 import 'package:beat_ecoprove/core/widgets/footer/footer.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
@@ -14,7 +16,7 @@ class DefaultLayoutView extends StatelessWidget {
       appBar: header,
       body: PageView(
         children: const [
-          HomeView(),
+          InfoClothView(),
         ],
       ),
       bottomNavigationBar: const Footer(),

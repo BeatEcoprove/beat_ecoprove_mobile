@@ -198,12 +198,20 @@ abstract class Item {
 
 class Cloth extends Item {
   final ImageProvider content;
+  final String size;
+  final Color color;
+  final int ecoScore;
+  final String brand;
 
   Cloth({
     required this.content,
     required super.title,
     super.subTitle,
     super.otherProfileImage,
+    required this.size,
+    required this.color,
+    required this.ecoScore,
+    required this.brand,
   });
 
   @override
@@ -213,6 +221,10 @@ class Cloth extends Item {
       subTitle: subTitle,
       child: content,
       hasProfile: otherProfileImage,
+      size: size,
+      color: color,
+      ecoScore: ecoScore,
+      brand: brand,
     );
   }
 }
@@ -230,14 +242,15 @@ class Bucket extends Item {
   @override
   CardItem toCardItem() {
     return CardItem(
-        title: title,
-        child: list.map((item) {
-          return CardItem(
-            title: item.title,
-            subTitle: item.subTitle,
-            child: item.content,
-          );
-        }).toList());
+      title: title,
+      child: list.map((item) {
+        return CardItem(
+          title: item.title,
+          subTitle: item.subTitle,
+          child: item.content,
+        );
+      }).toList(),
+    );
   }
 }
 
@@ -247,11 +260,27 @@ List<Item> clothItems = [
     subTitle: "Nike",
     content: const AssetImage("assets/default_avatar.png"),
     otherProfileImage: const AssetImage("assets/default_avatar.png"),
+    brand: "Nike",
+    color: Color(0xFF1F1F1F),
+    ecoScore: 100,
+    size: 'M',
   ),
   Cloth(
     title: "T-Shirt",
     subTitle: "Nike",
     content: const AssetImage("assets/default_avatar.png"),
+    brand: "Nike",
+    color: Color(0xFF1F1F1F),
+    ecoScore: 50,
+    size: 'XL',
+  ),
+  Cloth(
+    title: "T-Shirt Adidas",
+    content: const AssetImage("assets/default_avatar.png"),
+    brand: "Adidas",
+    color: Color(0xFF811A1F),
+    ecoScore: 50,
+    size: 'XL',
   ),
   Bucket(
     list: [
@@ -260,10 +289,18 @@ List<Item> clothItems = [
         subTitle: "Nike",
         content: const AssetImage("assets/default_avatar.png"),
         otherProfileImage: const AssetImage("assets/default_avatar.png"),
+        brand: "Nike",
+        color: Color(0xFF1FA4A2),
+        ecoScore: 50,
+        size: 'XL',
       ),
       Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
+        brand: "Adidas",
+        color: Color(0xFF1FA91F),
+        ecoScore: 75,
+        size: 'L',
       ),
     ],
     title: "Cesto",
@@ -274,20 +311,36 @@ List<Item> clothItems = [
         title: "T-Shirt",
         subTitle: "Nike",
         content: const AssetImage("assets/default_avatar.png"),
+        brand: "Nike",
+        color: Color(0xFF1F1BC2),
+        ecoScore: 50,
+        size: 'XXL',
       ),
       Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
+        brand: "Adidas",
+        color: Color(0xFF811A1F),
+        ecoScore: 50,
+        size: 'XL',
       ),
       Cloth(
         title: "T-Shirt",
         subTitle: "Nike",
         content: const AssetImage("assets/default_avatar.png"),
+        brand: "Nike",
+        color: Color(0xFF1F1F1F),
+        ecoScore: 50,
+        size: 'M',
       ),
       Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
         otherProfileImage: const AssetImage("assets/default_avatar.png"),
+        brand: "Adidas",
+        color: Color(0xFF1FCD1F),
+        ecoScore: 150,
+        size: 'L',
       ),
     ],
     title: "Cesto",
@@ -297,6 +350,10 @@ List<Item> clothItems = [
       Cloth(
         title: "T-Shirt Adidas",
         content: const AssetImage("assets/default_avatar.png"),
+        brand: "Nike",
+        color: Color(0xFF1F1F1F),
+        ecoScore: 50,
+        size: 'XL',
       ),
     ],
     title: "Cesto",

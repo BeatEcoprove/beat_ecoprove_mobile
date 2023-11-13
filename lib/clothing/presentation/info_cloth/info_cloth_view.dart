@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/place_to_place.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
@@ -10,7 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class InfoClothView extends StatelessWidget {
-  const InfoClothView({super.key});
+  final CardItem card;
+
+  const InfoClothView({
+    super.key,
+    required this.card,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,28 +38,27 @@ class InfoClothView extends StatelessWidget {
               color: snapshot.data?.lightVibrantColor?.color,
               child: Stack(
                 children: [
-                  const Positioned(
+                  Positioned(
                     child: SizedBox(
                       width: double.maxFinite,
                       height: 257,
                       child: Center(
                         widthFactor: 257,
-                        child: PresentImage(
-                          path: AssetImage("assets/sueter.png"),
+                        child: PresentImage(path: card.child),
+                      ),
+                    ),
+                  ),
+                  if (card.hasProfile != null)
+                    Positioned(
+                      left: 24,
+                      top: 180,
+                      child: IconButtonRectangular(
+                        dimension: 50,
+                        object: PresentImage(
+                          path: card.hasProfile!,
                         ),
                       ),
                     ),
-                  ),
-                  const Positioned(
-                    left: 24,
-                    top: 180,
-                    child: IconButtonRectangular(
-                      dimension: 50,
-                      object: PresentImage(
-                        path: AssetImage("assets/default_avatar.png"),
-                      ),
-                    ),
-                  ),
                   Positioned(
                     top: 18,
                     right: 28,
@@ -92,19 +97,19 @@ class InfoClothView extends StatelessWidget {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Camisola Preta",
+                                      card.title,
                                       style: AppText.smallHeader,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text(
-                                      "Salsa",
+                                      card.brand!,
                                       style: AppText.subHeader,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -112,15 +117,16 @@ class InfoClothView extends StatelessWidget {
                                 ),
                                 Column(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Eco-Score",
                                       style: AppText.smallSubHeader,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 4,
                                     ),
-                                    SustainablePoints(sustainablePoints: 100),
+                                    SustainablePoints(
+                                        sustainablePoints: card.ecoScore!),
                                   ],
                                 )
                               ],
@@ -139,10 +145,10 @@ class InfoClothView extends StatelessWidget {
                                 Container(
                                   height: 30,
                                   width: 30,
-                                  decoration: const BoxDecoration(
-                                    color: AppColor.black,
+                                  decoration: BoxDecoration(
+                                    color: card.color,
                                     shape: BoxShape.circle,
-                                    boxShadow: [AppColor.defaultShadow],
+                                    boxShadow: const [AppColor.defaultShadow],
                                   ),
                                 ),
                                 const SizedBox(
@@ -156,8 +162,8 @@ class InfoClothView extends StatelessWidget {
                                 const SizedBox(
                                   width: 12,
                                 ),
-                                const Text(
-                                  "M",
+                                Text(
+                                  card.size!,
                                   style: AppText.smallHeader,
                                   overflow: TextOverflow.ellipsis,
                                 ),

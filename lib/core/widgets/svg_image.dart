@@ -10,8 +10,8 @@ class SvgImage extends StatelessWidget {
 
   const SvgImage({
     required this.path,
-    this.height = 0,
-    this.width = 0,
+    this.height = 20,
+    this.width = 20,
     Key? key,
     this.color,
   }) : super(key: key);

@@ -76,6 +76,7 @@ flutter:
     - assets/salsa.png
     - assets/sueter.png
     - assets/points/sustainable_points_icon.svg
+    - assets/shirt.svg
     - assets/services/dry.svg
     - assets/services/iron.svg
     - assets/services/recycle.svg

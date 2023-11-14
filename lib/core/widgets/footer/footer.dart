@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/footer/footer_button_add.dart';
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,13 +41,13 @@ class _FooterState extends State<Footer> {
             ),
           ),
           NavigationDestination(
-            selectedIcon: Icon(
-              Icons.auto_awesome_mosaic_rounded,
+            selectedIcon: SvgImage(
+              path: "assets/shirt.svg",
               color: AppColor.bottomNavigationBarSelected,
             ),
             label: '',
-            icon: Icon(
-              Icons.auto_awesome_mosaic_rounded,
+            icon: SvgImage(
+              path: "assets/shirt.svg",
               color: AppColor.bottomNavigationBar,
             ),
           ),

@@ -9,7 +9,7 @@ class Line extends StatelessWidget {
 
   const Line({
     super.key,
-    this.width = 10,
+    required this.width,
     this.stroke = 2,
     required this.color,
     this.dashSpacing = 0,
@@ -49,16 +49,15 @@ class LinePainter extends CustomPainter {
       ..color = color
       ..strokeWidth = stroke;
 
-    final path = Path();
     for (double startX = 0;
         startX < size.width;
         startX += dashLength + dashSpacing) {
-      final endX = startX + dashLength;
-      path.moveTo(startX, size.height / 2);
-      path.lineTo(endX, size.height / 2);
+      final endX = (startX + dashLength) < size.width
+          ? (startX + dashLength)
+          : size.width;
+      canvas.drawLine(Offset(startX, size.height / 2),
+          Offset(endX, size.height / 2), paint);
     }
-
-    canvas.drawPath(path, paint);
   }
 
   @override

@@ -26,6 +26,7 @@ class LevelProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Tween<double> tween = Tween<double>(begin: 0, end: percent);
+    double imgSize = 300;
 
     return SizedBox(
       height: height + calculateOffset,
@@ -48,7 +49,14 @@ class LevelProgress extends StatelessWidget {
                   width: 7,
                   percent: value,
                 ),
-                child: ClipOval(child: PresentImage(path: NetworkImage(url))),
+                child: ClipOval(
+                    child: SizedBox(
+                  width: imgSize,
+                  height: imgSize,
+                  child: PresentImage(
+                    path: NetworkImage(url),
+                  ),
+                )),
               ),
             ),
             Positioned.fill(

@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/bucket.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CardList extends StatefulWidget {
   final List<CardItem> clothesItems;
@@ -25,6 +26,7 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
+    final goRouter = GoRouter.of(context);
     return Wrap(
       alignment: WrapAlignment.start,
       runSpacing: 8,
@@ -34,6 +36,8 @@ class _CardListState extends State<CardList> {
           Container(
             margin: const EdgeInsets.all(4),
             child: InkWell(
+              onTap: () => goRouter.push("/info/${i.toString()}",
+                  extra: widget.clothesItems[i]),
               onLongPress: () {
                 setState(() {
                   if (selectedCardItems.contains(i)) {

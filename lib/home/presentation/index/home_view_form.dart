@@ -18,7 +18,9 @@ class HomeForm extends StatelessWidget {
     final viewModel = ViewModel.of<HomeViewModel>(context);
 
     return Scaffold(
-      appBar: const StandardHeader(sustainablePoints: 0),
+      appBar: StandardHeader(
+          hasSearchBar: true,
+          sustainablePoints: viewModel.user.sustainablePoints),
       body: CustomScrollView(
         slivers: [
           _buildWelcomeSection(viewModel.user),

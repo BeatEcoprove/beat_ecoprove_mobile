@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
 import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
@@ -11,12 +12,14 @@ class StandardHeader extends Header {
   final bool hasSustainablePoints;
   final int sustainablePoints;
   final bool hasSettings;
+  final bool hasSearchBar;
   final String title;
 
   const StandardHeader({
     this.title = '',
     this.hasSustainablePoints = true,
     this.hasSettings = false,
+    this.hasSearchBar = false,
     this.helpPress,
     this.settingsPress,
     required this.sustainablePoints,
@@ -24,7 +27,8 @@ class StandardHeader extends Header {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => const Size.fromHeight(96);
+  Size get preferredSize =>
+      hasSearchBar ? const Size.fromHeight(96 + 58) : const Size.fromHeight(96);
 
   @override
   Widget body(BuildContext context) {
@@ -83,6 +87,15 @@ class StandardHeader extends Header {
             ),
           ],
         ),
+        if (hasSearchBar)
+          const Column(
+            children: [
+              DefaultFormattedTextField(
+                hintText: "Pesquisar",
+                leftIcon: Icon(Icons.search_rounded),
+              )
+            ],
+          ),
       ],
     );
   }

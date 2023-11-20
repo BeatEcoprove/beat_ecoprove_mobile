@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view_model.dart';
 import 'package:beat_ecoprove/home/widgets/welcome_card.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +17,15 @@ class HomeForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<HomeViewModel>(context);
 
-    return CustomScrollView(
-      slivers: [
-        _buildWelcomeSection(viewModel.user),
-        _buildAdvertisementSection(),
-        _buildPopularServicesSection(),
-      ],
+    return Scaffold(
+      appBar: const StandardHeader(sustainablePoints: 0),
+      body: CustomScrollView(
+        slivers: [
+          _buildWelcomeSection(viewModel.user),
+          _buildAdvertisementSection(),
+          _buildPopularServicesSection(),
+        ],
+      ),
     );
   }
 

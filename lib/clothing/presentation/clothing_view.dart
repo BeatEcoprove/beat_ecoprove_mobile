@@ -11,9 +11,7 @@ class ClothingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelProvider(
       viewModel: DependencyInjection.locator<ClothingViewModel>(),
-      child: const Scaffold(
-        body: ClothingForm(),
-      ),
+      child: const ClothingForm(),
     );
   }
 }

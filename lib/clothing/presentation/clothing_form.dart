@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
+import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class _ClothingFormState extends State<ClothingForm> {
     late bool haveSelectedCards = viewModel.haveSelectedCards;
 
     return Scaffold(
+      appBar: const StandardHeader(sustainablePoints: 0),
       body: AppBackground(
         content: Stack(
           children: [

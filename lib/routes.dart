@@ -1,8 +1,6 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/clothing/presentation/clothing_view.dart';
-import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
@@ -27,10 +25,7 @@ class AppRouter {
     var authProvider = DependencyInjection.locator<AuthenticationProvider>();
 
     return authProvider.isAuthenticated
-        ? Swiper(
-            header:
-                StandardHeader(sustainablePoints: notUser.sustainablePoints),
-            views: const [HomeView(), ClothingView()])
+        ? const Swiper(views: [HomeView(), ClothingView()])
         : const LoginView();
   }
 

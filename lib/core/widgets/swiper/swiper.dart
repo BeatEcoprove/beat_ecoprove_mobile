@@ -1,13 +1,11 @@
 import 'package:beat_ecoprove/core/widgets/footer/footer.dart';
-import 'package:beat_ecoprove/core/widgets/headers/header.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class Swiper extends StatefulWidget {
-  final Header header;
   final List<Widget> views;
 
-  const Swiper({super.key, required this.header, required this.views});
+  const Swiper({super.key, required this.views});
 
   @override
   State<Swiper> createState() => _SwiperState();
@@ -44,8 +42,9 @@ class _SwiperState extends State<Swiper> {
         currentIndex: selectedIndex,
         options: const [
           Icon(Icons.home_rounded),
-          Icon(Icons.shield),
-          SvgImage(path: "shirt.svg"),
+          SvgImage(path: "assets/shirt.svg"),
+          Icon(Icons.public_rounded),
+          Icon(Icons.person),
         ],
         onChangeSelection: (navigationSelection) {
           setState(() {

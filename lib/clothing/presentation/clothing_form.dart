@@ -28,7 +28,9 @@ class _ClothingFormState extends State<ClothingForm> {
     late bool haveSelectedCards = viewModel.haveSelectedCards;
 
     return Scaffold(
-      appBar: const StandardHeader(sustainablePoints: 0),
+      appBar: StandardHeader(
+          title: "Vestuário",
+          sustainablePoints: viewModel.user.sustainablePoints),
       body: AppBackground(
         content: Stack(
           children: [

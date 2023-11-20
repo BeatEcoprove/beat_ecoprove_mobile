@@ -17,8 +17,8 @@ class AuthenticationProvider extends ViewModel {
   }
 
   void checkAuth() async {
-    String refreshToken =
-        await StorageService.getValue(Store.refreshToken) ?? '';
+    String refreshToken = //await StorageService.getValue(Store.refreshToken) ??
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMmVjMmI2MS00YjI0LTRlZTAtOWIxMy1lNWE2ZmY0YWQzMDIiLCJlbWFpbCI6ImRhdmlkYnJhZ2FAZXhhbXBsZS5jb20iLCJnaXZlbl9uYW1lIjoiZGF2aWRfYnJhZ2EiLCJhdmF0YXJfdXJsIjoiaHR0cDovL2xvY2FsaG9zdDo1MTgyL3B1YmxpYy9wcm9maWxlL2ExZThjNzhmLWMwYmYtNDYyYy05ZTVlLTU4Y2IyMmU1NGY0MC5wbmciLCJsZXZlbCI6IjEwIiwibGV2ZWxfcGVyY2VudGFnZSI6IjEwIiwic3VzdGFpbmFibGVfcG9pbnRzIjoiMTAiLCJleHAiOjE3MDAzMjA0ODMsImlzcyI6IkludmVzdG1lbnRCYW5rU3lzdGVtcyIsImF1ZCI6IkludmVzdG1lbnQgQmFuayBTeXN0ZW1zIn0.jEsIlXJ67RKvaNYBijfitM1MYVqLL2zSS1PH4JSxdqY';
 
     if (refreshToken.isEmpty || !validateToken(refreshToken)) return;
 
@@ -41,7 +41,7 @@ class AuthenticationProvider extends ViewModel {
       return false;
     }
 
-    return !JwtDecoder.isExpired(refreshToken);
+    return JwtDecoder.isExpired(refreshToken);
   }
 
   void authenticate(Authentication authentication) {

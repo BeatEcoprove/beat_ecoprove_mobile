@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/widgets/footer/footer.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class Swiper extends StatefulWidget {
@@ -44,6 +45,7 @@ class _SwiperState extends State<Swiper> {
         options: const [
           Icon(Icons.home_rounded),
           Icon(Icons.shield),
+          SvgImage(path: "shirt.svg"),
         ],
         onChangeSelection: (navigationSelection) {
           setState(() {

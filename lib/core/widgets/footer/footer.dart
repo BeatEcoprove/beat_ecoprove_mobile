@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/footer/footer_button_add.dart';
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class Footer extends StatefulWidget {
@@ -72,6 +73,11 @@ class _FooterState extends State<Footer> {
 
   Widget constructIcon(Widget value, int index) {
     switch (value.runtimeType) {
+      case SvgImage:
+        return SvgImage(
+          path: (value as SvgImage).path,
+          color: getSelectionColor(index),
+        );
       case ImageProvider:
         return Image(
           image: value as ImageProvider,

@@ -27,7 +27,7 @@ class FinalStageViewModel extends FormViewModel {
 
       if (!isValid) {
         setError(
-            FormFieldValues.email, "O email já é utilizado por um utilizador");
+            FormFieldValues.email, "O e-mail já é utilizado por um utilizador");
         return;
       }
     } on HttpError {

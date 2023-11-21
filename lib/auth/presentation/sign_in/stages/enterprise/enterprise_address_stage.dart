@@ -74,7 +74,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                     children: [
                       Expanded(
                         child: DefaultFormattedTextField(
-                          hintText: "Codigo Postal",
+                          hintText: "Código Postal",
                           inputFormatter: [
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(7),
@@ -89,8 +89,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
                               .error,
                         ),
                       ),
-                      // ignore: prefer_const_constructors
-                      SizedBox(width: 24),
+                      const SizedBox(width: 24),
                       Expanded(
                         child: DefaultFormattedTextField(
                           hintText: "Porta",

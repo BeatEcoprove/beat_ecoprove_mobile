@@ -8,16 +8,16 @@ class Name {
 
   factory Name.create(String firstName, String lastName) {
     if (firstName.isEmpty) {
-      throw DomainException("Porfavor introduza o seu primeiro nome");
+      throw DomainException("Por favor introduza o seu primeiro nome");
     }
 
     if (lastName.isEmpty) {
-      throw DomainException("Porfavor introduza o seu último nome");
+      throw DomainException("Por favor introduza o seu último nome");
     }
 
     if (firstName.contains(" ") && lastName.contains(" ")) {
       throw DomainException(
-          "Porfavor introduza apenas o seu primeiro e último nome");
+          "Por favor introduza apenas o seu primeiro e último nome");
     }
 
     return Name._(firstName: firstName, lastName: lastName);

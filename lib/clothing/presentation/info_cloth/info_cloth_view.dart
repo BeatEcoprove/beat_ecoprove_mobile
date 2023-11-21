@@ -40,7 +40,7 @@ class InfoClothView extends StatelessWidget {
                   height: 257,
                   child: Center(
                     widthFactor: 257,
-                    child: PresentImage(path: card.child),
+                    child: PresentImage(path: NetworkImage(card.child)),
                   ),
                 ),
               ),

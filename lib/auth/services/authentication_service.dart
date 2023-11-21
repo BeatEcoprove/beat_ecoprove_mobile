@@ -31,7 +31,7 @@ class AuthenticationService {
   Future<AuthResult> refreshTokens(RefreshTokensRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestJson(
         method: HttpMethods.get,
-        path: "auth/refresh_tokens",
+        path: "auth/refresh_tokens?token=${request.refreshToken}",
         expectedCode: 200));
   }
 

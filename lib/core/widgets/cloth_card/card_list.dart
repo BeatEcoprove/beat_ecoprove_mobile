@@ -80,7 +80,7 @@ class _CardListState extends State<CardList> {
 
     return ClothItem(
       key: Key(i.toString()),
-      content: cardItem.child,
+      content: NetworkImage(cardItem.child),
       title: cardItem.title,
       otherProfileImage: cardItem.hasProfile,
       isSelect: handleSelection(i),

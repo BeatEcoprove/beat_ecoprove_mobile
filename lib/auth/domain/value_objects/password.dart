@@ -7,7 +7,7 @@ class Password {
 
   factory Password.create(String password) {
     if (password.isEmpty) {
-      throw DomainException("Porfavor introduza a palavra-chave");
+      throw DomainException("Por favor introduza a palavra-chave");
     }
 
     if (!isLengthValid(password)) {

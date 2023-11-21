@@ -7,7 +7,7 @@ class UserName {
 
   factory UserName.create(String userName) {
     if (userName.isEmpty) {
-      throw DomainException("Porfavor introduza um nome de utilizador");
+      throw DomainException("Por favor introduza um nome de utilizador");
     }
 
     return UserName._(userName);

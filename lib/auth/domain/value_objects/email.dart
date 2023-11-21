@@ -11,7 +11,7 @@ class Email {
   Email._(this.value);
   factory Email.create(String email) {
     if (email.isEmpty) {
-      throw DomainException("Porfavor introduza o email");
+      throw DomainException("Por favor introduza o email");
     }
 
     if (!emailRegex.hasMatch(email)) {

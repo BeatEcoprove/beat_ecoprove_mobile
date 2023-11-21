@@ -6,8 +6,8 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 class EnterpriseAddressStageViewModel extends FormViewModel {
   final Map<String, List<String>> _countries = {
     "Portugal": ["Póvoa de Varzim", "Vila do Conde"],
-    "Englaterra": ["Manchester", "York"],
-    "França": ["París"],
+    "Inglaterra": ["Manchester", "York"],
+    "França": ["Paris"],
   };
 
   EnterpriseAddressStageViewModel() {
@@ -38,7 +38,7 @@ class EnterpriseAddressStageViewModel extends FormViewModel {
   void setStreet(String street) {
     if (street.isEmpty) {
       return setError(
-          FormFieldValues.street, "Porfavor introduza a rua da sua sede");
+          FormFieldValues.street, "Por favor introduza a rua da sua sede");
     }
 
     setValue(FormFieldValues.street, street);
@@ -68,7 +68,7 @@ class EnterpriseAddressStageViewModel extends FormViewModel {
 
       setValue<int>(FormFieldValues.port, port);
     } catch (e) {
-      setError(FormFieldValues.port, "Introduza um porta valida");
+      setError(FormFieldValues.port, "Introduza um porta válida");
     }
   }
 }

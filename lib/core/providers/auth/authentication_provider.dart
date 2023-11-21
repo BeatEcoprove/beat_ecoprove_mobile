@@ -26,14 +26,15 @@ class AuthenticationProvider extends ViewModel {
 
     authenticate(
       Authentication.bare(
-          refreshToken: refreshToken,
-          user: User(
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl]
-                  .replaceAll("localhost", "10.0.2.2"),
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints])),
+        refreshToken: refreshToken,
+        user: User(
+          name: decodedToken[Tokens.name],
+          avatarUrl: decodedToken[Tokens.avatarUrl],
+          level: decodedToken[Tokens.level],
+          levelPercent: decodedToken[Tokens.levelPercent],
+          sustainablePoints: decodedToken[Tokens.sustainablePoints],
+        ),
+      ),
     );
   }
 
@@ -42,7 +43,7 @@ class AuthenticationProvider extends ViewModel {
       return false;
     }
 
-    return JwtDecoder.isExpired(refreshToken);
+    return !JwtDecoder.isExpired(refreshToken);
   }
 
   void authenticate(Authentication authentication) {

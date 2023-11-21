@@ -43,7 +43,7 @@ class BucketItem extends CardItemTemplate {
                     color: AppColor.widgetBackground,
                     child: i < items.length
                         ? PresentImage(
-                            path: items[i].child,
+                            path: NetworkImage(items[i].child),
                           )
                         : Container(
                             height: height,

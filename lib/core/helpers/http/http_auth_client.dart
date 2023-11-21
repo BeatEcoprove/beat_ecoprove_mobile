@@ -16,7 +16,7 @@ class HttpAuthClient implements HttpClient {
   HttpAuthClient(this._httpClient, this._authenticationProvider,
       this._authenticationService);
 
-  void refreshTokens() async {
+  Future refreshTokens() async {
     String refreshToken = _authenticationProvider.refreshToken;
 
     var tokens = await _authenticationService
@@ -42,14 +42,16 @@ class HttpAuthClient implements HttpClient {
       required String path,
       BaseJsonRequest? body,
       Map<String, String>? headers,
-      int expectedCode = 200}) {
-    refreshTokens();
+      int expectedCode = 200}) async {
+    await refreshTokens();
 
     return _httpClient.makeRequestJson(
         method: method,
         path: path,
         body: body,
-        headers: {"Authorization": _authenticationProvider.accessToken},
+        headers: {
+          "Authorization": 'Bearer ${_authenticationProvider.accessToken}'
+        },
         expectedCode: expectedCode);
   }
 
@@ -59,14 +61,16 @@ class HttpAuthClient implements HttpClient {
       required String path,
       required BaseMultiPartRequest body,
       Map<String, String>? headers,
-      int expectedCode = 200}) {
-    refreshTokens();
+      int expectedCode = 200}) async {
+    await refreshTokens();
 
     return _httpClient.makeRequestMultiPart(
         method: method,
         path: path,
         body: body,
-        headers: {"Authorization": _authenticationProvider.accessToken},
+        headers: {
+          "Authorization": 'Bearer ${_authenticationProvider.accessToken}'
+        },
         expectedCode: expectedCode);
   }
 }

@@ -61,7 +61,7 @@ extension AuthDependencyInjection on DependencyInjection {
         locator.registerSingleton(AuthenticationService(httpClient));
 
     locator.registerFactory(
-        () => HttpAuthClient(locator<HttpClient>(), authProvider, authService));
+        () => HttpAuthClient(httpClient, authProvider, authService));
 
     _addUseCases(locator);
     _addViewModels(locator);

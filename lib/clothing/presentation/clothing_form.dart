@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/clothing/presentation/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
@@ -12,16 +13,11 @@ import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_select
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class ClothingForm extends StatefulWidget {
+class ClothingForm extends StatelessWidget {
   const ClothingForm({
     super.key,
   });
 
-  @override
-  State<ClothingForm> createState() => _ClothingFormState();
-}
-
-class _ClothingFormState extends State<ClothingForm> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<ClothingViewModel>(context);
@@ -115,7 +111,7 @@ class _ClothingFormState extends State<ClothingForm> {
 
 SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
   return SliverAppBar(
-    toolbarHeight: 76, // TODO: Change
+    toolbarHeight: 76,
     shadowColor: Colors.transparent,
     backgroundColor: AppColor.widgetBackground,
     pinned: false,
@@ -183,11 +179,20 @@ SliverToBoxAdapter _buildClothsCardsSection(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CardList(
-            clothesItems: clothItems.map((item) => item.toCardItem()).toList(),
-            onSelectionChanged: (cards) =>
-                {viewModel.changeCardsSelection(cards)},
-            onSelectionToDelete: (card) => {viewModel.removeCard(card)},
+          FutureBuilder(
+            future: viewModel.getCloset(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return CardList(
+                  clothesItems: snapshot.data as List<CardItem>,
+                  onSelectionToDelete: (card) => {viewModel.removeCard(card)},
+                  onSelectionChanged: (cards) =>
+                      {viewModel.changeCardsSelection(cards)},
+                );
+              } else {
+                return const Text("error");
+              }
+            },
           ),
         ],
       ),

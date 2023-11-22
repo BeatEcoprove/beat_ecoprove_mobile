@@ -1,7 +1,8 @@
 enum Gender implements Comparable<Gender> {
   male(value: "Masculino"),
-  female(value: "Female"),
-  other(value: "Outros");
+  female(value: "Feminino"),
+  other(value: "Outro"),
+  notDefine(value: "Prefiro não divulgar");
 
   final String value;
 

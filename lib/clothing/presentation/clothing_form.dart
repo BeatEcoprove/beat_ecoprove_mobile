@@ -182,15 +182,19 @@ SliverToBoxAdapter _buildClothsCardsSection(
           FutureBuilder(
             future: viewModel.getCloset(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return CardList(
-                  clothesItems: snapshot.data as List<CardItem>,
-                  onSelectionToDelete: (card) => {viewModel.removeCard(card)},
-                  onSelectionChanged: (cards) =>
-                      {viewModel.changeCardsSelection(cards)},
-                );
-              } else {
-                return const Text("error");
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const CircularProgressIndicator(
+                    color: AppColor.primaryColor,
+                    strokeWidth: 4,
+                  );
+                default:
+                  return CardList(
+                    clothesItems: snapshot.data as List<CardItem>,
+                    onSelectionToDelete: (card) => {viewModel.removeCard(card)},
+                    onSelectionChanged: (cards) =>
+                        {viewModel.changeCardsSelection(cards)},
+                  );
               }
             },
           ),

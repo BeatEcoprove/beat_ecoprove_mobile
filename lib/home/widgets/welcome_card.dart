@@ -1,5 +1,4 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/level_progress.dart';
 import 'package:flutter/material.dart';
 
@@ -67,30 +66,6 @@ class _WelcomeCardState extends State<WelcomeCard> {
                         style: AppText.strongStyle,
                       ),
                     ],
-                  ),
-                ],
-              ),
-              const Wrap(
-                spacing: 4,
-                runSpacing: 4,
-                children: [
-                  IconButtonRectangular(
-                    object: Icon(
-                      Icons.auto_awesome_mosaic_rounded,
-                      color: AppColor.darkGreen,
-                    ),
-                  ),
-                  IconButtonRectangular(
-                    object: Icon(
-                      Icons.public_rounded,
-                      color: AppColor.darkGreen,
-                    ),
-                  ),
-                  IconButtonRectangular(
-                    object: Icon(
-                      Icons.wallet_giftcard_rounded,
-                      color: AppColor.darkGreen,
-                    ),
                   ),
                 ],
               ),

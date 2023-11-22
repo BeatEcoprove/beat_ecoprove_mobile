@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,6 @@ class AppBackground extends StatelessWidget {
           width: backgroundImageHeight,
         ),
       )),
-      // Second Widget
       const Positioned.fill(
           top: 130,
           child: Align(
@@ -32,7 +32,6 @@ class AppBackground extends StatelessWidget {
               width: backgroundImageHeight,
             ),
           )),
-      // Second Widget
       const Positioned.fill(
           child: Align(
         alignment: Alignment.bottomRight,
@@ -58,7 +57,6 @@ class AppBackground extends StatelessWidget {
           ),
         ),
       ),
-      // Second Widget
       const Positioned.fill(
         top: 130,
         child: Align(
@@ -93,7 +91,79 @@ class AppBackground extends StatelessWidget {
     );
   }
 
-  Widget defualtBackground(Widget content) {
+  Widget background4(Widget content) {
+    return Stack(
+      children: [
+        const Positioned.fill(
+          bottom: -60,
+          left: -70,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: SvgImage(
+              path: "assets/background4/background1.svg",
+              height: 200,
+              width: 200,
+            ),
+          ),
+        ),
+        const Positioned.fill(
+          top: 10,
+          right: -20,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: SvgImage(
+              path: "assets/background4/background2.svg",
+              height: 50,
+              width: 50,
+            ),
+          ),
+        ),
+        content,
+      ],
+    );
+  }
+
+  Widget registerClothBackground(Widget content) {
+    return Stack(
+      children: [
+        Positioned(
+          bottom: 0,
+          right: 0,
+          left: 0,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Stack(
+              children: [
+                Container(
+                  height: 280,
+                  decoration: const BoxDecoration(
+                    color: AppColor.darkestBlue,
+                    boxShadow: [AppColor.defaultShadow],
+                  ),
+                ),
+                const Positioned.fill(
+                  bottom: -70,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: SvgImage(
+                      path:
+                          "assets/register_cloth_background/register_cloth.svg",
+                      height: 260,
+                      width: 260,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        content,
+      ],
+    );
+  }
+
+  Widget defaultBackground(Widget content) {
     switch (type) {
       case AppBackgrounds.login:
         return background1(content);
@@ -101,6 +171,10 @@ class AppBackground extends StatelessWidget {
         return background2(content);
       case AppBackgrounds.clothing:
         return background3(content);
+      case AppBackgrounds.registerClothBackground:
+        return registerClothBackground(content);
+      case AppBackgrounds.registerClothBackground1:
+        return background4(content);
       default:
         return background1(content);
     }
@@ -108,8 +182,14 @@ class AppBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: defualtBackground(content));
+    return SafeArea(child: defaultBackground(content));
   }
 }
 
-enum AppBackgrounds { login, completed, clothing }
+enum AppBackgrounds {
+  login,
+  completed,
+  clothing,
+  registerClothBackground,
+  registerClothBackground1
+}

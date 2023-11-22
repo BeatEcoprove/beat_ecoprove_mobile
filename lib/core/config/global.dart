@@ -17,6 +17,7 @@ class AppColor {
   static const Color widgetSecondary = Color.fromRGBO(106, 119, 138, 1);
   static const Color separatedLine = Color.fromRGBO(235, 237, 240, 1);
   static const Color buttonBackground = Color.fromRGBO(26, 65, 87, 1);
+  static const Color darkestBlue = Color.fromRGBO(9, 0, 46, 1);
 
   static const Color bucketButton = Color.fromRGBO(100, 145, 187, 1);
 

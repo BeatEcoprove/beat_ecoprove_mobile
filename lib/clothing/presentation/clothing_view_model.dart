@@ -60,7 +60,7 @@ class ClothingViewModel extends ViewModel {
 
     try {
       closet = await _getClosetUseCase
-          .handle("4ba96589-9d77-4311-8471-a34f732970d0");
+          .handle("e7bd7043-48d1-4c42-b5f3-ad7b1b586e5e"); //TODO: Change
     } catch (e) {
       print("$e");
     }

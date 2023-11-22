@@ -27,7 +27,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         () => ClothingViewModel(authProvider, getClosetUseCase));
   }
 
-  void addCloth() {
+  void addClothing() {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);

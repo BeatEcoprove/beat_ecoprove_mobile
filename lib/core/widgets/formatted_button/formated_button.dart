@@ -73,7 +73,7 @@ class _FormattedButtonState extends State<FormattedButton> {
                 style: TextStyle(
                   fontSize: AppText.title3,
                   color: widget.textColor,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

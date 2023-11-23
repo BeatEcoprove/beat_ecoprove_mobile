@@ -135,14 +135,14 @@ class AppBackground extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: 280,
+                  height: 200,
                   decoration: const BoxDecoration(
                     color: AppColor.darkestBlue,
                     boxShadow: [AppColor.defaultShadow],
                   ),
                 ),
                 const Positioned.fill(
-                  bottom: -70,
+                  bottom: -125,
                   right: 0,
                   child: Align(
                     alignment: Alignment.bottomRight,

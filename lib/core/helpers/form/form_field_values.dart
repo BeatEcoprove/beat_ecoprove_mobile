@@ -13,7 +13,13 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   avatar(value: "avatar"),
   password(value: "password"),
   typeOption(value: "typeOption"),
-  confirmPassword(value: "confirmPassword");
+  confirmPassword(value: "confirmPassword"),
+  clothName(value: "name"),
+  clothType(value: "garmentType"),
+  clothSize(value: "garmentSize"),
+  clothBrand(value: "brand"),
+  clothColor(value: "color"),
+  clothImage(value: "clothAvatar");
 
   final String value;
   const FormFieldValues({required this.value});

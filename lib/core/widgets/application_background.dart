@@ -126,35 +126,20 @@ class AppBackground extends StatelessWidget {
   Widget registerClothBackground(Widget content) {
     return Stack(
       children: [
-        Positioned(
-          bottom: 0,
-          right: 0,
-          left: 0,
+        Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: AppColor.darkestBlue,
+        ),
+        const Positioned.fill(
+          bottom: -95,
+          right: -10,
           child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Stack(
-              children: [
-                Container(
-                  height: 200,
-                  decoration: const BoxDecoration(
-                    color: AppColor.darkestBlue,
-                    boxShadow: [AppColor.defaultShadow],
-                  ),
-                ),
-                const Positioned.fill(
-                  bottom: -125,
-                  right: 0,
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: SvgImage(
-                      path:
-                          "assets/register_cloth_background/register_cloth.svg",
-                      height: 260,
-                      width: 260,
-                    ),
-                  ),
-                ),
-              ],
+            alignment: Alignment.bottomRight,
+            child: SvgImage(
+              path: "assets/register_cloth_background/register_cloth.svg",
+              height: 260,
+              width: 260,
             ),
           ),
         ),

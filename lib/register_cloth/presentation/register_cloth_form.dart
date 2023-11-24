@@ -15,6 +15,7 @@ import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterClothForm extends StatelessWidget {
   const RegisterClothForm({
@@ -23,20 +24,20 @@ class RegisterClothForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double maxHeight = MediaQuery.of(context).size.height;
-    double maxWidth = MediaQuery.of(context).size.width;
+    double firstSectionHeightPercent = 65;
 
     final viewModel = ViewModel.of<RegisterClothViewModel>(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
           title: "Registar Peça",
           sustainablePoints: viewModel.user.sustainablePoints,
           hasSustainablePoints: false),
-      body: Stack(
+      body: Column(
         children: [
           SizedBox(
-            height: maxHeight - 280,
+            height: calculateHeightSections(firstSectionHeightPercent, context),
             child: AppBackground(
               content: GoBack(
                 posTop: 18,
@@ -46,15 +47,12 @@ class RegisterClothForm extends StatelessWidget {
               type: AppBackgrounds.registerClothBackground1,
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: 200,
-              width: maxWidth,
-              child: AppBackground(
-                content: _buildRegisterClothByQRCode(context),
-                type: AppBackgrounds.registerClothBackground,
-              ),
+          SizedBox(
+            height: calculateHeightSections(
+                100 - firstSectionHeightPercent, context),
+            child: AppBackground(
+              content: _buildRegisterClothByQRCode(context),
+              type: AppBackgrounds.registerClothBackground,
             ),
           ),
         ],
@@ -63,8 +61,15 @@ class RegisterClothForm extends StatelessWidget {
   }
 }
 
+double calculateHeightSections(double percent, BuildContext context) {
+  double maxHeight = MediaQuery.of(context).size.height;
+  // 96 is the height of the header
+  return (maxHeight - 96) * (percent / 100);
+}
+
 Widget _buildRegisterForm(
     BuildContext context, RegisterClothViewModel viewModel) {
+  final goRouter = GoRouter.of(context);
   const double _textBoxGap = 12;
 
   return SingleChildScrollView(
@@ -83,7 +88,7 @@ Widget _buildRegisterForm(
                 width: 12,
               ),
               CircleAvatarChooser(
-                height: 120,
+                height: 140,
                 color: AppColor.widgetSecondary,
                 imageProvider: viewModel.getClothImage(),
                 onPress: () => viewModel.getImageFromGallery(),
@@ -163,6 +168,7 @@ Widget _buildRegisterForm(
             textColor: Colors.white,
             disabled: viewModel.thereAreErrors,
             onPress: () {
+              goRouter.push("/");
               viewModel.registerCloth();
             },
           )
@@ -175,8 +181,8 @@ Widget _buildRegisterForm(
 Widget _buildRegisterClothByQRCode(BuildContext context) {
   return Align(
     alignment: Alignment.topCenter,
-    child: Container(
-      margin: const EdgeInsets.only(top: 16),
+    child: Padding(
+      padding: const EdgeInsets.only(top: 16),
       child: FormattedButton(
         content: "QR Code",
         textColor: AppColor.buttonBackground,

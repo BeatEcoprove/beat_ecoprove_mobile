@@ -59,8 +59,8 @@ class ClothingViewModel extends ViewModel {
     List<CardItem> closet = [];
 
     try {
-      closet = await _getClosetUseCase
-          .handle("e7bd7043-48d1-4c42-b5f3-ad7b1b586e5e"); //TODO: Change
+      closet = await _getClosetUseCase.handle(
+          "edf2e8af-91fa-41d5-a135-228658b8db93"); //TODO: Change Person ID
     } catch (e) {
       print("$e");
     }

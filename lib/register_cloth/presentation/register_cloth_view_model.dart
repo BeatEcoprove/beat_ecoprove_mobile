@@ -18,8 +18,10 @@ class RegisterClothViewModel extends FormViewModel {
   static const defaultImage = "assets/default_avatar.png";
   final RegisterClothUseCase _registerClothUseCase;
 
-  final AuthenticationProvider _authProvider;
   late final User _user;
+  final AuthenticationProvider _authProvider;
+
+  late String _selectedFilters = '';
   final String _color =
       '#FFF'; //TODO: Change (make a widget identical to the filter)
 
@@ -77,6 +79,16 @@ class RegisterClothViewModel extends FormViewModel {
     return FileImage(File(clothImage.path));
   }
 
+  bool haveThisFilter(String filter) => _selectedFilters.contains(filter);
+
+  List<String> get allSelectedFilters => [_selectedFilters];
+
+  void changeFilterSelection(List<String> filters) {
+    _selectedFilters = filters.first;
+    print(_selectedFilters);
+    notifyListeners();
+  }
+
   void registerCloth() async {
     var clothName = getValue(FormFieldValues.clothName).value ?? "";
     var clothType = getValue(FormFieldValues.clothType).value ?? "";
@@ -87,14 +99,14 @@ class RegisterClothViewModel extends FormViewModel {
 
     try {
       await _registerClothUseCase.handle(RegisterClothRequest(
-        "e7bd7043-48d1-4c42-b5f3-ad7b1b586e5e",
+        "edf2e8af-91fa-41d5-a135-228658b8db93",
         clothName,
         clothType,
         clothSize,
         clothBrand,
         clothColor,
         clothImage,
-      )); //TODO: Change
+      )); //TODO: Change Person Id
     } catch (e) {
       print("$e");
     }

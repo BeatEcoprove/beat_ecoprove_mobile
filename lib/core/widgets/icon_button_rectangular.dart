@@ -8,20 +8,20 @@ class IconButtonRectangular extends StatefulWidget {
   final String? idText;
   final bool isSelected;
   final VoidCallback? onPress;
-  final bool addBorderOnPress;
+  final bool hasAnimation;
   final Color colorBackground;
-  final Widget object;
+  final Widget? object;
   final double dimension;
   final bool isCircular;
 
   const IconButtonRectangular({
     Key? key,
-    required this.object,
+    this.object,
     this.idText,
     this.isSelected = false,
     this.colorBackground = AppColor.widgetBackground,
     this.onPress,
-    this.addBorderOnPress = false,
+    this.hasAnimation = false,
     this.dimension = 40,
     this.isCircular = false,
   }) : super(key: key);
@@ -35,7 +35,6 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
   static const Radius borderRadius = Radius.circular(5);
   late AnimationController _controller;
   late Animation<Color?> _animation;
-  late bool _isSelect = widget.isSelected;
 
   @override
   void initState() {
@@ -52,34 +51,59 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
 
   @override
   Widget build(BuildContext context) {
-    if (_isSelect) {
-      _controller.forward();
-    } else {
-      _controller.reverse();
-    }
+    late bool _isSelect = widget.isSelected;
 
-    return GestureDetector(
-      onTap: () {
-        if (widget.onPress != null) widget.onPress!();
-        if (widget.addBorderOnPress) _isSelect = !_isSelect;
-      },
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) => Container(
+    if (widget.hasAnimation) {
+      if (_isSelect) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+
+      return GestureDetector(
+        onTap: () {
+          if (widget.onPress != null) {
+            widget.onPress!();
+            _isSelect = !_isSelect;
+          }
+        },
+        child: AnimatedBuilder(
+          animation: _animation,
+          builder: (context, child) => Container(
+            width: widget.dimension,
+            height: widget.dimension,
+            decoration: BoxDecoration(
+              color: widget.colorBackground,
+              shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
+              border: Border.all(color: _animation.value!, width: 2.0),
+              borderRadius: widget.isCircular
+                  ? null
+                  : const BorderRadius.all(borderRadius),
+              boxShadow: const [AppColor.defaultShadow],
+            ),
+            child: Center(child: widget.object),
+          ),
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () {
+          if (widget.onPress != null) widget.onPress!();
+        },
+        child: Container(
           width: widget.dimension,
           height: widget.dimension,
           decoration: BoxDecoration(
             color: widget.colorBackground,
             shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
-            border: Border.all(color: _animation.value!, width: 2.0),
             borderRadius:
                 widget.isCircular ? null : const BorderRadius.all(borderRadius),
             boxShadow: const [AppColor.defaultShadow],
           ),
           child: Center(child: widget.object),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 

@@ -1,40 +1,50 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
-import 'package:beat_ecoprove/core/widgets/filter/wrap_filter_options.dart';
+import 'package:beat_ecoprove/core/widgets/filter/filter_row_options.dart';
 import 'package:flutter/material.dart';
 
 class FilterCard extends StatefulWidget {
   final Function(List<String>) onSelectionChanged;
   final bool Function(String) filterIsSelect;
   final List<String> selectedFilters;
+  final double paddingRight;
+  final double paddingLeft;
+  final double paddingTop;
+  final double paddingBottom;
+  final bool needOnlyOne;
 
   final List<FilterRow> options;
 
   const FilterCard({
-    Key? key,
+    super.key,
     required this.options,
     required this.onSelectionChanged,
     required this.filterIsSelect,
     required this.selectedFilters,
-  }) : super(key: key);
+    this.paddingRight = 18,
+    this.paddingLeft = 18,
+    this.paddingTop = 50,
+    this.paddingBottom = 16,
+    required this.needOnlyOne,
+  });
 
   @override
   State<FilterCard> createState() => _FilterCardState();
 }
 
 class _FilterCardState extends State<FilterCard> {
-  late List<String> selectedFilterButtons = widget.selectedFilters;
+  late List<String> selectedFilterButtons = [...widget.selectedFilters];
+
   @override
   Widget build(BuildContext context) {
     const Radius borderRadius = Radius.circular(5);
 
     return Container(
-      padding: const EdgeInsets.only(
-        left: 18,
-        right: 18,
-        top: 50,
-        bottom: 16,
-      ),
+      padding: EdgeInsets.only(
+          right: widget.paddingRight,
+          left: widget.paddingLeft,
+          top: widget.paddingTop,
+          bottom: widget.paddingBottom),
       decoration: const BoxDecoration(
         color: AppColor.widgetBackground,
         borderRadius: BorderRadius.all(borderRadius),
@@ -45,11 +55,8 @@ class _FilterCardState extends State<FilterCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (int i = 0; i < widget.options.length; i++) ...[
-              renderFilterRow(i),
-              const SizedBox(
-                height: 16,
-              ),
+            for (var option in widget.options) ...[
+              renderRowOptions(option),
             ],
           ],
         ),
@@ -57,24 +64,25 @@ class _FilterCardState extends State<FilterCard> {
     );
   }
 
-  getAllFilters(List<String> filters) {
-    for (int i = 0; i < filters.length; i++) {
-      if (widget.filterIsSelect(filters[i])) {
-        selectedFilterButtons.remove(filters[i]);
+  void getAllFilters(List<String> filters) {
+    for (var filter in filters) {
+      if (widget.filterIsSelect(filter) && !widget.needOnlyOne) {
+        selectedFilterButtons.remove(filter);
       } else {
-        selectedFilterButtons.add(filters[i]);
+        if (widget.needOnlyOne) selectedFilterButtons.clear();
+
+        selectedFilterButtons.add(filter);
       }
     }
 
     widget.onSelectionChanged(selectedFilterButtons);
   }
 
-  renderFilterRow(int i) {
-    var filterRow = widget.options[i];
-
-    return WrapFilterOptions(
-      title: filterRow.title,
-      filterOptions: filterRow.options,
+  FilterRowOptions renderRowOptions(FilterRow option) {
+    return FilterRowOptions(
+      title: option.title,
+      isCircular: option.isCircular,
+      filterOptions: option.options,
       filterIsSelect: widget.filterIsSelect,
       onSelectionChanged: getAllFilters,
     );

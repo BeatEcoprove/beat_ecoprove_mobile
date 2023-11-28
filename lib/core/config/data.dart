@@ -159,38 +159,42 @@ Map<String, String> clothes = {
 
 class Filter {
   final String text;
-  final Widget content;
-  final bool isCircular;
+  final Widget? content;
   final double dimension;
+  final Color? color;
 
   Filter({
     required this.text,
-    required this.content,
-    this.isCircular = false,
+    this.content,
     this.dimension = 40,
+    this.color,
   });
 
   FilterButtonItem toFilterButton() {
     return FilterButtonItem(
-        text: text,
-        content: content,
-        isCircular: isCircular,
-        dimension: dimension);
+      text: text,
+      content: content,
+      dimension: dimension,
+      backgroundColor: color,
+    );
   }
 }
 
 class RowFilter {
   final List<Filter> options;
-  final String title;
+  final String? title;
+  final bool isCircular;
 
   RowFilter({
     required this.options,
-    required this.title,
+    this.title,
+    this.isCircular = false,
   });
 
   FilterRow toFilterRow() {
     return FilterRow(
         title: title,
+        isCircular: isCircular,
         options: options.map((option) {
           return option.toFilterButton();
         }).toList());
@@ -247,258 +251,112 @@ List<RowFilter> optionsToFilter = [
   ),
   RowFilter(
     title: "Cor",
+    isCircular: true,
     options: [
       Filter(
         text: "color_yellow",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(255, 230, 159, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(255, 230, 159, 1),
       ),
       Filter(
         text: "color_light_blue",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(152, 179, 200, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(152, 179, 200, 1),
       ),
       Filter(
         text: "color_dark_blue",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(41, 57, 74, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(41, 57, 74, 1),
       ),
       Filter(
         text: "color_super_light_yellow",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(242, 231, 212, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(242, 231, 212, 1),
       ),
       Filter(
         text: "color_light_yellow",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(195, 165, 114, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(195, 165, 114, 1),
       ),
       Filter(
         text: "color_light_red",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(255, 109, 109, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(255, 109, 109, 1),
       ),
       Filter(
         text: "color_white",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(255, 255, 255, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(255, 255, 255, 1),
       ),
       Filter(
         text: "color_light_brown",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(148, 128, 102, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(148, 128, 102, 1),
       ),
       Filter(
         text: "color_brown",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(74, 45, 22, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(74, 45, 22, 1),
       ),
       Filter(
         text: "color_light_grey",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(76, 76, 76, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(76, 76, 76, 1),
       ),
       Filter(
         text: "color_pink",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(190, 89, 103, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(190, 89, 103, 1),
       ),
       Filter(
         text: "color_super_light_brown",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(139, 95, 60, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(139, 95, 60, 1),
       ),
       Filter(
         text: "color_orange",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(245, 130, 33, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(245, 130, 33, 1),
       ),
       Filter(
         text: "color_light_purple",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(210, 170, 197, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(210, 170, 197, 1),
       ),
       Filter(
         text: "color_super_light_grey",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(192, 192, 192, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(192, 192, 192, 1),
       ),
       Filter(
         text: "color_black",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(0, 0, 0, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(0, 0, 0, 1),
       ),
       Filter(
         text: "color_light_pink",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(249, 199, 196, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(249, 199, 196, 1),
       ),
       Filter(
         text: "color_purple",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(214, 37, 152, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(214, 37, 152, 1),
       ),
       Filter(
         text: "color_green",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(80, 156, 117, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(80, 156, 117, 1),
       ),
       Filter(
         text: "color_lime",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(194, 188, 139, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(194, 188, 139, 1),
       ),
       Filter(
         text: "color_red",
         dimension: 30,
-        isCircular: true,
-        content: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(218, 37, 46, 1),
-            shape: BoxShape.circle,
-            boxShadow: [AppColor.defaultShadow],
-          ),
-        ),
+        color: const Color.fromRGBO(218, 37, 46, 1),
       ),
     ],
   ),
@@ -564,6 +422,119 @@ List<RowFilter> optionsToFilter = [
         text: "profile_1",
         content:
             const PresentImage(path: AssetImage("assets/default_avatar.png")),
+      ),
+    ],
+  ),
+];
+
+List<RowFilter> filterColors = [
+  RowFilter(
+    isCircular: true,
+    options: [
+      Filter(
+        text: "color_yellow",
+        dimension: 50,
+        color: const Color.fromRGBO(255, 230, 159, 1),
+      ),
+      Filter(
+        text: "color_light_blue",
+        dimension: 50,
+        color: const Color.fromRGBO(152, 179, 200, 1),
+      ),
+      Filter(
+        text: "color_dark_blue",
+        dimension: 50,
+        color: const Color.fromRGBO(41, 57, 74, 1),
+      ),
+      Filter(
+        text: "color_super_light_yellow",
+        dimension: 50,
+        color: const Color.fromRGBO(242, 231, 212, 1),
+      ),
+      Filter(
+        text: "color_light_yellow",
+        dimension: 50,
+        color: const Color.fromRGBO(195, 165, 114, 1),
+      ),
+      Filter(
+        text: "color_light_red",
+        dimension: 50,
+        color: const Color.fromRGBO(255, 109, 109, 1),
+      ),
+      Filter(
+        text: "color_white",
+        dimension: 50,
+        color: const Color.fromRGBO(255, 255, 255, 1),
+      ),
+      Filter(
+        text: "color_light_brown",
+        dimension: 50,
+        color: const Color.fromRGBO(148, 128, 102, 1),
+      ),
+      Filter(
+        text: "color_brown",
+        dimension: 50,
+        color: const Color.fromRGBO(74, 45, 22, 1),
+      ),
+      Filter(
+        text: "color_light_grey",
+        dimension: 50,
+        color: const Color.fromRGBO(76, 76, 76, 1),
+      ),
+      Filter(
+        text: "color_pink",
+        dimension: 50,
+        color: const Color.fromRGBO(190, 89, 103, 1),
+      ),
+      Filter(
+        text: "color_super_light_brown",
+        dimension: 50,
+        color: const Color.fromRGBO(139, 95, 60, 1),
+      ),
+      Filter(
+        text: "color_orange",
+        dimension: 50,
+        color: const Color.fromRGBO(245, 130, 33, 1),
+      ),
+      Filter(
+        text: "color_light_purple",
+        dimension: 50,
+        color: const Color.fromRGBO(210, 170, 197, 1),
+      ),
+      Filter(
+        text: "color_super_light_grey",
+        dimension: 50,
+        color: const Color.fromRGBO(192, 192, 192, 1),
+      ),
+      Filter(
+        text: "color_black",
+        dimension: 50,
+        color: const Color.fromRGBO(0, 0, 0, 1),
+      ),
+      Filter(
+        text: "color_light_pink",
+        dimension: 50,
+        color: const Color.fromRGBO(249, 199, 196, 1),
+      ),
+      Filter(
+        text: "color_purple",
+        dimension: 50,
+        color: const Color.fromRGBO(214, 37, 152, 1),
+      ),
+      Filter(
+        text: "color_green",
+        dimension: 50,
+        color: const Color.fromRGBO(80, 156, 117, 1),
+      ),
+      Filter(
+        text: "color_lime",
+        dimension: 50,
+        color: const Color.fromRGBO(194, 188, 139, 1),
+      ),
+      Filter(
+        text: "color_red",
+        dimension: 50,
+        color: const Color.fromRGBO(218, 37, 46, 1),
       ),
     ],
   ),

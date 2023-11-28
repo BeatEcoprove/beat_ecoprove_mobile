@@ -1,11 +1,12 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
+import 'package:beat_ecoprove/core/widgets/filter/filter_color/filter_color.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
-import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_brand.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_type.dart';
@@ -147,16 +148,13 @@ Widget _buildRegisterForm(
               const SizedBox(
                 width: 12,
               ),
-              IconButtonRectangular(
-                object: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                    boxShadow: [AppColor.defaultShadow],
-                  ),
-                ),
-                isCircular: true,
-                dimension: 50,
+              FilterColor(
+                options:
+                    filterColors.map((filter) => filter.toFilterRow()).toList(),
+                onSelectionChanged: (filter) =>
+                    {viewModel.changeFilterSelection(filter)},
+                filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
+                selectedFilters: viewModel.allSelectedFilters,
               ),
             ],
           ),

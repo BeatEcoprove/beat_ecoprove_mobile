@@ -72,7 +72,7 @@ class _HorizontalSelectorListState extends State<HorizontalSelectorList> {
 
   bool isHeadSelected(int i) => selectedIndex == 0;
 
-  handleSelection(title) {
+  bool handleSelection(title) {
     if (isAllSelected(title)) {
       return true;
     }

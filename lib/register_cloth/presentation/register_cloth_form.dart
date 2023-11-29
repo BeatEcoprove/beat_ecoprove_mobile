@@ -3,7 +3,7 @@ import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
-import 'package:beat_ecoprove/core/widgets/filter/filter_color/filter_color.dart';
+import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
@@ -72,6 +72,7 @@ Widget _buildRegisterForm(
     BuildContext context, RegisterClothViewModel viewModel) {
   final goRouter = GoRouter.of(context);
   const double _textBoxGap = 12;
+  const double dimension = 50;
 
   return SingleChildScrollView(
     child: Padding(
@@ -148,7 +149,38 @@ Widget _buildRegisterForm(
               const SizedBox(
                 width: 12,
               ),
-              FilterColor(
+              FilterButton(
+                headerButton: const Icon(
+                  Icons.close_rounded,
+                  size: 36,
+                  color: AppColor.widgetSecondary,
+                ),
+                bodyTop: 36,
+                bodyRight: 36,
+                bodyButton: Container(
+                  width: dimension,
+                  height: dimension,
+                  decoration: BoxDecoration(
+                    color: viewModel.allSelectedFilters.values.firstOrNull ==
+                            null
+                        ? Colors.black
+                        : Color(
+                            int.parse(
+                              viewModel.allSelectedFilters.values.firstOrNull,
+                              radix: 16,
+                            ),
+                          ),
+                    shape: BoxShape.circle,
+                    boxShadow: const [AppColor.defaultShadow],
+                  ),
+                ),
+                overlayPaddingBottom: 36,
+                overlayPaddingTop: 36,
+                contentPaddingRight: 30,
+                contentPaddingLeft: 30,
+                contentPaddingTop: 106,
+                contentPaddingBottom: 106,
+                needOnlyOne: true,
                 options:
                     filterColors.map((filter) => filter.toFilterRow()).toList(),
                 onSelectionChanged: (filter) =>

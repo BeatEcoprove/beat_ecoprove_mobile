@@ -162,21 +162,23 @@ class Filter {
   final Widget? content;
   final double dimension;
   final Color? color;
+  final String value;
 
   Filter({
     required this.text,
     this.content,
     this.dimension = 40,
     this.color,
+    required this.value,
   });
 
   FilterButtonItem toFilterButton() {
     return FilterButtonItem(
-      text: text,
-      content: content,
-      dimension: dimension,
-      backgroundColor: color,
-    );
+        text: text,
+        content: content,
+        dimension: dimension,
+        backgroundColor: color,
+        value: value);
   }
 }
 
@@ -211,6 +213,7 @@ List<RowFilter> optionsToFilter = [
           "XS",
           style: AppText.smallHeader,
         ),
+        value: "xs",
       ),
       Filter(
         text: "size_s",
@@ -218,6 +221,7 @@ List<RowFilter> optionsToFilter = [
           "S",
           style: AppText.smallHeader,
         ),
+        value: "s",
       ),
       Filter(
         text: "size_m",
@@ -225,6 +229,7 @@ List<RowFilter> optionsToFilter = [
           "M",
           style: AppText.smallHeader,
         ),
+        value: "m",
       ),
       Filter(
         text: "size_l",
@@ -232,6 +237,7 @@ List<RowFilter> optionsToFilter = [
           "L",
           style: AppText.smallHeader,
         ),
+        value: "l",
       ),
       Filter(
         text: "size_xl",
@@ -239,6 +245,7 @@ List<RowFilter> optionsToFilter = [
           "XL",
           style: AppText.smallHeader,
         ),
+        value: "xl",
       ),
       Filter(
         text: "size_xxl",
@@ -246,6 +253,7 @@ List<RowFilter> optionsToFilter = [
           "XXL",
           style: AppText.smallHeader,
         ),
+        value: "xxl",
       ),
     ],
   ),
@@ -257,106 +265,127 @@ List<RowFilter> optionsToFilter = [
         text: "color_yellow",
         dimension: 30,
         color: const Color.fromRGBO(255, 230, 159, 1),
+        value: "FFFFFFE69F",
       ),
       Filter(
         text: "color_light_blue",
         dimension: 30,
         color: const Color.fromRGBO(152, 179, 200, 1),
+        value: "FF98B3C8",
       ),
       Filter(
         text: "color_dark_blue",
         dimension: 30,
         color: const Color.fromRGBO(41, 57, 74, 1),
+        value: "FF29394A",
       ),
       Filter(
         text: "color_super_light_yellow",
         dimension: 30,
         color: const Color.fromRGBO(242, 231, 212, 1),
+        value: "FFF2E7D4",
       ),
       Filter(
         text: "color_light_yellow",
         dimension: 30,
         color: const Color.fromRGBO(195, 165, 114, 1),
+        value: "FFC3A572",
       ),
       Filter(
         text: "color_light_red",
         dimension: 30,
         color: const Color.fromRGBO(255, 109, 109, 1),
+        value: "FFFF6D6D",
       ),
       Filter(
         text: "color_white",
         dimension: 30,
         color: const Color.fromRGBO(255, 255, 255, 1),
+        value: "FFFFFFFF",
       ),
       Filter(
         text: "color_light_brown",
         dimension: 30,
         color: const Color.fromRGBO(148, 128, 102, 1),
+        value: "FF948066",
       ),
       Filter(
         text: "color_brown",
         dimension: 30,
         color: const Color.fromRGBO(74, 45, 22, 1),
+        value: "FF4A2D16",
       ),
       Filter(
         text: "color_light_grey",
         dimension: 30,
         color: const Color.fromRGBO(76, 76, 76, 1),
+        value: "FF4C4C4C",
       ),
       Filter(
         text: "color_pink",
         dimension: 30,
         color: const Color.fromRGBO(190, 89, 103, 1),
+        value: "FFBE5967",
       ),
       Filter(
         text: "color_super_light_brown",
         dimension: 30,
         color: const Color.fromRGBO(139, 95, 60, 1),
+        value: "FF8B5F3C",
       ),
       Filter(
         text: "color_orange",
         dimension: 30,
         color: const Color.fromRGBO(245, 130, 33, 1),
+        value: "FFF58221",
       ),
       Filter(
         text: "color_light_purple",
         dimension: 30,
         color: const Color.fromRGBO(210, 170, 197, 1),
+        value: "FFD2AAC5",
       ),
       Filter(
         text: "color_super_light_grey",
         dimension: 30,
         color: const Color.fromRGBO(192, 192, 192, 1),
+        value: "FFC0C0C0",
       ),
       Filter(
         text: "color_black",
         dimension: 30,
         color: const Color.fromRGBO(0, 0, 0, 1),
+        value: "FF000000",
       ),
       Filter(
         text: "color_light_pink",
         dimension: 30,
         color: const Color.fromRGBO(249, 199, 196, 1),
+        value: "FFF9C7C4",
       ),
       Filter(
         text: "color_purple",
         dimension: 30,
         color: const Color.fromRGBO(214, 37, 152, 1),
+        value: "FFD62598",
       ),
       Filter(
         text: "color_green",
         dimension: 30,
         color: const Color.fromRGBO(80, 156, 117, 1),
+        value: "FF509C75",
       ),
       Filter(
         text: "color_lime",
         dimension: 30,
         color: const Color.fromRGBO(194, 188, 139, 1),
+        value: "FFC2BC8B",
       ),
       Filter(
         text: "color_red",
         dimension: 30,
         color: const Color.fromRGBO(218, 37, 46, 1),
+        value: "FFDA252E",
       ),
     ],
   ),
@@ -366,6 +395,7 @@ List<RowFilter> optionsToFilter = [
       Filter(
         text: "brand_salsa",
         content: const PresentImage(path: AssetImage("assets/salsa.png")),
+        value: "salsa",
       ),
     ],
   ),
@@ -378,6 +408,7 @@ List<RowFilter> optionsToFilter = [
           "Az",
           style: AppText.smallHeader,
         ),
+        value: "abc asc",
       ),
       Filter(
         text: "order_za",
@@ -385,6 +416,7 @@ List<RowFilter> optionsToFilter = [
           "Za",
           style: AppText.smallHeader,
         ),
+        value: "abc desc",
       ),
       Filter(
         text: "order_desc",
@@ -394,6 +426,7 @@ List<RowFilter> optionsToFilter = [
           height: 20,
           width: 20,
         ),
+        value: "order time desc",
       ),
       Filter(
         text: "order_asc",
@@ -403,6 +436,7 @@ List<RowFilter> optionsToFilter = [
           height: 20,
           width: 20,
         ),
+        value: "order time asc",
       ),
       Filter(
         text: "order_bucket",
@@ -412,6 +446,7 @@ List<RowFilter> optionsToFilter = [
           height: 15,
           width: 15,
         ),
+        value: "bucket",
       ),
     ],
   ),
@@ -422,6 +457,7 @@ List<RowFilter> optionsToFilter = [
         text: "profile_1",
         content:
             const PresentImage(path: AssetImage("assets/default_avatar.png")),
+        value: "profile 1",
       ),
     ],
   ),
@@ -435,106 +471,127 @@ List<RowFilter> filterColors = [
         text: "color_yellow",
         dimension: 50,
         color: const Color.fromRGBO(255, 230, 159, 1),
+        value: "FFFFFFE69F",
       ),
       Filter(
         text: "color_light_blue",
         dimension: 50,
         color: const Color.fromRGBO(152, 179, 200, 1),
+        value: "FF98B3C8",
       ),
       Filter(
         text: "color_dark_blue",
         dimension: 50,
         color: const Color.fromRGBO(41, 57, 74, 1),
+        value: "FF29394A",
       ),
       Filter(
         text: "color_super_light_yellow",
         dimension: 50,
         color: const Color.fromRGBO(242, 231, 212, 1),
+        value: "FFF2E7D4",
       ),
       Filter(
         text: "color_light_yellow",
         dimension: 50,
         color: const Color.fromRGBO(195, 165, 114, 1),
+        value: "FFC3A572",
       ),
       Filter(
         text: "color_light_red",
         dimension: 50,
         color: const Color.fromRGBO(255, 109, 109, 1),
+        value: "FFFF6D6D",
       ),
       Filter(
         text: "color_white",
         dimension: 50,
         color: const Color.fromRGBO(255, 255, 255, 1),
+        value: "FFFFFFFF",
       ),
       Filter(
         text: "color_light_brown",
         dimension: 50,
         color: const Color.fromRGBO(148, 128, 102, 1),
+        value: "FF948066",
       ),
       Filter(
         text: "color_brown",
         dimension: 50,
         color: const Color.fromRGBO(74, 45, 22, 1),
+        value: "FF4A2D16",
       ),
       Filter(
         text: "color_light_grey",
         dimension: 50,
         color: const Color.fromRGBO(76, 76, 76, 1),
+        value: "FF4C4C4C",
       ),
       Filter(
         text: "color_pink",
         dimension: 50,
         color: const Color.fromRGBO(190, 89, 103, 1),
+        value: "FFBE5967",
       ),
       Filter(
         text: "color_super_light_brown",
         dimension: 50,
         color: const Color.fromRGBO(139, 95, 60, 1),
+        value: "FF8B5F3C",
       ),
       Filter(
         text: "color_orange",
         dimension: 50,
         color: const Color.fromRGBO(245, 130, 33, 1),
+        value: "FFF58221",
       ),
       Filter(
         text: "color_light_purple",
         dimension: 50,
         color: const Color.fromRGBO(210, 170, 197, 1),
+        value: "FFD2AAC5",
       ),
       Filter(
         text: "color_super_light_grey",
         dimension: 50,
         color: const Color.fromRGBO(192, 192, 192, 1),
+        value: "FFC0C0C0",
       ),
       Filter(
         text: "color_black",
         dimension: 50,
         color: const Color.fromRGBO(0, 0, 0, 1),
+        value: "FF000000",
       ),
       Filter(
         text: "color_light_pink",
         dimension: 50,
         color: const Color.fromRGBO(249, 199, 196, 1),
+        value: "FFF9C7C4",
       ),
       Filter(
         text: "color_purple",
         dimension: 50,
         color: const Color.fromRGBO(214, 37, 152, 1),
+        value: "FFD62598",
       ),
       Filter(
         text: "color_green",
         dimension: 50,
         color: const Color.fromRGBO(80, 156, 117, 1),
+        value: "FF509C75",
       ),
       Filter(
         text: "color_lime",
         dimension: 50,
         color: const Color.fromRGBO(194, 188, 139, 1),
+        value: "FFC2BC8B",
       ),
       Filter(
         text: "color_red",
         dimension: 50,
         color: const Color.fromRGBO(218, 37, 46, 1),
+        value: "FFDA252E",
       ),
     ],
   ),

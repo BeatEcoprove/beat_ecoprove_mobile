@@ -21,9 +21,7 @@ class RegisterClothViewModel extends FormViewModel {
   late final User _user;
   final AuthenticationProvider _authProvider;
 
-  late String _selectedFilters = '';
-  final String _color =
-      '#FFF'; //TODO: Change (make a widget identical to the filter)
+  late Map<String, dynamic> _selectedFilter = {};
 
   RegisterClothViewModel(
     this._authProvider,
@@ -41,11 +39,9 @@ class RegisterClothViewModel extends FormViewModel {
     setValue(FormFieldValues.clothType, ClothType.getAllTypes().firstOrNull);
     setValue(FormFieldValues.clothSize, ClothSize.getAllTypes().firstOrNull);
     setValue(FormFieldValues.clothBrand, ClothBrand.getAllTypes().firstOrNull);
-    setValue(FormFieldValues.clothColor, _color);
-    setValue(
-      FormFieldValues.clothImage,
-      XFile(defaultImage),
-    );
+    setValue(FormFieldValues.clothColor,
+        _selectedFilter.values.firstOrNull ?? "FF000000");
+    setValue(FormFieldValues.clothImage, XFile(defaultImage));
   }
 
   User get user => _user;
@@ -79,33 +75,27 @@ class RegisterClothViewModel extends FormViewModel {
     return FileImage(File(clothImage.path));
   }
 
-  bool haveThisFilter(String filter) => _selectedFilters.contains(filter);
+  bool haveThisFilter(String filter) => _selectedFilter.containsKey(filter);
 
-  List<String> get allSelectedFilters => [_selectedFilters];
+  Map<String, dynamic> get allSelectedFilters => _selectedFilter;
 
-  void changeFilterSelection(List<String> filters) {
-    _selectedFilters = filters.first;
-    print(_selectedFilters);
+  void changeFilterSelection(Map<String, dynamic> filters) {
+    _selectedFilter = filters;
+    setValue(FormFieldValues.clothColor, _selectedFilter.values.firstOrNull);
+
     notifyListeners();
   }
 
   void registerCloth() async {
-    var clothName = getValue(FormFieldValues.clothName).value ?? "";
-    var clothType = getValue(FormFieldValues.clothType).value ?? "";
-    var clothSize = getValue(FormFieldValues.clothSize).value ?? "";
-    var clothBrand = getValue(FormFieldValues.clothBrand).value ?? "";
-    var clothColor = getValue(FormFieldValues.clothColor).value ?? "";
-    var clothImage = getValue(FormFieldValues.clothImage).value ?? "";
-
     try {
       await _registerClothUseCase.handle(RegisterClothRequest(
-        "edf2e8af-91fa-41d5-a135-228658b8db93",
-        clothName,
-        clothType,
-        clothSize,
-        clothBrand,
-        clothColor,
-        clothImage,
+        "ffae08fb-5777-4f56-a938-34b23c80a2c3",
+        getValue(FormFieldValues.clothName).value ?? "",
+        getValue(FormFieldValues.clothType).value ?? "",
+        getValue(FormFieldValues.clothSize).value ?? "",
+        getValue(FormFieldValues.clothBrand).value ?? "",
+        getValue(FormFieldValues.clothColor).value ?? "FF000000",
+        getValue(FormFieldValues.clothImage).value ?? "",
       )); //TODO: Change Person Id
     } catch (e) {
       print("$e");

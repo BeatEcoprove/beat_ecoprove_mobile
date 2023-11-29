@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:flutter/material.dart';
 
 class FilterRowOptions extends StatefulWidget {
-  final Function(List<String>) onSelectionChanged;
+  final Function(Map<String, dynamic>) onSelectionChanged;
   final bool Function(String) filterIsSelect;
 
   final String? title;
@@ -25,7 +25,7 @@ class FilterRowOptions extends StatefulWidget {
 }
 
 class _FilterRowOptionsState extends State<FilterRowOptions> {
-  final List<String> selectedFilterButtons = [];
+  final Map<String, dynamic> selectedFilterButtons = {};
 
   @override
   Widget build(BuildContext context) {
@@ -64,20 +64,13 @@ class _FilterRowOptionsState extends State<FilterRowOptions> {
       object: option.content,
       isCircular: widget.isCircular,
       dimension: option.dimension,
-      isSelected: handleSelection(option.text),
+      isSelected: widget.filterIsSelect(option.text),
       onPress: () => setState(() {
-        selectedFilterButtons.add(option.text);
+        selectedFilterButtons.addAll({option.text: option.value});
 
         widget.onSelectionChanged(selectedFilterButtons);
         selectedFilterButtons.clear();
       }),
     );
-  }
-
-  bool handleSelection(title) {
-    if (widget.filterIsSelect(title)) {
-      return true;
-    }
-    return false;
   }
 }

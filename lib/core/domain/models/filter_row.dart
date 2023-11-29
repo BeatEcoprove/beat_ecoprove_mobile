@@ -17,11 +17,13 @@ class FilterButtonItem<T> {
   final T? content;
   final double dimension;
   final Color? backgroundColor;
+  final String value;
 
   FilterButtonItem({
     required this.text,
     this.content,
     this.dimension = 40,
     this.backgroundColor,
+    required this.value,
   });
 }

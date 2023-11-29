@@ -10,7 +10,7 @@ class ClothingViewModel extends ViewModel {
   final AuthenticationProvider _authProvider;
   late final User _user;
   late List<int> _selectedClothCards = [];
-  late List<String> _selectedFilters = [];
+  late Map<String, dynamic> _selectedFilters = {};
   late List<String> _selectedHorizontalFilters = [];
 
   ClothingViewModel(
@@ -43,11 +43,11 @@ class ClothingViewModel extends ViewModel {
     notifyListeners();
   }
 
-  bool haveThisFilter(String filter) => _selectedFilters.contains(filter);
+  bool haveThisFilter(String filter) => _selectedFilters.containsKey(filter);
 
-  List<String> get allSelectedFilters => _selectedFilters;
+  Map<String, dynamic> get allSelectedFilters => _selectedFilters;
 
-  void changeFilterSelection(List<String> filters) {
+  void changeFilterSelection(Map<String, dynamic> filters) {
     _selectedFilters = filters;
 
     notifyListeners();
@@ -60,7 +60,7 @@ class ClothingViewModel extends ViewModel {
 
     try {
       closet = await _getClosetUseCase.handle(
-          "edf2e8af-91fa-41d5-a135-228658b8db93"); //TODO: Change Person ID
+          "ffae08fb-5777-4f56-a938-34b23c80a2c3"); //TODO: Change Person ID
     } catch (e) {
       print("$e");
     }

@@ -5,7 +5,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
-import 'package:beat_ecoprove/core/widgets/filter/filter_clothing/filter_button.dart';
+import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
@@ -110,6 +110,8 @@ class ClothingForm extends StatelessWidget {
 }
 
 SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
+  const Radius borderRadius = Radius.circular(5);
+
   return SliverAppBar(
     toolbarHeight: 76,
     shadowColor: Colors.transparent,
@@ -132,6 +134,25 @@ SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
               padding: EdgeInsets.only(right: 6),
             ),
             FilterButton(
+              bodyButton: Container(
+                width: 52,
+                height: 50,
+                decoration: const BoxDecoration(
+                  color: AppColor.widgetBackground,
+                  borderRadius: BorderRadius.all(borderRadius),
+                  boxShadow: [AppColor.defaultShadow],
+                ),
+                child: const SvgImage(
+                  path: "assets/filter/settings.svg",
+                  height: 24,
+                  width: 24,
+                  color: AppColor.widgetSecondary,
+                ),
+              ),
+              overlayPaddingBottom: 86,
+              overlayPaddingTop: 110,
+              contentPaddingTop: 56,
+              bodyTop: 0,
               options: optionsToFilter
                   .map((filter) => filter.toFilterRow())
                   .toList(),

@@ -52,6 +52,9 @@ class _FilterRowOptionsState extends State<FilterRowOptions> {
             ]
           ],
         ),
+        const SizedBox(
+          height: 12,
+        )
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/footer/footer_button_add.dart';
+import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
@@ -8,13 +9,16 @@ class Footer extends StatefulWidget {
   final Function(int) onChangeSelection;
   final VoidCallback? onMiddleButtonSeleted;
   final List<Widget> options;
+  final bool hasRegisterCloth;
 
-  const Footer(
-      {super.key,
-      required this.currentIndex,
-      required this.options,
-      required this.onChangeSelection,
-      this.onMiddleButtonSeleted});
+  const Footer({
+    super.key,
+    required this.currentIndex,
+    required this.options,
+    required this.onChangeSelection,
+    this.onMiddleButtonSeleted,
+    required this.hasRegisterCloth,
+  });
 
   @override
   State<Footer> createState() => _FooterState();
@@ -29,18 +33,20 @@ class _FooterState extends State<Footer> {
     super.initState();
     _options.addAll(widget.options);
 
-    _middleIndex = ((widget.options.length - 1) / 2).round();
+    if (widget.hasRegisterCloth) {
+      _middleIndex = ((widget.options.length - 1) / 2).round();
 
-    if (_middleIndex % 2 != 0) {
-      _middleIndex = _middleIndex.floor();
-    } else {
-      _middleIndex = _middleIndex.ceil();
+      if (_middleIndex % 2 != 0) {
+        _middleIndex = _middleIndex.floor();
+      } else {
+        _middleIndex = _middleIndex.ceil();
+      }
+
+      _options.insert(
+        _middleIndex,
+        const FooterButton(),
+      );
     }
-
-    _options.insert(
-      _middleIndex,
-      const FooterButton(),
-    );
   }
 
   @override
@@ -55,14 +61,22 @@ class _FooterState extends State<Footer> {
         elevation: 10,
         selectedIndex: widget.currentIndex,
         onDestinationSelected: (index) => {
-          if (index == _middleIndex)
+          if (widget.hasRegisterCloth)
             {
-              widget.onMiddleButtonSeleted?.call(),
+              if (index == _middleIndex)
+                {
+                  widget.onMiddleButtonSeleted?.call(),
+                }
+              else
+                {
+                  widget.onChangeSelection(
+                    index > _middleIndex ? index - 1 : index,
+                  ),
+                }
             }
           else
             {
-              widget
-                  .onChangeSelection(index > _middleIndex ? index - 1 : index),
+              widget.onChangeSelection(index),
             }
         },
         destinations: mapOptions(),
@@ -87,6 +101,12 @@ class _FooterState extends State<Footer> {
         return Icon(
           (value as Icon).icon,
           color: getSelectionColor(index),
+        );
+      case Line:
+        return Line(
+          width: (value as Line).width,
+          color: getSelectionColor(index),
+          stroke: (value).stroke,
         );
       default:
         return value;

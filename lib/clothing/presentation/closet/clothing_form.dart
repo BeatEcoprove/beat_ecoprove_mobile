@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/clothing/presentation/clothing_view_model.dart';
+import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/view_model.dart';

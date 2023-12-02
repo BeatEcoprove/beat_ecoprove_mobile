@@ -1,11 +1,17 @@
 import 'package:beat_ecoprove/core/widgets/footer/footer.dart';
-import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class Swiper extends StatefulWidget {
   final List<Widget> views;
+  final List<Widget> bottomNavigationBarOptions;
+  final bool hasRegisterCloth;
 
-  const Swiper({super.key, required this.views});
+  const Swiper({
+    super.key,
+    required this.views,
+    required this.bottomNavigationBarOptions,
+    this.hasRegisterCloth = true,
+  });
 
   @override
   State<Swiper> createState() => _SwiperState();
@@ -39,13 +45,9 @@ class _SwiperState extends State<Swiper> {
         },
       ),
       bottomNavigationBar: Footer(
+        hasRegisterCloth: widget.hasRegisterCloth,
         currentIndex: selectedIndex,
-        options: const [
-          Icon(Icons.home_rounded),
-          SvgImage(path: "assets/shirt.svg"),
-          Icon(Icons.public_rounded),
-          Icon(Icons.person),
-        ],
+        options: widget.bottomNavigationBarOptions,
         onChangeSelection: (navigationSelection) {
           setState(() {
             selectedIndex = navigationSelection;

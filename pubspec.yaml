@@ -86,6 +86,19 @@ flutter:
     - assets/services/repair.svg
     - assets/services/wash.svg
     - assets/services/bucket.svg
+    - assets/services/trash.svg
+    - assets/services/service.svg
+    - assets/services/dry/air.svg
+    - assets/services/dry/machine.svg
+    - assets/services/iron/less110.svg
+    - assets/services/iron/less150.svg
+    - assets/services/iron/less200.svg
+    - assets/services/wash/dry.svg
+    - assets/services/wash/hand.svg
+    - assets/services/wash/less30.svg
+    - assets/services/wash/less50.svg
+    - assets/services/wash/less70.svg
+    - assets/services/wash/less95.svg
     - assets/others/decoration.svg
     - assets/others/decoration1.svg
     - assets/filter/time_asc.svg

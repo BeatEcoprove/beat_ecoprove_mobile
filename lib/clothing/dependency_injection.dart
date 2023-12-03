@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
+import 'package:beat_ecoprove/clothing/presentation/info_cloth/services/info_cloth_services_view_model.dart';
 import 'package:beat_ecoprove/clothing/services/clothing_service.dart';
 import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
@@ -25,6 +26,7 @@ extension ClothingDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
         () => ClothingViewModel(authProvider, getClosetUseCase));
+    locator.registerFactory(() => InfoClothServiceViewModel());
   }
 
   void addClothing() {

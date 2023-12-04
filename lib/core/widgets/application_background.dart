@@ -123,6 +123,48 @@ class AppBackground extends StatelessWidget {
     );
   }
 
+  Widget background5(Widget content) {
+    return Stack(children: [
+      const Positioned.fill(
+          top: -45,
+          right: -45,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: SvgImage(
+              path: 'assets/background5/background1.svg',
+              height: backgroundImageHeight,
+              width: backgroundImageHeight,
+            ),
+          )),
+      const Positioned.fill(
+          top: 400,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: SvgImage(
+              path: 'assets/background1/background2.svg',
+              height: backgroundImageHeight,
+              width: backgroundImageHeight,
+            ),
+          )),
+      Positioned.fill(
+        bottom: 80,
+        right: -20,
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: Transform.rotate(
+            angle: 0.5,
+            child: const SvgImage(
+              path: "assets/background4/background2.svg",
+              height: 50,
+              width: 50,
+            ),
+          ),
+        ),
+      ),
+      content
+    ]);
+  }
+
   Widget registerClothBackground(Widget content) {
     return Stack(
       children: [
@@ -160,6 +202,8 @@ class AppBackground extends StatelessWidget {
         return registerClothBackground(content);
       case AppBackgrounds.registerClothBackground1:
         return background4(content);
+      case AppBackgrounds.closet:
+        return background5(content);
       default:
         return background1(content);
     }
@@ -176,5 +220,6 @@ enum AppBackgrounds {
   completed,
   clothing,
   registerClothBackground,
-  registerClothBackground1
+  registerClothBackground1,
+  closet
 }

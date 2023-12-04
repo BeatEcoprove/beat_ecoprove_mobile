@@ -1,7 +1,9 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/service_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WrapServices extends StatefulWidget {
   final String title;
@@ -25,8 +27,9 @@ class WrapServices extends StatefulWidget {
 
 class _WrapServicesState extends State<WrapServices> {
   final List<String> selectedServices = [];
-  late String title = widget.title;
-  late List<ServiceItem> services = widget.services;
+  late List<Map<String, List<ServiceItem>>> passedServices = [
+    {widget.title: widget.services}
+  ];
 
   ServiceButton renderServiceButton(ServiceItem service) {
     return ServiceButton(
@@ -39,61 +42,106 @@ class _WrapServicesState extends State<WrapServices> {
     );
   }
 
+  Widget renderServices() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Text(
+            passedServices.last.keys.first,
+            style: AppText.titleToScrollSection,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Wrap(
+            alignment: WrapAlignment.start,
+            runSpacing: 6,
+            spacing: 6,
+            children: [
+              for (var service in passedServices.last.values
+                  .expand((list) => list)
+                  .toList()) ...[
+                InkWell(
+                  onTap: () {
+                    if (service is Service) {
+                      setState(() {
+                        passedServices.add({
+                          service.services.keys.first: service.services.values
+                              .expand((list) => list)
+                              .toList()
+                        });
+                      });
+                    }
+                    // Send update to server if is ServerItem
+                  },
+                  onLongPress: () {
+                    if (service is Service) {
+                      setState(
+                        () {
+                          if (!widget.blockedServices
+                              .contains(service.idText)) {
+                            if (selectedServices.contains(service.idText)) {
+                              selectedServices.remove(service.idText);
+                            } else {
+                              selectedServices.add(service.idText);
+                            }
+
+                            widget.onSelectionChanged(selectedServices);
+                          }
+                        },
+                      );
+                    }
+                  },
+                  child: renderServiceButton(service),
+                ),
+              ]
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          title,
-          style: AppText.titleToScrollSection,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Wrap(
-          alignment: WrapAlignment.start,
-          runSpacing: 6,
-          spacing: 6,
-          children: [
-            for (var service in services) ...[
-              InkWell(
-                onTap: () {
-                  if (service is Service) {
-                    setState(() {
-                      title = service.services.keys.first;
-                      services = service.services.values
-                          .expand((list) => list)
-                          .toList();
-                    });
-                  }
-                  // Send update to server if is ServerItem
-                },
-                onLongPress: () {
-                  if (service is Service) {
-                    setState(
-                      () {
-                        if (!widget.blockedServices.contains(service.idText)) {
-                          if (selectedServices.contains(service.idText)) {
-                            selectedServices.remove(service.idText);
-                          } else {
-                            selectedServices.add(service.idText);
-                          }
+    final goRouter = GoRouter.of(context);
 
-                          widget.onSelectionChanged(selectedServices);
-                        }
-                      },
-                    );
-                  }
-                },
-                child: renderServiceButton(service),
-              ),
-            ]
-          ],
+    return Stack(children: [
+      Positioned(
+        top: 18,
+        left: 18,
+        child: CircularButton(
+          onPress: () {
+            setState(() {
+              goBack(goRouter);
+            });
+          },
+          height: 46,
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColor.widgetSecondary,
+          ),
         ),
-      ],
-    );
+      ),
+      Padding(
+        padding: const EdgeInsets.only(
+          top: 120,
+          left: 36,
+          right: 36,
+          bottom: 16,
+        ),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: renderServices(),
+        ),
+      ),
+    ]);
+  }
+
+  void goBack(GoRouter goRouter) {
+    passedServices.length == 1 ? goRouter.go('/') : passedServices.removeLast();
   }
 }

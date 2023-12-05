@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 
 class CardList extends StatefulWidget {
   final List<CardItem> clothesItems;
-  final Function(List<int>) onSelectionChanged;
-  final Function(Key) onSelectionToDelete;
+  final Function(List<String>) onSelectionChanged;
+  final Function(String) onSelectionToDelete;
 
   const CardList({
     Key? key,
@@ -21,8 +21,29 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
-  final List<int> selectedCardItems = [];
+  final List<String> selectedCardItems = [];
   final List<CardItem> selectedCardItemsToDelete = [];
+
+  renderCard(CardItem card) {
+    if (card.hasChildren) {
+      return BucketItem(
+        id: card.id,
+        items: card.child,
+        title: card.title,
+        isSelect: selectedCardItems.contains(card.id),
+        cardSelectedToDelete: widget.onSelectionToDelete,
+      );
+    }
+
+    return ClothItem(
+      id: card.id,
+      content: NetworkImage(card.child),
+      title: card.title,
+      otherProfileImage: card.hasProfile,
+      isSelect: selectedCardItems.contains(card.id),
+      cardSelectedToDelete: widget.onSelectionToDelete,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +53,25 @@ class _CardListState extends State<CardList> {
       runSpacing: 8,
       spacing: 4,
       children: [
-        for (int i = 0; i < widget.clothesItems.length; i++) ...[
+        for (var card in widget.clothesItems) ...[
           Container(
             margin: const EdgeInsets.all(4),
             child: InkWell(
-              onTap: () => goRouter.push("/info/${i.toString()}",
-                  extra: widget.clothesItems[i]),
+              onTap: () {
+                openInfoCard(card, goRouter);
+              },
               onLongPress: () {
                 setState(() {
-                  if (selectedCardItems.contains(i)) {
-                    selectedCardItems.remove(i);
+                  if (selectedCardItems.contains(card.id)) {
+                    selectedCardItems.remove(card.id);
                   } else {
-                    selectedCardItems.add(i);
+                    selectedCardItems.add(card.id);
                   }
 
                   widget.onSelectionChanged(selectedCardItems);
                 });
               },
-              child: renderCard(i),
+              child: renderCard(card),
             ),
           ),
         ],
@@ -57,34 +79,11 @@ class _CardListState extends State<CardList> {
     );
   }
 
-  handleSelection(int i) {
-    if (selectedCardItems.contains(i)) {
-      return true;
-    }
+  bool isBucketItem(CardItem card) => card.hasChildren;
 
-    return false;
-  }
-
-  renderCard(int i) {
-    var cardItem = widget.clothesItems[i];
-
-    if (cardItem.hasChildren) {
-      return BucketItem(
-        key: Key(i.toString()),
-        items: cardItem.child,
-        title: cardItem.title,
-        isSelect: handleSelection(i),
-        cardSelectedToDelete: widget.onSelectionToDelete,
-      );
-    }
-
-    return ClothItem(
-      key: Key(i.toString()),
-      content: NetworkImage(cardItem.child),
-      title: cardItem.title,
-      otherProfileImage: cardItem.hasProfile,
-      isSelect: handleSelection(i),
-      cardSelectedToDelete: widget.onSelectionToDelete,
-    );
+  void openInfoCard(CardItem card, GoRouter goRouter) {
+    isBucketItem(card)
+        ? goRouter.push("/info/bucket/${card.id}", extra: card)
+        : goRouter.push("/info/cloth/${card.id}", extra: card);
   }
 }

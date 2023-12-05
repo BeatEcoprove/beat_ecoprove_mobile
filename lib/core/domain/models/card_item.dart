@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CardItem<T> {
+  final String id;
   final String title;
   final String? subTitle;
   final String? brand;
@@ -11,6 +12,7 @@ class CardItem<T> {
   final int? ecoScore;
 
   CardItem({
+    required this.id,
     required this.title,
     this.subTitle,
     required this.child,

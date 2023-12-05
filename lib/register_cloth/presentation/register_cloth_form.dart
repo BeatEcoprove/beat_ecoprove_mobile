@@ -1,13 +1,12 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
-import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
-import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_brand.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_type.dart';
 import 'package:beat_ecoprove/register_cloth/presentation/register_cloth_view_model.dart';
@@ -130,11 +129,24 @@ Widget _buildRegisterForm(
           const SizedBox(
             height: _textBoxGap,
           ),
-          FormattedDropDown(
-            options: ClothBrand.getAllTypes(),
-            value: viewModel.getValue(FormFieldValues.clothBrand).value,
-            onValueChanged: (value) =>
-                viewModel.setValue(FormFieldValues.clothBrand, value),
+          FutureBuilder(
+            future: viewModel.getAllBrands(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const CircularProgressIndicator(
+                    color: AppColor.primaryColor,
+                    strokeWidth: 4,
+                  );
+                default:
+                  return FormattedDropDown(
+                    options: snapshot.data!,
+                    value: viewModel.getValue(FormFieldValues.clothBrand).value,
+                    onValueChanged: (value) =>
+                        viewModel.setValue(FormFieldValues.clothBrand, value),
+                  );
+              }
+            },
           ),
           const SizedBox(
             height: _textBoxGap,
@@ -149,44 +161,59 @@ Widget _buildRegisterForm(
               const SizedBox(
                 width: 12,
               ),
-              FilterButton(
-                headerButton: const Icon(
-                  Icons.close_rounded,
-                  size: 36,
-                  color: AppColor.widgetSecondary,
-                ),
-                bodyTop: 36,
-                bodyRight: 36,
-                bodyButton: Container(
-                  width: dimension,
-                  height: dimension,
-                  decoration: BoxDecoration(
-                    color: viewModel.allSelectedFilters.values.firstOrNull ==
-                            null
-                        ? Colors.black
-                        : Color(
-                            int.parse(
-                              viewModel.allSelectedFilters.values.firstOrNull,
-                              radix: 16,
-                            ),
+              FutureBuilder(
+                future: viewModel.getAllColors(),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return const CircularProgressIndicator(
+                        color: AppColor.primaryColor,
+                        strokeWidth: 4,
+                      );
+                    default:
+                      return FilterButton(
+                        headerButton: const Icon(
+                          Icons.close_rounded,
+                          size: 36,
+                          color: AppColor.widgetSecondary,
+                        ),
+                        bodyTop: 36,
+                        bodyRight: 36,
+                        bodyButton: Container(
+                          width: dimension,
+                          height: dimension,
+                          decoration: BoxDecoration(
+                            color: viewModel.allSelectedFilters.values
+                                        .firstOrNull ==
+                                    null
+                                ? Colors.black
+                                : Color(
+                                    int.parse(
+                                      viewModel.allSelectedFilters.values
+                                          .firstOrNull,
+                                      radix: 16,
+                                    ),
+                                  ),
+                            shape: BoxShape.circle,
+                            boxShadow: const [AppColor.defaultShadow],
                           ),
-                    shape: BoxShape.circle,
-                    boxShadow: const [AppColor.defaultShadow],
-                  ),
-                ),
-                overlayPaddingBottom: 36,
-                overlayPaddingTop: 36,
-                contentPaddingRight: 30,
-                contentPaddingLeft: 30,
-                contentPaddingTop: 106,
-                contentPaddingBottom: 106,
-                needOnlyOne: true,
-                options:
-                    filterColors.map((filter) => filter.toFilterRow()).toList(),
-                onSelectionChanged: (filter) =>
-                    {viewModel.changeFilterSelection(filter)},
-                filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
-                selectedFilters: viewModel.allSelectedFilters,
+                        ),
+                        overlayPaddingBottom: 36,
+                        overlayPaddingTop: 36,
+                        contentPaddingRight: 30,
+                        contentPaddingLeft: 30,
+                        contentPaddingTop: 106,
+                        contentPaddingBottom: 106,
+                        needOnlyOne: true,
+                        options: snapshot.data as List<FilterRow>,
+                        onSelectionChanged: (filter) =>
+                            {viewModel.changeFilterSelection(filter)},
+                        filterIsSelect: (filter) =>
+                            viewModel.haveThisFilter(filter),
+                        selectedFilters: viewModel.allSelectedFilters,
+                      );
+                  }
+                },
               ),
             ],
           ),

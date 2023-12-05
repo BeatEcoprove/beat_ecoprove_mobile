@@ -2,12 +2,16 @@ import 'dart:io';
 
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
+import 'package:beat_ecoprove/core/domain/models/color_item.dart';
+import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/register_cloth/contracts/register_cloth_request.dart';
+import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
+import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/register_cloth_use_case.dart';
-import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_brand.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_name.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_type.dart';
@@ -17,6 +21,8 @@ import 'package:image_picker/image_picker.dart';
 class RegisterClothViewModel extends FormViewModel {
   static const defaultImage = "assets/default_avatar.png";
   final RegisterClothUseCase _registerClothUseCase;
+  final GetColorsUseCase _getColorsUseCase;
+  final GetBrandsUseCase _getBrandsUseCase;
 
   late final User _user;
   final AuthenticationProvider _authProvider;
@@ -26,6 +32,8 @@ class RegisterClothViewModel extends FormViewModel {
   RegisterClothViewModel(
     this._authProvider,
     this._registerClothUseCase,
+    this._getColorsUseCase,
+    this._getBrandsUseCase,
   ) {
     _user = _authProvider.appUser;
     initializeFields([
@@ -38,7 +46,8 @@ class RegisterClothViewModel extends FormViewModel {
     ]);
     setValue(FormFieldValues.clothType, ClothType.getAllTypes().firstOrNull);
     setValue(FormFieldValues.clothSize, ClothSize.getAllTypes().firstOrNull);
-    setValue(FormFieldValues.clothBrand, ClothBrand.getAllTypes().firstOrNull);
+    //TODO: Change
+    setValue(FormFieldValues.clothBrand, "Salsa");
     setValue(FormFieldValues.clothColor,
         _selectedFilter.values.firstOrNull ?? "FF000000");
     setValue(FormFieldValues.clothImage, XFile(defaultImage));
@@ -75,6 +84,50 @@ class RegisterClothViewModel extends FormViewModel {
     return FileImage(File(clothImage.path));
   }
 
+  Future<List<String>> getAllBrands() async {
+    List<BrandItem> brandResult = [];
+    List<String> brands = [];
+
+    try {
+      brandResult = await _getBrandsUseCase.handle();
+    } catch (e) {
+      print("$e");
+    }
+
+    for (var brand in brandResult) {
+      brands.add(brand.name);
+    }
+
+    return brands;
+  }
+
+  Future<List<FilterRow>> getAllColors() async {
+    List<ColorItem> colors = [];
+    List<FilterButtonItem> colorItems = [];
+
+    try {
+      colors = await _getColorsUseCase.handle();
+    } catch (e) {
+      print("$e");
+    }
+
+    for (var color in colors) {
+      colorItems.add(FilterButtonItem(
+        text: color.name,
+        value: color.hex,
+        backgroundColor: Color(
+          int.parse(
+            color.hex,
+            radix: 16,
+          ),
+        ),
+        dimension: 50,
+      ));
+    }
+
+    return [FilterRow(options: colorItems, isCircular: true)];
+  }
+
   bool haveThisFilter(String filter) => _selectedFilter.containsKey(filter);
 
   Map<String, dynamic> get allSelectedFilters => _selectedFilter;
@@ -89,14 +142,13 @@ class RegisterClothViewModel extends FormViewModel {
   void registerCloth() async {
     try {
       await _registerClothUseCase.handle(RegisterClothRequest(
-        "ffae08fb-5777-4f56-a938-34b23c80a2c3",
         getValue(FormFieldValues.clothName).value ?? "",
         getValue(FormFieldValues.clothType).value ?? "",
         getValue(FormFieldValues.clothSize).value ?? "",
         getValue(FormFieldValues.clothBrand).value ?? "",
         getValue(FormFieldValues.clothColor).value ?? "FF000000",
         getValue(FormFieldValues.clothImage).value ?? "",
-      )); //TODO: Change Person Id
+      ));
     } catch (e) {
       print("$e");
     }

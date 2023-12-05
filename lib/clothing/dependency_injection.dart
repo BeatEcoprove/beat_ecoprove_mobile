@@ -1,6 +1,6 @@
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
-import 'package:beat_ecoprove/clothing/presentation/info_cloth/services/info_cloth_services_view_model.dart';
-import 'package:beat_ecoprove/clothing/services/clothing_service.dart';
+import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_cloth_services_view_model.dart';
+import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -11,11 +11,11 @@ extension ClothingDependencyInjection on DependencyInjection {
   void _addServices(GetIt locator) {
     var httpClient = locator<HttpAuthClient>();
 
-    locator.registerFactory(() => ClothingService(httpClient));
+    locator.registerFactory(() => ClosetService(httpClient));
   }
 
   void _addUseCases(GetIt locator) {
-    var clothingService = locator<ClothingService>();
+    var clothingService = locator<ClosetService>();
 
     locator.registerSingleton(GetClosetUseCase(clothingService));
   }

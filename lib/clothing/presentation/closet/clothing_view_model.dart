@@ -3,13 +3,12 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:flutter/material.dart';
 
 class ClothingViewModel extends ViewModel {
   final GetClosetUseCase _getClosetUseCase;
   final AuthenticationProvider _authProvider;
   late final User _user;
-  late List<int> _selectedClothCards = [];
+  late List<String> _selectedClothCards = [];
   late Map<String, dynamic> _selectedFilters = {};
   late List<String> _selectedHorizontalFilters = [];
 
@@ -24,7 +23,7 @@ class ClothingViewModel extends ViewModel {
 
   bool get haveSelectedCards => _selectedClothCards.isNotEmpty;
 
-  void changeCardsSelection(List<int> cards) {
+  void changeCardsSelection(List<String> cards) {
     _selectedClothCards = cards;
 
     notifyListeners();
@@ -53,14 +52,13 @@ class ClothingViewModel extends ViewModel {
     notifyListeners();
   }
 
-  void removeCard(Key card) {} // TODO: Complete
+  void removeCard(String id) {} // TODO: Complete
 
   Future<List<CardItem>> getCloset() async {
     List<CardItem> closet = [];
 
     try {
-      closet = await _getClosetUseCase.handle(
-          "ffae08fb-5777-4f56-a938-34b23c80a2c3"); //TODO: Change Person ID
+      closet = await _getClosetUseCase.handle();
     } catch (e) {
       print("$e");
     }

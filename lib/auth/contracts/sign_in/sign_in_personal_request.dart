@@ -28,7 +28,7 @@ class SignInPersonalRequest implements BaseMultiPartRequest {
     return {
       'name': name,
       'bornDate': "2023-10-23",
-      'gender': gender,
+      'gender': "male", //TODO: Alterar
       'userName': userName,
       'avatarPicture': avatarPicture,
       'email': email,

@@ -212,7 +212,7 @@ SliverToBoxAdapter _buildClothsCardsSection(
                 default:
                   return CardList(
                     clothesItems: snapshot.data as List<CardItem>,
-                    onSelectionToDelete: (card) => {viewModel.removeCard(card)},
+                    onSelectionToDelete: (id) => {viewModel.removeCard(id)},
                     onSelectionChanged: (cards) =>
                         {viewModel.changeCardsSelection(cards)},
                   );

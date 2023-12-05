@@ -2,21 +2,36 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
+import 'package:flutter/material.dart';
 
 class InfoClothServiceViewModel extends ViewModel {
   late List<String> _selectedServices = [];
   final List<String> _blockedServices = [];
-  final List<ServiceItem> _services = [
-    // Service(
-    //   title: "Cesto",
-    //   idText
-    //   content: const SvgImage(
-    //     path: "assets/services/bucket.svg",
-    //     height: 30,
-    //     width: 30,
-    //     color: AppColor.buttonBackground,
-    //   ),
-    // ),
+  final List<ServiceTemplate> _services = [
+    Service(
+      title: "Cesto",
+      idText: "bucket",
+      content: const SvgImage(
+        path: "assets/services/bucket.svg",
+        height: 30,
+        width: 30,
+        color: AppColor.buttonBackground,
+      ),
+      services: {
+        "Em que cesto pretende adicionar esta peça?": [
+          ServiceItem(
+            title: "Novo cesto",
+            idText: "bucket_new_bucket",
+            content: const Icon(
+              Icons.add,
+              size: 50,
+              color: AppColor.buttonBackground,
+            ),
+            action: () {},
+          ),
+        ]
+      },
+    ),
     Service(
         title: "Lavar",
         idText: "wash",
@@ -37,6 +52,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "A menos de 30º",
@@ -47,6 +63,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "A menos de 50º",
@@ -57,6 +74,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "A menos de 70º",
@@ -67,6 +85,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "A menos de 95º",
@@ -77,6 +96,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "A seco",
@@ -87,6 +107,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "Serviço",
@@ -97,6 +118,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
           ]
         }),
@@ -120,6 +142,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "Na máquina",
@@ -130,6 +153,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "Serviço",
@@ -140,6 +164,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
           ]
         }),
@@ -163,6 +188,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "A menos de 150º",
@@ -173,6 +199,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "A menos de 200º",
@@ -183,6 +210,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "Serviço",
@@ -193,6 +221,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
           ]
         }),
@@ -216,6 +245,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
             ServiceItem(
               title: "Serviço",
@@ -226,6 +256,7 @@ class InfoClothServiceViewModel extends ViewModel {
                 width: 50,
                 color: AppColor.buttonBackground,
               ),
+              action: () {},
             ),
           ]
         }),
@@ -238,6 +269,7 @@ class InfoClothServiceViewModel extends ViewModel {
         width: 50,
         color: AppColor.buttonBackground,
       ),
+      action: () {},
     ),
     ServiceItem(
       title: "Colocar no lixo",
@@ -248,6 +280,7 @@ class InfoClothServiceViewModel extends ViewModel {
         width: 50,
         color: AppColor.buttonBackground,
       ),
+      action: () {},
     ),
   ];
 
@@ -265,5 +298,5 @@ class InfoClothServiceViewModel extends ViewModel {
     return _blockedServices;
   }
 
-  List<ServiceItem> get getAllServices => _services;
+  List<ServiceTemplate> get getAllServices => _services;
 }

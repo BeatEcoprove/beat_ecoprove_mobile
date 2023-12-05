@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 class WrapServices extends StatefulWidget {
   final String title;
-  final List<ServiceItem> services;
+  final List<ServiceTemplate> services;
   final double dimension;
   final Function(List<String>) onSelectionChanged;
   final List<String> blockedServices;
@@ -27,11 +27,11 @@ class WrapServices extends StatefulWidget {
 
 class _WrapServicesState extends State<WrapServices> {
   final List<String> selectedServices = [];
-  late List<Map<String, List<ServiceItem>>> passedServices = [
+  late List<Map<String, List<ServiceTemplate>>> passedServices = [
     {widget.title: widget.services}
   ];
 
-  ServiceButton renderServiceButton(ServiceItem service) {
+  ServiceButton renderServiceButton(ServiceTemplate service) {
     return ServiceButton(
       colorBackground: AppColor.servicesCloth,
       object: service.content,
@@ -75,7 +75,10 @@ class _WrapServicesState extends State<WrapServices> {
                         });
                       });
                     }
-                    // Send update to server if is ServerItem
+                    if (service is ServiceItem) {
+                      // Send update to server if is ServerItem
+                      service.action;
+                    }
                   },
                   onLongPress: () {
                     if (service is Service) {

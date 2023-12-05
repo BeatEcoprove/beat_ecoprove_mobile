@@ -2,7 +2,6 @@ import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterClothRequest implements BaseMultiPartRequest {
-  final String profileId;
   final String clothName;
   final String clothType;
   final String clothSize;
@@ -11,7 +10,6 @@ class RegisterClothRequest implements BaseMultiPartRequest {
   final XFile clothImage;
 
   RegisterClothRequest(
-    this.profileId,
     this.clothName,
     this.clothType,
     this.clothSize,
@@ -24,8 +22,8 @@ class RegisterClothRequest implements BaseMultiPartRequest {
   Map<String, dynamic> toMultiPart() {
     return {
       'name': clothName,
-      'garmentType': clothType,
-      'garmentSize': clothSize,
+      'clothType': clothType,
+      'clothSize': clothSize,
       'brand': clothBrand,
       'color': clothColor,
       'clothAvatar': clothImage,

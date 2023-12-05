@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Service extends ServiceItem {
+class Service extends ServiceTemplate {
   final Map<String, List<ServiceItem>> services;
 
   Service({
@@ -11,12 +11,23 @@ class Service extends ServiceItem {
   });
 }
 
-class ServiceItem {
+class ServiceItem extends ServiceTemplate {
+  final VoidCallback action;
+
+  ServiceItem({
+    required super.title,
+    required super.idText,
+    required super.content,
+    required this.action,
+  });
+}
+
+class ServiceTemplate {
   final String title;
   final String idText;
   final Widget content;
 
-  ServiceItem({
+  ServiceTemplate({
     required this.title,
     required this.idText,
     required this.content,

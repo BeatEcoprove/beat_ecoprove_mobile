@@ -1,7 +1,11 @@
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
+import 'package:beat_ecoprove/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_cloth_services_view_model.dart';
 import 'package:beat_ecoprove/clothing/services/closet_service.dart';
+import 'package:beat_ecoprove/clothing/services/outfit_service.dart';
 import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
+import 'package:beat_ecoprove/clothing/use-cases/mark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/clothing/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -12,24 +16,32 @@ extension ClothingDependencyInjection on DependencyInjection {
     var httpClient = locator<HttpAuthClient>();
 
     locator.registerFactory(() => ClosetService(httpClient));
+    locator.registerFactory(() => OutfitService(httpClient));
   }
 
   void _addUseCases(GetIt locator) {
     var clothingService = locator<ClosetService>();
+    var outfitService = locator<OutfitService>();
 
     locator.registerSingleton(GetClosetUseCase(clothingService));
+    locator.registerSingleton(MarkClothAsDailyUseUseCase(outfitService));
+    locator.registerSingleton(UnMarkClothAsDailyUseUseCase(outfitService));
   }
 
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
     var getClosetUseCase = locator<GetClosetUseCase>();
+    var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
+    var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
 
     locator.registerFactory(
         () => ClothingViewModel(authProvider, getClosetUseCase));
     locator.registerFactory(() => InfoClothServiceViewModel());
+    locator.registerFactory(() => InfoClothViewModel(
+        markClothAsDailyUseUseCase, unMarkClothAsDailyUseUseCase));
   }
 
-  void addClothing() {
+  void addCloset() {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);

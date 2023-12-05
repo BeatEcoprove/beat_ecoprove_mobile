@@ -37,14 +37,10 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
   late bool _isSelectedToDelete = widget.isSelectedToDelete;
 
   Positioned _allSpaceFromCard() {
-    return Positioned(
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
+    return Positioned.fill(
         child: Container(
-          color: Colors.transparent,
-        ));
+      color: Colors.transparent,
+    ));
   }
 
   Positioned _otherProfileImageWidget(

@@ -26,7 +26,7 @@ class DependencyInjection {
 
     addAuth();
     addHome();
-    addClothing();
+    addCloset();
     addCloth();
   }
 }

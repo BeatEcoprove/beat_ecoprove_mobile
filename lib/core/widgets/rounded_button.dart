@@ -6,15 +6,22 @@ class RoundedButton extends StatelessWidget {
 
   final VoidCallback onAction;
   final String text;
+  final String textWhenSelected;
   final Widget object;
   final double height;
   final double width;
   final double widthRightPart;
+  final Color firstPartButtonColor;
+  final Color secondPartButtonColor;
+  final Color firstPartButtonColorWhenSelected;
+  final Color secondPartButtonColorWhenSelected;
+  final bool isSelect;
 
   const RoundedButton({
     super.key,
     required this.onAction,
-    this.text = "Utilizar",
+    required this.text,
+    required this.textWhenSelected,
     this.object = const Icon(
       Icons.directions_walk_rounded,
       color: AppColor.widgetBackground,
@@ -22,7 +29,48 @@ class RoundedButton extends StatelessWidget {
     this.height = 42,
     this.width = 80,
     this.widthRightPart = 50,
+    this.firstPartButtonColor = AppColor.buttonBackground,
+    this.secondPartButtonColor = AppColor.bucketButton,
+    this.firstPartButtonColorWhenSelected = AppColor.widgetSecondary,
+    this.secondPartButtonColorWhenSelected = AppColor.bucketButton,
+    this.isSelect = false,
   });
+
+  Container _firstPartButton(Color color, String textSelection) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: const BorderRadius.only(
+            topLeft: borderRadius, bottomLeft: borderRadius),
+        boxShadow: const [AppColor.defaultShadow],
+      ),
+      child: Center(
+        child: Text(
+          textSelection,
+          textAlign: TextAlign.start,
+          style: AppText.textButton,
+        ),
+      ),
+    );
+  }
+
+  Container _secondPartButton(Color color) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      width: widthRightPart,
+      height: height,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: const BorderRadius.only(
+            topRight: borderRadius, bottomRight: borderRadius),
+        boxShadow: const [AppColor.defaultShadow],
+      ),
+      child: object,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,36 +79,15 @@ class RoundedButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            width: width,
-            height: height,
-            decoration: const BoxDecoration(
-              color: AppColor.buttonBackground,
-              borderRadius: BorderRadius.only(
-                  topLeft: borderRadius, bottomLeft: borderRadius),
-              boxShadow: [AppColor.defaultShadow],
-            ),
-            child: Center(
-              child: Text(
-                text,
-                textAlign: TextAlign.start,
-                style: AppText.textButton,
-              ),
-            ),
+          _firstPartButton(
+            isSelect ? firstPartButtonColorWhenSelected : firstPartButtonColor,
+            isSelect ? textWhenSelected : text,
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            width: widthRightPart,
-            height: height,
-            decoration: const BoxDecoration(
-              color: AppColor.bucketButton,
-              borderRadius: BorderRadius.only(
-                  topRight: borderRadius, bottomRight: borderRadius),
-              boxShadow: [AppColor.defaultShadow],
-            ),
-            child: object,
-          ),
+          _secondPartButton(
+            isSelect
+                ? secondPartButtonColorWhenSelected
+                : secondPartButtonColor,
+          )
         ],
       ),
     );

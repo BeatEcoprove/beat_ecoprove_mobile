@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
@@ -13,14 +12,21 @@ import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_select
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class ClothingForm extends StatelessWidget {
+class ClothingForm extends StatefulWidget {
   const ClothingForm({
     super.key,
   });
 
   @override
+  State<ClothingForm> createState() => _ClothingFormState();
+}
+
+class _ClothingFormState extends State<ClothingForm> {
+  late ClothingViewModel viewModel;
+
+  @override
   Widget build(BuildContext context) {
-    final viewModel = ViewModel.of<ClothingViewModel>(context);
+    viewModel = ViewModel.of<ClothingViewModel>(context);
     late bool haveSelectedCards = viewModel.haveSelectedCards;
 
     return Scaffold(
@@ -201,7 +207,7 @@ SliverToBoxAdapter _buildClothsCardsSection(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           FutureBuilder(
-            future: viewModel.getCloset(),
+            future: viewModel.fetchCloset(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
@@ -211,7 +217,7 @@ SliverToBoxAdapter _buildClothsCardsSection(
                   );
                 default:
                   return CardList(
-                    clothesItems: snapshot.data as List<CardItem>,
+                    clothesItems: viewModel.getCloset,
                     onSelectionToDelete: (id) => {viewModel.removeCard(id)},
                     onSelectionChanged: (cards) =>
                         {viewModel.changeCardsSelection(cards)},

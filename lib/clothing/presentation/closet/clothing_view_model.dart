@@ -11,6 +11,7 @@ class ClothingViewModel extends ViewModel {
   late List<String> _selectedClothCards = [];
   late Map<String, dynamic> _selectedFilters = {};
   late List<String> _selectedHorizontalFilters = [];
+  final List<CardItem> _cards = [];
 
   ClothingViewModel(
     this._authProvider,
@@ -25,8 +26,6 @@ class ClothingViewModel extends ViewModel {
 
   void changeCardsSelection(List<String> cards) {
     _selectedClothCards = cards;
-
-    notifyListeners();
   }
 
   bool get haveHorizontalFilters => _selectedHorizontalFilters.isNotEmpty;
@@ -38,8 +37,6 @@ class ClothingViewModel extends ViewModel {
 
   void changeHorizontalFiltersSelection(List<String> filters) {
     _selectedHorizontalFilters = filters;
-
-    notifyListeners();
   }
 
   bool haveThisFilter(String filter) => _selectedFilters.containsKey(filter);
@@ -54,15 +51,14 @@ class ClothingViewModel extends ViewModel {
 
   void removeCard(String id) {} // TODO: Complete
 
-  Future<List<CardItem>> getCloset() async {
-    List<CardItem> closet = [];
+  List<CardItem> get getCloset => _cards;
 
+  Future fetchCloset() async {
     try {
-      closet = await _getClosetUseCase.handle();
+      _cards.clear();
+      _cards.addAll(await _getClosetUseCase.handle());
     } catch (e) {
       print("$e");
     }
-
-    return closet;
   }
 }

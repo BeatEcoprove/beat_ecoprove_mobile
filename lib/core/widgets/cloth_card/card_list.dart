@@ -59,7 +59,9 @@ class _CardListState extends State<CardList> {
             margin: const EdgeInsets.all(4),
             child: InkWell(
               onTap: () {
-                openInfoCard(card, goRouter);
+                if (!selectedCardItems.contains(card.id)) {
+                  openInfoCard(card, goRouter);
+                }
               },
               onLongPress: () {
                 setState(() {

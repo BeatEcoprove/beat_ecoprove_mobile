@@ -60,11 +60,17 @@ class CompactListItem extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            onPressed: options,
-            icon: const Icon(Icons.more_vert_rounded),
-            color: AppColor.widgetSecondary,
-          )
+          if (options != null) ...{
+            IconButton(
+              onPressed: options,
+              icon: const Icon(Icons.more_vert_rounded),
+              color: AppColor.widgetSecondary,
+            ),
+          } else ...{
+            const SizedBox(
+              width: 24,
+            ),
+          }
         ],
       ),
     );

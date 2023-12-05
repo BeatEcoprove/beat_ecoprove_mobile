@@ -1,4 +1,6 @@
+import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/dialog_card.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
@@ -33,6 +35,17 @@ abstract class CardItemTemplate extends StatefulWidget {
 
 class _CardItemTemplateState extends State<CardItemTemplate> {
   late bool _isSelectedToDelete = widget.isSelectedToDelete;
+
+  Positioned _allSpaceFromCard() {
+    return Positioned(
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: Container(
+          color: Colors.transparent,
+        ));
+  }
 
   Positioned _otherProfileImageWidget(
     double dimensionContent,
@@ -132,20 +145,19 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
   }
 
   Widget compact(BoxConstraints constraints, BuildContext context) {
+    double extraDistance = widget.otherProfileImage != null ? 18 : 0;
     return Stack(
       children: [
         CompactListItem(
           widget: widget.body(context, Types.compact),
           title: widget.title,
           subTitle: widget.subTitle ?? '',
-          options: () {
-            setState(() {
-              _isSelectedToDelete = !_isSelectedToDelete;
-            });
-          },
         ),
         if (widget.otherProfileImage != null)
           _otherProfileImageWidget(35, 46, null, 4),
+        if (isClothInUse()) _inUseBadge(18, 58 + extraDistance, null, 4),
+        _allSpaceFromCard(),
+        _actionsWidget(16),
         if (_isSelectedToDelete) _selectedToDeleteButton(0, 75, 75, true),
         if (widget.isSelect) _selectionCheck(50),
       ],
@@ -183,8 +195,8 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     );
   }
 
-  Positioned _actionsWidget() => Positioned(
-        top: 10,
+  Positioned _actionsWidget(double top) => Positioned(
+        top: top,
         right: 4,
         child: IconButton(
           icon: const Icon(
@@ -199,17 +211,47 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
         ),
       );
 
+  Positioned _inUseBadge(
+    double dimensionContent,
+    double? left,
+    double? right,
+    double bottom,
+  ) {
+    return Positioned(
+        left: left,
+        right: right,
+        bottom: bottom,
+        child: IconButtonRectangular(
+          isCircular: true,
+          colorBackground: AppColor.buttonBackground,
+          dimension: dimensionContent,
+          object: Icon(
+            Icons.directions_walk_rounded,
+            size: dimensionContent / 1.5,
+            color: AppColor.widgetBackground,
+          ),
+        ));
+  }
+
   Widget extended(BoxConstraints constraints, BuildContext context) {
+    double extraDistance = widget.otherProfileImage != null ? 52 : 0;
     return Stack(
       children: [
         _baseCardItemTemplate(),
-        _actionsWidget(),
         if (widget.otherProfileImage != null)
           _otherProfileImageWidget(50, null, 16, 54),
+        if (isClothInUse()) _inUseBadge(35, null, 16, 54 + extraDistance),
+        _allSpaceFromCard(),
+        _actionsWidget(10),
         if (_isSelectedToDelete) _selectedToDeleteButton(null, 49, 150, false),
         if (widget.isSelect) _selectionCheck(100),
       ],
     );
+  }
+
+  bool isClothInUse() {
+    return widget is ClothItem &&
+        (widget as ClothItem).clothState == ClothStates.inUse;
   }
 
   Widget _createCard(

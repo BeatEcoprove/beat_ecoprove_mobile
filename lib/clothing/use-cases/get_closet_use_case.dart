@@ -25,6 +25,7 @@ class GetClosetUseCase implements UseCaseAction<Future<List<CardItem>>> {
     for (var cloth in closetResult.cloths) {
       var card = CardItem(
         id: cloth.id,
+        clothState: cloth.clothState,
         title: cloth.name,
         brand: cloth.brand,
         color: Color(
@@ -48,6 +49,7 @@ class GetClosetUseCase implements UseCaseAction<Future<List<CardItem>>> {
         child: bucket.associatedCloth.map((item) {
           return CardItem(
             id: item.id,
+            clothState: item.clothState,
             title: item.name,
             brand: item.brand,
             color: Color(

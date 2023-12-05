@@ -1,7 +1,9 @@
+import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 import 'package:flutter/material.dart';
 
 class CardItem<T> {
   final String id;
+  final ClothStates? clothState;
   final String title;
   final String? subTitle;
   final String? brand;
@@ -13,6 +15,7 @@ class CardItem<T> {
 
   CardItem({
     required this.id,
+    this.clothState,
     required this.title,
     this.subTitle,
     required this.child,

@@ -37,6 +37,7 @@ class _CardListState extends State<CardList> {
 
     return ClothItem(
       id: card.id,
+      clothState: card.clothState!,
       content: NetworkImage(card.child),
       title: card.title,
       otherProfileImage: card.hasProfile,

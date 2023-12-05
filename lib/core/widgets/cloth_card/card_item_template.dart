@@ -70,11 +70,18 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
   }
 
   void _removeCard(BuildContext context, Widget card, String id) {
+    double extraDistance = widget.otherProfileImage != null ? 52 : 0;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return DialogCard(
-          card: _baseCardItemTemplate(),
+          card: Stack(children: [
+            _baseCardItemTemplate(),
+            if (widget.otherProfileImage != null)
+              _otherProfileImageWidget(50, null, 16, 54),
+            if (isClothInUse()) _inUseBadge(35, null, 16, 54 + extraDistance),
+          ]),
           text: "Tem a certeza que pretende remover esta peça de roupa?",
           firstAction: () {
             widget.cardSelectedToDelete(id);

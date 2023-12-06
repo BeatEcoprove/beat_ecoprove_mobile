@@ -5,7 +5,6 @@ class CardItem<T> {
   final String id;
   final ClothStates? clothState;
   final String title;
-  final String? subTitle;
   final String? brand;
   final T child;
   final ImageProvider? hasProfile;
@@ -17,7 +16,6 @@ class CardItem<T> {
     required this.id,
     this.clothState,
     required this.title,
-    this.subTitle,
     required this.child,
     this.hasProfile,
     this.brand = '',

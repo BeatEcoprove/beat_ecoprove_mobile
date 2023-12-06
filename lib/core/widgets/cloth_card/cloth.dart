@@ -13,10 +13,12 @@ class ClothItem extends CardItemTemplate {
     required super.id,
     required this.content,
     required super.title,
+    super.subTitle,
     super.otherProfileImage,
     super.isSelect,
     super.isSelectedToDelete,
     required super.cardSelectedToDelete,
+    super.cardType,
   });
 
   Widget extended(BuildContext context) {

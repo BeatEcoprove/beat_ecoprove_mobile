@@ -45,8 +45,6 @@ class ClothingViewModel extends ViewModel {
 
   void changeFilterSelection(Map<String, dynamic> filters) {
     _selectedFilters = filters;
-
-    notifyListeners();
   }
 
   void removeCard(String id) {} // TODO: Complete

@@ -15,6 +15,7 @@ abstract class CardItemTemplate extends StatefulWidget {
   final ImageProvider? otherProfileImage;
   final bool isSelect;
   final bool isSelectedToDelete;
+  final Types? cardType;
 
   const CardItemTemplate({
     Key? key,
@@ -25,6 +26,7 @@ abstract class CardItemTemplate extends StatefulWidget {
     this.isSelectedToDelete = false,
     this.otherProfileImage,
     required this.cardSelectedToDelete,
+    this.cardType,
   }) : super(key: key);
 
   Widget body(BuildContext context, Types type);
@@ -155,6 +157,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
           widget: widget.body(context, Types.compact),
           title: widget.title,
           subTitle: widget.subTitle ?? '',
+          withoutBoxShadow: true,
         ),
         if (widget.otherProfileImage != null)
           _otherProfileImageWidget(35, 46, null, 4),
@@ -269,11 +272,16 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     }
   }
 
-  Widget _defineListItem(BoxConstraints constraints, BuildContext context) {
-    if (constraints.maxWidth < AppColor.maxWidthToImage) {
-      return _createCard(constraints, context, Types.compact);
+  Widget _defineListItem(
+      BoxConstraints constraints, BuildContext context, Types? cardType) {
+    if (cardType != null) {
+      return _createCard(constraints, context, cardType);
     } else {
-      return _createCard(constraints, context, Types.extended);
+      if (constraints.maxWidth < AppColor.maxWidthToImage) {
+        return _createCard(constraints, context, Types.compact);
+      } else {
+        return _createCard(constraints, context, Types.extended);
+      }
     }
   }
 
@@ -281,7 +289,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return _defineListItem(constraints, context);
+        return _defineListItem(constraints, context, widget.cardType);
       },
     );
   }

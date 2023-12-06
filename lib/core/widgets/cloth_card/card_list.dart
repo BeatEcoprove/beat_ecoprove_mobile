@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/bucket.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,12 +9,14 @@ class CardList extends StatefulWidget {
   final List<CardItem> clothesItems;
   final Function(List<String>) onSelectionChanged;
   final Function(String) onSelectionToDelete;
+  final Types? cardsType;
 
   const CardList({
     Key? key,
     required this.clothesItems,
     required this.onSelectionChanged,
     required this.onSelectionToDelete,
+    this.cardsType,
   }) : super(key: key);
 
   @override
@@ -32,6 +35,7 @@ class _CardListState extends State<CardList> {
         title: card.title,
         isSelect: selectedCardItems.contains(card.id),
         cardSelectedToDelete: widget.onSelectionToDelete,
+        cardType: widget.cardsType,
       );
     }
 
@@ -40,9 +44,11 @@ class _CardListState extends State<CardList> {
       clothState: card.clothState!,
       content: NetworkImage(card.child),
       title: card.title,
+      subTitle: card.brand,
       otherProfileImage: card.hasProfile,
       isSelect: selectedCardItems.contains(card.id),
       cardSelectedToDelete: widget.onSelectionToDelete,
+      cardType: widget.cardsType,
     );
   }
 

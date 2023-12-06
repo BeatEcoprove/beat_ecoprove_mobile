@@ -7,13 +7,16 @@ import 'package:go_router/go_router.dart';
 
 class CardList extends StatefulWidget {
   final List<CardItem> clothesItems;
-  final Function(List<String>) onSelectionChanged;
+  final Map<String, List<String>> selectedCards;
+
+  final Function(Map<String, List<String>>) onSelectionChanged;
   final Function(String) onSelectionToDelete;
   final Types? cardsType;
 
   const CardList({
     Key? key,
     required this.clothesItems,
+    required this.selectedCards,
     required this.onSelectionChanged,
     required this.onSelectionToDelete,
     this.cardsType,
@@ -24,7 +27,6 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
-  final List<String> selectedCardItems = [];
   final List<CardItem> selectedCardItemsToDelete = [];
 
   renderCard(CardItem card) {
@@ -33,7 +35,7 @@ class _CardListState extends State<CardList> {
         id: card.id,
         items: card.child,
         title: card.title,
-        isSelect: selectedCardItems.contains(card.id),
+        isSelect: widget.selectedCards.keys.contains(card.id),
         cardSelectedToDelete: widget.onSelectionToDelete,
         cardType: widget.cardsType,
       );
@@ -46,7 +48,7 @@ class _CardListState extends State<CardList> {
       title: card.title,
       subTitle: card.brand,
       otherProfileImage: card.hasProfile,
-      isSelect: selectedCardItems.contains(card.id),
+      isSelect: widget.selectedCards.keys.contains(card.id),
       cardSelectedToDelete: widget.onSelectionToDelete,
       cardType: widget.cardsType,
     );
@@ -65,19 +67,20 @@ class _CardListState extends State<CardList> {
             margin: const EdgeInsets.all(4),
             child: InkWell(
               onTap: () {
-                if (!selectedCardItems.contains(card.id)) {
+                if (!widget.selectedCards.keys.contains(card.id)) {
                   openInfoCard(card, goRouter);
                 }
               },
               onLongPress: () {
                 setState(() {
-                  if (selectedCardItems.contains(card.id)) {
-                    selectedCardItems.remove(card.id);
-                  } else {
-                    selectedCardItems.add(card.id);
-                  }
+                  Map<String, List<String>> selectedCardItems = {};
 
+                  selectedCardItems[card.id] = card.hasChildren
+                      ? (card.child as List<CardItem>).map((e) => e.id).toList()
+                      : [];
+                  print(selectedCardItems);
                   widget.onSelectionChanged(selectedCardItems);
+                  selectedCardItems.clear();
                 });
               },
               child: renderCard(card),

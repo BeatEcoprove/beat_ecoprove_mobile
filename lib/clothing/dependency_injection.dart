@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/clothing/presentation/info_card/info_cloth/info_cl
 import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_cloth_services_view_model.dart';
 import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/clothing/services/outfit_service.dart';
+import 'package:beat_ecoprove/clothing/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/unmark_cloth_as_daily_use_use_case.dart';
@@ -26,6 +27,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerSingleton(GetClosetUseCase(clothingService));
     locator.registerSingleton(MarkClothAsDailyUseUseCase(outfitService));
     locator.registerSingleton(UnMarkClothAsDailyUseUseCase(outfitService));
+    locator.registerSingleton(DeleteCardUseCase(clothingService));
   }
 
   void _addViewModels(GetIt locator) {
@@ -33,9 +35,10 @@ extension ClothingDependencyInjection on DependencyInjection {
     var getClosetUseCase = locator<GetClosetUseCase>();
     var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
     var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
+    var deleteCardUseCase = locator<DeleteCardUseCase>();
 
-    locator.registerFactory(
-        () => ClothingViewModel(authProvider, getClosetUseCase));
+    locator.registerFactory(() => ClothingViewModel(authProvider,
+        getClosetUseCase, markClothAsDailyUseUseCase, deleteCardUseCase));
     locator.registerFactory(() => InfoClothServiceViewModel());
     locator.registerFactory(() => InfoClothViewModel(
         markClothAsDailyUseUseCase, unMarkClothAsDailyUseUseCase));

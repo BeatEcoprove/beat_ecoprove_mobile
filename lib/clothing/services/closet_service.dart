@@ -15,6 +15,20 @@ class ClosetService {
         method: HttpMethods.get, path: "profiles/closet", expectedCode: 200));
   }
 
+  Future deleteCloth(String clothId) async {
+    await _httpClient.makeRequestJson(
+        method: HttpMethods.delete,
+        path: "profiles/closet/cloth/$clothId",
+        expectedCode: 200);
+  }
+
+  Future deleteBucket(String bucketId) async {
+    await _httpClient.makeRequestJson(
+        method: HttpMethods.delete,
+        path: "profiles/closet/bucket/$bucketId",
+        expectedCode: 200);
+  }
+
   Future registerCloth(RegisterClothRequest request) async {
     await _httpClient.makeRequestMultiPart(
         method: HttpMethods.post,

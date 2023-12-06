@@ -86,7 +86,7 @@ class _InfoClothFormState extends State<InfoClothForm> {
                     textWhenSelected: "Cancelar",
                     isSelect: isInUse,
                     onAction: () async {
-                      await viewModel.setClothState(widget.card.id, isInUse);
+                      await viewModel.setClothState([widget.card.id], isInUse);
                       setState(() {
                         isInUse = !isInUse;
                       });

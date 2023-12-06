@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/profile/dependency_injection.dart';
 import 'package:beat_ecoprove/register_cloth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/routes.dart';
@@ -28,5 +29,6 @@ class DependencyInjection {
     addHome();
     addCloset();
     addCloth();
+    addProfile();
   }
 }

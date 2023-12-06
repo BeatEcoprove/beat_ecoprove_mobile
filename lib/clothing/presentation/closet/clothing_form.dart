@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
@@ -23,11 +24,11 @@ class ClothingForm extends StatefulWidget {
 
 class _ClothingFormState extends State<ClothingForm> {
   late ClothingViewModel viewModel;
+  final memo = AsyncMemoizer();
 
   @override
   Widget build(BuildContext context) {
     viewModel = ViewModel.of<ClothingViewModel>(context);
-    late bool haveSelectedCards = viewModel.haveSelectedCards;
 
     return Scaffold(
       appBar: StandardHeader(
@@ -43,18 +44,25 @@ class _ClothingFormState extends State<ClothingForm> {
                 _buildClothsCardsSection(context, viewModel),
               ],
             ),
-            if (haveSelectedCards) ...[
-              const Positioned(
+            if (viewModel.haveSelectedCards) ...[
+              Positioned(
                 bottom: 16,
                 right: 26,
                 child: FloatingButton(
-                  color: AppColor.buttonBackground,
+                  color: viewModel.isLoading
+                      ? AppColor.black
+                      : AppColor.buttonBackground,
                   dimension: 64,
-                  icon: Icon(
+                  icon: const Icon(
                     size: 34,
                     Icons.directions_walk_rounded,
                     color: AppColor.widgetBackground,
                   ),
+                  onPressed: () async => {
+                    print("Carregado"),
+                    if (!viewModel.isLoading)
+                      await viewModel.markClothAsDailyUse(),
+                  },
                 ),
               ),
               const Positioned(
@@ -113,120 +121,121 @@ class _ClothingFormState extends State<ClothingForm> {
       ),
     );
   }
-}
 
-SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
-  const Radius borderRadius = Radius.circular(5);
+  SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
+    const Radius borderRadius = Radius.circular(5);
 
-  return SliverAppBar(
-    toolbarHeight: 76,
-    shadowColor: Colors.transparent,
-    backgroundColor: AppColor.widgetBackground,
-    pinned: false,
-    floating: true,
-    flexibleSpace: PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        child: Row(
+    return SliverAppBar(
+      toolbarHeight: 76,
+      shadowColor: Colors.transparent,
+      backgroundColor: AppColor.widgetBackground,
+      pinned: false,
+      floating: true,
+      flexibleSpace: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              const Expanded(
+                child: DefaultFormattedTextField(
+                  hintText: "Pesquisar",
+                  leftIcon: Icon(Icons.search_rounded),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(right: 6),
+              ),
+              FilterButton(
+                bodyButton: Container(
+                  width: 52,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    color: AppColor.widgetBackground,
+                    borderRadius: BorderRadius.all(borderRadius),
+                    boxShadow: [AppColor.defaultShadow],
+                  ),
+                  child: const SvgImage(
+                    path: "assets/filter/settings.svg",
+                    height: 24,
+                    width: 24,
+                    color: AppColor.widgetSecondary,
+                  ),
+                ),
+                overlayPaddingBottom: 86,
+                overlayPaddingTop: 110,
+                contentPaddingTop: 56,
+                bodyTop: 0,
+                options: optionsToFilter
+                    .map((filter) => filter.toFilterRow())
+                    .toList(),
+                onSelectionChanged: (filter) =>
+                    {viewModel.changeFilterSelection(filter)},
+                filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
+                selectedFilters: viewModel.allSelectedFilters,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  SliverAppBar _buildFilterSelector(ClothingViewModel viewModel) {
+    return SliverAppBar(
+      toolbarHeight: 46,
+      pinned: true,
+      backgroundColor: AppColor.widgetBackground,
+      flexibleSpace: SizedBox(
+        height: 40,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          scrollDirection: Axis.horizontal,
           children: [
-            const Expanded(
-              child: DefaultFormattedTextField(
-                hintText: "Pesquisar",
-                leftIcon: Icon(Icons.search_rounded),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 6),
-            ),
-            FilterButton(
-              bodyButton: Container(
-                width: 52,
-                height: 50,
-                decoration: const BoxDecoration(
-                  color: AppColor.widgetBackground,
-                  borderRadius: BorderRadius.all(borderRadius),
-                  boxShadow: [AppColor.defaultShadow],
-                ),
-                child: const SvgImage(
-                  path: "assets/filter/settings.svg",
-                  height: 24,
-                  width: 24,
-                  color: AppColor.widgetSecondary,
-                ),
-              ),
-              overlayPaddingBottom: 86,
-              overlayPaddingTop: 110,
-              contentPaddingTop: 56,
-              bodyTop: 0,
-              options: optionsToFilter
-                  .map((filter) => filter.toFilterRow())
-                  .toList(),
-              onSelectionChanged: (filter) =>
-                  {viewModel.changeFilterSelection(filter)},
-              filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
-              selectedFilters: viewModel.allSelectedFilters,
+            HorizontalSelectorList(
+              list: clothes,
+              onSelectionChanged: (ids) =>
+                  {viewModel.changeHorizontalFiltersSelection(ids)},
+              isHorizontalFilterSelected: (filter) =>
+                  viewModel.haveThisHorizontalFilter(filter),
             ),
           ],
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-SliverAppBar _buildFilterSelector(ClothingViewModel viewModel) {
-  return SliverAppBar(
-    toolbarHeight: 46,
-    pinned: true,
-    backgroundColor: AppColor.widgetBackground,
-    flexibleSpace: SizedBox(
-      height: 40,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        scrollDirection: Axis.horizontal,
-        children: [
-          HorizontalSelectorList(
-            list: clothes,
-            onSelectionChanged: (ids) =>
-                {viewModel.changeHorizontalFiltersSelection(ids)},
-            isHorizontalFilterSelected: (filter) =>
-                viewModel.haveThisHorizontalFilter(filter),
-          ),
-        ],
+  SliverToBoxAdapter _buildClothsCardsSection(
+      BuildContext context, ClothingViewModel viewModel) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            FutureBuilder(
+              future: memo.runOnce(() async => await viewModel.fetchCloset()),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const CircularProgressIndicator(
+                      color: AppColor.primaryColor,
+                      strokeWidth: 4,
+                    );
+                  default:
+                    return CardList(
+                      clothesItems: viewModel.getCloset,
+                      selectedCards: viewModel.selectedCards,
+                      onSelectionToDelete: (id) => {viewModel.removeCard(id)},
+                      onSelectionChanged: (cards) =>
+                          {viewModel.changeCardsSelection(cards)},
+                    );
+                }
+              },
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
-
-SliverToBoxAdapter _buildClothsCardsSection(
-    BuildContext context, ClothingViewModel viewModel) {
-  return SliverToBoxAdapter(
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          FutureBuilder(
-            future: viewModel.fetchCloset(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return const CircularProgressIndicator(
-                    color: AppColor.primaryColor,
-                    strokeWidth: 4,
-                  );
-                default:
-                  return CardList(
-                    clothesItems: viewModel.getCloset,
-                    onSelectionToDelete: (id) => {viewModel.removeCard(id)},
-                    onSelectionChanged: (cards) =>
-                        {viewModel.changeCardsSelection(cards)},
-                  );
-              }
-            },
-          ),
-        ],
-      ),
-    ),
-  );
+    );
+  }
 }

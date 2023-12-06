@@ -11,21 +11,23 @@ class InfoClothViewModel extends ViewModel {
     this._unMarkClothAsDailyUseUseCase,
   );
 
-  Future setClothState(String idCloth, bool isSelect) async {
-    isSelect ? _unMarkClothAsDailyUse(idCloth) : _markClothAsDailyUse(idCloth);
+  Future setClothState(List<String> idsCloth, bool isSelect) async {
+    isSelect
+        ? _unMarkClothAsDailyUse(idsCloth)
+        : _markClothAsDailyUse(idsCloth);
   }
 
-  Future _markClothAsDailyUse(String idCloth) async {
+  Future _markClothAsDailyUse(List<String> idsCloth) async {
     try {
-      await _markClothAsDailyUseUseCase.handle(idCloth);
+      await _markClothAsDailyUseUseCase.handle(idsCloth);
     } catch (e) {
       print("$e");
     }
   }
 
-  Future _unMarkClothAsDailyUse(String idCloth) async {
+  Future _unMarkClothAsDailyUse(List<String> idsCloth) async {
     try {
-      await _unMarkClothAsDailyUseUseCase.handle(idCloth);
+      await _unMarkClothAsDailyUseUseCase.handle(idsCloth);
     } catch (e) {
       print("$e");
     }

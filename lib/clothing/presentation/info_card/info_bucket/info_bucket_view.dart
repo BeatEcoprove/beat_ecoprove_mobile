@@ -28,6 +28,8 @@ class _InfoBucketViewState extends State<InfoBucketView> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CardList(
+          //TODO: Ardeu
+          selectedCards: {},
           clothesItems: widget.card.child,
           //Não fazem nada
           onSelectionChanged: (cards) => (cards),

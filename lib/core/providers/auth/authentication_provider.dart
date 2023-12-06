@@ -56,9 +56,10 @@ class AuthenticationProvider extends ViewModel {
     notifyListeners();
   }
 
-  void logout() async {
+  Future logout() async {
     await StorageService.clearValue(Store.refreshToken);
-    _appUser == null;
+    _appUser = null;
+    notifyListeners();
   }
 
   String get refreshToken => _refreshToken!;

@@ -13,6 +13,7 @@ class IconButtonRectangular extends StatefulWidget {
   final Widget? object;
   final double dimension;
   final bool isCircular;
+  final bool withoutBoxShadow;
 
   const IconButtonRectangular({
     Key? key,
@@ -24,6 +25,7 @@ class IconButtonRectangular extends StatefulWidget {
     this.hasAnimation = false,
     this.dimension = 40,
     this.isCircular = false,
+    this.withoutBoxShadow = false,
   }) : super(key: key);
 
   @override
@@ -98,7 +100,8 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
             shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
             borderRadius:
                 widget.isCircular ? null : const BorderRadius.all(borderRadius),
-            boxShadow: const [AppColor.defaultShadow],
+            boxShadow:
+                widget.withoutBoxShadow ? null : const [AppColor.defaultShadow],
           ),
           child: Center(child: widget.object),
         ),

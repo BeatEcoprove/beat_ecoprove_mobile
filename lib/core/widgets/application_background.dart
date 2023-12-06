@@ -165,6 +165,23 @@ class AppBackground extends StatelessWidget {
     ]);
   }
 
+  Widget background6(Widget content) {
+    return Stack(children: [
+      const Positioned.fill(
+          bottom: 50,
+          left: -85,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: SvgImage(
+              path: 'assets/background6/background1.svg',
+              height: 200,
+              width: 200,
+            ),
+          )),
+      content
+    ]);
+  }
+
   Widget registerClothBackground(Widget content) {
     return Stack(
       children: [
@@ -204,6 +221,8 @@ class AppBackground extends StatelessWidget {
         return background4(content);
       case AppBackgrounds.closet:
         return background5(content);
+      case AppBackgrounds.infoBucket:
+        return background6(content);
       default:
         return background1(content);
     }
@@ -221,5 +240,6 @@ enum AppBackgrounds {
   clothing,
   registerClothBackground,
   registerClothBackground1,
-  closet
+  closet,
+  infoBucket
 }

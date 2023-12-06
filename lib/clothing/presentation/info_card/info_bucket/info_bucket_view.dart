@@ -2,10 +2,9 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/circular_button.dart';
+import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class InfoBucketView extends StatefulWidget {
   final String index;
@@ -22,81 +21,92 @@ class InfoBucketView extends StatefulWidget {
 }
 
 class _InfoBucketViewState extends State<InfoBucketView> {
-  late List<int> passedServices = [0];
   final List<String> selectedCardItems = [];
 
   Widget renderCards() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CardList(
-              clothesItems: widget.card.child,
-              //Não fazem nada
-              onSelectionChanged: (cards) => (cards),
-              onSelectionToDelete: (cards) => (cards),
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CardList(
+          clothesItems: widget.card.child,
+          //Não fazem nada
+          onSelectionChanged: (cards) => (cards),
+          onSelectionToDelete: (cards) => (cards),
+          cardsType: Types.compact,
         ),
-      ),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final goRouter = GoRouter.of(context);
+    double maxWidth = MediaQuery.of(context).size.width;
+    const Radius borderRadius = Radius.circular(5);
 
     return Scaffold(
-      body: AppBackground(
-        content: GoBack(
-          posTop: 18,
-          posLeft: 18,
-          child: Stack(
+      body: GoBack(
+        posTop: 18,
+        posLeft: 18,
+        child: AppBackground(
+          content: Stack(
             children: [
-              Stack(
-                children: [
-                  Positioned(
-                    top: 18,
-                    left: 18,
-                    child: CircularButton(
-                      onPress: () {
-                        setState(() {
-                          goBack(goRouter);
-                        });
-                      },
-                      height: 46,
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new,
-                        color: AppColor.widgetSecondary,
-                      ),
+              Positioned.fill(
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+              Positioned(
+                top: 24,
+                left: 82,
+                right: 82,
+                height: 36,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: AppColor.widgetBackground,
+                      boxShadow: [AppColor.defaultShadow],
+                      borderRadius: BorderRadius.all(borderRadius)),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.card.title,
+                      style: AppText.headerBlack,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 120,
-                      left: 36,
-                      right: 36,
-                      bottom: 16,
-                    ),
-                    child: Align(
-                      alignment: Alignment.topCenter,
+                ),
+              ),
+              Positioned(
+                top: 24,
+                right: 28,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.more_vert_rounded,
+                    color: AppColor.widgetSecondary,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              Positioned(
+                top: 82,
+                bottom: 0,
+                child: Container(
+                  width: maxWidth,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: SingleChildScrollView(
                       child: renderCards(),
                     ),
                   ),
-                ],
+                ),
               ),
             ],
           ),
+          type: AppBackgrounds.infoBucket,
         ),
-        //TODO: Change background
-        type: AppBackgrounds.completed,
       ),
     );
-  }
-
-  void goBack(GoRouter goRouter) {
-    passedServices.length == 1 ? goRouter.go('/') : passedServices.removeLast();
   }
 }

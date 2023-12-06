@@ -11,6 +11,7 @@ class CompactListItem extends StatelessWidget {
   final String title;
   final String subTitle;
   final bool isCircular;
+  final bool withoutBoxShadow;
 
   const CompactListItem({
     super.key,
@@ -18,6 +19,7 @@ class CompactListItem extends StatelessWidget {
     required this.title,
     required this.subTitle,
     this.isCircular = false,
+    this.withoutBoxShadow = false,
     this.options,
   });
 
@@ -38,26 +40,27 @@ class CompactListItem extends StatelessWidget {
             isCircular: isCircular,
             dimension: 60,
             object: widget,
+            withoutBoxShadow: withoutBoxShadow,
+          ),
+          const SizedBox(
+            width: 12,
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    title,
-                    style: AppText.headerBlack,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    subTitle,
-                    style: AppText.subHeader,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  title,
+                  style: AppText.headerBlack,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  subTitle,
+                  style: AppText.subHeader,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
             ),
           ),
           if (options != null) ...{

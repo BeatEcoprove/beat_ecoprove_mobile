@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
 class LevelProgress extends StatelessWidget {
@@ -54,7 +55,7 @@ class LevelProgress extends StatelessWidget {
                   width: imgSize,
                   height: imgSize,
                   child: PresentImage(
-                    path: NetworkImage(url),
+                    path: ServerImage(url),
                   ),
                 )),
               ),

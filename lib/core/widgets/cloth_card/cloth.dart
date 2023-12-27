@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
 class ClothItem extends CardItemTemplate {
-  final NetworkImage content;
+  final ImageProvider content;
   final ClothStates clothState;
 
   const ClothItem({

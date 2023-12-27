@@ -59,7 +59,6 @@ class _ClothingFormState extends State<ClothingForm> {
                     color: AppColor.widgetBackground,
                   ),
                   onPressed: () async => {
-                    print("Carregado"),
                     if (!viewModel.isLoading)
                       await viewModel.markClothAsDailyUse(),
                   },

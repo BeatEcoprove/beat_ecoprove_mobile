@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
 class BucketItem extends CardItemTemplate {
@@ -33,7 +34,7 @@ class BucketItem extends CardItemTemplate {
         color: AppColor.widgetBackground,
         child: i < items.length
             ? PresentImage(
-                path: NetworkImage(items[i].child),
+                path: ServerImage(items[i].child),
               )
             : Container(
                 height: height,

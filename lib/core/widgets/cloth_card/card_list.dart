@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/bucket.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -44,7 +45,7 @@ class _CardListState extends State<CardList> {
     return ClothItem(
       id: card.id,
       clothState: card.clothState!,
-      content: NetworkImage(card.child),
+      content: ServerImage(card.child),
       title: card.title,
       subTitle: card.brand,
       otherProfileImage: card.hasProfile,

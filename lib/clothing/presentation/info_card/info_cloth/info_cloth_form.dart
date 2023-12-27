@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/widgets/place_to_place.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/rounded_button.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +53,7 @@ class _InfoClothFormState extends State<InfoClothForm> {
                   height: 257,
                   child: Center(
                     widthFactor: 257,
-                    child: PresentImage(path: NetworkImage(widget.card.child)),
+                    child: PresentImage(path: ServerImage(widget.card.child)),
                   ),
                 ),
               ),

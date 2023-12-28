@@ -81,8 +81,10 @@ flutter:
     - assets/salsa.png
     - assets/sueter.png
     - assets/points/sustainable_points_icon.svg
+    - assets/points/eco_coins_points_icon.svg
+    - assets/points/eco_score_points_icon.svg
     - assets/shirt.svg
-    - assets/gift.svg
+    - assets/gift-sharp.svg
     - assets/services/dry.svg
     - assets/services/iron.svg
     - assets/services/recycle.svg

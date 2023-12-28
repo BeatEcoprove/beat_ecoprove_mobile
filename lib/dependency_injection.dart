@@ -1,4 +1,7 @@
+import 'package:beat_ecoprove/group/dependency_injection.dart';
+import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/profile/dependency_injection.dart';
+import 'package:beat_ecoprove/profile/routes.dart';
 import 'package:beat_ecoprove/register_cloth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/routes.dart';
@@ -20,8 +23,13 @@ class DependencyInjection {
     var authProvider = locator.registerSingleton(AuthenticationProvider());
     authProvider.checkAuth();
 
-    locator.registerSingleton(
-        AppRouter([authRoutes, clothingRoutes, registerClothRoutes]));
+    locator.registerSingleton(AppRouter([
+      authRoutes,
+      clothingRoutes,
+      registerClothRoutes,
+      groupRoutes,
+      profileRoutes,
+    ]));
 
     locator.registerFactory(() => HttpClient());
 
@@ -29,6 +37,7 @@ class DependencyInjection {
     addHome();
     addCloset();
     addCloth();
+    addGroup();
     addProfile();
   }
 }

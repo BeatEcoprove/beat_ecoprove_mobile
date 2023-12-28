@@ -38,6 +38,8 @@ class AppColor {
   static const Color bottomNavigationBarSelected =
       Color.fromRGBO(77, 144, 142, 1);
 
+  static const Color endSession = Color.fromRGBO(208, 0, 0, 1);
+
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
 
   static const Color orange = Color.fromRGBO(230, 110, 0, 1);

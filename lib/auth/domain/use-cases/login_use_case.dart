@@ -39,11 +39,13 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
         user: User(
-            name: decodedToken[Tokens.name],
-            avatarUrl: decodedToken[Tokens.avatarUrl],
-            level: decodedToken[Tokens.level],
-            levelPercent: decodedToken[Tokens.levelPercent],
-            sustainablePoints: decodedToken[Tokens.sustainablePoints]),
+          name: decodedToken[Tokens.name],
+          avatarUrl: decodedToken[Tokens.avatarUrl],
+          level: decodedToken[Tokens.level],
+          levelPercent: decodedToken[Tokens.levelPercent],
+          sustainablePoints: decodedToken[Tokens.sustainablePoints],
+          // ecoScore: decodedToken[Tokens.ecoScore],
+        ),
       ),
     );
   }

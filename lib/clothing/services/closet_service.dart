@@ -41,10 +41,6 @@ class ClosetService {
     var result = await _httpClient.makeRequestJson(
         method: HttpMethods.get, path: "extension/colors/", expectedCode: 200);
 
-    //     ColorResult("black", "FF000000"),
-    //     ColorResult("white", "FFFFFFFF"),
-    //     ColorResult("yellow", "FFFFE69F"),
-
     return convertToColorResultList(result);
   }
 
@@ -60,9 +56,6 @@ class ClosetService {
   Future<List<BrandResult>> getAllBrands() async {
     var result = await _httpClient.makeRequestJson(
         method: HttpMethods.get, path: "extension/brands/", expectedCode: 200);
-
-    //     BrandResult("Salsa"),
-    //     BrandResult("MO"),
 
     return convertToBrandResultList(result);
   }

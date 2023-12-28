@@ -244,7 +244,7 @@ Widget _buildRegisterClothByQRCode(BuildContext context) {
         content: "QR Code",
         textColor: AppColor.buttonBackground,
         buttonColor: AppColor.widgetBackground,
-        onPress: () {}, //Required: Create way to do it
+        onPress: () {}, //TODO: Create way to do it
       ),
     ),
   );

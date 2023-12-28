@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
-import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
+import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
@@ -57,8 +57,7 @@ class StandardHeader extends Header {
                 if (hasSustainablePoints && title.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child:
-                        SustainablePoints(sustainablePoints: sustainablePoints),
+                    child: Points.sustainablePoints(points: sustainablePoints),
                   ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8),

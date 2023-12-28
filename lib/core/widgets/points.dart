@@ -2,19 +2,45 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class SustainablePoints extends StatefulWidget {
-  final int sustainablePoints;
+class Points extends StatefulWidget {
+  final int points;
+  final SvgImage image;
 
-  const SustainablePoints({
+  const Points.sustainablePoints({
     super.key,
-    required this.sustainablePoints,
+    required this.points,
+    this.image = const SvgImage(
+      width: 24,
+      height: 24,
+      path: "assets/points/sustainable_points_icon.svg",
+    ),
+  });
+
+  const Points.ecoCoins({
+    super.key,
+    required this.points,
+    this.image = const SvgImage(
+      width: 22,
+      height: 22,
+      path: "assets/points/eco_coins_points_icon.svg",
+    ),
+  });
+
+  const Points.ecoScore({
+    super.key,
+    required this.points,
+    this.image = const SvgImage(
+      width: 24,
+      height: 24,
+      path: "assets/points/eco_score_points_icon.svg",
+    ),
   });
 
   @override
-  State<SustainablePoints> createState() => _SustainablePointsState();
+  State<Points> createState() => _PointsState();
 }
 
-class _SustainablePointsState extends State<SustainablePoints> {
+class _PointsState extends State<Points> {
   static const Radius borderRadius = Radius.circular(5);
 
   @override
@@ -33,20 +59,13 @@ class _SustainablePointsState extends State<SustainablePoints> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 8),
                 child: Text(
-                  widget.sustainablePoints.toString(),
+                  widget.points.toString(),
                   style: AppText.smallHeader,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 6),
-              child: SvgImage(
-                width: 24,
-                height: 24,
-                path: "assets/points/sustainable_points_icon.svg",
-              ),
-            )
+            Padding(padding: EdgeInsets.only(right: 6), child: widget.image)
           ],
         ));
   }

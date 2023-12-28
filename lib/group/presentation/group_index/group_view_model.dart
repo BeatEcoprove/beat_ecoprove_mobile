@@ -3,19 +3,14 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfileViewModel extends ViewModel {
+class GroupViewModel extends ViewModel {
   final AuthenticationProvider _authProvider;
   final GoRouter _navigationRouter;
   late final User _user;
 
-  ProfileViewModel(this._authProvider, this._navigationRouter) {
+  GroupViewModel(this._authProvider, this._navigationRouter) {
     _user = _authProvider.appUser;
   }
 
   User get user => _user;
-
-  Future logout() async {
-    await _authProvider.logout();
-    _navigationRouter.go("/");
-  }
 }

@@ -5,4 +5,5 @@ abstract class Tokens {
   static const String level = "level";
   static const String levelPercent = "level_percentage";
   static const String sustainablePoints = "sustainable_points";
+  static const String ecoScore = "eco_score";
 }

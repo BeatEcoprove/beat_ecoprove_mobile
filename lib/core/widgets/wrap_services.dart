@@ -66,36 +66,43 @@ class _WrapServicesState extends State<WrapServices> {
                   .toList()) ...[
                 InkWell(
                   onTap: () {
-                    if (service is Service) {
-                      setState(() {
-                        passedServices.add({
-                          service.services.keys.first: service.services.values
-                              .expand((list) => list)
-                              .toList()
-                        });
-                      });
-                    }
-                    if (service is ServiceItem) {
-                      // Send update to server if is ServerItem
-                      service.action;
+                    if (!widget.blockedServices.contains(service.idText)) {
+                      if (!selectedServices.contains(service.idText)) {
+                        if (service is Service) {
+                          setState(() {
+                            passedServices.add({
+                              service.services.keys.first: service
+                                  .services.values
+                                  .expand((list) => list)
+                                  .toList()
+                            });
+                          });
+                        }
+                        if (service is ServiceItem) {
+                          //TODO: Send update to server if is ServerItem
+                          service.action;
+                        }
+                      }
                     }
                   },
                   onLongPress: () {
-                    if (service is Service) {
-                      setState(
-                        () {
-                          if (!widget.blockedServices
-                              .contains(service.idText)) {
-                            if (selectedServices.contains(service.idText)) {
-                              selectedServices.remove(service.idText);
-                            } else {
-                              selectedServices.add(service.idText);
-                            }
+                    if (!widget.blockedServices.contains(service.idText)) {
+                      if (service is Service) {
+                        setState(
+                          () {
+                            if (!widget.blockedServices
+                                .contains(service.idText)) {
+                              if (selectedServices.contains(service.idText)) {
+                                selectedServices.remove(service.idText);
+                              } else {
+                                selectedServices.add(service.idText);
+                              }
 
-                            widget.onSelectionChanged(selectedServices);
-                          }
-                        },
-                      );
+                              widget.onSelectionChanged(selectedServices);
+                            }
+                          },
+                        );
+                      }
                     }
                   },
                   child: renderServiceButton(service),

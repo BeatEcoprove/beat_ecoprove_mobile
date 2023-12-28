@@ -10,7 +10,7 @@ import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/rounded_button.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
-import 'package:beat_ecoprove/core/widgets/sustainable_points.dart';
+import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:flutter/material.dart';
 
 class InfoClothForm extends StatefulWidget {
@@ -141,8 +141,7 @@ class _InfoClothFormState extends State<InfoClothForm> {
                                 const SizedBox(
                                   height: 4,
                                 ),
-                                SustainablePoints(
-                                    sustainablePoints: widget.card.ecoScore!),
+                                Points.ecoScore(points: widget.card.ecoScore!),
                               ],
                             )
                           ],
@@ -223,22 +222,6 @@ class _InfoClothFormState extends State<InfoClothForm> {
                   ),
                 ),
               ),
-              // const Positioned(
-              //   bottom: 16,
-              //   child: Row(
-              //     children: [
-              //       Line(
-              //         width: 100,
-              //       ),
-              //       SizedBox(
-              //         width: 6,
-              //       ),
-              //       Line(
-              //         width: 100,
-              //       )
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),

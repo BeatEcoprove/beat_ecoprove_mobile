@@ -79,7 +79,6 @@ class _CardListState extends State<CardList> {
                   selectedCardItems[card.id] = card.hasChildren
                       ? (card.child as List<CardItem>).map((e) => e.id).toList()
                       : [];
-                  print(selectedCardItems);
                   widget.onSelectionChanged(selectedCardItems);
                   selectedCardItems.clear();
                 });

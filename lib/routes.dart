@@ -4,8 +4,9 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/group/presentation/group_index/group_view.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
-import 'package:beat_ecoprove/profile/presentation/profile_view.dart';
+import 'package:beat_ecoprove/profile/presentation/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,7 +29,7 @@ class AppRouter {
 
     return authProvider.isAuthenticated
         ? const Swiper(
-            views: [HomeView(), ClothingView(), ProfileView()],
+            views: [HomeView(), ClothingView(), GroupView(), ProfileView()],
             bottomNavigationBarOptions: [
               Icon(Icons.home_rounded),
               SvgImage(path: "assets/shirt.svg"),

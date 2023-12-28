@@ -33,6 +33,7 @@ class AuthenticationProvider extends ViewModel {
           level: decodedToken[Tokens.level],
           levelPercent: decodedToken[Tokens.levelPercent],
           sustainablePoints: decodedToken[Tokens.sustainablePoints],
+          // ecoScore: decodedToken[Tokens.ecoScore],
         ),
       ),
     );

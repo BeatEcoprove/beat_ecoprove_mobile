@@ -1,0 +1,104 @@
+import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/core/widgets/application_background.dart';
+import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
+import 'package:beat_ecoprove/group/presentation/create_group/create_group_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+
+class CreateGroupForm extends StatelessWidget {
+  const CreateGroupForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ViewModel.of<CreateGroupViewModel>(context);
+    final goRouter = GoRouter.of(context);
+    const Radius borderRadius = Radius.circular(5);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: AppBackground(
+          content: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: GoBack(
+              posLeft: 22,
+              posTop: 48,
+              child: Column(
+                children: [
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 26),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 112,
+                            ),
+                            const Text(
+                              "Criar um Grupo",
+                              style: AppText.header,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(
+                              height: 42,
+                            ),
+                            const CircleAvatarChooser(
+                              height: 140,
+                              color: AppColor.widgetSecondary,
+                              imageProvider:
+                                  AssetImage("assets/default_avatar.png"),
+                            ),
+                            const SizedBox(
+                              height: 36,
+                            ),
+                            DefaultFormattedTextField(
+                              hintText: "Nome",
+                              inputFormatter: [
+                                LengthLimitingTextInputFormatter(25),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            DefaultFormattedTextField(
+                              hintText: "Descrição (optional)",
+                              inputFormatter: [
+                                LengthLimitingTextInputFormatter(100),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            const FormattedDropDown(
+                              options: ['Público', 'Privado'],
+                            ),
+                            const SizedBox(
+                              height: 64,
+                            ),
+                            FormattedButton(
+                              content: "Registar",
+                              textColor: Colors.white,
+                              onPress: () {
+                                goRouter.push("/");
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          type: AppBackgrounds.createGroup),
+    );
+  }
+}

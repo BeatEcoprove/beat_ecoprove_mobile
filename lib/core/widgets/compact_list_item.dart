@@ -12,8 +12,10 @@ class CompactListItem extends StatelessWidget {
   final String subTitle;
   final bool isCircular;
   final bool withoutBoxShadow;
+  final Widget widgetOptions;
+  final String? state;
 
-  const CompactListItem({
+  CompactListItem({
     super.key,
     required this.widget,
     required this.title,
@@ -21,7 +23,59 @@ class CompactListItem extends StatelessWidget {
     this.isCircular = false,
     this.withoutBoxShadow = false,
     this.options,
-  });
+  })  : state = null,
+        widgetOptions = IconButton(
+          onPressed: options,
+          icon: const Icon(Icons.more_vert_rounded),
+          color: AppColor.widgetSecondary,
+        );
+
+  const CompactListItem.withoutOptions({
+    super.key,
+    required this.widget,
+    required this.title,
+    required this.subTitle,
+    this.isCircular = false,
+    this.withoutBoxShadow = false,
+  })  : state = null,
+        options = null,
+        widgetOptions = const SizedBox(
+          width: 24,
+        );
+
+  CompactListItem.group({
+    super.key,
+    required this.widget,
+    required this.title,
+    required this.subTitle,
+    required this.state,
+    this.isCircular = false,
+    this.withoutBoxShadow = false,
+    this.options,
+  }) : widgetOptions = Stack(
+          children: [
+            Container(
+              width: 60,
+            ),
+            Positioned(
+              right: 0,
+              child: IconButton(
+                onPressed: options,
+                icon: const Icon(Icons.more_vert_rounded),
+                color: AppColor.widgetSecondary,
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              width: 65,
+              child: Text(
+                state!,
+                style: AppText.subHeader,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +117,7 @@ class CompactListItem extends StatelessWidget {
               ],
             ),
           ),
-          if (options != null) ...{
-            IconButton(
-              onPressed: options,
-              icon: const Icon(Icons.more_vert_rounded),
-              color: AppColor.widgetSecondary,
-            ),
-          } else ...{
-            const SizedBox(
-              width: 24,
-            ),
-          }
+          widgetOptions,
         ],
       ),
     );

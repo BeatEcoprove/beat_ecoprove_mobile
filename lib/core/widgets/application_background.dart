@@ -199,6 +199,74 @@ class AppBackground extends StatelessWidget {
     ]);
   }
 
+  Widget background8(Widget content) {
+    return Stack(children: [
+      Positioned.fill(
+          bottom: 50,
+          left: -65,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Transform.rotate(
+              angle: 2.2,
+              child: const SvgImage(
+                path: 'assets/background5/background1.svg',
+                height: 200,
+                width: 200,
+              ),
+            ),
+          )),
+      content
+    ]);
+  }
+
+  Widget background9(Widget content) {
+    return Stack(children: [
+      Positioned.fill(
+          bottom: 50,
+          left: -40,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Transform.rotate(
+              angle: 2.2,
+              child: const SvgImage(
+                path: 'assets/background1/background1.svg',
+                height: backgroundImageHeight,
+                width: backgroundImageHeight,
+              ),
+            ),
+          )),
+      content
+    ]);
+  }
+
+  Widget background10(Widget content) {
+    return Stack(children: [
+      const Positioned.fill(
+          right: -25,
+          top: 20,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: SvgImage(
+              path: 'assets/background1/background1.svg',
+              height: backgroundImageHeight,
+              width: backgroundImageHeight,
+            ),
+          )),
+      const Positioned.fill(
+          bottom: 70,
+          left: -100,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: SvgImage(
+              path: 'assets/background10/background1.svg',
+              height: 200,
+              width: 200,
+            ),
+          )),
+      content
+    ]);
+  }
+
   Widget registerClothBackground(Widget content) {
     return Stack(
       children: [
@@ -242,6 +310,12 @@ class AppBackground extends StatelessWidget {
         return background6(content);
       case AppBackgrounds.settings:
         return background7(content);
+      case AppBackgrounds.group:
+        return background8(content);
+      case AppBackgrounds.members:
+        return background9(content);
+      case AppBackgrounds.createGroup:
+        return background10(content);
       default:
         return background1(content);
     }
@@ -261,5 +335,8 @@ enum AppBackgrounds {
   registerClothBackground1,
   closet,
   infoBucket,
-  settings
+  settings,
+  group,
+  members,
+  createGroup
 }

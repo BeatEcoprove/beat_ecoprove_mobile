@@ -36,10 +36,6 @@ class ProfileForm extends StatelessWidget {
                 child: Column(
                   children: [
                     Stack(children: [
-                      Container(
-                        width: maxWidth,
-                        color: AppColor.black,
-                      ),
                       Center(
                         child: LevelProgress(
                           height: 175,
@@ -80,15 +76,15 @@ class ProfileForm extends StatelessWidget {
                       Positioned(
                         top: 146,
                         right: (width / 2) - 200,
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Eco-Score",
                               textAlign: TextAlign.center,
                               style: AppText.smallSubHeader,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 4,
                             ),
                             Points.ecoScore(
@@ -151,25 +147,25 @@ class ProfileForm extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Eco-Coins",
-                              textAlign: TextAlign.center,
-                              style: AppText.smallSubHeader,
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Points.ecoCoins(
-                              points: 50,
-                            ),
-                          ],
-                        ),
+                        // const SizedBox(
+                        //   width: 12,
+                        // ),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       "Eco-Coins",
+                        //       textAlign: TextAlign.center,
+                        //       style: AppText.smallSubHeader,
+                        //     ),
+                        //     SizedBox(
+                        //       height: 4,
+                        //     ),
+                        //     Points.ecoCoins(
+                        //       points: 50,
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                     const SizedBox(

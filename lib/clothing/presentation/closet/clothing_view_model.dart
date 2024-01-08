@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/clothing/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/mark_cloth_as_daily_use_use_case.dart';
-import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -41,7 +40,6 @@ class ClothingViewModel extends ViewModel {
       _selectedCards.addAll(cards);
     }
 
-    print(_selectedCards);
     notifyListeners();
   }
 

@@ -40,6 +40,15 @@ class AppColor {
 
   static const Color endSession = Color.fromRGBO(208, 0, 0, 1);
 
+  static const Color primaryError = Color.fromRGBO(255, 97, 102, 1);
+  static const Color error = Color.fromRGBO(255, 58, 65, 1);
+
+  static const Color primaryWarning = Color.fromRGBO(245, 164, 74, 1);
+  static const Color warning = Color.fromRGBO(242, 143, 30, 1);
+
+  static const Color primaryInfo = Color.fromRGBO(0, 161, 223, 1);
+  static const Color info = Color.fromRGBO(0, 113, 255, 1);
+
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
 
   static const Color orange = Color.fromRGBO(230, 110, 0, 1);

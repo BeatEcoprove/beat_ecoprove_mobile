@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/profile/presentation/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileForm extends StatelessWidget {
   const ProfileForm({super.key});
@@ -15,6 +16,7 @@ class ProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<ProfileViewModel>(context);
+    final goRouter = GoRouter.of(context);
     double maxWidth = (MediaQuery.of(context).size.width / 0.75);
     double width = (MediaQuery.of(context).size.width);
     final user = viewModel.user;
@@ -57,7 +59,7 @@ class ProfileForm extends StatelessWidget {
                             height: 24,
                             width: 24,
                           ),
-                          onPress: () {},
+                          onPress: () => goRouter.push("/prizes"),
                         ),
                       ),
                       Positioned(

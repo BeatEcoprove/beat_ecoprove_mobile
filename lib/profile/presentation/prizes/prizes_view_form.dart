@@ -1,0 +1,246 @@
+import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/config/data.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
+import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
+import 'package:beat_ecoprove/core/widgets/application_background.dart';
+import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
+import 'package:beat_ecoprove/core/widgets/service_button.dart';
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
+import 'package:beat_ecoprove/profile/presentation/prizes/prizes_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class PrizesForm extends StatelessWidget {
+  const PrizesForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ViewModel.of<PrizesViewModel>(context);
+
+    return Scaffold(
+      appBar: StandardHeader(
+        title: 'Prémios',
+        hasSustainablePoints: true,
+        sustainablePoints: viewModel.user.sustainablePoints,
+      ),
+      body: AppBackground(
+        content: GoBack(
+          posTop: 18,
+          posLeft: 18,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 84,
+                ),
+                _changePoints(context),
+                const SizedBox(
+                  height: 18,
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Categorias",
+                      style: AppText.titleToScrollSection,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      "Ver mais",
+                      style: AppText.underlineStyle,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+                _categoriesCards(),
+                const SizedBox(
+                  height: 18,
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Recomendados para si",
+                      style: AppText.titleToScrollSection,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+                _buildAdvertisementSection()
+              ],
+            ),
+          ),
+        ),
+        type: AppBackgrounds.settings,
+      ),
+    );
+  }
+
+  Widget _changePoints(BuildContext context) {
+    const Radius borderRadius = Radius.circular(10);
+    final goRouter = GoRouter.of(context);
+
+    return InkWell(
+      onTap: () => goRouter.push("/tradepoints"),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        height: 75,
+        decoration: const BoxDecoration(
+          color: AppColor.widgetBackground,
+          borderRadius: BorderRadius.all(borderRadius),
+          boxShadow: [AppColor.defaultShadow],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'Trocar Pontos',
+                  style: AppText.headerBlack,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  'Clique aqui para trocar pontos',
+                  style: AppText.subHeader,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              height: 75,
+              decoration: const BoxDecoration(
+                color: AppColor.widgetBackground,
+                borderRadius: BorderRadius.all(borderRadius),
+                boxShadow: [AppColor.defaultShadow],
+              ),
+              child: const Row(
+                children: [
+                  SvgImage(
+                    width: 22,
+                    height: 22,
+                    path: "assets/points/eco_coins_points_icon.svg",
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Icon(
+                    Icons.compare_arrows_rounded,
+                    color: AppColor.widgetSecondary,
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  SvgImage(
+                    width: 24,
+                    height: 24,
+                    path: "assets/points/sustainable_points_icon.svg",
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _categoriesCards() {
+    return const SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        height: 150,
+        child: Row(
+          children: [
+            ServiceButton(
+              dimension: 120,
+              colorBackground: AppColor.servicesCloth,
+              object: Icon(
+                Icons.store_mall_directory_rounded,
+                size: 64,
+              ),
+              title: 'Serviço',
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            ServiceButton(
+              dimension: 120,
+              colorBackground: AppColor.servicesCloth,
+              object: Icon(
+                Icons.store_mall_directory_rounded,
+                size: 64,
+              ),
+              title: 'Serviço',
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            ServiceButton(
+              dimension: 120,
+              colorBackground: AppColor.servicesCloth,
+              object: Icon(
+                Icons.store_mall_directory_rounded,
+                size: 64,
+              ),
+              title: 'Serviço',
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            ServiceButton(
+              dimension: 120,
+              colorBackground: AppColor.servicesCloth,
+              object: Icon(
+                Icons.store_mall_directory_rounded,
+                size: 64,
+              ),
+              title: 'Serviço',
+            ),
+            SizedBox(
+              width: 6,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAdvertisementSection() {
+    return SizedBox(
+      height: 231,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: cards.length,
+        itemBuilder: (BuildContext context, int index) {
+          var card = cards[index];
+          return _buildAdvertisementCard(card);
+        },
+      ),
+    );
+  }
+
+  Widget _buildAdvertisementCard(card) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 6,
+      ),
+      child: SizedBox(
+        width: 378,
+        child: AdvertisementCard(
+          widget: card.widget,
+          cardContext: AdvertisementCardTextContext(
+            title: card.title,
+            subTitle: card.subtitle,
+          ),
+        ),
+      ),
+    );
+  }
+}

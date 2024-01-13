@@ -86,6 +86,7 @@ flutter:
     - assets/points/eco_score_points_icon.svg
     - assets/shirt.svg
     - assets/gift-sharp.svg
+    - assets/notification/notification.svg
     - assets/services/dry.svg
     - assets/services/iron.svg
     - assets/services/recycle.svg

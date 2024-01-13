@@ -12,8 +12,9 @@ class CompactListItem extends StatelessWidget {
   final String subTitle;
   final bool isCircular;
   final bool withoutBoxShadow;
-  final Widget widgetOptions;
   final String? state;
+  final String type;
+  final bool haveOptions;
 
   CompactListItem({
     super.key,
@@ -23,25 +24,21 @@ class CompactListItem extends StatelessWidget {
     this.isCircular = false,
     this.withoutBoxShadow = false,
     this.options,
+    this.type = 'default',
   })  : state = null,
-        widgetOptions = IconButton(
-          onPressed: options,
-          icon: const Icon(Icons.more_vert_rounded),
-          color: AppColor.widgetSecondary,
-        );
+        haveOptions = false;
 
-  const CompactListItem.withoutOptions({
+  CompactListItem.withoutOptions({
     super.key,
     required this.widget,
     required this.title,
     required this.subTitle,
     this.isCircular = false,
     this.withoutBoxShadow = false,
+    this.type = 'withoutOptions',
   })  : state = null,
         options = null,
-        widgetOptions = const SizedBox(
-          width: 24,
-        );
+        haveOptions = false;
 
   CompactListItem.group({
     super.key,
@@ -52,30 +49,11 @@ class CompactListItem extends StatelessWidget {
     this.isCircular = false,
     this.withoutBoxShadow = false,
     this.options,
-  }) : widgetOptions = Stack(
-          children: [
-            Container(
-              width: 60,
-            ),
-            Positioned(
-              right: 0,
-              child: IconButton(
-                onPressed: options,
-                icon: const Icon(Icons.more_vert_rounded),
-                color: AppColor.widgetSecondary,
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              width: 65,
-              child: Text(
-                state!,
-                style: AppText.subHeader,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        );
+    this.type = 'group',
+    this.haveOptions = false,
+  });
+
+  final GlobalKey _buttonKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +95,90 @@ class CompactListItem extends StatelessWidget {
               ],
             ),
           ),
-          widgetOptions,
+          _typeOptions(context),
         ],
       ),
+    );
+  }
+
+  Widget _typeOptions(BuildContext context) {
+    switch (type) {
+      case 'default':
+        return IconButton(
+          key: _buttonKey,
+          onPressed: () {
+            _showOptionsMenu(context);
+          },
+          icon: const Icon(Icons.more_vert_rounded),
+          color: AppColor.widgetSecondary,
+        );
+      case 'withoutOptions':
+        return const SizedBox(
+          width: 24,
+        );
+      case 'group':
+        return Stack(
+          children: [
+            Container(
+              width: 60,
+            ),
+            if (haveOptions)
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  key: _buttonKey,
+                  onPressed: () {
+                    _showOptionsMenu(context);
+                  },
+                  icon: const Icon(Icons.more_vert_rounded),
+                  color: AppColor.widgetSecondary,
+                ),
+              ),
+            Positioned(
+              bottom: 0,
+              width: 65,
+              child: Text(
+                state!,
+                style: AppText.subHeader,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        );
+    }
+
+    return const SizedBox(
+      width: 24,
+    );
+  }
+
+  void _showOptionsMenu(BuildContext context) {
+    final RenderBox buttonRenderBox =
+        _buttonKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset buttonPosition = buttonRenderBox.localToGlobal(Offset.zero);
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        buttonPosition.dx,
+        buttonPosition.dy,
+        buttonPosition.dx + buttonRenderBox.size.width,
+        buttonPosition.dy + buttonRenderBox.size.height,
+      ),
+      items: [
+        PopupMenuItem(
+          child: Text('Opção 1'),
+          onTap: () {
+            //TODO: ACTION
+          },
+        ),
+        PopupMenuItem(
+          child: Text('Opção 2'),
+          onTap: () {
+            //TODO: ACTION
+          },
+        ),
+      ],
     );
   }
 }

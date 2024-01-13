@@ -6,6 +6,7 @@ class CompactListItemUser extends StatelessWidget {
   static const Radius borderRadius = Radius.circular(10);
 
   final VoidCallback? options;
+  final VoidCallback? click;
 
   final String title;
   final int userLevel;
@@ -14,7 +15,7 @@ class CompactListItemUser extends StatelessWidget {
   final bool withoutBoxShadow;
   final bool hasOptions;
 
-  const CompactListItemUser({
+  CompactListItemUser({
     super.key,
     required this.title,
     required this.userLevel,
@@ -23,10 +24,35 @@ class CompactListItemUser extends StatelessWidget {
     this.withoutBoxShadow = false,
     this.options,
     this.hasOptions = true,
+  }) : click = null;
+
+  CompactListItemUser.open({
+    super.key,
+    required this.title,
+    required this.userLevel,
+    required this.sustainablePoints,
+    required this.ecoScorePoints,
+    this.withoutBoxShadow = false,
+    this.options,
+    this.hasOptions = true,
+    required this.click,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (click != null) {
+      return InkWell(
+        child: body(context),
+        onTap: () => click,
+      );
+    }
+
+    return body(context);
+  }
+
+  final GlobalKey _buttonKey = GlobalKey();
+
+  Widget body(BuildContext context) {
     const double height = 88;
 
     return Container(
@@ -93,13 +119,51 @@ class CompactListItemUser extends StatelessWidget {
             ),
           ),
           if (hasOptions)
-            IconButton(
-              onPressed: options,
-              icon: const Icon(Icons.more_vert_rounded),
-              color: AppColor.widgetSecondary,
+            InkWell(
+              key: _buttonKey,
+              onTap: () {
+                _showOptionsMenu(context);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: const Icon(
+                  Icons.more_vert_rounded,
+                  color: AppColor.widgetSecondary,
+                ),
+              ),
             ),
         ],
       ),
+    );
+  }
+
+  void _showOptionsMenu(BuildContext context) {
+    final RenderBox buttonRenderBox =
+        _buttonKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset buttonPosition = buttonRenderBox.localToGlobal(Offset.zero);
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        buttonPosition.dx,
+        buttonPosition.dy,
+        buttonPosition.dx + buttonRenderBox.size.width,
+        buttonPosition.dy + buttonRenderBox.size.height,
+      ),
+      items: [
+        PopupMenuItem(
+          child: Text('Opção 1'),
+          onTap: () {
+            //TODO: ACTION
+          },
+        ),
+        PopupMenuItem(
+          child: Text('Opção 2'),
+          onTap: () {
+            //TODO: ACTION
+          },
+        ),
+      ],
     );
   }
 }

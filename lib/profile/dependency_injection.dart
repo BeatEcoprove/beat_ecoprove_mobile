@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/profile/presentation/change_profile/change_profile_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/prizes/prizes_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/profile/profile_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/settings/settings_view_model.dart';
@@ -20,6 +21,8 @@ extension ProfileDependencyInjection on DependencyInjection {
         .registerFactory(() => PrizesViewModel(authProvider, router.appRouter));
     locator.registerFactory(
         () => TradePointsViewModel(authProvider, router.appRouter));
+    locator.registerFactory(
+        () => ChangeProfileViewModel(authProvider, router.appRouter));
   }
 
   void addProfile() {

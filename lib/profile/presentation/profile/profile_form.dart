@@ -72,7 +72,7 @@ class ProfileForm extends StatelessWidget {
                             Icons.person,
                             color: AppColor.widgetBackground,
                           ),
-                          onPress: () {},
+                          onPress: () => goRouter.push("/changeprofile"),
                         ),
                       ),
                       Positioned(

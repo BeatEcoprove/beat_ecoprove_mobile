@@ -19,8 +19,8 @@ class GroupChatMembersForm extends StatelessWidget {
     const lateralPadding = 38;
     double maxWidth = MediaQuery.of(context).size.width - lateralPadding;
 
-    return const Scaffold(
-      appBar: GroupHeader(
+    return Scaffold(
+      appBar: const GroupHeader(
         goBack: "/chat",
         title: "Grupos",
         state: "Privado",
@@ -28,7 +28,7 @@ class GroupChatMembersForm extends StatelessWidget {
       ),
       body: AppBackground(
         content: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ),
           child: Column(
@@ -37,10 +37,10 @@ class GroupChatMembersForm extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 26,
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
@@ -55,6 +55,7 @@ class GroupChatMembersForm extends StatelessWidget {
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
+                              //TODO: CHANGE
                               child: Text(
                                 "3 membros",
                                 style: AppText.subHeader,
@@ -71,14 +72,15 @@ class GroupChatMembersForm extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
+                    //TODO: CHANGE
                     CompactListItemUser(
                       title: "Diogo Assunção",
                       userLevel: 15,
                       sustainablePoints: 50,
                       ecoScorePoints: 50,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     CompactListItemUser(
@@ -87,7 +89,7 @@ class GroupChatMembersForm extends StatelessWidget {
                       sustainablePoints: 10,
                       ecoScorePoints: 100,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     CompactListItemUser(
@@ -96,15 +98,15 @@ class GroupChatMembersForm extends StatelessWidget {
                       sustainablePoints: 500,
                       ecoScorePoints: 1000,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 26,
                     ),
-                    Text(
+                    const Text(
                       "Administrador",
                       style: AppText.titleToScrollSection,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     CompactListItemUser(
                       title: "Diogo Assunção",
                       userLevel: 15,

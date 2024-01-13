@@ -69,6 +69,7 @@ class GroupForm extends StatelessWidget {
                           title: "Grupo S",
                           subTitle: "3 membros",
                           state: "Privado",
+                          haveOptions: true,
                         ),
                       ),
                       const SizedBox(

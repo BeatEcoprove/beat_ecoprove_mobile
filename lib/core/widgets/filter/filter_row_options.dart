@@ -25,7 +25,7 @@ class FilterRowOptions extends StatefulWidget {
 }
 
 class _FilterRowOptionsState extends State<FilterRowOptions> {
-  final Map<String, dynamic> selectedFilterButtons = {};
+  final Map<String, Map<String, String>> selectedFilterButtons = {};
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,9 @@ class _FilterRowOptionsState extends State<FilterRowOptions> {
       dimension: option.dimension,
       isSelected: widget.filterIsSelect(option.text),
       onPress: () => setState(() {
-        selectedFilterButtons.addAll({option.text: option.value});
+        selectedFilterButtons.addAll({
+          option.text: {option.value: option.tag}
+        });
 
         widget.onSelectionChanged(selectedFilterButtons);
         selectedFilterButtons.clear();

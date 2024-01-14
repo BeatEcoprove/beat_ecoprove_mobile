@@ -1,8 +1,8 @@
 import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
-import 'package:beat_ecoprove/clothing/use-cases/delete_card_use_case.dart';
-import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
-import 'package:beat_ecoprove/clothing/use-cases/mark_cloth_as_daily_use_use_case.dart';
-import 'package:beat_ecoprove/clothing/use-cases/register_bucket_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/delete_card_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/get_closet_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -61,6 +61,8 @@ class ClothingViewModel extends ViewModel {
 
   void changeHorizontalFiltersSelection(List<String> filters) {
     _selectedHorizontalFilters = filters;
+    fetchCloset();
+    notifyListeners();
   }
 
   bool haveThisFilter(String filter) => _selectedFilters.containsKey(filter);
@@ -69,6 +71,7 @@ class ClothingViewModel extends ViewModel {
 
   void changeFilterSelection(Map<String, dynamic> filters) {
     _selectedFilters = filters;
+    fetchCloset();
     notifyListeners();
   }
 
@@ -89,9 +92,19 @@ class ClothingViewModel extends ViewModel {
   List<CardItem> get getCloset => _cards;
 
   Future<List<CardItem>> fetchCloset() async {
+    Map<String, String> param = {};
+
+    for (var (value as Map<String, String>) in _selectedFilters.values) {
+      param.addAll(value);
+    }
+
+    for (var filter in _selectedHorizontalFilters) {
+      param.addAll({filter: 'category'});
+    }
+
     try {
       _cards.clear();
-      _cards.addAll(await _getClosetUseCase.handle());
+      _cards.addAll(await _getClosetUseCase.handle(param));
     } catch (e) {
       print("$e");
     }

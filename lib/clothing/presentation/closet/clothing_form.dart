@@ -1,10 +1,10 @@
 import 'package:async/async.dart';
+import 'package:beat_ecoprove/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
-import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';

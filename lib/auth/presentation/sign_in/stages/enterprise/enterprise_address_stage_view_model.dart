@@ -45,8 +45,6 @@ class EnterpriseAddressStageViewModel extends FormViewModel {
   }
 
   void setPostalCode(String postalCode) {
-    print(postalCode);
-
     try {
       if (postalCode.isEmpty) {
         throw DomainException("Introduza um codigo postal");

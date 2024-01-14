@@ -183,17 +183,17 @@ Widget _buildRegisterForm(
                           width: dimension,
                           height: dimension,
                           decoration: BoxDecoration(
-                            color: viewModel.allSelectedFilters.values
-                                        .firstOrNull ==
-                                    null
-                                ? Colors.black
-                                : Color(
-                                    int.parse(
-                                      viewModel.allSelectedFilters.values
-                                          .firstOrNull,
-                                      radix: 16,
-                                    ),
-                                  ),
+                            color:
+                                viewModel.allSelectedFilters.keys.firstOrNull ==
+                                        null
+                                    ? Colors.black
+                                    : Color(
+                                        int.parse(
+                                          viewModel.allSelectedFilters.keys
+                                              .firstOrNull!,
+                                          radix: 16,
+                                        ),
+                                      ),
                             shape: BoxShape.circle,
                             boxShadow: const [AppColor.defaultShadow],
                           ),

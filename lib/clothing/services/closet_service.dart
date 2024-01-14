@@ -11,9 +11,12 @@ class ClosetService {
 
   ClosetService(this._httpClient);
 
-  Future<ClosetResult> getCloset() async {
+  Future<ClosetResult> getCloset(String filters) async {
     return ClosetResult.fromJson(await _httpClient.makeRequestJson(
-        method: HttpMethods.get, path: "profiles/closet", expectedCode: 200));
+      method: HttpMethods.get,
+      path: "profiles/closet?page=1&pageSize=10$filters",
+      expectedCode: 200,
+    ));
   }
 
   Future deleteCloth(String clothId) async {

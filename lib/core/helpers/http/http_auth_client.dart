@@ -33,7 +33,8 @@ class HttpAuthClient implements HttpClient {
         level: decodedToken[Tokens.level],
         levelPercent: decodedToken[Tokens.levelPercent],
         sustainablePoints: decodedToken[Tokens.sustainablePoints],
-        // ecoScore: decodedToken[Tokens.ecoScore],
+        ecoScore: decodedToken[Tokens.ecoScore],
+        ecoCoins: decodedToken[Tokens.ecoCoins],
       ),
     ));
   }

@@ -78,20 +78,19 @@ class ProfileForm extends StatelessWidget {
                       Positioned(
                         top: 146,
                         right: (width / 2) - 200,
-                        child: const Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               "Eco-Score",
                               textAlign: TextAlign.center,
                               style: AppText.smallSubHeader,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 4,
                             ),
                             Points.ecoScore(
-                              //TODO: CHANGE TO ecoScore
-                              points: 100,
+                              points: user.ecoScore,
                             ),
                           ],
                         ),
@@ -100,19 +99,19 @@ class ProfileForm extends StatelessWidget {
                     const SizedBox(
                       height: 6,
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // TODO: Change user XP and max. XP for level
                         Text(
-                          user.level.toString() + '/' + '100',
+                          '0/100',
                           textAlign: TextAlign.center,
                           style: AppText.titleToScrollSection,
                         ),
-                        const SizedBox(
+                        SizedBox(
                           width: 3,
                         ),
-                        const Text(
+                        Text(
                           'XP',
                           textAlign: TextAlign.center,
                           style: AppText.rating,
@@ -149,25 +148,25 @@ class ProfileForm extends StatelessWidget {
                             ),
                           ],
                         ),
-                        // const SizedBox(
-                        //   width: 12,
-                        // ),
-                        // Column(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Text(
-                        //       "Eco-Coins",
-                        //       textAlign: TextAlign.center,
-                        //       style: AppText.smallSubHeader,
-                        //     ),
-                        //     SizedBox(
-                        //       height: 4,
-                        //     ),
-                        //     Points.ecoCoins(
-                        //       points: 50,
-                        //     ),
-                        //   ],
-                        // ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Eco-Coins",
+                              textAlign: TextAlign.center,
+                              style: AppText.smallSubHeader,
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Points.ecoCoins(
+                              points: user.ecoCoins,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     const SizedBox(

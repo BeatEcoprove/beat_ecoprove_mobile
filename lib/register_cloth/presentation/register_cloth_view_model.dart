@@ -49,7 +49,7 @@ class RegisterClothViewModel extends FormViewModel {
     //TODO: Change
     setValue(FormFieldValues.clothBrand, "Salsa");
     setValue(FormFieldValues.clothColor,
-        _selectedFilter.values.firstOrNull ?? "FF000000");
+        _selectedFilter.keys.firstOrNull ?? "FF000000");
     setValue(FormFieldValues.clothImage, XFile(defaultImage));
   }
 
@@ -122,6 +122,7 @@ class RegisterClothViewModel extends FormViewModel {
           ),
         ),
         dimension: 50,
+        tag: "color",
       ));
     }
 
@@ -133,8 +134,14 @@ class RegisterClothViewModel extends FormViewModel {
   Map<String, dynamic> get allSelectedFilters => _selectedFilter;
 
   void changeFilterSelection(Map<String, dynamic> filters) {
-    _selectedFilter = filters;
-    setValue(FormFieldValues.clothColor, _selectedFilter.values.firstOrNull);
+    Map<String, String> colors = {};
+
+    for (var (value as Map<String, String>) in filters.values) {
+      colors.addAll(value);
+    }
+
+    _selectedFilter = colors;
+    setValue(FormFieldValues.clothColor, _selectedFilter.keys.firstOrNull);
 
     notifyListeners();
   }

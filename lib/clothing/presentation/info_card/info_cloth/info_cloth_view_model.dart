@@ -1,5 +1,5 @@
-import 'package:beat_ecoprove/clothing/use-cases/mark_cloth_as_daily_use_use_case.dart';
-import 'package:beat_ecoprove/clothing/use-cases/unmark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class InfoClothViewModel extends ViewModel {

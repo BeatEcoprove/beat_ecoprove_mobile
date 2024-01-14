@@ -18,6 +18,7 @@ class FilterButtonItem<T> {
   final double dimension;
   final Color? backgroundColor;
   final String value;
+  final String tag;
 
   FilterButtonItem({
     required this.text,
@@ -25,5 +26,6 @@ class FilterButtonItem<T> {
     this.dimension = 40,
     this.backgroundColor,
     required this.value,
+    required this.tag,
   });
 }

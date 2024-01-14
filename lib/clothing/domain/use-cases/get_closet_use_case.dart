@@ -5,18 +5,24 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:flutter/material.dart';
 
-class GetClosetUseCase implements UseCaseAction<Future<List<CardItem>>> {
+class GetClosetUseCase
+    implements UseCase<Map<String, String>, Future<List<CardItem>>> {
   final ClosetService _clothingService;
 
   GetClosetUseCase(this._clothingService);
 
   @override
-  Future<List<CardItem>> handle() async {
+  Future<List<CardItem>> handle(params) async {
     ClosetResult closetResult;
     List<CardItem> closet = [];
+    String filters = '';
+
+    if (params.isNotEmpty) {
+      filters = _prepareRequest(params);
+    }
 
     try {
-      closetResult = await _clothingService.getCloset();
+      closetResult = await _clothingService.getCloset(filters);
     } on HttpError catch (e) {
       print(e);
       throw Exception(e.getError().title);
@@ -68,6 +74,24 @@ class GetClosetUseCase implements UseCaseAction<Future<List<CardItem>>> {
       closet.add(card);
     }
 
+    filters = '';
     return closet;
+  }
+
+  String _prepareRequest(Map<String, String> params) {
+    Set<String> tags = {};
+    String endPoint = '&';
+
+    for (var param in params.values) {
+      tags.add(param);
+    }
+
+    for (var tag in tags) {
+      endPoint +=
+          '$tag=${params.entries.where((entry) => entry.value.contains(tag)).map((entry) => entry.key).join(',')}';
+      endPoint += '&';
+    }
+
+    return endPoint;
   }
 }

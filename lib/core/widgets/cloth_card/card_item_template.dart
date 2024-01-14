@@ -153,7 +153,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     double extraDistance = widget.otherProfileImage != null ? 18 : 0;
     return Stack(
       children: [
-        CompactListItem(
+        CompactListItem.withoutOptions(
           widget: widget.body(context, Types.compact),
           title: widget.title,
           subTitle: widget.subTitle ?? '',

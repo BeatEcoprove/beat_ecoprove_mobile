@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
@@ -117,6 +118,12 @@ class HomeForm extends StatelessWidget {
                       widget: service.widget,
                       title: service.title,
                       subTitle: service.subtitle,
+                      options: [
+                        OptionItem(
+                          name: 'Não voltar a aparecer',
+                          action: () {},
+                        )
+                      ],
                     ),
                   ),
               ],

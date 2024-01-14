@@ -1,11 +1,12 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:flutter/material.dart';
 
 class CompactListItem extends StatelessWidget {
   static const Radius borderRadius = Radius.circular(10);
 
-  final VoidCallback? options;
+  final List<OptionItem>? options;
 
   final Widget widget;
   final String title;
@@ -14,7 +15,6 @@ class CompactListItem extends StatelessWidget {
   final bool withoutBoxShadow;
   final String? state;
   final String type;
-  final bool haveOptions;
 
   CompactListItem({
     super.key,
@@ -23,10 +23,9 @@ class CompactListItem extends StatelessWidget {
     required this.subTitle,
     this.isCircular = false,
     this.withoutBoxShadow = false,
-    this.options,
+    required this.options,
     this.type = 'default',
-  })  : state = null,
-        haveOptions = false;
+  }) : state = null;
 
   CompactListItem.withoutOptions({
     super.key,
@@ -37,8 +36,7 @@ class CompactListItem extends StatelessWidget {
     this.withoutBoxShadow = false,
     this.type = 'withoutOptions',
   })  : state = null,
-        options = null,
-        haveOptions = false;
+        options = null;
 
   CompactListItem.group({
     super.key,
@@ -48,9 +46,19 @@ class CompactListItem extends StatelessWidget {
     required this.state,
     this.isCircular = false,
     this.withoutBoxShadow = false,
-    this.options,
     this.type = 'group',
-    this.haveOptions = false,
+  }) : options = null;
+
+  CompactListItem.groupWithOptions({
+    super.key,
+    required this.widget,
+    required this.title,
+    required this.subTitle,
+    required this.state,
+    this.isCircular = false,
+    this.withoutBoxShadow = false,
+    this.type = 'groupWithOptions',
+    required this.options,
   });
 
   final GlobalKey _buttonKey = GlobalKey();
@@ -122,18 +130,34 @@ class CompactListItem extends StatelessWidget {
             Container(
               width: 60,
             ),
-            if (haveOptions)
-              Positioned(
-                right: 0,
-                child: IconButton(
-                  key: _buttonKey,
-                  onPressed: () {
-                    _showOptionsMenu(context);
-                  },
-                  icon: const Icon(Icons.more_vert_rounded),
-                  color: AppColor.widgetSecondary,
-                ),
+            Positioned(
+              bottom: 0,
+              width: 65,
+              child: Text(
+                state!,
+                style: AppText.subHeader,
+                overflow: TextOverflow.ellipsis,
               ),
+            ),
+          ],
+        );
+      case 'groupWithOptions':
+        return Stack(
+          children: [
+            Container(
+              width: 60,
+            ),
+            Positioned(
+              right: 0,
+              child: IconButton(
+                key: _buttonKey,
+                onPressed: () {
+                  _showOptionsMenu(context);
+                },
+                icon: const Icon(Icons.more_vert_rounded),
+                color: AppColor.widgetSecondary,
+              ),
+            ),
             Positioned(
               bottom: 0,
               width: 65,
@@ -165,20 +189,12 @@ class CompactListItem extends StatelessWidget {
         buttonPosition.dx + buttonRenderBox.size.width,
         buttonPosition.dy + buttonRenderBox.size.height,
       ),
-      items: [
-        PopupMenuItem(
-          child: Text('Opção 1'),
-          onTap: () {
-            //TODO: ACTION
-          },
-        ),
-        PopupMenuItem(
-          child: Text('Opção 2'),
-          onTap: () {
-            //TODO: ACTION
-          },
-        ),
-      ],
+      items: options!.map((option) {
+        return PopupMenuItem(
+          onTap: option.action,
+          child: Text(option.name),
+        );
+      }).toList(),
     );
   }
 }

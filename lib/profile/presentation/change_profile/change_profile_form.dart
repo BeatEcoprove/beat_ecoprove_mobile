@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item_user.dart';
@@ -49,6 +50,10 @@ class ChangeProfileForm extends StatelessWidget {
                           sustainablePoints: 100,
                           ecoScorePoints: 600,
                           hasOptions: true,
+                          options: [
+                            OptionItem(name: 'Promover', action: () {}),
+                            OptionItem(name: 'Remover', action: () {}),
+                          ],
                         ),
                       ],
                     ),

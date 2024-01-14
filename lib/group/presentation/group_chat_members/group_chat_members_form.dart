@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
@@ -79,6 +80,10 @@ class GroupChatMembersForm extends StatelessWidget {
                       userLevel: 15,
                       sustainablePoints: 50,
                       ecoScorePoints: 50,
+                      options: [
+                        OptionItem(name: 'Promover a líder', action: () {}),
+                        OptionItem(name: 'Remover do Grupo', action: () {}),
+                      ],
                     ),
                     const SizedBox(
                       height: 8,
@@ -88,6 +93,10 @@ class GroupChatMembersForm extends StatelessWidget {
                       userLevel: 10,
                       sustainablePoints: 10,
                       ecoScorePoints: 100,
+                      options: [
+                        OptionItem(name: 'Promover a líder', action: () {}),
+                        OptionItem(name: 'Remover do Grupo', action: () {}),
+                      ],
                     ),
                     const SizedBox(
                       height: 8,
@@ -97,6 +106,10 @@ class GroupChatMembersForm extends StatelessWidget {
                       userLevel: 100,
                       sustainablePoints: 500,
                       ecoScorePoints: 1000,
+                      options: [
+                        OptionItem(name: 'Promover a líder', action: () {}),
+                        OptionItem(name: 'Remover do Grupo', action: () {}),
+                      ],
                     ),
                     const SizedBox(
                       height: 26,
@@ -107,7 +120,7 @@ class GroupChatMembersForm extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 12),
-                    CompactListItemUser(
+                    CompactListItemUser.withoutOptions(
                       title: "Diogo Assunção",
                       userLevel: 15,
                       sustainablePoints: 50,

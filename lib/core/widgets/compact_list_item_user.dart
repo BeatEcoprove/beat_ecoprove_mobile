@@ -1,11 +1,12 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:flutter/material.dart';
 
 class CompactListItemUser extends StatelessWidget {
   static const Radius borderRadius = Radius.circular(10);
 
-  final VoidCallback? options;
+  final List<OptionItem>? options;
   final VoidCallback? click;
 
   final String title;
@@ -22,9 +23,20 @@ class CompactListItemUser extends StatelessWidget {
     required this.sustainablePoints,
     required this.ecoScorePoints,
     this.withoutBoxShadow = false,
-    this.options,
+    required this.options,
     this.hasOptions = true,
   }) : click = null;
+
+  CompactListItemUser.withoutOptions({
+    super.key,
+    required this.title,
+    required this.userLevel,
+    required this.sustainablePoints,
+    required this.ecoScorePoints,
+    this.withoutBoxShadow = false,
+    this.hasOptions = false,
+  })  : click = null,
+        options = null;
 
   CompactListItemUser.open({
     super.key,
@@ -33,7 +45,7 @@ class CompactListItemUser extends StatelessWidget {
     required this.sustainablePoints,
     required this.ecoScorePoints,
     this.withoutBoxShadow = false,
-    this.options,
+    required this.options,
     this.hasOptions = true,
     required this.click,
   });
@@ -150,20 +162,12 @@ class CompactListItemUser extends StatelessWidget {
         buttonPosition.dx + buttonRenderBox.size.width,
         buttonPosition.dy + buttonRenderBox.size.height,
       ),
-      items: [
-        PopupMenuItem(
-          child: Text('Opção 1'),
-          onTap: () {
-            //TODO: ACTION
-          },
-        ),
-        PopupMenuItem(
-          child: Text('Opção 2'),
-          onTap: () {
-            //TODO: ACTION
-          },
-        ),
-      ],
+      items: options!.map((option) {
+        return PopupMenuItem(
+          onTap: option.action,
+          child: Text(option.name),
+        );
+      }).toList(),
     );
   }
 }

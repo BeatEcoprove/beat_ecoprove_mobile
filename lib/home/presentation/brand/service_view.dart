@@ -70,7 +70,7 @@ class _ServiceViewState extends State<ServiceView> {
                 for (var store in stores)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: CompactListItem(
+                    child: CompactListItem.withoutOptions(
                       isCircular: true,
                       widget: store.image,
                       title: store.name,

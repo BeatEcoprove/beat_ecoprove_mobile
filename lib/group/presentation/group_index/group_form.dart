@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -59,7 +60,7 @@ class GroupForm extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () => goRouter.push("/chat"),
-                        child: CompactListItem.group(
+                        child: CompactListItem.groupWithOptions(
                           isCircular: true,
                           widget: const SvgImage(
                             width: 66,
@@ -69,7 +70,12 @@ class GroupForm extends StatelessWidget {
                           title: "Grupo S",
                           subTitle: "3 membros",
                           state: "Privado",
-                          haveOptions: true,
+                          options: [
+                            OptionItem(
+                              name: 'Sair do Grupo',
+                              action: () {},
+                            )
+                          ],
                         ),
                       ),
                       const SizedBox(

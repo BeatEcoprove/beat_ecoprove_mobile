@@ -6,10 +6,12 @@ import 'package:beat_ecoprove/clothing/services/outfit_service.dart';
 import 'package:beat_ecoprove/clothing/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/mark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/clothing/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
 
 extension ClothingDependencyInjection on DependencyInjection {
@@ -28,20 +30,31 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerSingleton(MarkClothAsDailyUseUseCase(outfitService));
     locator.registerSingleton(UnMarkClothAsDailyUseUseCase(outfitService));
     locator.registerSingleton(DeleteCardUseCase(clothingService));
+    locator.registerSingleton(RegisterBucketUseCase(clothingService));
   }
 
   void _addViewModels(GetIt locator) {
+    var router = locator<AppRouter>();
     var authProvider = locator<AuthenticationProvider>();
     var getClosetUseCase = locator<GetClosetUseCase>();
     var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
     var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
     var deleteCardUseCase = locator<DeleteCardUseCase>();
+    var registerBucketUseCase = locator<RegisterBucketUseCase>();
 
-    locator.registerFactory(() => ClothingViewModel(authProvider,
-        getClosetUseCase, markClothAsDailyUseUseCase, deleteCardUseCase));
+    locator.registerFactory(() => ClothingViewModel(
+          authProvider,
+          getClosetUseCase,
+          markClothAsDailyUseUseCase,
+          deleteCardUseCase,
+          registerBucketUseCase,
+          router.appRouter,
+        ));
     locator.registerFactory(() => InfoClothServiceViewModel());
     locator.registerFactory(() => InfoClothViewModel(
-        markClothAsDailyUseUseCase, unMarkClothAsDailyUseUseCase));
+          markClothAsDailyUseUseCase,
+          unMarkClothAsDailyUseUseCase,
+        ));
   }
 
   void addCloset() {

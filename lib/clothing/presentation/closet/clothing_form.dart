@@ -49,9 +49,7 @@ class _ClothingFormState extends State<ClothingForm> {
                 bottom: 16,
                 right: 26,
                 child: FloatingButton(
-                  color: viewModel.isLoading
-                      ? AppColor.black
-                      : AppColor.buttonBackground,
+                  color: AppColor.buttonBackground,
                   dimension: 64,
                   icon: const Icon(
                     size: 34,
@@ -73,17 +71,20 @@ class _ClothingFormState extends State<ClothingForm> {
                   width: 75,
                 ),
               ),
-              const Positioned(
+              Positioned(
                 bottom: 96,
                 right: 26,
                 child: FloatingButton(
                   color: AppColor.bucketButton,
                   dimension: 64,
-                  icon: SvgImage(
+                  icon: const SvgImage(
                     path: "assets/services/bucket.svg",
                     height: 25,
                     width: 25,
                   ),
+                  onPressed: () async => {
+                    if (!viewModel.isLoading) await viewModel.registerBucket(),
+                  },
                 ),
               ),
             ] else ...[

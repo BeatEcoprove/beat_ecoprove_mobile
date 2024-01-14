@@ -1,15 +1,20 @@
+import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/clothing/use-cases/mark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/clothing/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class ClothingViewModel extends ViewModel {
   final GetClosetUseCase _getClosetUseCase;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final DeleteCardUseCase _deleteCardUseCase;
+  final RegisterBucketUseCase _registerBucketUseCase;
+  final GoRouter _navigationRouter;
 
   late bool isLoading = false;
 
@@ -25,6 +30,8 @@ class ClothingViewModel extends ViewModel {
     this._getClosetUseCase,
     this._markClothAsDailyUseUseCase,
     this._deleteCardUseCase,
+    this._registerBucketUseCase,
+    this._navigationRouter,
   ) {
     _user = _authProvider.appUser;
   }
@@ -75,6 +82,8 @@ class ClothingViewModel extends ViewModel {
     } catch (e) {
       print("$e");
     }
+
+    _navigationRouter.go("/");
   }
 
   List<CardItem> get getCloset => _cards;
@@ -90,6 +99,7 @@ class ClothingViewModel extends ViewModel {
     return _cards;
   }
 
+  //TODO: IF IS ALREADY MARK AS USE, UNMARK
   Future markClothAsDailyUse() async {
     List<String> listIds = [];
 
@@ -106,6 +116,35 @@ class ClothingViewModel extends ViewModel {
 
     try {
       await _markClothAsDailyUseUseCase.handle(listIds);
+    } catch (e) {
+      print("$e");
+    }
+
+    isLoading = false;
+    _selectedCards.clear();
+    notifyListeners();
+  }
+
+  Future registerBucket() async {
+    List<String> listIds = [];
+
+    isLoading = true;
+    notifyListeners();
+
+    for (var elem in _selectedCards.entries) {
+      if (elem.value.isEmpty) {
+        listIds.add(elem.key);
+      } else {
+        listIds.addAll(elem.value);
+      }
+    }
+
+    try {
+      //TODO: NAME CAN'T BE THE SAME
+      await _registerBucketUseCase.handle(RegisterBucketRequest(
+        'Default',
+        listIds,
+      ));
     } catch (e) {
       print("$e");
     }

@@ -25,7 +25,7 @@ class FloatingButton extends StatelessWidget {
       ),
       height: dimension,
       width: dimension,
-      child: GestureDetector(
+      child: InkWell(
         onTap: onPressed,
         child: icon,
       ),

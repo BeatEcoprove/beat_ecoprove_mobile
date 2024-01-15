@@ -23,7 +23,7 @@ class CreateGroupForm extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AppBackground(
-          content: Container(
+          content: SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: GoBack(
@@ -108,7 +108,7 @@ class CreateGroupForm extends StatelessWidget {
                               textColor: Colors.white,
                               disabled: viewModel.thereAreErrors,
                               onPress: () {
-                                goRouter.push("/");
+                                goRouter.pop();
                                 viewModel.registerGroup();
                               },
                             )

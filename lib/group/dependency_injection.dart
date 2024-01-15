@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/register_group_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_model.dart';
@@ -21,16 +22,18 @@ extension GroupDependencyInjection on DependencyInjection {
     var groupService = locator<GroupService>();
 
     locator.registerSingleton(RegisterGroupUseCase(groupService));
+    locator.registerSingleton(GetGroupsUseCase(groupService));
   }
 
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
     var router = locator<AppRouter>();
     var registerGroupUseCase = locator<RegisterGroupUseCase>();
+    var getGroupsUseCase = locator<GetGroupsUseCase>();
 
     locator.registerFactory(() => GroupViewModel(
           authProvider,
-          router.appRouter,
+          getGroupsUseCase,
         ));
     locator.registerFactory(
         () => GroupChatViewModel(authProvider, router.appRouter));

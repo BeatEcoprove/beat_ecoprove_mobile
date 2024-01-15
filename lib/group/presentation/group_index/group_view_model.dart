@@ -1,41 +1,42 @@
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:go_router/go_router.dart';
+import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
 
 class GroupViewModel extends ViewModel {
   final AuthenticationProvider _authProvider;
-
-  final GoRouter _navigationRouter;
+  final GetGroupsUseCase _getGroupsUseCase;
   late final User _user;
+
+  final List<GroupItem> _publicGroups = [];
+  final List<GroupItem> _privateGroups = [];
 
   GroupViewModel(
     this._authProvider,
-    this._navigationRouter,
+    this._getGroupsUseCase,
   ) {
     _user = _authProvider.appUser;
   }
 
   User get user => _user;
 
-  // Future<String> getGroups() async {
-  //   Map<String, String> param = {};
+  List<GroupItem> get getAllAuthenticatedUserGroups => _privateGroups;
+  List<GroupItem> get getAllPublicGroups => _publicGroups;
 
-  //   for (var (value as Map<String, String>) in _selectedFilters.values) {
-  //     param.addAll(value);
-  //   }
+  Future<List<GroupItem>> getGroups() async {
+    try {
+      _privateGroups.clear();
+      _publicGroups.clear();
 
-  //   for (var filter in _selectedHorizontalFilters) {
-  //     param.addAll({filter: 'category'});
-  //   }
+      var result = await _getGroupsUseCase.handle();
 
-  //   try {
-  //     _groups.clear();
-  //     _groups.addAll(await _getClosetUseCase.handle(param));
-  //   } catch (e) {
-  //     print("$e");
-  //   }
+      _privateGroups.addAll(result.mine);
+      _publicGroups.addAll(result.globals);
+    } catch (e) {
+      print("$e");
+    }
 
-  //   return _groups;
-  // }
+    return _privateGroups;
+  }
 }

@@ -23,7 +23,4 @@ final GoRoute authRoutes = GoRoute(
           );
         },
       ),
-      GoRoute(
-          path: 'sign_in_complete',
-          builder: (context, state) => const CompleteSignInView()),
     ]);

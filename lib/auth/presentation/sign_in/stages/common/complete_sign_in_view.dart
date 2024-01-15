@@ -5,8 +5,25 @@ import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class CompleteSignInView extends StatelessWidget {
-  const CompleteSignInView({super.key});
+class ShowCompletedViewParams {
+  final String text;
+  final String textButton;
+  final String route;
+
+  ShowCompletedViewParams({
+    required this.text,
+    required this.textButton,
+    this.route = '/',
+  });
+}
+
+class ShowCompletedView extends StatelessWidget {
+  final ShowCompletedViewParams params;
+
+  const ShowCompletedView({
+    super.key,
+    required this.params,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +36,16 @@ class CompleteSignInView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Column(
+              Column(
                 children: [
                   Text(
-                    "Conta criada com sucesso",
+                    params.text,
                     style: AppText.alternativeHeader,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 62,
                   ),
-                  Circle(
+                  const Circle(
                     color: AppColor.lightGreen,
                     strokeWidth: 7,
                     height: 160,
@@ -41,9 +58,9 @@ class CompleteSignInView extends StatelessWidget {
                 ],
               ),
               FormattedButton(
-                content: "Entrar",
+                content: params.textButton,
                 textColor: Colors.white,
-                onPress: () => router.go("/"),
+                onPress: () => router.go(params.route),
               ),
             ],
           ),

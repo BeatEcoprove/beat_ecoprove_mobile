@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/profile/contracts/profiles_result.dart';
+import 'package:beat_ecoprove/profile/contracts/register_profile_request.dart';
 
 class ProfileService {
   final HttpAuthClient _httpClient;
@@ -15,12 +16,12 @@ class ProfileService {
     ));
   }
 
-  // Future registerGroup(RegisterGroupRequest request) async {
-  //   await _httpClient.makeRequestMultiPart(
-  //     method: HttpMethods.post,
-  //     path: "groups",
-  //     body: request,
-  //     expectedCode: 200,
-  //   );
-  // }
+  Future registerProfile(RegisterProfileRequest request) async {
+    await _httpClient.makeRequestMultiPart(
+      method: HttpMethods.post,
+      path: "profiles",
+      body: request,
+      expectedCode: 200,
+    );
+  }
 }

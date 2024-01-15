@@ -1,11 +1,13 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
+import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class SignInPersonalRequest implements BaseMultiPartRequest {
   final String name;
-  final String bornDate;
-  final String gender;
+  final DateTime bornDate;
+  final Gender gender;
   final String userName;
   final XFile avatarPicture;
   final String email;
@@ -26,9 +28,9 @@ class SignInPersonalRequest implements BaseMultiPartRequest {
   @override
   Map<String, dynamic> toMultiPart() {
     return {
-      'name': name, //TODO: Alterar
-      'bornDate': "2023-10-23",
-      'gender': "male", //TODO: Alterar
+      'name': name,
+      'bornDate': DateFormat('MM/dd/yyyy').format(bornDate),
+      'gender': gender.value,
       'userName': userName,
       'avatarPicture': avatarPicture,
       'email': email,

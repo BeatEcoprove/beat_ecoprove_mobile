@@ -83,16 +83,18 @@ class ChangeProfileForm extends StatelessWidget {
                                         ),
                                         //TODO: CHANGE TO TOTAL OF POINTS OF THE PROFILES
                                         Points.ecoScore(
-                                            points: [
-                                          viewModel.profilesResult.mainProfile,
-                                          ...viewModel
-                                              .profilesResult.nestedProfiles
-                                        ].fold(
-                                                0,
-                                                (previousValue, myObject) =>
-                                                    previousValue +
-                                                    myObject
-                                                        .sustainabilityPoints)),
+                                          points: [
+                                            viewModel
+                                                .profilesResult.mainProfile,
+                                            ...viewModel
+                                                .profilesResult.nestedProfiles
+                                          ].fold(
+                                              0,
+                                              (previousValue, myObject) =>
+                                                  previousValue +
+                                                  myObject
+                                                      .sustainabilityPoints),
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -115,7 +117,7 @@ class ChangeProfileForm extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    context.go("/");
+                                    context.push("/createprofile");
                                   },
                                   child: const Text(
                                     "Adicionar",

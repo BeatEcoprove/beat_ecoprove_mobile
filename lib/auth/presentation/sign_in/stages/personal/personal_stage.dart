@@ -78,8 +78,13 @@ class _PersonalStageState extends State<PersonalStage> {
                     height: _textBoxGap,
                   ),
                   FormattedDropDown(
-                    options: Gender.getAllTypes(),
-                    value: viewModel.getValue(FormFieldValues.gender).value,
+                    options: Gender.getAllTypes()
+                        .map((e) => e.displayValue)
+                        .toList(),
+                    value: viewModel
+                        .getValue(FormFieldValues.gender)
+                        .value
+                        .toString(),
                     onValueChanged: (value) =>
                         viewModel.setValue(FormFieldValues.gender, value),
                   ),

@@ -261,7 +261,7 @@ class InfoClothServiceViewModel extends ViewModel {
           ]
         }),
     ServiceItem(
-      title: "Recolha",
+      title: "Enviar para reciclagem",
       idText: "recycle",
       content: const SvgImage(
         path: "assets/services/recycle.svg",

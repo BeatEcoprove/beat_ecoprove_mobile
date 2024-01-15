@@ -19,7 +19,11 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   clothSize(value: "garmentSize"),
   clothBrand(value: "brand"),
   clothColor(value: "color"),
-  clothImage(value: "clothAvatar");
+  clothImage(value: "clothAvatar"),
+  groupName(value: "groupName"),
+  groupDescription(value: "groupDescription"),
+  groupIsPublic(value: "groupIsPublic"),
+  groupPicture(value: "groupPicture");
 
   final String value;
   const FormFieldValues({required this.value});

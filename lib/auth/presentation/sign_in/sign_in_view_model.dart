@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/complete_sign_in_view.dart';
+import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_enterprise_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_personal_use_case.dart';

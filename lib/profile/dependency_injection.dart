@@ -1,7 +1,9 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/delete_profile_use_case.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/promote_profile_use_case.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/register_group_use_case.dart';
 import 'package:beat_ecoprove/profile/presentation/change_profile/change_profile_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/create_profile/create_profile_view_model.dart';
@@ -25,6 +27,8 @@ extension ProfileDependencyInjection on DependencyInjection {
 
     locator.registerSingleton(RegisterProfileUseCase(profileService));
     locator.registerSingleton(GetNestedProfilesUseCase(profileService));
+    locator.registerSingleton(DeleteProfileUseCase(profileService));
+    locator.registerSingleton(PromoteProfileUseCase(profileService));
   }
 
   void _addViewModels(GetIt locator) {
@@ -32,6 +36,8 @@ extension ProfileDependencyInjection on DependencyInjection {
     var router = locator<AppRouter>();
     var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
     var createProfilesUseCase = locator<RegisterProfileUseCase>();
+    var deleteProfileUseCase = locator<DeleteProfileUseCase>();
+    var promoteProfileUseCase = locator<PromoteProfileUseCase>();
 
     locator.registerFactory(
         () => ProfileViewModel(authProvider, router.appRouter));
@@ -45,6 +51,8 @@ extension ProfileDependencyInjection on DependencyInjection {
           authProvider,
           router.appRouter,
           getNestedProfilesUseCase,
+          deleteProfileUseCase,
+          promoteProfileUseCase,
         ));
     locator.registerFactory(() => CreateProfileViewModel(
           router.appRouter,

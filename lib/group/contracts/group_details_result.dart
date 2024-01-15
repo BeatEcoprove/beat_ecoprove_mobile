@@ -1,29 +1,4 @@
-class ProfileResult {
-  final String id;
-  final String username;
-  final int level;
-  final int levelPercentage;
-  final int sustainabilityPoints;
-  final String avatarUrl;
-
-  ProfileResult(this.id, this.username, this.level, this.levelPercentage,
-      this.sustainabilityPoints, this.avatarUrl);
-
-  factory ProfileResult.empty() {
-    return ProfileResult('', '', 0, 0, 0, '');
-  }
-
-  factory ProfileResult.fromJson(Map<String, dynamic> json) {
-    return ProfileResult(
-      json['id'],
-      json['username'],
-      json['level'],
-      json['levelPercentage'],
-      json['sustainabilityPoints'],
-      json['avatarUrl'],
-    );
-  }
-}
+import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
 
 class GroupDetailsResult {
   final String id;

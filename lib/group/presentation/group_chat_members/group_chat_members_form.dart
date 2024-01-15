@@ -1,136 +1,164 @@
+import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
-import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item_user.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/group_header.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view_model.dart';
 import 'package:flutter/material.dart';
 
+class GroupParams {
+  final String groupId;
+  final String title;
+  final String state;
+  final String numberMembers;
+
+  GroupParams({
+    required this.groupId,
+    required this.title,
+    required this.state,
+    required this.numberMembers,
+  });
+}
+
 class GroupChatMembersForm extends StatelessWidget {
-  const GroupChatMembersForm({super.key});
+  final GroupParams params;
+
+  const GroupChatMembersForm({
+    super.key,
+    required this.params,
+  });
 
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<GroupChatMembersViewModel>(context);
-    const Radius borderRadius = Radius.circular(5);
-    const lateralPadding = 38;
-    double maxWidth = MediaQuery.of(context).size.width - lateralPadding;
+    final memo = AsyncMemoizer();
 
     return Scaffold(
-      appBar: const GroupHeader(
-        goBack: "/chat",
-        title: "Grupos",
-        state: "Privado",
-        numberMembers: "3",
+      appBar: GroupHeader(
+        title: params.title,
+        state: params.state,
+        numberMembers: params.numberMembers.toString(),
       ),
       body: AppBackground(
         content: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 26,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+          child: FutureBuilder(
+            future: memo.runOnce(
+                () async => await viewModel.getDetails(params.groupId)),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                default:
+                  return Column(
+                    children: [
+                      SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Membros",
+                            const SizedBox(
+                              height: 26,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Membros",
+                                      style: AppText.titleToScrollSection,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(
+                                      width: 6,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        "${params.numberMembers} membros",
+                                        style: AppText.subHeader,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const InkWell(
+                                  child: Icon(
+                                    Icons.add_rounded,
+                                    color: AppColor.widgetSecondary,
+                                  ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              children: viewModel.details.members
+                                  .map(
+                                    (member) => Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 8),
+                                      child: CompactListItemUser(
+                                        title: member.username,
+                                        userLevel: member.level,
+                                        sustainablePoints:
+                                            member.sustainabilityPoints,
+                                        //TODO: CHAGE TO ECOSCORE
+                                        ecoScorePoints:
+                                            member.sustainabilityPoints,
+                                        hasOptions: viewModel.details.admins
+                                            .any((e) => e.id == member.id),
+                                        options: [
+                                          OptionItem(
+                                              name: 'Promover a líder',
+                                              action: () {}),
+                                          OptionItem(
+                                              name: 'Remover do Grupo',
+                                              action: () {}),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                            const SizedBox(
+                              height: 26,
+                            ),
+                            const Text(
+                              "Administrador",
                               style: AppText.titleToScrollSection,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              //TODO: CHANGE
-                              child: Text(
-                                "3 membros",
-                                style: AppText.subHeader,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                            Column(
+                              children: viewModel.details.admins
+                                  .map(
+                                    (admin) => Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 8),
+                                      child: CompactListItemUser.withoutOptions(
+                                        title: admin.username,
+                                        userLevel: admin.level,
+                                        sustainablePoints:
+                                            admin.sustainabilityPoints,
+                                        //TODO: CHAGE TO ECOSCORE
+                                        ecoScorePoints:
+                                            admin.sustainabilityPoints,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                             ),
                           ],
                         ),
-                        InkWell(
-                          child: Icon(
-                            Icons.add_rounded,
-                            color: AppColor.widgetSecondary,
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    //TODO: CHANGE
-                    CompactListItemUser(
-                      title: "Diogo Assunção",
-                      userLevel: 15,
-                      sustainablePoints: 50,
-                      ecoScorePoints: 50,
-                      options: [
-                        OptionItem(name: 'Promover a líder', action: () {}),
-                        OptionItem(name: 'Remover do Grupo', action: () {}),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    CompactListItemUser(
-                      title: "David Braga",
-                      userLevel: 10,
-                      sustainablePoints: 10,
-                      ecoScorePoints: 100,
-                      options: [
-                        OptionItem(name: 'Promover a líder', action: () {}),
-                        OptionItem(name: 'Remover do Grupo', action: () {}),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    CompactListItemUser(
-                      title: "Zé Cabra",
-                      userLevel: 100,
-                      sustainablePoints: 500,
-                      ecoScorePoints: 1000,
-                      options: [
-                        OptionItem(name: 'Promover a líder', action: () {}),
-                        OptionItem(name: 'Remover do Grupo', action: () {}),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 26,
-                    ),
-                    const Text(
-                      "Administrador",
-                      style: AppText.titleToScrollSection,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 12),
-                    CompactListItemUser.withoutOptions(
-                      title: "Diogo Assunção",
-                      userLevel: 15,
-                      sustainablePoints: 50,
-                      ecoScorePoints: 50,
-                      hasOptions: false,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                      ),
+                    ],
+                  );
+              }
+            },
           ),
         ),
         type: AppBackgrounds.members,

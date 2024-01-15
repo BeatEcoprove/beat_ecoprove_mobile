@@ -1,15 +1,19 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/group_header.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_model.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_form.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class GroupChatForm extends StatelessWidget {
-  const GroupChatForm({super.key});
+  final GroupItem groupItem;
+
+  const GroupChatForm({super.key, required this.groupItem});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +23,17 @@ class GroupChatForm extends StatelessWidget {
     const lateralPadding = 38;
     double maxWidth = MediaQuery.of(context).size.width - lateralPadding;
 
+    var params = GroupParams(
+        groupId: groupItem.id,
+        title: groupItem.name,
+        state: groupItem.isPublic == true ? "Público" : "Privado",
+        numberMembers: groupItem.membersCount.toString());
+
     return Scaffold(
-      appBar: const GroupHeader(
-        title: "Grupos",
-        state: "Privado",
-        numberMembers: "3",
+      appBar: GroupHeader(
+        title: params.title,
+        state: params.state,
+        numberMembers: params.numberMembers,
       ),
       body: Stack(
         children: [
@@ -52,7 +62,7 @@ class GroupChatForm extends StatelessWidget {
                 Icons.people_alt_rounded,
                 color: AppColor.bottomNavigationBar,
               ),
-              onPress: () => goRouter.push("/members"),
+              onPress: () => goRouter.push("/members", extra: params),
             ),
           ),
           // const Positioned(

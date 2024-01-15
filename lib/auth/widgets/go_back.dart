@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class GoBack extends StatefulWidget {
-  final String goBackPath;
+  final String? goBackPath;
   final Widget child;
   final double posTop;
   final double posLeft;
@@ -12,7 +12,7 @@ class GoBack extends StatefulWidget {
   final bool Function()? changeDefaultBehavior;
 
   const GoBack(
-      {this.goBackPath = '/',
+      {this.goBackPath,
       this.changeDefaultBehavior,
       required this.child,
       Key? key,
@@ -36,7 +36,9 @@ class _GoBackState extends State<GoBack> {
     }
 
     if (goRouter.canPop() && !callbackResult) {
-      goRouter.go(widget.goBackPath);
+      widget.goBackPath != null
+          ? goRouter.go(widget.goBackPath!)
+          : goRouter.pop();
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
+import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
 import 'package:beat_ecoprove/group/contracts/register_group_request.dart';
 
@@ -12,6 +13,14 @@ class GroupService {
     return GroupsResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path: "groups?page=1&pageSize=10",
+      expectedCode: 200,
+    ));
+  }
+
+  Future<GroupDetailsResult> getGroupDetails(String groupId) async {
+    return GroupDetailsResult.fromJson(await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "groups/$groupId",
       expectedCode: 200,
     ));
   }

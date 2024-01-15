@@ -1,5 +1,7 @@
+import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_form.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +14,15 @@ final GoRoute groupRoutes = GoRoute(
   routes: [
     GoRoute(
       path: 'chat',
-      builder: (context, state) => const GroupChatView(),
+      builder: (context, state) => GroupChatView(
+        groupItem: state.extra as GroupItem,
+      ),
     ),
     GoRoute(
       path: 'members',
-      builder: (context, state) => const GroupChatMembersView(),
+      builder: (context, state) => GroupChatMembersView(
+        groupParams: state.extra as GroupParams,
+      ),
     ),
     GoRoute(
       path: 'create',

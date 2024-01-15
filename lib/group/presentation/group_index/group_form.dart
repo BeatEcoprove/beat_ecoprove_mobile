@@ -125,7 +125,7 @@ class GroupForm extends StatelessWidget {
               vertical: 4,
             ),
             child: InkWell(
-              onTap: () => goRouter.push("/chat"),
+              onTap: () => goRouter.push("/chat", extra: e),
               child: CompactListItem.groupWithOptions(
                 isCircular: true,
                 widget: ClipRRect(

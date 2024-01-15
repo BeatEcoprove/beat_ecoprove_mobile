@@ -9,14 +9,12 @@ class GroupHeader extends Header {
   final String title;
   final String state;
   final String numberMembers;
-  final String? goBack;
 
   const GroupHeader({
     required this.title,
     required this.state,
     required this.numberMembers,
     this.helpPress,
-    this.goBack,
     Key? key,
   }) : super(key: key);
 
@@ -32,7 +30,6 @@ class GroupHeader extends Header {
     return GoBack(
       posTop: 0,
       posLeft: 4,
-      goBackPath: goBack ?? '/',
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

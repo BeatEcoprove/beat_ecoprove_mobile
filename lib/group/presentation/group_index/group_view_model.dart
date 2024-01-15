@@ -24,7 +24,7 @@ class GroupViewModel extends ViewModel {
   List<GroupItem> get getAllAuthenticatedUserGroups => _privateGroups;
   List<GroupItem> get getAllPublicGroups => _publicGroups;
 
-  Future<List<GroupItem>> getGroups() async {
+  Future<void> getGroups() async {
     try {
       _privateGroups.clear();
       _publicGroups.clear();
@@ -37,6 +37,6 @@ class GroupViewModel extends ViewModel {
       print("$e");
     }
 
-    return _privateGroups;
+    return;
   }
 }

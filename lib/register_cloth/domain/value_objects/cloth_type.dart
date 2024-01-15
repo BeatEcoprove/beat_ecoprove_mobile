@@ -1,7 +1,8 @@
 enum ClothType implements Comparable<ClothType> {
+  //TODO: CHANGE IT
   jeans(value: "Jeans"),
   jackets(value: "Jackets"),
-  tShirts(value: "TShirts"),
+  tshirts(value: "TShirts"),
   shirts(value: "Shirts"),
   skirts(value: "Skirts");
 

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
@@ -18,7 +19,6 @@ class CreateGroupForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<CreateGroupViewModel>(context);
     final goRouter = GoRouter.of(context);
-    const Radius borderRadius = Radius.circular(5);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -49,11 +49,11 @@ class CreateGroupForm extends StatelessWidget {
                             const SizedBox(
                               height: 42,
                             ),
-                            const CircleAvatarChooser(
+                            CircleAvatarChooser(
                               height: 140,
                               color: AppColor.widgetSecondary,
-                              imageProvider:
-                                  AssetImage("assets/default_avatar.png"),
+                              imageProvider: viewModel.getGroupPicture(),
+                              onPress: () => viewModel.getImageFromGallery(),
                             ),
                             const SizedBox(
                               height: 36,
@@ -63,21 +63,42 @@ class CreateGroupForm extends StatelessWidget {
                               inputFormatter: [
                                 LengthLimitingTextInputFormatter(25),
                               ],
+                              onChange: (groupName) async =>
+                                  viewModel.setGroupName(groupName),
+                              initialValue: viewModel
+                                  .getValue(FormFieldValues.groupName)
+                                  .value,
+                              errorMessage: viewModel
+                                  .getValue(FormFieldValues.groupName)
+                                  .error,
                             ),
                             const SizedBox(
                               height: 12,
                             ),
                             DefaultFormattedTextField(
-                              hintText: "Descrição (optional)",
+                              hintText: "Descrição",
                               inputFormatter: [
                                 LengthLimitingTextInputFormatter(100),
                               ],
+                              onChange: (groupDescription) async => viewModel
+                                  .setGroupDescription(groupDescription),
+                              initialValue: viewModel
+                                  .getValue(FormFieldValues.groupDescription)
+                                  .value,
+                              errorMessage: viewModel
+                                  .getValue(FormFieldValues.groupDescription)
+                                  .error,
                             ),
                             const SizedBox(
                               height: 12,
                             ),
-                            const FormattedDropDown(
-                              options: ['Público', 'Privado'],
+                            FormattedDropDown(
+                              options: const ['Público', 'Privado'],
+                              value: viewModel
+                                  .getValue(FormFieldValues.groupIsPublic)
+                                  .value,
+                              onValueChanged: (value) => viewModel.setValue(
+                                  FormFieldValues.groupIsPublic, value),
                             ),
                             const SizedBox(
                               height: 64,
@@ -85,8 +106,10 @@ class CreateGroupForm extends StatelessWidget {
                             FormattedButton(
                               content: "Registar",
                               textColor: Colors.white,
+                              disabled: viewModel.thereAreErrors,
                               onPress: () {
                                 goRouter.push("/");
+                                viewModel.registerGroup();
                               },
                             )
                           ],

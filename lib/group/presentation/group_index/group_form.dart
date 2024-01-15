@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -17,6 +18,7 @@ class GroupForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<GroupViewModel>(context);
     final goRouter = GoRouter.of(context);
+    final memo = AsyncMemoizer();
 
     return Scaffold(
       appBar: StandardHeader(
@@ -58,26 +60,41 @@ class GroupForm extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      InkWell(
-                        onTap: () => goRouter.push("/chat"),
-                        child: CompactListItem.groupWithOptions(
-                          isCircular: true,
-                          widget: const SvgImage(
-                            width: 66,
-                            height: 66,
-                            path: "assets/points/eco_score_points_icon.svg",
-                          ),
-                          title: "Grupo S",
-                          subTitle: "3 membros",
-                          state: "Privado",
-                          options: [
-                            OptionItem(
-                              name: 'Sair do Grupo',
-                              action: () {},
-                            )
-                          ],
-                        ),
-                      ),
+                      // FutureBuilder(
+                      //   future: memo
+                      //       .runOnce(() async => await viewModel.getGroups()),
+                      //   builder: (context, snapshot) {
+                      //     switch (snapshot.connectionState) {
+                      //       case ConnectionState.waiting:
+                      //         return const CircularProgressIndicator(
+                      //           color: AppColor.primaryColor,
+                      //           strokeWidth: 4,
+                      //         );
+                      //       default:
+                      //         return InkWell(
+                      //           onTap: () => goRouter.push("/chat"),
+                      //           child: CompactListItem.groupWithOptions(
+                      //             isCircular: true,
+                      //             widget: const SvgImage(
+                      //               width: 66,
+                      //               height: 66,
+                      //               path:
+                      //                   "assets/points/eco_score_points_icon.svg",
+                      //             ),
+                      //             title: "Grupo S",
+                      //             subTitle: "3 membros",
+                      //             state: "Privado",
+                      //             options: [
+                      //               OptionItem(
+                      //                 name: 'Sair do Grupo',
+                      //                 action: () {},
+                      //               )
+                      //             ],
+                      //           ),
+                      //         );
+                      //     }
+                      //   },
+                      // ),
                       const SizedBox(
                         height: 26,
                       ),

@@ -19,7 +19,7 @@ class RegisterGroupRequest implements BaseMultiPartRequest {
     return {
       'name': groupName,
       'description': groupDescription,
-      'isPublic': groupIsPublic == "Público" ? true : false,
+      'isPublic': groupIsPublic == "Público" ? "true" : "false",
       'avatarPicture': groupPicture,
     };
   }

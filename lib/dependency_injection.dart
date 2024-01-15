@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/profile/dependency_injection.dart';
@@ -13,6 +14,7 @@ import 'package:beat_ecoprove/home/dependency_injection.dart';
 import 'package:beat_ecoprove/register_cloth/routes.dart';
 import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class DependencyInjection {
   static final GetIt _locator = GetIt.instance;
@@ -29,6 +31,11 @@ class DependencyInjection {
       registerClothRoutes,
       groupRoutes,
       profileRoutes,
+      GoRoute(
+        path: '/show_completed',
+        builder: (context, state) =>
+            ShowCompletedView(params: state.extra as ShowCompletedViewParams),
+      ),
     ]));
 
     locator.registerFactory(() => HttpClient());

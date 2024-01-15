@@ -23,7 +23,12 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   groupName(value: "groupName"),
   groupDescription(value: "groupDescription"),
   groupIsPublic(value: "groupIsPublic"),
-  groupPicture(value: "groupPicture");
+  groupPicture(value: "groupPicture"),
+  profileName(value: "name"),
+  profileBornDate(value: "bornDate"),
+  profileGender(value: "gender"),
+  profilePicture(value: "avatar"),
+  profileUserName(value: "userName");
 
   final String value;
   const FormFieldValues({required this.value});

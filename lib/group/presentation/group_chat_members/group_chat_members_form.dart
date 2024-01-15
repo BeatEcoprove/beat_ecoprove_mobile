@@ -110,7 +110,7 @@ class GroupChatMembersForm extends StatelessWidget {
                                         //TODO: CHAGE TO ECOSCORE
                                         ecoScorePoints:
                                             member.sustainabilityPoints,
-                                        hasOptions: viewModel.details.admins
+                                        hasOptions: !viewModel.details.admins
                                             .any((e) => e.id == member.id),
                                         options: [
                                           OptionItem(

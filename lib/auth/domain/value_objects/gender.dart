@@ -1,19 +1,23 @@
 enum Gender implements Comparable<Gender> {
-  male(value: "Masculino"),
-  female(value: "Feminino"),
-  other(value: "Outro"),
-  notDefine(value: "Prefiro não divulgar");
+  male(displayValue: "Masculino", value: 'male'),
+  female(displayValue: "Feminino", value: 'female'),
+  other(displayValue: "Outro", value: 'other'),
+  notDefine(displayValue: "Prefiro não divulgar", value: 'notDefine');
 
   final String value;
+  final String displayValue;
 
-  const Gender({required this.value});
+  const Gender({required this.value, required this.displayValue});
 
   static Gender getOf(String value) =>
-      Gender.values.singleWhere((element) => element.value == value);
+      Gender.values.singleWhere((element) => element.displayValue == value);
 
-  static List<String> getAllTypes() {
-    return Gender.values.map((e) => e.value).toList();
+  static List<Gender> getAllTypes() {
+    return Gender.values.toList(); //.map((e) => e.displayValue)
   }
+
+  @override
+  toString() => displayValue;
 
   @override
   int compareTo(Gender other) {

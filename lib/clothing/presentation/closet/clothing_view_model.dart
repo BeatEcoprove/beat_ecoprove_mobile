@@ -155,7 +155,7 @@ class ClothingViewModel extends ViewModel {
     try {
       //TODO: NAME CAN'T BE THE SAME
       await _registerBucketUseCase.handle(RegisterBucketRequest(
-        'Default',
+        'New',
         listIds,
       ));
     } catch (e) {

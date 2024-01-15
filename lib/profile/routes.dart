@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/profile/presentation/change_profile/change_profile_view.dart';
+import 'package:beat_ecoprove/profile/presentation/create_profile/create_profile_view.dart';
 import 'package:beat_ecoprove/profile/presentation/prizes/prizes_view.dart';
 import 'package:beat_ecoprove/profile/presentation/profile/profile_view.dart';
 import 'package:beat_ecoprove/profile/presentation/settings/settings_view.dart';
@@ -26,6 +27,10 @@ final GoRoute profileRoutes = GoRoute(
     GoRoute(
       path: 'changeprofile',
       builder: (context, state) => const ChangeProfileView(),
+    ),
+    GoRoute(
+      path: 'createprofile',
+      builder: (context, state) => const CreateProfileView(),
     ),
   ],
 );

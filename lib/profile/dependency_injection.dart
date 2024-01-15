@@ -2,7 +2,9 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/register_group_use_case.dart';
 import 'package:beat_ecoprove/profile/presentation/change_profile/change_profile_view_model.dart';
+import 'package:beat_ecoprove/profile/presentation/create_profile/create_profile_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/prizes/prizes_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/profile/profile_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/settings/settings_view_model.dart';
@@ -21,7 +23,7 @@ extension ProfileDependencyInjection on DependencyInjection {
   void _addUseCases(GetIt locator) {
     var profileService = locator<ProfileService>();
 
-    // locator.registerSingleton(RegisterNestedProfileUseCase(groupService));
+    locator.registerSingleton(RegisterProfileUseCase(profileService));
     locator.registerSingleton(GetNestedProfilesUseCase(profileService));
   }
 
@@ -29,6 +31,7 @@ extension ProfileDependencyInjection on DependencyInjection {
     var authProvider = locator<AuthenticationProvider>();
     var router = locator<AppRouter>();
     var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
+    var createProfilesUseCase = locator<RegisterProfileUseCase>();
 
     locator.registerFactory(
         () => ProfileViewModel(authProvider, router.appRouter));
@@ -39,7 +42,14 @@ extension ProfileDependencyInjection on DependencyInjection {
     locator.registerFactory(
         () => TradePointsViewModel(authProvider, router.appRouter));
     locator.registerFactory(() => ChangeProfileViewModel(
-        authProvider, router.appRouter, getNestedProfilesUseCase));
+          authProvider,
+          router.appRouter,
+          getNestedProfilesUseCase,
+        ));
+    locator.registerFactory(() => CreateProfileViewModel(
+          router.appRouter,
+          createProfilesUseCase,
+        ));
   }
 
   void addProfile() {

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/complete_sign_in_view.dart';
+import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/profile/contracts/register_profile_request.dart';
@@ -85,7 +85,8 @@ class CreateProfileViewModel extends FormViewModel {
         getValue(FormFieldValues.profileUserName).value ?? "",
       ));
 
-      _navigationRouter.go("/show_completed",
+      _navigationRouter.pop();
+      _navigationRouter.push("/show_completed",
           extra: ShowCompletedViewParams(
               text: "Perfil criado com sucesso",
               textButton: "Confirmar",

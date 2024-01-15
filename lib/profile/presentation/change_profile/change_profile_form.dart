@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item_user.dart';
@@ -58,9 +59,12 @@ class ChangeProfileForm extends StatelessWidget {
                             Column(children: [
                               _buildProfileItem(
                                   viewModel.profilesResult.mainProfile,
+                                  goRouter,
+                                  viewModel,
                                   isMain: true),
                               ...viewModel.profilesResult.nestedProfiles
-                                  .map((profile) => _buildProfileItem(profile))
+                                  .map((profile) => _buildProfileItem(
+                                      profile, goRouter, viewModel))
                                   .toList(),
                             ]),
                             const SizedBox(
@@ -140,7 +144,9 @@ class ChangeProfileForm extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileItem(ProfileResult profile, {bool isMain = false}) {
+  Widget _buildProfileItem(ProfileResult profile, GoRouter goRouter,
+      ChangeProfileViewModel viewModel,
+      {bool isMain = false}) {
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 8,
@@ -153,8 +159,41 @@ class ChangeProfileForm extends StatelessWidget {
         ecoScorePoints: profile.sustainabilityPoints,
         hasOptions: !isMain,
         options: [
-          OptionItem(name: 'Promover', action: () {}),
-          OptionItem(name: 'Remover', action: () {}),
+          OptionItem(
+            name: 'Promover',
+            action: () {
+              goRouter.pop();
+              goRouter.push(
+                "/make_profile_action",
+                extra: MakeProfileActionViewParams(
+                  text:
+                      "Tem a certeza que pretende criar uma conta com este perfil?",
+                  textButton: "Criar",
+                  profile: profile,
+                  action: () async {
+                    await viewModel.promoteProfile(profile.id);
+                  },
+                ),
+              );
+            },
+          ),
+          OptionItem(
+            name: 'Remover',
+            action: () {
+              goRouter.pop();
+              goRouter.push(
+                "/make_profile_action",
+                extra: MakeProfileActionViewParams(
+                  text: "Tem a certeza que pretende remover este perfil?",
+                  textButton: "Remover",
+                  profile: profile,
+                  action: () async {
+                    await viewModel.deleteProfile(profile.id);
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

@@ -11,7 +11,6 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatte
 import 'package:beat_ecoprove/profile/presentation/create_profile/create_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 
 class CreateProfileForm extends StatelessWidget {
   const CreateProfileForm({super.key});
@@ -19,7 +18,6 @@ class CreateProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<CreateProfileViewModel>(context);
-    final goRouter = GoRouter.of(context);
     double _textBoxGap = 16;
 
     return Scaffold(

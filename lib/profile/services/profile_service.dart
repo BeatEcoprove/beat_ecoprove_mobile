@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/profile/contracts/profiles_result.dart';
+import 'package:beat_ecoprove/profile/contracts/promote_profile_request.dart';
 import 'package:beat_ecoprove/profile/contracts/register_profile_request.dart';
 
 class ProfileService {
@@ -14,6 +15,23 @@ class ProfileService {
       path: "profiles",
       expectedCode: 200,
     ));
+  }
+
+  Future removeNestedProfile(String profileId) async {
+    await _httpClient.makeRequestJson(
+      method: HttpMethods.delete,
+      path: "profiles/$profileId",
+      expectedCode: 200,
+    );
+  }
+
+  Future promoteNestedProfile(PromoteProfileRequest request) async {
+    await _httpClient.makeRequestJson(
+      method: HttpMethods.put,
+      path: "profiles/${request.profileId}/promote",
+      body: request,
+      expectedCode: 200,
+    );
   }
 
   Future registerProfile(RegisterProfileRequest request) async {

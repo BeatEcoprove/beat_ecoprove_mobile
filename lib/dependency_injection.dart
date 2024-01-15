@@ -1,4 +1,5 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/complete_sign_in_view.dart';
+import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
+import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/profile/dependency_injection.dart';
@@ -35,6 +36,12 @@ class DependencyInjection {
         path: '/show_completed',
         builder: (context, state) =>
             ShowCompletedView(params: state.extra as ShowCompletedViewParams),
+      ),
+      GoRoute(
+        path: '/make_profile_action',
+        builder: (context, state) => MakeProfileActionView(
+          params: state.extra as MakeProfileActionViewParams,
+        ),
       ),
     ]));
 

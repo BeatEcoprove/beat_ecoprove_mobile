@@ -3,17 +3,16 @@ import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ShowCompletedViewParams {
   final String text;
   final String textButton;
-  final String route;
+  final VoidCallback action;
 
   ShowCompletedViewParams({
     required this.text,
     required this.textButton,
-    this.route = '/',
+    required this.action,
   });
 }
 
@@ -27,8 +26,6 @@ class ShowCompletedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final router = GoRouter.of(context);
-
     return Scaffold(
       body: AppBackground(
         type: AppBackgrounds.completed,
@@ -41,6 +38,7 @@ class ShowCompletedView extends StatelessWidget {
                   Text(
                     params.text,
                     style: AppText.alternativeHeader,
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(
                     height: 62,
@@ -60,7 +58,7 @@ class ShowCompletedView extends StatelessWidget {
               FormattedButton(
                 content: params.textButton,
                 textColor: Colors.white,
-                onPress: () => router.go(params.route),
+                onPress: () => params.action(),
               ),
             ],
           ),

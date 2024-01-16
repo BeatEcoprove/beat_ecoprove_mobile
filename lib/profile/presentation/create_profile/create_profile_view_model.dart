@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/profile/contracts/register_profile_request.dart';
-import 'package:beat_ecoprove/profile/domain/use-cases/register_group_use_case.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/register_profile_use_case.dart';
 import 'package:beat_ecoprove/profile/domain/value_objects/profile_name.dart';
 import 'package:beat_ecoprove/profile/domain/value_objects/profile_user_name.dart';
 import 'package:flutter/rendering.dart';
@@ -90,7 +90,7 @@ class CreateProfileViewModel extends FormViewModel {
           extra: ShowCompletedViewParams(
               text: "Perfil criado com sucesso",
               textButton: "Confirmar",
-              route: '/changeprofile'));
+              action: () => _navigationRouter.pop()));
     } catch (e) {
       print("$e");
     }

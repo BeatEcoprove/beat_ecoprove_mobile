@@ -1,11 +1,13 @@
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/delete_profile_use_case.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/promote_profile_use_case.dart';
-import 'package:beat_ecoprove/profile/domain/use-cases/register_group_use_case.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/register_profile_use_case.dart';
 import 'package:beat_ecoprove/profile/presentation/change_profile/change_profile_view_model.dart';
+import 'package:beat_ecoprove/profile/presentation/change_profile/params_page/params_profile_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/create_profile/create_profile_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/prizes/prizes_view_model.dart';
 import 'package:beat_ecoprove/profile/presentation/profile/profile_view_model.dart';
@@ -32,6 +34,7 @@ extension ProfileDependencyInjection on DependencyInjection {
   }
 
   void _addViewModels(GetIt locator) {
+    var authenticationService = locator<AuthenticationService>();
     var authProvider = locator<AuthenticationProvider>();
     var router = locator<AppRouter>();
     var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
@@ -52,11 +55,16 @@ extension ProfileDependencyInjection on DependencyInjection {
           router.appRouter,
           getNestedProfilesUseCase,
           deleteProfileUseCase,
-          promoteProfileUseCase,
         ));
     locator.registerFactory(() => CreateProfileViewModel(
           router.appRouter,
           createProfilesUseCase,
+        ));
+    locator.registerFactory(() => ParamsProfileViewModel(
+          authProvider,
+          authenticationService,
+          router.appRouter,
+          promoteProfileUseCase,
         ));
   }
 

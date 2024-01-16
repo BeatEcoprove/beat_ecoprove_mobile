@@ -162,7 +162,6 @@ class ChangeProfileForm extends StatelessWidget {
           OptionItem(
             name: 'Promover',
             action: () {
-              goRouter.pop();
               goRouter.push(
                 "/make_profile_action",
                 extra: MakeProfileActionViewParams(
@@ -170,9 +169,7 @@ class ChangeProfileForm extends StatelessWidget {
                       "Tem a certeza que pretende criar uma conta com este perfil?",
                   textButton: "Criar",
                   profile: profile,
-                  action: () async {
-                    await viewModel.promoteProfile(profile.id);
-                  },
+                  action: () => viewModel.promoteProfile(profile.id),
                 ),
               );
             },
@@ -180,7 +177,6 @@ class ChangeProfileForm extends StatelessWidget {
           OptionItem(
             name: 'Remover',
             action: () {
-              goRouter.pop();
               goRouter.push(
                 "/make_profile_action",
                 extra: MakeProfileActionViewParams(

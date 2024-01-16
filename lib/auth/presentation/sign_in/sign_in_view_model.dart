@@ -38,7 +38,10 @@ class SignInViewModel extends ViewModel {
       await stratagy.handleSignIn(dataList);
       _navigationRouter.go("/show_completed",
           extra: ShowCompletedViewParams(
-              text: "Conta criada com sucesso", textButton: "Entrar"));
+            text: "Conta criada com sucesso",
+            textButton: "Entrar",
+            action: () => _navigationRouter.go("/"),
+          ));
     } catch (e) {
       print("Error on authentication: $e!");
       return;

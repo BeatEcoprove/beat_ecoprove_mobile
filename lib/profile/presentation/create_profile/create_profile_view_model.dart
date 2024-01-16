@@ -31,7 +31,8 @@ class CreateProfileViewModel extends FormViewModel {
     ]);
     setValue(FormFieldValues.profileName, "");
     setValue(FormFieldValues.profileBornDate, DateTime.now());
-    setValue(FormFieldValues.profileGender, Gender.getAllTypes().firstOrNull);
+    setValue(FormFieldValues.profileGender,
+        Gender.getAllTypes().firstOrNull?.displayValue);
     setValue(FormFieldValues.profilePicture, XFile(defaultImage));
     setValue(FormFieldValues.profileUserName, "");
   }
@@ -80,7 +81,8 @@ class CreateProfileViewModel extends FormViewModel {
       await _registerProfileUseCase.handle(RegisterProfileRequest(
         getValue(FormFieldValues.profileName).value ?? "",
         getValue(FormFieldValues.profileBornDate).value ?? DateTime.now(),
-        Gender.getOf(getValue(FormFieldValues.profileGender).value ?? ""),
+        Gender.getOf(getValue(FormFieldValues.profileGender).value ??
+            Gender.getAllTypes().firstOrNull?.displayValue),
         getValue(FormFieldValues.profilePicture).value ?? "",
         getValue(FormFieldValues.profileUserName).value ?? "",
       ));

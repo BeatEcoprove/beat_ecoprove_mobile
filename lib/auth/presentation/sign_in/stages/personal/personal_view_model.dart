@@ -14,7 +14,8 @@ class PersonalViewModel extends FormViewModel {
       FormFieldValues.gender,
     ]);
 
-    setValue(FormFieldValues.gender, Gender.getAllTypes().firstOrNull);
+    setValue(
+        FormFieldValues.gender, Gender.getAllTypes().firstOrNull?.displayValue);
     setValue(FormFieldValues.bornDate, DateTime.now());
   }
 

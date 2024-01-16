@@ -25,6 +25,7 @@ class CreateGroupViewModel extends FormViewModel {
     ]);
     setValue(FormFieldValues.groupName, "");
     setValue(FormFieldValues.groupDescription, "");
+    setValue(FormFieldValues.groupIsPublic, true);
     setValue(FormFieldValues.groupPicture, XFile(defaultImage));
   }
 

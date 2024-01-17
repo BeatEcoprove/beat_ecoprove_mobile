@@ -65,7 +65,7 @@ class _PointsState extends State<Points> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.only(right: 6), child: widget.image)
+            Padding(padding: const EdgeInsets.only(right: 6), child: widget.image)
           ],
         ));
   }

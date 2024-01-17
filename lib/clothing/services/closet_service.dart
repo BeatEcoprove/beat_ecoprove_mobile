@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/clothing/contracts/bucket_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/closet_result.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
@@ -15,6 +16,14 @@ class ClosetService {
     return ClosetResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path: "profiles/closet?page=1&pageSize=10$filters",
+      expectedCode: 200,
+    ));
+  }
+
+  Future<BucketResult> getOutfit() async {
+    return BucketResult.fromJson(await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "profiles/closet/outfit",
       expectedCode: 200,
     ));
   }

@@ -10,7 +10,6 @@ import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/profile/presentation/create_profile/create_profile_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CreateProfileForm extends StatelessWidget {
   const CreateProfileForm({super.key});
@@ -18,7 +17,7 @@ class CreateProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<CreateProfileViewModel>(context);
-    double _textBoxGap = 16;
+    double textBoxGap = 16;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -52,7 +51,7 @@ class CreateProfileForm extends StatelessWidget {
                               .value,
                         ),
                         SizedBox(
-                          height: _textBoxGap,
+                          height: textBoxGap,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,7 +73,7 @@ class CreateProfileForm extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: _textBoxGap,
+                          height: textBoxGap,
                         ),
                         FormattedDropDown(
                           options: Gender.getAllTypes()
@@ -88,7 +87,7 @@ class CreateProfileForm extends StatelessWidget {
                               FormFieldValues.profileGender, value),
                         ),
                         SizedBox(
-                          height: _textBoxGap,
+                          height: textBoxGap,
                         ),
                         DefaultFormattedTextField(
                           hintText: 'Nome de exibição',
@@ -102,7 +101,7 @@ class CreateProfileForm extends StatelessWidget {
                               .value,
                         ),
                         SizedBox(
-                          height: _textBoxGap,
+                          height: textBoxGap,
                         ),
                         CircleAvatarChooser(
                           height: 140,
@@ -111,7 +110,7 @@ class CreateProfileForm extends StatelessWidget {
                           onPress: () => viewModel.getImageFromGallery(),
                         ),
                         SizedBox(
-                          height: _textBoxGap,
+                          height: textBoxGap,
                         ),
                       ],
                     ),

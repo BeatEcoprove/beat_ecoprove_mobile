@@ -70,7 +70,7 @@ double calculateHeightSections(double percent, BuildContext context) {
 Widget _buildRegisterForm(
     BuildContext context, RegisterClothViewModel viewModel) {
   final goRouter = GoRouter.of(context);
-  const double _textBoxGap = 12;
+  const double textBoxGap = 12;
   const double dimension = 50;
 
   return SingleChildScrollView(
@@ -97,7 +97,7 @@ Widget _buildRegisterForm(
             ],
           ),
           const SizedBox(
-            height: _textBoxGap,
+            height: textBoxGap,
           ),
           DefaultFormattedTextField(
             hintText: "Nome",
@@ -109,7 +109,7 @@ Widget _buildRegisterForm(
             errorMessage: viewModel.getValue(FormFieldValues.clothName).error,
           ),
           const SizedBox(
-            height: _textBoxGap,
+            height: textBoxGap,
           ),
           FormattedDropDown(
             options: ClothType.getAllTypes(),
@@ -118,7 +118,7 @@ Widget _buildRegisterForm(
                 viewModel.setValue(FormFieldValues.clothType, value),
           ),
           const SizedBox(
-            height: _textBoxGap,
+            height: textBoxGap,
           ),
           FormattedDropDown(
             options: ClothSize.getAllTypes(),
@@ -127,7 +127,7 @@ Widget _buildRegisterForm(
                 viewModel.setValue(FormFieldValues.clothSize, value),
           ),
           const SizedBox(
-            height: _textBoxGap,
+            height: textBoxGap,
           ),
           FutureBuilder(
             future: viewModel.getAllBrands(),
@@ -149,7 +149,7 @@ Widget _buildRegisterForm(
             },
           ),
           const SizedBox(
-            height: _textBoxGap,
+            height: textBoxGap,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -218,7 +218,7 @@ Widget _buildRegisterForm(
             ],
           ),
           const SizedBox(
-            height: _textBoxGap,
+            height: textBoxGap,
           ),
           FormattedButton(
             content: "Registar",

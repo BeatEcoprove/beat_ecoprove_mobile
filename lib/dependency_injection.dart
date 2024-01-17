@@ -1,5 +1,7 @@
+import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
+import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/profile/dependency_injection.dart';
@@ -41,6 +43,12 @@ class DependencyInjection {
         path: '/make_profile_action',
         builder: (context, state) => MakeProfileActionView(
           params: state.extra as MakeProfileActionViewParams,
+        ),
+      ),
+      GoRoute(
+        path: '/select_service',
+        builder: (context, state) => SelectServiceView(
+          services: state.extra as ServiceParams,
         ),
       ),
     ]));

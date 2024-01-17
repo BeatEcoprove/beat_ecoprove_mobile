@@ -40,7 +40,7 @@ class ServiceButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: dimension - 40,
+                  height: dimension - 50,
                   alignment: Alignment.center,
                   child: object,
                 ),

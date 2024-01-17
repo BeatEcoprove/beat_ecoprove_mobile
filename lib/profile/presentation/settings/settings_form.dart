@@ -20,7 +20,7 @@ class SettingsForm extends StatelessWidget {
         sustainablePoints: viewModel.user.sustainablePoints,
       ),
       body: AppBackground(
-        content: Container(
+        content: SizedBox(
           height: double.infinity,
           width: double.infinity,
           child: GoBack(

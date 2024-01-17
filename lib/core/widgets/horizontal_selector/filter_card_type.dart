@@ -39,9 +39,9 @@ class _FilterCardTypeState extends State<FilterCardType>
 
   @override
   Widget build(BuildContext context) {
-    final _isSelect = widget.selected;
+    final isSelect = widget.selected;
 
-    if (_isSelect) {
+    if (isSelect) {
       _controller.forward();
     } else {
       _controller.reverse();

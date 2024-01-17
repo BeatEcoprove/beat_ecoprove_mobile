@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/clothing/contracts/bucket_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/closet_result.dart';
 import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
@@ -14,6 +15,7 @@ class GetClosetUseCase
   @override
   Future<List<CardItem>> handle(params) async {
     ClosetResult closetResult;
+    BucketResult outfitBucketResult;
     List<CardItem> closet = [];
     String filters = '';
 
@@ -22,7 +24,10 @@ class GetClosetUseCase
     }
 
     try {
+      outfitBucketResult = await _clothingService.getOutfit();
       closetResult = await _clothingService.getCloset(filters);
+
+      closetResult.buckets.add(outfitBucketResult);
     } on HttpError catch (e) {
       print(e);
       throw Exception(e.getError().title);
@@ -71,7 +76,11 @@ class GetClosetUseCase
         }).toList(),
       );
 
-      closet.add(card);
+      if (bucket.id == outfitBucketResult.id) {
+        closet.insert(0, card);
+      } else {
+        closet.add(card);
+      }
     }
 
     filters = '';

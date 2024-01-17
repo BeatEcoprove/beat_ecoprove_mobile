@@ -53,10 +53,10 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
 
   @override
   Widget build(BuildContext context) {
-    late bool _isSelect = widget.isSelected;
+    late bool isSelect = widget.isSelected;
 
     if (widget.hasAnimation) {
-      if (_isSelect) {
+      if (isSelect) {
         _controller.forward();
       } else {
         _controller.reverse();
@@ -66,7 +66,7 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
         onTap: () {
           if (widget.onPress != null) {
             widget.onPress!();
-            _isSelect = !_isSelect;
+            isSelect = !isSelect;
           }
         },
         child: AnimatedBuilder(

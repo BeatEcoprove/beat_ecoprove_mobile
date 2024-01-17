@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/profile/presentation/change_profile/change_profile_view.dart';
 import 'package:beat_ecoprove/profile/presentation/change_profile/params_page/params_profile_view.dart';
 import 'package:beat_ecoprove/profile/presentation/create_profile/create_profile_view.dart';

@@ -108,7 +108,6 @@ class ClothingViewModel extends ViewModel {
     } catch (e) {
       print("$e");
     }
-
     return _cards;
   }
 

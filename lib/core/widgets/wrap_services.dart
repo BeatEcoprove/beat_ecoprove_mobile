@@ -9,7 +9,7 @@ class WrapServices extends StatefulWidget {
   final String title;
   final List<ServiceTemplate> services;
   final double dimension;
-  final Function(List<String>) onSelectionChanged;
+  final Function(List<String>)? onSelectionChanged;
   final List<String> blockedServices;
 
   const WrapServices({
@@ -20,6 +20,14 @@ class WrapServices extends StatefulWidget {
     required this.onSelectionChanged,
     required this.blockedServices,
   });
+
+  const WrapServices.servicesItems({
+    super.key,
+    required this.services,
+    required this.title,
+    this.blockedServices = const [],
+    this.dimension = 110,
+  }) : onSelectionChanged = null;
 
   @override
   State<WrapServices> createState() => _WrapServicesState();
@@ -67,12 +75,12 @@ class _WrapServicesState extends State<WrapServices> {
                   if (!widget.blockedServices.contains(service.idText)) {
                     if (!selectedServices.contains(service.idText)) {
                       if (service is Service) {
-                        goRouter.push("/select_service",
-                            extra: ServiceParams(
-                              services: service.services,
-                              blockedServices: widget.blockedServices,
-                              onSelectionChanged: widget.onSelectionChanged,
-                            ));
+                        goRouter.push(
+                          "/select_service",
+                          extra: ServiceParams(
+                            services: service.services,
+                          ),
+                        );
                       }
                       if (service is ServiceItem) {
                         service.action();
@@ -81,8 +89,8 @@ class _WrapServicesState extends State<WrapServices> {
                   }
                 },
                 onLongPress: () {
-                  if (!widget.blockedServices.contains(service.idText)) {
-                    if (service is Service) {
+                  if (service is Service) {
+                    if (!widget.blockedServices.contains(service.idText)) {
                       setState(
                         () {
                           if (!widget.blockedServices
@@ -92,8 +100,7 @@ class _WrapServicesState extends State<WrapServices> {
                             } else {
                               selectedServices.add(service.idText);
                             }
-
-                            widget.onSelectionChanged(selectedServices);
+                            widget.onSelectionChanged!(selectedServices);
                           }
                         },
                       );

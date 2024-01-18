@@ -1,15 +1,18 @@
+import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:go_router/go_router.dart';
 
-class ClothingViewModel extends ViewModel {
+class ClothingViewModel extends FormViewModel {
   final GetClosetUseCase _getClosetUseCase;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final DeleteCardUseCase _deleteCardUseCase;
@@ -34,9 +37,19 @@ class ClothingViewModel extends ViewModel {
     this._navigationRouter,
   ) {
     _user = _authProvider.appUser;
+    initializeFields([FormFieldValues.name]);
   }
 
   User get user => _user;
+
+  void setName(String name) {
+    try {
+      setValue<String>(
+          FormFieldValues.name, BucketName.create(name).toString());
+    } on DomainException catch (e) {
+      setError(FormFieldValues.name, e.message);
+    }
+  }
 
   bool get haveSelectedCards => _selectedCards.isNotEmpty;
 
@@ -137,13 +150,13 @@ class ClothingViewModel extends ViewModel {
     notifyListeners();
   }
 
-  Future registerBucket() async {
+  Future registerBucket(Map<String, List<String>> selectedCards) async {
     List<String> listIds = [];
 
     isLoading = true;
     notifyListeners();
 
-    for (var elem in _selectedCards.entries) {
+    for (var elem in selectedCards.entries) {
       if (elem.value.isEmpty) {
         listIds.add(elem.key);
       } else {
@@ -151,10 +164,11 @@ class ClothingViewModel extends ViewModel {
       }
     }
 
+    var name = getValue(FormFieldValues.name).value ?? "";
+
     try {
-      //TODO: NAME CAN'T BE THE SAME
       await _registerBucketUseCase.handle(RegisterBucketRequest(
-        'New',
+        name,
         listIds,
       ));
     } catch (e) {
@@ -163,6 +177,7 @@ class ClothingViewModel extends ViewModel {
 
     isLoading = false;
     _selectedCards.clear();
+    _navigationRouter.go('/');
     notifyListeners();
   }
 }

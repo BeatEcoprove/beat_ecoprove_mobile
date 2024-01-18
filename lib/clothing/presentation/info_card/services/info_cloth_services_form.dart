@@ -23,6 +23,7 @@ class InfoClothServiceForm extends StatelessWidget {
     viewModel.clothId = card.id;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: AppBackground(
         content: GoBack(
           posLeft: 18,
@@ -40,25 +41,14 @@ class InfoClothServiceForm extends StatelessWidget {
                       right: 16,
                       left: 16,
                     ),
-                    child: FutureBuilder(
-                        future: viewModel.fetchServices(card.id),
-                        builder: (context, snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return const CircularProgressIndicator(
-                                color: AppColor.primaryColor,
-                                strokeWidth: 4,
-                              );
-                            default:
-                              return WrapServices(
-                                title: title,
-                                services: viewModel.getAllServices,
-                                blockedServices: viewModel.blockedServices(),
-                                onSelectionChanged: (service) =>
-                                    viewModel.changeServiceSelection(service),
-                              );
-                          }
-                        }),
+                    child: WrapServices(
+                      title: title,
+                      services: viewModel.getAllServices,
+                      blockedServices: viewModel.blockedServices(),
+                      onSelectionChanged: (service) =>
+                          viewModel.changeServiceSelection(service),
+                    ),
+
                   ),
                 ],
               ),

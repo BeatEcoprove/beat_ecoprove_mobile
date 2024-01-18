@@ -46,6 +46,7 @@ class _InfoBucketViewState extends State<InfoBucketView> {
     const Radius borderRadius = Radius.circular(5);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: GoBack(
         posTop: 18,
         posLeft: 18,

@@ -2,6 +2,9 @@ import 'package:async/async.dart';
 import 'package:beat_ecoprove/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
@@ -10,8 +13,10 @@ import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list.dart';
+import 'package:beat_ecoprove/core/widgets/overlay_widget_with_button.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ClothingForm extends StatefulWidget {
   const ClothingForm({
@@ -25,12 +30,43 @@ class ClothingForm extends StatefulWidget {
 class _ClothingFormState extends State<ClothingForm> {
   late ClothingViewModel viewModel;
   final memo = AsyncMemoizer();
+  late Modal _overlay;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _overlay = Modal(
+      top: 198,
+      bottom: 198,
+      left: 36,
+      right: 36,
+      action: () async {
+        if (!viewModel.isLoading) {
+          await viewModel.registerBucket(viewModel.selectedCards);
+        }
+      },
+      titleModal: "Criar Cesto",
+      buttonText: "Criar",
+    );
+  }
+
+  Widget createBucketCard() {
+    return DefaultFormattedTextField(
+      hintText: "Nome do cesto",
+      onChange: (name) => viewModel.setName(name),
+      initialValue: viewModel.getValue(FormFieldValues.name).value,
+      errorMessage: viewModel.getValue(FormFieldValues.name).error,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     viewModel = ViewModel.of<ClothingViewModel>(context);
+    final GoRouter goRouter = GoRouter.of(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
           title: "Vestuário",
           sustainablePoints: viewModel.user.sustainablePoints),
@@ -82,8 +118,27 @@ class _ClothingFormState extends State<ClothingForm> {
                     height: 25,
                     width: 25,
                   ),
-                  onPressed: () async => {
-                    if (!viewModel.isLoading) await viewModel.registerBucket(),
+                  onPressed: () {
+                    goRouter.push(
+                      "/select_service",
+                      extra: ServiceParams(
+                        services: {
+                          "Em que cesto pretende inserir esta peça?": [
+                            ServiceItem(
+                              title: "Novo cesto",
+                              idText: "bucket_new_bucket",
+                              content: const Icon(
+                                Icons.add,
+                                size: 50,
+                                color: AppColor.buttonBackground,
+                              ),
+                              action: () =>
+                                  _overlay.create(context, createBucketCard()),
+                            ),
+                          ],
+                        },
+                      ),
+                    );
                   },
                 ),
               ),

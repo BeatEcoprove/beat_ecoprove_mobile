@@ -6,13 +6,9 @@ import 'package:flutter/material.dart';
 
 class ServiceParams {
   final Map<String, List<ServiceTemplate>> services;
-  final Function(List<String>) onSelectionChanged;
-  final List<String> blockedServices;
 
   ServiceParams({
     required this.services,
-    required this.onSelectionChanged,
-    required this.blockedServices,
   });
 }
 
@@ -27,6 +23,7 @@ class SelectServiceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: AppBackground(
         type: AppBackgrounds.closet,
         content: GoBack(
@@ -46,13 +43,11 @@ class SelectServiceView extends StatelessWidget {
                       right: 16,
                       bottom: 16,
                     ),
-                    child: WrapServices(
+                    child: WrapServices.servicesItems(
                       title: services.services.keys.first,
                       services: services.services.values
                           .expand((value) => value)
                           .toList(),
-                      blockedServices: services.blockedServices,
-                      onSelectionChanged: services.onSelectionChanged,
                     ),
                   ),
                 ],

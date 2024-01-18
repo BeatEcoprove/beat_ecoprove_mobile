@@ -10,12 +10,14 @@ class ActionService {
 
   ActionService(this._httpClient);
 
-  Future<ServiceResult> getAllServices(String filters) async {
-    return ServiceResult.fromJson(await _httpClient.makeRequestJson(
+  Future<List<ServiceResult>> getAllServices() async {
+    var result = await _httpClient.makeRequestJson<List<dynamic>>(
       method: HttpMethods.get,
       path: "services",
       expectedCode: 200,
-    ));
+    );
+
+    return result.map((e) => ServiceResult.fromJson(e)).toList();
   }
 
   Future<List<ServiceResult>> getClothAvailableServices(String clothId) async {

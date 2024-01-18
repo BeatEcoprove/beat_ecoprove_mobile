@@ -66,6 +66,11 @@ flutter:
 
   assets:
     - .env
+    - assets/fakedata/dry.jpg
+    - assets/fakedata/dry2.jpg
+    - assets/fakedata/recycle.jpg
+    - assets/fakedata/repair.jpg
+    - assets/fakedata/wash.jpg
     - assets/background1/background1.svg
     - assets/background1/background2.svg
     - assets/background1/background3.svg

@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/clothing/services/closet_service.dart';
+import 'package:beat_ecoprove/clothing/services/closet_service_proxy.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/register_cloth_use_case.dart';
@@ -11,7 +11,7 @@ extension RegisterClothInjection on DependencyInjection {
   void _addServices(GetIt locator) {}
 
   void _addUseCases(GetIt locator) {
-    var closetService = locator<ClosetService>();
+    var closetService = locator<ClosetServiceProxy>();
 
     locator.registerSingleton(RegisterClothUseCase(closetService));
     locator.registerSingleton(GetColorsUseCase(closetService));

@@ -7,7 +7,7 @@ class ClothItem extends CardItemTemplate {
   final ImageProvider content;
   final ClothStates clothState;
 
-  const ClothItem({
+  ClothItem({
     super.key,
     required this.clothState,
     required super.id,
@@ -19,6 +19,7 @@ class ClothItem extends CardItemTemplate {
     super.isSelectedToDelete,
     required super.cardSelectedToDelete,
     super.cardType,
+    required super.action,
   });
 
   Widget extended(BuildContext context) {

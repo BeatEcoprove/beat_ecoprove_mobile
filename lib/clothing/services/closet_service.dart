@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/clothing/contracts/bucket_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/closet_result.dart';
+import 'package:beat_ecoprove/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/register_cloth/contracts/brand_result.dart';
@@ -54,6 +55,15 @@ class ClosetService {
     await _httpClient.makeRequestJson(
         method: HttpMethods.post,
         path: "profiles/closet/bucket",
+        body: request,
+        expectedCode: 201);
+  }
+
+  Future removeClothFromBucket(RemoveClothFromBucketRequest request) async {
+    var bucketId = request.bucketId;
+    await _httpClient.makeRequestJson(
+        method: HttpMethods.post,
+        path: "profiles/closet/bucket/$bucketId/remove",
         body: request,
         expectedCode: 201);
   }

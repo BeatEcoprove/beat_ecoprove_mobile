@@ -1,29 +1,31 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/info_bucket_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
 import 'package:flutter/material.dart';
 
-class InfoBucketView extends StatefulWidget {
+class InfoBucketForm extends StatefulWidget {
   final String index;
   final CardItem card;
 
-  const InfoBucketView({
+  const InfoBucketForm({
     super.key,
     required this.card,
     required this.index,
   });
 
   @override
-  State<InfoBucketView> createState() => _InfoBucketViewState();
+  State<InfoBucketForm> createState() => _InfoBucketFormState();
 }
 
-class _InfoBucketViewState extends State<InfoBucketView> {
+class _InfoBucketFormState extends State<InfoBucketForm> {
   final List<String> selectedCardItems = [];
 
-  Widget renderCards() {
+  Widget renderCards(InfoBucketViewModel viewModal) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -35,6 +37,10 @@ class _InfoBucketViewState extends State<InfoBucketView> {
           onSelectionChanged: (cards) => (cards),
           onSelectionToDelete: (cards) => (cards),
           cardsType: Types.compact,
+          action: "removeFromBucket",
+          actionToOptionRemoveFromBucket: (idCloth, idBucket) async {
+            await viewModal.removeClothFromBucket(idCloth, idBucket);
+          },
         ),
       ],
     );
@@ -42,6 +48,7 @@ class _InfoBucketViewState extends State<InfoBucketView> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = ViewModel.of<InfoBucketViewModel>(context);
     double maxWidth = MediaQuery.of(context).size.width;
     const Radius borderRadius = Radius.circular(5);
 
@@ -100,7 +107,7 @@ class _InfoBucketViewState extends State<InfoBucketView> {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: SingleChildScrollView(
-                      child: renderCards(),
+                      child: renderCards(viewModel),
                     ),
                   ),
                 ),

@@ -289,6 +289,7 @@ class _ClothingFormState extends State<ClothingForm> {
                       onSelectionToDelete: (id) => {viewModel.removeCard(id)},
                       onSelectionChanged: (cards) =>
                           {viewModel.changeCardsSelection(cards)},
+                      action: "remove",
                     );
                 }
               },

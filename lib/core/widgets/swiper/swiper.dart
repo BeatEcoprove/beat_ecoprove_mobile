@@ -18,7 +18,7 @@ class Swiper extends StatefulWidget {
 }
 
 class _SwiperState extends State<Swiper> {
-  static const _animationDuration = Duration(milliseconds: 300);
+  static const _animationDuration = Duration(milliseconds: 750);
   late int selectedIndex = 0;
   final PageController controller = PageController(initialPage: 0);
 

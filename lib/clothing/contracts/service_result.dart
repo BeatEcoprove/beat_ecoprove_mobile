@@ -1,4 +1,8 @@
 import 'package:beat_ecoprove/clothing/contracts/action_result.dart';
+import 'package:beat_ecoprove/clothing/domain/models/service_state.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:flutter/material.dart';
 
 class ServiceResult {
   final String id;
@@ -9,9 +13,9 @@ class ServiceResult {
 
   ServiceResult(
     this.id,
-    this.title, 
-    this.badge, 
-    this.description, 
+    this.title,
+    this.badge,
+    this.description,
     this.actions,
   );
 
@@ -31,4 +35,40 @@ class ServiceResult {
     }).toList();
     return group;
   }
+
+  Service toService(Function(String, String, String) callback) {
+    return Service<List<ServiceItem>>(
+      foregroundColor: AppColor.buttonBackground,
+      backgroundColor: Colors.white,
+      title: title,
+      idText: id,
+      content:
+          const Image(image: NetworkImage("https://github.com/DiogoCC7.png")),
+      services: {
+        description: actions
+            .map(
+              (action) => ServiceItem(
+                foregroundColor: AppColor.buttonBackground,
+                backgroundColor: Colors.white,
+                title: action.title,
+                idText: action.id,
+                content: const Icon(
+                  Icons.add,
+                  size: 50,
+                  color: AppColor.buttonBackground,
+                ),
+                action: () async =>
+                    await callback(id, action.id, ServiceState.available),
+              ),
+            )
+            .toList()
+      },
+    );
+  }
 }
+// const SvgImage(
+//         path: "",
+//         height: 30,
+//         width: 30,
+//         color: AppColor.buttonBackground,
+//       ),

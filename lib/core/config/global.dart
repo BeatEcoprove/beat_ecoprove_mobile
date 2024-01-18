@@ -149,6 +149,15 @@ class AppText {
       fontWeight: FontWeight.bold,
       decoration: TextDecoration.underline);
 
+  static TextStyle strongCustomStyle(Color color) {
+    return TextStyle(
+      color: color,
+      fontSize: AppText.title5,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.none,
+    );
+  }
+
   static const TextStyle strongStyle = TextStyle(
     color: AppColor.buttonBackground,
     fontSize: AppText.title5,

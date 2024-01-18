@@ -17,8 +17,7 @@ class HttpClient {
   static const defaultHeaders = {"Content-Type": "application/json"};
   static const multipartFrom = {"Content-Type": "multipart/form-data"};
 
-  Future<Map<String, dynamic>> _makeRequest(
-      BaseRequest request, int expectedCode) async {
+  Future<U> _makeRequest<U>(BaseRequest request, int expectedCode) async {
     String jsonResponse;
     int statusCode;
     StreamedResponse stream;
@@ -32,7 +31,7 @@ class HttpClient {
     statusCode = stream.statusCode;
     jsonResponse = await stream.stream.bytesToString();
 
-    var response = convert.jsonDecode(jsonResponse) as Map<String, dynamic>;
+    var response = convert.jsonDecode(jsonResponse); //as Map<String, dynamic>
 
     if (statusCode != expectedCode) {
       switch (statusCode) {
@@ -48,7 +47,7 @@ class HttpClient {
     return response;
   }
 
-  Future<Map<String, dynamic>> makeRequestMultiPart(
+  Future<U> makeRequestMultiPart<U>(
       {required String method,
       required String path,
       required BaseMultiPartRequest body,
@@ -76,7 +75,7 @@ class HttpClient {
     return _makeRequest(request, expectedCode);
   }
 
-  Future<Map<String, dynamic>> makeRequestJson<U>(
+  Future<U> makeRequestJson<U>(
       {required String method,
       required String path,
       BaseJsonRequest? body,

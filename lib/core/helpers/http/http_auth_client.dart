@@ -40,7 +40,7 @@ class HttpAuthClient implements HttpClient {
   }
 
   @override
-  Future<Map<String, dynamic>> makeRequestJson<U>(
+  Future<U> makeRequestJson<U>(
       {required String method,
       required String path,
       BaseJsonRequest? body,
@@ -59,7 +59,7 @@ class HttpAuthClient implements HttpClient {
   }
 
   @override
-  Future<Map<String, dynamic>> makeRequestMultiPart(
+  Future<U> makeRequestMultiPart<U>(
       {required String method,
       required String path,
       required BaseMultiPartRequest body,

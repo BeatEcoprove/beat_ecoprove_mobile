@@ -2,13 +2,13 @@ class ActionResult {
   final String id;
   final String title;
   final String badge;
-  final String sustainablePoints;
+  final int sustainablePoints;
 
   ActionResult(
     this.id,
-    this.title, 
-    this.badge, 
-    this.sustainablePoints, 
+    this.title,
+    this.badge,
+    this.sustainablePoints,
   );
 
   factory ActionResult.fromJson(Map<String, dynamic> json) {

@@ -30,7 +30,8 @@ class _WrapServicesState extends State<WrapServices> {
 
   ServiceButton renderServiceButton(ServiceTemplate service) {
     return ServiceButton(
-      colorBackground: AppColor.servicesCloth,
+      colorForeground: service.foregroundColor,
+      colorBackground: service.backgroundColor,
       object: service.content,
       dimension: widget.dimension,
       title: service.title,
@@ -74,8 +75,7 @@ class _WrapServicesState extends State<WrapServices> {
                             ));
                       }
                       if (service is ServiceItem) {
-                        //TODO: Send update to server if is ServerItem
-                        service.action;
+                        service.action();
                       }
                     }
                   }

@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_cloth_services_view_model.dart';
+import 'package:beat_ecoprove/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/clothing/services/outfit_service.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/delete_card_use_case.dart';
@@ -20,6 +21,7 @@ extension ClothingDependencyInjection on DependencyInjection {
 
     locator.registerFactory(() => ClosetService(httpClient));
     locator.registerFactory(() => OutfitService(httpClient));
+    locator.registerFactory(() => ActionService(httpClient));
   }
 
   void _addUseCases(GetIt locator) {
@@ -50,7 +52,8 @@ extension ClothingDependencyInjection on DependencyInjection {
           registerBucketUseCase,
           router.appRouter,
         ));
-    locator.registerFactory(() => InfoClothServiceViewModel());
+    locator.registerFactory(
+        () => InfoClothServiceViewModel(locator<ActionService>()));
     locator.registerFactory(() => InfoClothViewModel(
           markClothAsDailyUseUseCase,
           unMarkClothAsDailyUseUseCase,

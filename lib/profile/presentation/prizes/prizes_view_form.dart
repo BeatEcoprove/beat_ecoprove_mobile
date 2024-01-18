@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
+import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/service_button.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/profile/presentation/prizes/prizes_view_model.dart';
@@ -162,11 +163,13 @@ class PrizesForm extends StatelessWidget {
               colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
-              object: Icon(
-                Icons.store_mall_directory_rounded,
-                size: 64,
+              object: SvgImage(
+                path: 'assets/services/dry.svg',
+                width: 60,
+                height: 60,
+                color: AppColor.buttonBackground,
               ),
-              title: 'Serviço',
+              title: 'Secar',
             ),
             SizedBox(
               width: 6,
@@ -175,11 +178,13 @@ class PrizesForm extends StatelessWidget {
               colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
-              object: Icon(
-                Icons.store_mall_directory_rounded,
-                size: 64,
+              object: SvgImage(
+                path: 'assets/services/wash.svg',
+                width: 70,
+                height: 70,
+                color: AppColor.buttonBackground,
               ),
-              title: 'Serviço',
+              title: 'Lavar',
             ),
             SizedBox(
               width: 6,
@@ -188,11 +193,13 @@ class PrizesForm extends StatelessWidget {
               colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
-              object: Icon(
-                Icons.store_mall_directory_rounded,
-                size: 64,
+              object: SvgImage(
+                path: 'assets/services/iron.svg',
+                width: 60,
+                height: 60,
+                color: AppColor.buttonBackground,
               ),
-              title: 'Serviço',
+              title: 'Engomar',
             ),
             SizedBox(
               width: 6,
@@ -201,11 +208,13 @@ class PrizesForm extends StatelessWidget {
               colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
-              object: Icon(
-                Icons.store_mall_directory_rounded,
-                size: 64,
+              object: SvgImage(
+                path: 'assets/services/repair.svg',
+                width: 60,
+                height: 60,
+                color: AppColor.buttonBackground,
               ),
-              title: 'Serviço',
+              title: 'Reparar',
             ),
             SizedBox(
               width: 6,

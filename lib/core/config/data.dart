@@ -1,5 +1,7 @@
+import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class CardData {
@@ -16,31 +18,34 @@ class CardData {
 
 List<CardData> cards = [
   CardData(
-    title: "Título do Cartão 1",
-    subtitle: "Subtítulo do Cartão 1",
+    title: "A loja Wash&Clean oferece 50% de desconto na primeira lavagem",
+    subtitle: "Em todas as lojas de Portugal Continental",
     widget: const PresentImage(
-      path: AssetImage("assets/default_avatar.png"),
+      path: AssetImage("assets/fakedata/dry.jpg"),
     ),
   ),
   CardData(
-    title: "Título do Cartão 2",
-    subtitle: "Subtítulo do Cartão 2",
+    title: "Lavandaria e Engomadoria",
+    subtitle:
+        "Torne sua vida mais fácil! Deixe-nos cuidar da sua roupa. Desfrute de 20% de desconto na sua primeira lavagem e engomadoria. Serviço rápido e eficiente!",
     widget: const PresentImage(
-      path: AssetImage("assets/default_avatar.png"),
+      path: AssetImage("assets/fakedata/dry2.jpg"),
     ),
   ),
   CardData(
-    title: "Título do Cartão 3",
-    subtitle: "Subtítulo do Cartão 3",
+    title: "Arranjos Rápidos",
+    subtitle:
+        "Tem uma roupa para ajustar? Oferecemos arranjos rápidos e precisos. Primeira alteração com 15% de desconto. Transformamos a sua roupa para que fique perfeita!",
     widget: const PresentImage(
-      path: AssetImage("assets/default_avatar.png"),
+      path: AssetImage("assets/fakedata/repair.jpg"),
     ),
   ),
   CardData(
-    title: "Título do Cartão 4",
-    subtitle: "Subtítulo do Cartão 4",
+    title: "Lavagem a Seco Premium - Preservamos a beleza da sua roupa!",
+    subtitle:
+        "Experimente a nossa lavagem a seco premium com 30% de desconto na primeira vez. Tratamos cada peça com o cuidado que merece.",
     widget: const PresentImage(
-      path: AssetImage("assets/default_avatar.png"),
+      path: AssetImage("assets/fakedata/wash.jpg"),
     ),
   ),
 ];
@@ -56,19 +61,32 @@ class ServiceData {
 
 List<ServiceData> services = [
   ServiceData(
-    title: "Título do Cartão 1",
-    subtitle: "Subtítulo do Cartão 1",
-    widget: const Icon(Icons.image),
+    title: "Wash&Clean",
+    subtitle: "Lavandaria",
+    widget: const Icon(
+      Icons.water_drop_outlined,
+      color: AppColor.lightBlue,
+    ),
   ),
   ServiceData(
-    title: "Título do Cartão 2",
-    subtitle: "Subtítulo do Cartão 2",
-    widget: const Icon(Icons.image),
+    title: "Arranjos Express",
+    subtitle: "Arranjo",
+    widget: SvgImage(
+      path: 'assets/services/repair.svg',
+      width: 30,
+      height: 30,
+      color: AppColor.orange,
+    ),
   ),
   ServiceData(
-    title: "Título do Cartão 3",
-    subtitle: "Subtítulo do Cartão 3",
-    widget: const Icon(Icons.image),
+    title: "Seco & Leve",
+    subtitle: "Secagem",
+    widget: SvgImage(
+      path: 'assets/services/dry.svg',
+      width: 30,
+      height: 30,
+      color: AppColor.primaryColor,
+    ),
   ),
 ];
 

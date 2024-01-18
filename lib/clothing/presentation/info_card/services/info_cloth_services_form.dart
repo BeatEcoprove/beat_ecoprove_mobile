@@ -35,21 +35,22 @@ class InfoClothServiceForm extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 64,
-                      bottom: 16,
-                      right: 16,
-                      left: 16,
-                    ),
-                    child: WrapServices(
-                      title: title,
-                      services: viewModel.getAllServices,
-                      blockedServices: viewModel.blockedServices(),
-                      onSelectionChanged: (service) =>
-                          viewModel.changeServiceSelection(service),
-                    ),
-
-                  ),
+                      padding: const EdgeInsets.only(
+                        top: 64,
+                        bottom: 16,
+                        right: 16,
+                        left: 16,
+                      ),
+                      child: FutureBuilder(
+                        future: viewModel.fetchServices(card.id),
+                        builder: (context, snapshot) => WrapServices(
+                          title: title,
+                          services: viewModel.getAllServices,
+                          blockedServices: viewModel.blockedServices(),
+                          onSelectionChanged: (service) =>
+                              viewModel.changeServiceSelection(service),
+                        ),
+                      )),
                 ],
               ),
             ),

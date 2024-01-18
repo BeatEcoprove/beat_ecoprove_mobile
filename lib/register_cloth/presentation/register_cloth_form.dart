@@ -225,7 +225,7 @@ Widget _buildRegisterForm(
             textColor: Colors.white,
             disabled: viewModel.thereAreErrors,
             onPress: () {
-              goRouter.push("/");
+              goRouter.pop();
               viewModel.registerCloth();
             },
           )

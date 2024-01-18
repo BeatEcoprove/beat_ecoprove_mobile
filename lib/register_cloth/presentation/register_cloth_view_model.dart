@@ -44,7 +44,8 @@ class RegisterClothViewModel extends FormViewModel {
       FormFieldValues.clothColor,
       FormFieldValues.clothImage,
     ]);
-    setValue(FormFieldValues.clothType, ClothType.getAllTypes().firstOrNull);
+    setValue(FormFieldValues.clothType,
+        ClothType.getAllTypes().firstOrNull?.displayValue);
     setValue(FormFieldValues.clothSize, ClothSize.getAllTypes().firstOrNull);
     //TODO: Change
     setValue(FormFieldValues.clothBrand, "Salsa");
@@ -150,7 +151,7 @@ class RegisterClothViewModel extends FormViewModel {
     try {
       await _registerClothUseCase.handle(RegisterClothRequest(
         getValue(FormFieldValues.clothName).value ?? "",
-        getValue(FormFieldValues.clothType).value ?? "",
+        ClothType.getOf(getValue(FormFieldValues.clothType).value).value,
         getValue(FormFieldValues.clothSize).value ?? "",
         getValue(FormFieldValues.clothBrand).value ?? "",
         getValue(FormFieldValues.clothColor).value ?? "FF000000",

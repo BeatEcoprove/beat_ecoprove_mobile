@@ -38,6 +38,7 @@ class _InfoClothFormState extends State<InfoClothForm> {
     double maxWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: GoBack(
         posTop: 18,
         posLeft: 18,

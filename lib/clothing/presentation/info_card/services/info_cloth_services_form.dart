@@ -17,6 +17,7 @@ class InfoClothServiceForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<InfoClothServiceViewModel>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: AppBackground(
         content: GoBack(
           posLeft: 18,

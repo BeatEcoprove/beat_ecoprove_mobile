@@ -94,7 +94,10 @@ class _ClothingFormState extends State<ClothingForm> {
                   ),
                   onPressed: () async => {
                     if (!viewModel.isLoading)
-                      await viewModel.markClothAsDailyUse(),
+                      {
+                        await viewModel
+                            .markClothAsDailyUse(viewModel.selectedCards),
+                      },
                   },
                 ),
               ),

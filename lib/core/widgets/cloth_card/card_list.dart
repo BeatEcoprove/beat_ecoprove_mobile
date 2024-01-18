@@ -9,10 +9,12 @@ import 'package:go_router/go_router.dart';
 class CardList extends StatefulWidget {
   final List<CardItem> clothesItems;
   final Map<String, List<String>> selectedCards;
+  final Function(List<String>, String)? actionToOptionRemoveFromBucket;
 
   final Function(Map<String, List<String>>) onSelectionChanged;
   final Function(String) onSelectionToDelete;
   final Types? cardsType;
+  final String action;
 
   const CardList({
     Key? key,
@@ -21,6 +23,8 @@ class CardList extends StatefulWidget {
     required this.onSelectionChanged,
     required this.onSelectionToDelete,
     this.cardsType,
+    required this.action,
+    this.actionToOptionRemoveFromBucket,
   }) : super(key: key);
 
   @override
@@ -39,6 +43,9 @@ class _CardListState extends State<CardList> {
         isSelect: widget.selectedCards.keys.contains(card.id),
         cardSelectedToDelete: widget.onSelectionToDelete,
         cardType: widget.cardsType,
+        action: widget.action,
+        buttonAction: (idsClothes) =>
+            widget.actionToOptionRemoveFromBucket!(idsClothes, card.id),
       );
     }
 
@@ -52,6 +59,7 @@ class _CardListState extends State<CardList> {
       isSelect: widget.selectedCards.keys.contains(card.id),
       cardSelectedToDelete: widget.onSelectionToDelete,
       cardType: widget.cardsType,
+      action: widget.action,
     );
   }
 

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class BucketItem extends CardItemTemplate {
   final List<CardItem> items;
 
-  const BucketItem({
+  BucketItem({
     super.key,
     required super.id,
     required this.items,
@@ -18,6 +18,8 @@ class BucketItem extends CardItemTemplate {
     super.isSelectedToDelete,
     required super.cardSelectedToDelete,
     super.cardType,
+    required super.action,
+    required super.buttonAction,
   });
 
   Container _itemGrid(

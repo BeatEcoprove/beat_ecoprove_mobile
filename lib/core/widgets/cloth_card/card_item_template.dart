@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/dialog_card.dart';
@@ -16,8 +17,10 @@ abstract class CardItemTemplate extends StatefulWidget {
   final bool isSelect;
   final bool isSelectedToDelete;
   final Types? cardType;
+  final String action;
+  final Function(List<String>)? buttonAction;
 
-  const CardItemTemplate({
+  CardItemTemplate({
     Key? key,
     required this.id,
     required this.title,
@@ -27,9 +30,13 @@ abstract class CardItemTemplate extends StatefulWidget {
     this.otherProfileImage,
     required this.cardSelectedToDelete,
     this.cardType,
+    required this.action,
+    this.buttonAction,
   }) : super(key: key);
 
   Widget body(BuildContext context, Types type);
+
+  final GlobalKey _buttonKey = GlobalKey();
 
   @override
   State<CardItemTemplate> createState() => _CardItemTemplateState();
@@ -37,6 +44,7 @@ abstract class CardItemTemplate extends StatefulWidget {
 
 class _CardItemTemplateState extends State<CardItemTemplate> {
   late bool _isSelectedToDelete = widget.isSelectedToDelete;
+  late List<OptionItem> options;
 
   Positioned _allSpaceFromCard() {
     return Positioned.fill(
@@ -164,7 +172,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
           _otherProfileImageWidget(35, 46, null, 4),
         if (isClothInUse()) _inUseBadge(18, 58 + extraDistance, null, 4),
         _allSpaceFromCard(),
-        if (widget.id != "outfit") _actionsWidget(16),
+        if (widget.id != "outfit") _actionsWidget(16, widget.action),
         if (_isSelectedToDelete) _selectedToDeleteButton(0, 75, 75, true),
         if (widget.isSelect) _selectionCheck(50),
       ],
@@ -202,21 +210,55 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     );
   }
 
-  Positioned _actionsWidget(double top) => Positioned(
-        top: top,
-        right: 4,
-        child: IconButton(
-          icon: const Icon(
-            Icons.more_vert_rounded,
-            color: AppColor.widgetSecondary,
-          ),
-          onPressed: () {
-            setState(() {
-              _isSelectedToDelete = !_isSelectedToDelete;
-            });
-          },
+  //TODO: CREATE GLOBAL FUNCTION
+  void _showOptionsMenu(BuildContext context) {
+    final RenderBox buttonRenderBox =
+        widget._buttonKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset buttonPosition = buttonRenderBox.localToGlobal(Offset.zero);
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        buttonPosition.dx,
+        buttonPosition.dy,
+        buttonPosition.dx + buttonRenderBox.size.width,
+        buttonPosition.dy + buttonRenderBox.size.height,
+      ),
+      items: options.map((option) {
+        return PopupMenuItem(
+          onTap: option.action,
+          child: Text(option.name),
+        );
+      }).toList(),
+    );
+  }
+
+  Positioned _actionsWidget(double top, String action) {
+    return Positioned(
+      top: top,
+      right: 4,
+      child: IconButton(
+        key: widget._buttonKey,
+        icon: const Icon(
+          Icons.more_vert_rounded,
+          color: AppColor.widgetSecondary,
         ),
-      );
+        onPressed: () {
+          switch (action) {
+            case "remove":
+              setState(() {
+                _isSelectedToDelete = !_isSelectedToDelete;
+              });
+              break;
+            case "removeFromBucket":
+              _showOptionsMenu(context);
+              break;
+          }
+          ;
+        },
+      ),
+    );
+  }
 
   Positioned _inUseBadge(
     double dimensionContent,
@@ -249,7 +291,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
           _otherProfileImageWidget(50, null, 16, 54),
         if (isClothInUse()) _inUseBadge(35, null, 16, 54 + extraDistance),
         _allSpaceFromCard(),
-        if (widget.id != "outfit") _actionsWidget(10),
+        if (widget.id != "outfit") _actionsWidget(10, widget.action),
         if (_isSelectedToDelete) _selectedToDeleteButton(null, 49, 150, false),
         if (widget.isSelect) _selectionCheck(100),
       ],
@@ -284,6 +326,24 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
         return _createCard(constraints, context, Types.extended);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    //TODO: FIX
+    options = [
+      OptionItem(
+        name: 'Remover',
+        action: () => {
+          if (widget.buttonAction != null)
+            {
+              widget.buttonAction!([widget.id]),
+            }
+        },
+      ),
+    ];
   }
 
   @override

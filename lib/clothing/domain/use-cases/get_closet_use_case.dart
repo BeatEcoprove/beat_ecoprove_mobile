@@ -25,6 +25,7 @@ class GetClosetUseCase
 
     try {
       outfitBucketResult = await _clothingService.getOutfit();
+      outfitBucketResult.id = "outfit";
       closetResult = await _clothingService.getCloset(filters);
 
       closetResult.buckets.add(outfitBucketResult);

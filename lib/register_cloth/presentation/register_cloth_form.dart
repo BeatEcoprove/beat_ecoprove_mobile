@@ -112,8 +112,10 @@ Widget _buildRegisterForm(
             height: textBoxGap,
           ),
           FormattedDropDown(
-            options: ClothType.getAllTypes(),
-            value: viewModel.getValue(FormFieldValues.clothType).value,
+            options:
+                ClothType.getAllTypes().map((e) => e.displayValue).toList(),
+            value:
+                viewModel.getValue(FormFieldValues.clothType).value.toString(),
             onValueChanged: (value) =>
                 viewModel.setValue(FormFieldValues.clothType, value),
           ),

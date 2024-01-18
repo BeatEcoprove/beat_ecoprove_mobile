@@ -1,21 +1,24 @@
 enum ClothType implements Comparable<ClothType> {
-  //TODO: CHANGE IT
-  jeans(value: "Jeans"),
-  jackets(value: "Jackets"),
-  tshirts(value: "TShirts"),
-  shirts(value: "Shirts"),
-  skirts(value: "Skirts");
+  jeans(value: "Jeans", displayValue: "Calças"),
+  jackets(value: "Jackets", displayValue: "Casacos"),
+  tshirts(value: "TShirts", displayValue: "T-Shirts"),
+  shirts(value: "Shirts", displayValue: "Camisas"),
+  skirts(value: "Skirts", displayValue: "Saias");
 
   final String value;
+  final String displayValue;
 
-  const ClothType({required this.value});
+  const ClothType({required this.value, required this.displayValue});
 
   static ClothType getOf(String value) =>
-      ClothType.values.singleWhere((element) => element.value == value);
+      ClothType.values.singleWhere((element) => element.displayValue == value);
 
-  static List<String> getAllTypes() {
-    return ClothType.values.map((e) => e.value).toList();
+  static List<ClothType> getAllTypes() {
+    return ClothType.values.toList();
   }
+
+  @override
+  toString() => displayValue;
 
   @override
   int compareTo(ClothType other) {

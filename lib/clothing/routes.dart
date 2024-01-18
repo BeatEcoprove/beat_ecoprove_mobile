@@ -25,7 +25,7 @@ final GoRoute clothingRoutes = GoRoute(
               index: state.pathParameters['id'] ?? '0',
               card: state.extra as CardItem,
             ),
-            const InfoClothServiceView(),
+            InfoClothServiceView(card: state.extra as CardItem),
           ],
           bottomNavigationBarOptions: [
             Line(
@@ -54,7 +54,9 @@ final GoRoute clothingRoutes = GoRoute(
               index: state.pathParameters['id'] ?? '0',
               card: state.extra as CardItem,
             ),
-            const InfoClothServiceView(),
+            InfoClothServiceView(
+              card: state.extra as CardItem,
+            ),
           ],
           bottomNavigationBarOptions: [
             Line(

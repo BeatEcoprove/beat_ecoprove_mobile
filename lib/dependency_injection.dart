@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service_view.dart';

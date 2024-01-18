@@ -10,7 +10,7 @@ class OutfitService {
     for (var idCloth in idsCloth) {
       return await _httpClient.makeRequestJson(
           method: HttpMethods.put,
-          path: "profiles/closet/cloth/${idCloth}/use",
+          path: "profiles/closet/cloth/$idCloth/use",
           expectedCode: 200);
     }
   }
@@ -19,7 +19,7 @@ class OutfitService {
     for (var idCloth in idsCloth) {
       return await _httpClient.makeRequestJson(
           method: HttpMethods.put,
-          path: "profiles/closet/cloth/${idCloth}/unUse",
+          path: "profiles/closet/cloth/$idCloth/unUse",
           expectedCode: 200);
     }
   }

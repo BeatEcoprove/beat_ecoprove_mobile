@@ -121,7 +121,6 @@ class ClothingViewModel extends FormViewModel {
     } catch (e) {
       print("$e");
     }
-
     return _cards;
   }
 

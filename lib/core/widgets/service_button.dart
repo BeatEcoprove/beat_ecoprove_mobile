@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ServiceButton extends StatelessWidget {
   final double dimension;
   final Color colorBackground;
+  final Color colorForeground;
   final Widget object;
   final String title;
   final bool isSelect;
@@ -13,6 +14,7 @@ class ServiceButton extends StatelessWidget {
     super.key,
     required this.dimension,
     required this.colorBackground,
+    required this.colorForeground,
     required this.object,
     required this.title,
     this.isSelect = false,
@@ -46,7 +48,7 @@ class ServiceButton extends StatelessWidget {
                 ),
                 Text(
                   title,
-                  style: AppText.strongStyle,
+                  style: AppText.strongCustomStyle(colorForeground),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   textAlign: TextAlign.center,

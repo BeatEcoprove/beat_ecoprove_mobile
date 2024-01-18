@@ -29,7 +29,7 @@ class _InfoBucketViewState extends State<InfoBucketView> {
       children: [
         CardList(
           //TODO: Fix
-          selectedCards: {},
+          selectedCards: const {},
           clothesItems: widget.card.child,
           //Não fazem nada
           onSelectionChanged: (cards) => (cards),

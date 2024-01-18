@@ -159,6 +159,7 @@ class PrizesForm extends StatelessWidget {
         child: Row(
           children: [
             ServiceButton(
+              colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
               object: Icon(
@@ -171,6 +172,7 @@ class PrizesForm extends StatelessWidget {
               width: 6,
             ),
             ServiceButton(
+              colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
               object: Icon(
@@ -183,6 +185,7 @@ class PrizesForm extends StatelessWidget {
               width: 6,
             ),
             ServiceButton(
+              colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
               object: Icon(
@@ -195,6 +198,7 @@ class PrizesForm extends StatelessWidget {
               width: 6,
             ),
             ServiceButton(
+              colorForeground: AppColor.buttonBackground,
               dimension: 120,
               colorBackground: AppColor.servicesCloth,
               object: Icon(

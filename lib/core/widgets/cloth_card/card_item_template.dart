@@ -83,6 +83,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
           text: "Tem a certeza que pretende remover esta peça de roupa?",
           firstAction: () {
             widget.cardSelectedToDelete(id);
+            Navigator.of(context).pop();
           },
           secondAction: () {
             Navigator.of(context).pop();

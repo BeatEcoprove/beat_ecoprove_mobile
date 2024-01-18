@@ -20,10 +20,10 @@ class ServerImage implements ImageProvider<NetworkImage> {
     return _provider.evict(configuration: configuration, cache: cache);
   }
 
-  @override
-  ImageStreamCompleter load(NetworkImage key, DecoderCallback decode) {
-    return _provider.load(key, decode);
-  }
+  // @override
+  // ImageStreamCompleter load(NetworkImage key, DecoderCallback decode) {
+  //   return _provider.load(key, decode);
+  // }
 
   @override
   ImageStreamCompleter loadBuffer(

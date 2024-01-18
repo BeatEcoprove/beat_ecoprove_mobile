@@ -1,5 +1,10 @@
+import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
+import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
+import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/profile/contracts/profiles_result.dart';
@@ -8,6 +13,7 @@ import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_c
 import 'package:go_router/go_router.dart';
 
 class ChangeProfileViewModel extends ViewModel {
+  final AuthenticationService _authService;
   final AuthenticationProvider _authProvider;
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
   final DeleteProfileUseCase _deleteProfileUseCase;
@@ -20,6 +26,7 @@ class ChangeProfileViewModel extends ViewModel {
     this._navigationRouter,
     this._getNestedProfilesUseCase,
     this._deleteProfileUseCase,
+    this._authService,
   ) {
     _user = _authProvider.appUser;
     _profilesResult = ProfilesResult.empty();
@@ -36,7 +43,25 @@ class ChangeProfileViewModel extends ViewModel {
     }
   }
 
+  String get nestedProfile => _authProvider.profileId;
+  bool get isNestedProfilesEmpty => _authProvider.profileId.isNotEmpty;
+
+  void selectProfile(String profileId, {isMain = false}) {
+    refreshTokens();
+
+    if (isMain) {
+      _authProvider.setProfile();
+    } else {
+      _authProvider.setProfile(profileId: profileId);
+    }
+
+    _navigationRouter.pop();
+  }
+
   void promoteProfile(String profileId) {
+    // clean profileId
+    _authProvider.setProfile();
+
     _navigationRouter.pushReplacement(
       "/addparams",
       extra: profileId,
@@ -46,6 +71,9 @@ class ChangeProfileViewModel extends ViewModel {
   Future<void> deleteProfile(String profileId) async {
     try {
       await _deleteProfileUseCase.handle(profileId);
+
+      // clean profileId
+      _authProvider.setProfile();
 
       _navigationRouter.pushReplacement("/show_completed",
           extra: ShowCompletedViewParams(
@@ -60,5 +88,28 @@ class ChangeProfileViewModel extends ViewModel {
 
   void settings() {
     _navigationRouter.push('/settings');
+  }
+
+  Future refreshTokens() async {
+    String refreshToken = _authProvider.refreshToken;
+
+    var tokens = await _authService.refreshTokens(RefreshTokensRequest(
+        refreshToken: refreshToken, profileId: _authProvider.profile));
+
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);
+
+    _authProvider.authenticate(Authentication(
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      user: User(
+        name: decodedToken[Tokens.name],
+        avatarUrl: decodedToken[Tokens.avatarUrl],
+        level: decodedToken[Tokens.level],
+        levelPercent: decodedToken[Tokens.levelPercent],
+        sustainablePoints: decodedToken[Tokens.sustainablePoints],
+        ecoScore: decodedToken[Tokens.ecoScore],
+        ecoCoins: decodedToken[Tokens.ecoCoins],
+      ),
+    ));
   }
 }

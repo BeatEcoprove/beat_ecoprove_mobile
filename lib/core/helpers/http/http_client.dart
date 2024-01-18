@@ -31,7 +31,7 @@ class HttpClient {
     statusCode = stream.statusCode;
     jsonResponse = await stream.stream.bytesToString();
 
-    var response = convert.jsonDecode(jsonResponse); //as Map<String, dynamic>
+    var response = convert.jsonDecode(jsonResponse);
 
     if (statusCode != expectedCode) {
       switch (statusCode) {

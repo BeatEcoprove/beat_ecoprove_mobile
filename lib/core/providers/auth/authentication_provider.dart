@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class AuthenticationProvider extends ViewModel {
+  late String profileId = '';
   late User? _appUser;
   late String? _accessToken;
   late String? _refreshToken;
@@ -64,9 +65,15 @@ class AuthenticationProvider extends ViewModel {
     notifyListeners();
   }
 
+  String get profile => profileId;
   String get refreshToken => _refreshToken!;
   String get accessToken => _accessToken!;
   User get appUser => _appUser!;
+
+  void setProfile({String profileId = ""}) {
+    this.profileId = profileId;
+    notifyListeners();
+  }
 
   bool accessTokenIsValid() {
     if (_accessToken == null) {

@@ -29,10 +29,10 @@ class AuthenticationService {
   }
 
   Future<AuthResult> refreshTokens(RefreshTokensRequest request) async {
+    var path =
+        "auth/refresh_tokens?token=${request.refreshToken}${request.profileId.isNotEmpty ? "&profileId=${request.profileId}" : ""}";
     return AuthResult.fromJson(await _httpClient.makeRequestJson(
-        method: HttpMethods.get,
-        path: "auth/refresh_tokens?token=${request.refreshToken}",
-        expectedCode: 200));
+        method: HttpMethods.get, path: path, expectedCode: 200));
   }
 
   Future<AuthResult> login(LoginRequest request) async {

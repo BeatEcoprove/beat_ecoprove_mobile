@@ -51,11 +51,11 @@ extension ProfileDependencyInjection on DependencyInjection {
     locator.registerFactory(
         () => TradePointsViewModel(authProvider, router.appRouter));
     locator.registerFactory(() => ChangeProfileViewModel(
-          authProvider,
-          router.appRouter,
-          getNestedProfilesUseCase,
-          deleteProfileUseCase,
-        ));
+        authProvider,
+        router.appRouter,
+        getNestedProfilesUseCase,
+        deleteProfileUseCase,
+        locator<AuthenticationService>()));
     locator.registerFactory(() => CreateProfileViewModel(
           router.appRouter,
           createProfilesUseCase,

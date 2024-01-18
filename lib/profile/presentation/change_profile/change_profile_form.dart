@@ -151,13 +151,14 @@ class ChangeProfileForm extends StatelessWidget {
       margin: const EdgeInsets.symmetric(
         vertical: 8,
       ),
-      child: CompactListItemUser(
+      child: CompactListItemUser.open(
+        click: () => viewModel.selectProfile(profile.id),
         title: profile.username,
         userLevel: profile.level,
         sustainablePoints: profile.sustainabilityPoints,
         //TODO:CHANGE TO SCOREPOINTS
         ecoScorePoints: profile.sustainabilityPoints,
-        hasOptions: !isMain,
+        hasOptions: (viewModel.nestedProfile != profile.id) && !isMain,
         options: [
           OptionItem(
             name: 'Promover',

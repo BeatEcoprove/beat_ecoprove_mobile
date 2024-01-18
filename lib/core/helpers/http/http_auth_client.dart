@@ -19,8 +19,10 @@ class HttpAuthClient implements HttpClient {
   Future refreshTokens() async {
     String refreshToken = _authenticationProvider.refreshToken;
 
-    var tokens = await _authenticationService
-        .refreshTokens(RefreshTokensRequest(refreshToken: refreshToken));
+    var tokens = await _authenticationService.refreshTokens(
+        RefreshTokensRequest(
+            refreshToken: refreshToken,
+            profileId: _authenticationProvider.profile));
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);
 
@@ -39,6 +41,22 @@ class HttpAuthClient implements HttpClient {
     ));
   }
 
+  String parseProfileId(String path) {
+    var profileId = _authenticationProvider.profileId;
+
+    if (profileId.isEmpty) {
+      return path;
+    }
+
+    if (path.contains("?")) {
+      path += "&profileId=$profileId";
+    } else {
+      path += "?profileId=$profileId";
+    }
+
+    return path;
+  }
+
   @override
   Future<U> makeRequestJson<U>(
       {required String method,
@@ -50,7 +68,7 @@ class HttpAuthClient implements HttpClient {
 
     return _httpClient.makeRequestJson(
         method: method,
-        path: path,
+        path: parseProfileId(path),
         body: body,
         headers: {
           "Authorization": 'Bearer ${_authenticationProvider.accessToken}'
@@ -69,7 +87,7 @@ class HttpAuthClient implements HttpClient {
 
     return _httpClient.makeRequestMultiPart(
         method: method,
-        path: path,
+        path: parseProfileId(path),
         body: body,
         headers: {
           "Authorization": 'Bearer ${_authenticationProvider.accessToken}'

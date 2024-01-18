@@ -125,13 +125,13 @@ class ClothingViewModel extends FormViewModel {
   }
 
   //TODO: IF IS ALREADY MARK AS USE, UNMARK
-  Future markClothAsDailyUse() async {
+  Future markClothAsDailyUse(Map<String, List<String>> selectedCards) async {
     List<String> listIds = [];
 
     isLoading = true;
     notifyListeners();
 
-    for (var elem in _selectedCards.entries) {
+    for (var elem in selectedCards.entries) {
       if (elem.value.isEmpty) {
         listIds.add(elem.key);
       } else {

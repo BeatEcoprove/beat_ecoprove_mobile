@@ -8,19 +8,23 @@ class OutfitService {
 
   Future markClothAsInUse(List<String> idsCloth) async {
     for (var idCloth in idsCloth) {
-      return await _httpClient.makeRequestJson(
+      await _httpClient.makeRequestJson(
           method: HttpMethods.put,
           path: "profiles/closet/cloth/$idCloth/use",
           expectedCode: 200);
     }
+
+    return;
   }
 
   Future unMarkClothAsInUse(List<String> idsCloth) async {
     for (var idCloth in idsCloth) {
-      return await _httpClient.makeRequestJson(
+      await _httpClient.makeRequestJson(
           method: HttpMethods.put,
           path: "profiles/closet/cloth/$idCloth/unUse",
           expectedCode: 200);
     }
+
+    return;
   }
 }

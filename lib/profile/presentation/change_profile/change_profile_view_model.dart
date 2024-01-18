@@ -51,8 +51,7 @@ class ChangeProfileViewModel extends ViewModel {
           extra: ShowCompletedViewParams(
               text: "Perfil foi removido.",
               textButton: "Continuar",
-              action: () =>
-                  _navigationRouter.pushReplacement("/changeprofile")));
+              action: () => _navigationRouter.pop()));
     } catch (e) {
       print("$e");
     }

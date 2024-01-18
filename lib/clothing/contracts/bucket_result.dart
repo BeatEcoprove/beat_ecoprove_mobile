@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 
 class BucketResult {
-  final String id;
+  late String id;
   final String name;
   final List<ClothResult> associatedCloth;
 

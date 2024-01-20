@@ -161,6 +161,6 @@ class RegisterClothViewModel extends FormViewModel {
       print("$e");
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 }

@@ -60,9 +60,20 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
       OptionItem(
         name: 'Remover Tudo',
         action: () => {
-          viewModel.removeClothFromBucket(
-              (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
-              widget.card.id)
+          if (widget.card.id == "outfit")
+            {
+              viewModel.unMarkClothsFromBucket(
+                (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
+              ),
+            }
+          else
+            {
+              viewModel.removeClothFromBucket(
+                  (widget.card.child as List<CardItem>)
+                      .map((e) => e.id)
+                      .toList(),
+                  widget.card.id),
+            }
         },
       ),
     ];

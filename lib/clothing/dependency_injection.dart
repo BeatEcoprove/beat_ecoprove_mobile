@@ -68,6 +68,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         ));
     locator.registerFactory(() => InfoBucketViewModel(
           removeClothFromBucketUseCase,
+          unMarkClothAsDailyUseUseCase,
         ));
   }
 

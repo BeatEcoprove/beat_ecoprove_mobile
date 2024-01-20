@@ -56,6 +56,7 @@ extension ClothingDependencyInjection on DependencyInjection {
           authProvider,
           getClosetUseCase,
           markClothAsDailyUseUseCase,
+          unMarkClothAsDailyUseUseCase,
           deleteCardUseCase,
           registerBucketUseCase,
           router.appRouter,

@@ -43,7 +43,10 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
           cardsType: Types.compact,
           action: "removeFromBucket",
           actionToOptionRemoveFromBucket: (idCloth) async {
-            await viewModal.removeClothFromBucket(idCloth, widget.card.id);
+            widget.card.id == "outfit"
+                ? await viewModal.unMarkClothsFromBucket(idCloth)
+                : await viewModal.removeClothFromBucket(
+                    idCloth, widget.card.id);
           },
         ),
       ],
@@ -57,25 +60,27 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
     final Offset buttonPosition = buttonRenderBox.localToGlobal(Offset.zero);
 
     options = [
-      OptionItem(
-        name: 'Remover Tudo',
-        action: () => {
-          if (widget.card.id == "outfit")
+      if (widget.card.id == "outfit") ...{
+        OptionItem(
+          name: 'Desmarcar Uso',
+          action: () => {
             {
               viewModel.unMarkClothsFromBucket(
                 (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
               ),
             }
-          else
-            {
-              viewModel.removeClothFromBucket(
-                  (widget.card.child as List<CardItem>)
-                      .map((e) => e.id)
-                      .toList(),
-                  widget.card.id),
-            }
-        },
-      ),
+          },
+        ),
+      } else ...{
+        OptionItem(
+          name: 'Remover Tudo',
+          action: () => {
+            viewModel.removeClothFromBucket(
+                (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
+                widget.card.id),
+          },
+        ),
+      }
     ];
 
     showMenu(

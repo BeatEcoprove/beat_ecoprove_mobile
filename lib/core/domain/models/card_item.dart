@@ -19,7 +19,7 @@ class CardItem<T> {
     required this.child,
     this.hasProfile,
     this.brand = '',
-    this.size = 'M',
+    this.size = 'XS',
     this.color = Colors.black,
     this.ecoScore = 0,
   });

@@ -110,43 +110,46 @@ class _ClothingFormState extends State<ClothingForm> {
                   width: 75,
                 ),
               ),
-              Positioned(
-                bottom: 96,
-                right: 26,
-                child: FloatingButton(
-                  color: AppColor.bucketButton,
-                  dimension: 64,
-                  icon: const SvgImage(
-                    path: "assets/services/bucket.svg",
-                    height: 25,
-                    width: 25,
-                  ),
-                  onPressed: () {
-                    goRouter.push(
-                      "/select_service",
-                      extra: ServiceParams(
-                        services: {
-                          "Em que cesto pretende inserir esta peça?": [
-                            ServiceItem(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColor.buttonBackground,
-                              title: "Novo cesto",
-                              idText: "bucket_new_bucket",
-                              content: const Icon(
-                                Icons.add,
-                                size: 50,
-                                color: AppColor.buttonBackground,
+              if (viewModel.haveBucketInSelected) ...{
+                Positioned(
+                  bottom: 96,
+                  right: 26,
+                  child: FloatingButton(
+                    color: AppColor.bucketButton,
+                    dimension: 64,
+                    icon: const SvgImage(
+                      path: "assets/services/bucket.svg",
+                      height: 25,
+                      width: 25,
+                    ),
+                    onPressed: () {
+                      goRouter.push(
+                        "/select_service",
+                        extra: ServiceParams(
+                          services: {
+                            "Em que cesto pretende inserir esta peça?": [
+                              ServiceItem(
+                                backgroundColor: Colors.white,
+                                foregroundColor: AppColor.buttonBackground,
+                                title: "Novo cesto",
+                                idText: "bucket_new_bucket",
+                                content: const Icon(
+                                  Icons.add,
+                                  size: 50,
+                                  color: AppColor.buttonBackground,
+                                ),
+                                action: () => _overlay.create(
+                                    context, createBucketCard()),
                               ),
-                              action: () =>
-                                  _overlay.create(context, createBucketCard()),
-                            ),
-                          ],
-                        },
-                      ),
-                    );
-                  },
+                              //TODO: PASS OTHERS BUCKETS
+                            ],
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
+              },
             ] else ...[
               const Positioned(
                 bottom: 16,

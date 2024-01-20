@@ -8,6 +8,7 @@ class InfoBucketViewModel extends ViewModel {
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
 
   late final Map<String, List<String>> _selectedCards = {};
+  late final List<String> _selectedClothCards = [];
 
   InfoBucketViewModel(
     this._removeClothFromBucketUseCase,
@@ -17,8 +18,10 @@ class InfoBucketViewModel extends ViewModel {
   void changeCardsSelection(Map<String, List<String>> cards) {
     if (_selectedCards.containsKey(cards.keys.first)) {
       _selectedCards.remove(cards.keys.first);
+      _selectedClothCards.remove(cards.keys.first);
     } else {
       _selectedCards.addAll(cards);
+      _selectedClothCards.add(cards.keys.first);
     }
 
     notifyListeners();
@@ -28,8 +31,11 @@ class InfoBucketViewModel extends ViewModel {
 
   Future removeClothFromBucket(List<String> idCloth, String idBucket) async {
     try {
-      await _removeClothFromBucketUseCase
-          .handle(RemoveClothFromBucketRequest(idCloth, idBucket));
+      await _removeClothFromBucketUseCase.handle(RemoveClothFromBucketRequest(
+          idCloth
+              .where((element) => !_selectedClothCards.contains(element))
+              .toList(),
+          idBucket));
     } catch (e) {
       print("$e");
     }
@@ -37,7 +43,9 @@ class InfoBucketViewModel extends ViewModel {
 
   Future unMarkClothsFromBucket(List<String> idsCloth) async {
     try {
-      await _unMarkClothAsDailyUseUseCase.handle(idsCloth);
+      await _unMarkClothAsDailyUseUseCase.handle(idsCloth
+          .where((element) => !_selectedClothCards.contains(element))
+          .toList());
     } catch (e) {
       print("$e");
     }

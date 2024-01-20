@@ -62,7 +62,7 @@ class ClosetService {
   Future removeClothFromBucket(RemoveClothFromBucketRequest request) async {
     var bucketId = request.bucketId;
     await _httpClient.makeRequestJson(
-        method: HttpMethods.post,
+        method: HttpMethods.put,
         path: "profiles/closet/bucket/$bucketId/remove",
         body: request,
         expectedCode: 201);

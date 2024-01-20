@@ -16,6 +16,7 @@ class ClothItem extends CardItemTemplate {
     super.subTitle,
     super.otherProfileImage,
     super.isSelect,
+    super.selectedIcon,
     super.isSelectedToDelete,
     required super.cardSelectedToDelete,
     super.cardType,

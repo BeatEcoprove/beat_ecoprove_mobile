@@ -29,23 +29,23 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
   late List<OptionItem> options;
   final List<String> selectedCardItems = [];
 
-  Widget renderCards(InfoBucketViewModel viewModal) {
+  Widget renderCards(InfoBucketViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CardList(
-          //TODO: Fix
-          selectedCards: const {},
+          selectedCards: viewModel.selectedCards,
           clothesItems: widget.card.child,
-          //Não fazem nada
-          onSelectionChanged: (cards) => (cards),
+          onSelectionChanged: (cards) =>
+              {viewModel.changeCardsSelection(cards)},
           onSelectionToDelete: (cards) => (cards),
+          selectedIcon: Icons.lock_rounded,
           cardsType: Types.compact,
           action: "removeFromBucket",
           actionToOptionRemoveFromBucket: (idCloth) async {
             widget.card.id == "outfit"
-                ? await viewModal.unMarkClothsFromBucket(idCloth)
-                : await viewModal.removeClothFromBucket(
+                ? await viewModel.unMarkClothsFromBucket(idCloth)
+                : await viewModel.removeClothFromBucket(
                     idCloth, widget.card.id);
           },
         ),

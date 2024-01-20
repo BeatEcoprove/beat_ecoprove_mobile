@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 class CardList extends StatefulWidget {
   final List<CardItem> clothesItems;
   final Map<String, List<String>> selectedCards;
+  final IconData selectedIcon;
   final Function(List<String>)? actionToOptionRemoveFromBucket;
 
   final Function(Map<String, List<String>>) onSelectionChanged;
@@ -20,6 +21,7 @@ class CardList extends StatefulWidget {
     Key? key,
     required this.clothesItems,
     required this.selectedCards,
+    this.selectedIcon = Icons.check_circle_outline_rounded,
     required this.onSelectionChanged,
     required this.onSelectionToDelete,
     this.cardsType,
@@ -55,6 +57,7 @@ class _CardListState extends State<CardList> {
       subTitle: card.brand,
       otherProfileImage: card.hasProfile,
       isSelect: widget.selectedCards.keys.contains(card.id),
+      selectedIcon: widget.selectedIcon,
       cardSelectedToDelete: widget.onSelectionToDelete,
       cardType: widget.cardsType,
       action: widget.action,

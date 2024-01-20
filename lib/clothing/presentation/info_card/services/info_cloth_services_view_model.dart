@@ -106,6 +106,7 @@ class InfoClothServiceViewModel extends ViewModel {
               ),
               action: () {},
             ),
+            //TODO: MAKE APPEAR OTHERS BUCKETS AND MAKE POSSIBLE TO PUT CLOTH INSIDE THEM
           ]
         },
       ),

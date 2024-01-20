@@ -69,12 +69,18 @@ class _LoginFormState extends State<LoginForm> {
                       viewModel.getValue(FormFieldValues.password).error,
                   onChange: (value) => viewModel.setPassword(value),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    child: Text("Esqueceu-se da Palavra-chave?",
-                        style: AppText.underlineStyle),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: GestureDetector(
+                      onTap: () => context.push("/insert_reset_code"),
+                      child: const Text(
+                        "Esqueceu-se da Palavra-chave?",
+                        style: AppText.underlineStyle,
+                      ),
+                    ),
                   ),
                 ),
               ],

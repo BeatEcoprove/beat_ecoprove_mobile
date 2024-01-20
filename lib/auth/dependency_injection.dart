@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_enterprise_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_personal_use_case.dart';
+import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_code/insert_reset_code_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_password/reset_password_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
@@ -42,13 +44,14 @@ extension AuthDependencyInjection on DependencyInjection {
         () => LoginViewModel(locator<LoginUseCase>(), router.appRouter));
     locator.registerFactory(() => SignInViewModel(
         router.appRouter, singInPersonalUseCase, singInEnterpriseUseCase));
-
     locator.registerFactory(() => SelectUserViewModel());
     locator.registerFactory(() => PersonalViewModel());
     locator.registerFactory(() => AvatarStageViewModel(authService));
     locator.registerFactory(() => FinalStageViewModel(authService));
     locator.registerFactory(() => EnterpriseStageViewModel());
     locator.registerFactory(() => EnterpriseAddressStageViewModel());
+    locator.registerFactory(() => InsertResetCodeViewModel(router.appRouter));
+    locator.registerFactory(() => ResetPasswordViewModel(router.appRouter));
   }
 
   void addAuth() {

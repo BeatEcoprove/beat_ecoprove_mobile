@@ -15,6 +15,7 @@ abstract class CardItemTemplate extends StatefulWidget {
   final String? subTitle;
   final ImageProvider? otherProfileImage;
   final bool isSelect;
+  final IconData selectedIcon;
   final bool isSelectedToDelete;
   final Types? cardType;
   final String action;
@@ -26,6 +27,7 @@ abstract class CardItemTemplate extends StatefulWidget {
     required this.title,
     this.subTitle,
     this.isSelect = false,
+    this.selectedIcon = Icons.check_circle_outline_rounded,
     this.isSelectedToDelete = false,
     this.otherProfileImage,
     required this.cardSelectedToDelete,
@@ -142,7 +144,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     );
   }
 
-  Positioned _selectionCheck(double size) {
+  Positioned _selectionCheck(double size, IconData icon) {
     return Positioned.fill(
       child: Container(
         decoration: const BoxDecoration(
@@ -151,7 +153,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
         ),
         child: Icon(
           size: size,
-          Icons.check_circle_outline_rounded,
+          icon,
           color: AppColor.buttonBackground,
         ),
       ),
@@ -174,7 +176,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
         _allSpaceFromCard(),
         if (widget.id != "outfit") _actionsWidget(16, widget.action),
         if (_isSelectedToDelete) _selectedToDeleteButton(0, 75, 75, true),
-        if (widget.isSelect) _selectionCheck(50),
+        if (widget.isSelect) _selectionCheck(50, widget.selectedIcon),
       ],
     );
   }
@@ -293,7 +295,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
         _allSpaceFromCard(),
         if (widget.id != "outfit") _actionsWidget(10, widget.action),
         if (_isSelectedToDelete) _selectedToDeleteButton(null, 49, 150, false),
-        if (widget.isSelect) _selectionCheck(100),
+        if (widget.isSelect) _selectionCheck(100, widget.selectedIcon),
       ],
     );
   }

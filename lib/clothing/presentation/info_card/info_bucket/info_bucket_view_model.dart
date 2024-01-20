@@ -7,10 +7,24 @@ class InfoBucketViewModel extends ViewModel {
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
 
+  late final Map<String, List<String>> _selectedCards = {};
+
   InfoBucketViewModel(
     this._removeClothFromBucketUseCase,
     this._unMarkClothAsDailyUseUseCase,
   );
+
+  void changeCardsSelection(Map<String, List<String>> cards) {
+    if (_selectedCards.containsKey(cards.keys.first)) {
+      _selectedCards.remove(cards.keys.first);
+    } else {
+      _selectedCards.addAll(cards);
+    }
+
+    notifyListeners();
+  }
+
+  Map<String, List<String>> get selectedCards => _selectedCards;
 
   Future removeClothFromBucket(List<String> idCloth, String idBucket) async {
     try {

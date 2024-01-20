@@ -38,8 +38,8 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
           onSelectionToDelete: (cards) => (cards),
           cardsType: Types.compact,
           action: "removeFromBucket",
-          actionToOptionRemoveFromBucket: (idCloth, idBucket) async {
-            await viewModal.removeClothFromBucket(idCloth, idBucket);
+          actionToOptionRemoveFromBucket: (idCloth) async {
+            await viewModal.removeClothFromBucket(idCloth, widget.card.id);
           },
         ),
       ],

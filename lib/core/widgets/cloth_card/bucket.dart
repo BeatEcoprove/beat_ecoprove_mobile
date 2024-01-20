@@ -19,7 +19,6 @@ class BucketItem extends CardItemTemplate {
     required super.cardSelectedToDelete,
     super.cardType,
     required super.action,
-    required super.buttonAction,
   });
 
   Container _itemGrid(

@@ -332,7 +332,6 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
   void initState() {
     super.initState();
 
-    //TODO: FIX
     options = [
       OptionItem(
         name: 'Remover',

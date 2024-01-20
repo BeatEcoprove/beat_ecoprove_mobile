@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/info_bucket_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
@@ -12,17 +13,20 @@ class InfoBucketForm extends StatefulWidget {
   final String index;
   final CardItem card;
 
-  const InfoBucketForm({
+  InfoBucketForm({
     super.key,
     required this.card,
     required this.index,
   });
+
+  final GlobalKey _buttonKey = GlobalKey();
 
   @override
   State<InfoBucketForm> createState() => _InfoBucketFormState();
 }
 
 class _InfoBucketFormState extends State<InfoBucketForm> {
+  late List<OptionItem> options;
   final List<String> selectedCardItems = [];
 
   Widget renderCards(InfoBucketViewModel viewModal) {
@@ -43,6 +47,40 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
           },
         ),
       ],
+    );
+  }
+
+  //TODO: CREATE GLOBAL FUNCTION
+  void _showOptionsMenu(BuildContext context, InfoBucketViewModel viewModel) {
+    final RenderBox buttonRenderBox =
+        widget._buttonKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset buttonPosition = buttonRenderBox.localToGlobal(Offset.zero);
+
+    options = [
+      OptionItem(
+        name: 'Remover Tudo',
+        action: () => {
+          viewModel.removeClothFromBucket(
+              (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
+              widget.card.id)
+        },
+      ),
+    ];
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        buttonPosition.dx,
+        buttonPosition.dy,
+        buttonPosition.dx + buttonRenderBox.size.width,
+        buttonPosition.dy + buttonRenderBox.size.height,
+      ),
+      items: options.map((option) {
+        return PopupMenuItem(
+          onTap: option.action,
+          child: Text(option.name),
+        );
+      }).toList(),
     );
   }
 
@@ -89,12 +127,14 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
                 top: 24,
                 right: 28,
                 child: IconButton(
-                  icon: const Icon(
-                    Icons.more_vert_rounded,
-                    color: AppColor.widgetSecondary,
-                  ),
-                  onPressed: () {},
-                ),
+                    key: widget._buttonKey,
+                    icon: const Icon(
+                      Icons.more_vert_rounded,
+                      color: AppColor.widgetSecondary,
+                    ),
+                    onPressed: () {
+                      _showOptionsMenu(context, viewModel);
+                    }),
               ),
               Positioned(
                 top: 82,

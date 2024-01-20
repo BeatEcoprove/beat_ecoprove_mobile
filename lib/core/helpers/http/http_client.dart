@@ -66,7 +66,7 @@ class HttpClient {
     fields.forEach((key, value) async {
       if (value is String) {
         request.fields[key] = value;
-      } else if (value is XFile) {
+      } else if (value is XFile && value.name != "default_avatar.png") {
         request.files.add(await http.MultipartFile.fromPath(key, value.path,
             filename: 'avatarPicture', contentType: MediaType('image', 'png')));
       }

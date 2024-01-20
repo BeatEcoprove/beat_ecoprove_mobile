@@ -2,6 +2,7 @@ class ClothResult {
   final String id;
   final String name;
   final String type;
+  final String state;
   final String size;
   final String brand;
   final String color;
@@ -13,6 +14,7 @@ class ClothResult {
     this.id,
     this.name,
     this.type,
+    this.state,
     this.size,
     this.brand,
     this.color,
@@ -26,6 +28,7 @@ class ClothResult {
       json['id'],
       json['name'],
       json['type'],
+      json['clothState'],
       json['size'],
       json['brand'],
       json['color'],

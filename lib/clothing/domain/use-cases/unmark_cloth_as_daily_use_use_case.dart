@@ -12,7 +12,6 @@ class UnMarkClothAsDailyUseUseCase implements UseCase<List<String>, Future> {
     try {
       await _outfitService.unMarkClothAsInUse(request);
     } on HttpError catch (e) {
-      print(e);
       throw Exception(e.getError().title);
     }
   }

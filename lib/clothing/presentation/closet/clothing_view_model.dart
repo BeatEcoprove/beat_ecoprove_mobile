@@ -1,9 +1,11 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
@@ -15,6 +17,7 @@ import 'package:go_router/go_router.dart';
 class ClothingViewModel extends FormViewModel {
   final GetClosetUseCase _getClosetUseCase;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
+  final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final DeleteCardUseCase _deleteCardUseCase;
   final RegisterBucketUseCase _registerBucketUseCase;
   final GoRouter _navigationRouter;
@@ -32,6 +35,7 @@ class ClothingViewModel extends FormViewModel {
     this._authProvider,
     this._getClosetUseCase,
     this._markClothAsDailyUseUseCase,
+    this._unMarkClothAsDailyUseUseCase,
     this._deleteCardUseCase,
     this._registerBucketUseCase,
     this._navigationRouter,
@@ -128,23 +132,63 @@ class ClothingViewModel extends FormViewModel {
     return _cards;
   }
 
-  //TODO: IF IS ALREADY MARK AS USE, UNMARK
-  Future markClothAsDailyUse(Map<String, List<String>> selectedCards) async {
-    List<String> listIds = [];
+  Future setStateFromCloth() async {
+    List<String> listIdsInUse = [];
+    List<String> listIdsIdle = [];
+    List<String> selectedElements = [];
 
-    isLoading = true;
-    notifyListeners();
+    for (var e in getCloset) {
+      if (e.clothState == null) {
+        var cards = e.child as List<CardItem>;
+
+        for (var card in cards) {
+          switch (card.clothState!) {
+            case ClothStates.inUse:
+              listIdsInUse.add(card.id);
+              break;
+            case ClothStates.idle:
+              listIdsIdle.add(card.id);
+              break;
+            case ClothStates.blocked:
+              break;
+          }
+        }
+      }
+
+      if (e.clothState != null) {
+        switch (e.clothState!) {
+          case ClothStates.inUse:
+            listIdsInUse.add(e.id);
+            break;
+          case ClothStates.idle:
+            listIdsIdle.add(e.id);
+            break;
+          case ClothStates.blocked:
+            break;
+        }
+      }
+    }
 
     for (var elem in selectedCards.entries) {
       if (elem.value.isEmpty) {
-        listIds.add(elem.key);
+        selectedElements.add(elem.key);
       } else {
-        listIds.addAll(elem.value);
+        selectedElements.addAll(elem.value);
       }
     }
 
     try {
-      await _markClothAsDailyUseUseCase.handle(listIds);
+      await _markClothAsDailyUseUseCase.handle(listIdsIdle
+          .where((elemento) => selectedElements.contains(elemento))
+          .toList());
+    } catch (e) {
+      print("$e");
+    }
+
+    try {
+      await _unMarkClothAsDailyUseUseCase.handle(listIdsInUse
+          .where((elemento) => selectedElements.contains(elemento))
+          .toList());
     } catch (e) {
       print("$e");
     }

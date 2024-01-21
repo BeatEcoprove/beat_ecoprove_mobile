@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view.dart';
+import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/change_name/change_bucket_name_view.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/info_cloth_view.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/info_cloth/info_cloth_view.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_cloth_services_view.dart';
@@ -73,6 +74,13 @@ final GoRoute clothingRoutes = GoRoute(
           hasRegisterCloth: false,
         );
       },
+      routes: [
+        GoRoute(
+          path: 'change_name',
+          builder: (context, state) =>
+              ChangeBucketNameView(bucket: state.extra as String),
+        ),
+      ],
     ),
   ],
 );

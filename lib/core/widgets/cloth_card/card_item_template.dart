@@ -66,14 +66,10 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
       right: right,
       bottom: bottom,
       child: IconButtonRectangular(
-        dimension: dimensionContent,
-        object: Padding(
-          padding: const EdgeInsets.all(4),
-          child: PresentImage(
+          dimension: dimensionContent,
+          object: PresentImage(
             path: widget.otherProfileImage!,
-          ),
-        ),
-      ),
+          )),
     );
   }
 

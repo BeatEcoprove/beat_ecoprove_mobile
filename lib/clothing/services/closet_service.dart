@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/bucket_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/change_bucket_name_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/closet_result.dart';
@@ -68,11 +69,18 @@ class ClosetService {
         expectedCode: 200);
   }
 
-  Future removeClothFromBucket(RemoveClothFromBucketRequest request) async {
-    var bucketId = request.bucketId;
+  Future addClothToBucket(AddClothsBucketRequest request) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.put,
-        path: "profiles/closet/bucket/$bucketId/remove",
+        path: "profiles/closet/bucket/${request.bucketId}/add",
+        body: request,
+        expectedCode: 201);
+  }
+
+  Future removeClothFromBucket(RemoveClothFromBucketRequest request) async {
+    await _httpClient.makeRequestJson(
+        method: HttpMethods.put,
+        path: "profiles/closet/bucket/${request.bucketId}/remove",
         body: request,
         expectedCode: 201);
   }

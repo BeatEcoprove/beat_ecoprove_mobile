@@ -141,7 +141,27 @@ class _ClothingFormState extends State<ClothingForm> {
                                 action: () => _overlay.create(
                                     context, createBucketCard()),
                               ),
-                              //TODO: PASS OTHERS BUCKETS
+                              for (var bucket in viewModel.getBuckets) ...{
+                                ServiceItem(
+                                  backgroundColor: AppColor.widgetBackground,
+                                  borderColor: Colors.transparent,
+                                  foregroundColor: AppColor.buttonBackground,
+                                  title: bucket.title,
+                                  idText: "bucket",
+                                  content: const SvgImage(
+                                    path: "assets/services/bucket.svg",
+                                    height: 20,
+                                    width: 20,
+                                    color: AppColor.buttonBackground,
+                                  ),
+                                  action: () async => {
+                                    await viewModel.addToBucket(
+                                      bucket.id,
+                                      viewModel.selectedCards,
+                                    ),
+                                  },
+                                )
+                              }
                             ],
                           },
                         ),

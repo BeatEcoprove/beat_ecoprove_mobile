@@ -23,6 +23,14 @@ class ClosetService {
     ));
   }
 
+  Future<ClosetResult> getBuckets() async {
+    return ClosetResult.fromJson(await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "profiles/closet?page=1&pageSize=10",
+      expectedCode: 200,
+    ));
+  }
+
   Future<BucketResult> getOutfit() async {
     return BucketResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,

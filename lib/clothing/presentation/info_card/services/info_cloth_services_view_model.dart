@@ -1,28 +1,64 @@
+import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/finish_maintenance_on_cloth_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/make_maintenance_on_cloth_request.dart';
+import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/domain/models/service_state.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/get_buckets_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/clothing/services/action_service.dart';
-import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
-import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:beat_ecoprove/core/widgets/svg_image.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class InfoClothServiceViewModel extends ViewModel {
+class InfoClothServiceViewModel extends FormViewModel {
   late List<String> _selectedServices = [];
   final List<String> _blockedServices = [];
   final List<ServiceTemplate> _services = [];
+  final Map<String, String> _buckets = {};
+  final GetBucketsUseCase _getBucketsUseCase;
+  final AddClothsBucketUseCase _addClothsBucketUseCase;
+  final RegisterBucketUseCase _registerBucketUseCase;
+  final GoRouter _navigationRouter;
+
+  late bool isLoading = false;
 
   final ActionService _actionService;
   late String clothId;
   late String activityId;
 
-  InfoClothServiceViewModel(this._actionService);
+  InfoClothServiceViewModel(
+    this._navigationRouter,
+    this._actionService,
+    this._getBucketsUseCase,
+    this._addClothsBucketUseCase,
+    this._registerBucketUseCase,
+  ) {
+    initializeFields([FormFieldValues.name]);
+  }
+
+  Map<String, String> get getBuckets => _buckets;
+
+  void setName(String name) {
+    try {
+      setValue<String>(
+          FormFieldValues.name, BucketName.create(name).toString());
+    } on DomainException catch (e) {
+      setError(FormFieldValues.name, e.message);
+    }
+  }
 
   bool get haveServicesSelected => _selectedServices.isNotEmpty;
 
-  Future fetchServices(String clothId) async {
+  Future fetchServices(
+      String clothId, bool isBucket, BuildContext context) async {
     List<Service<dynamic>> services = [];
+
+    fetchBuckets();
 
     try {
       var availableServices =
@@ -40,7 +76,9 @@ class InfoClothServiceViewModel extends ViewModel {
       }
 
       _services.clear();
-      _services.addAll(formatServices(services));
+      _services.addAll(
+        services,
+      );
     } catch (e) {
       print(e);
     }
@@ -79,68 +117,53 @@ class InfoClothServiceViewModel extends ViewModel {
     notifyListeners();
   }
 
-  List<ServiceTemplate> formatServices(List<Service<dynamic>> result) {
-    return [
-      Service(
-        foregroundColor: AppColor.buttonBackground,
-        borderColor: AppColor.widgetBackground,
-        backgroundColor: AppColor.widgetBackground,
-        title: "Cesto",
-        idText: "bucket",
-        content: const SvgImage(
-          path: "assets/services/bucket.svg",
-          height: 20,
-          width: 20,
-          color: AppColor.buttonBackground,
-        ),
-        services: {
-          "Em que cesto pretende adicionar esta peça?": [
-            ServiceItem(
-              foregroundColor: AppColor.buttonBackground,
-              borderColor: AppColor.widgetBackground,
-              backgroundColor: AppColor.widgetBackground,
-              title: "Novo cesto",
-              idText: "bucket_new_bucket",
-              content: const Icon(
-                Icons.add,
-                size: 50,
-                color: AppColor.buttonBackground,
-              ),
-              action: () {},
-            ),
-            //TODO: MAKE APPEAR OTHERS BUCKETS AND MAKE POSSIBLE TO PUT CLOTH INSIDE THEM
-          ]
-        },
-      ),
-      ...result,
-      ServiceItem(
-        foregroundColor: AppColor.buttonBackground,
-        borderColor: AppColor.widgetBackground,
-        title: "Enviar para reciclagem",
-        idText: "recycle",
-        backgroundColor: AppColor.widgetBackground,
-        content: const SvgImage(
-          path: "assets/services/recycle.svg",
-          height: 30,
-          width: 30,
-          color: AppColor.buttonBackground,
-        ),
-        action: () {},
-      ),
-      ServiceItem(
-        foregroundColor: AppColor.buttonBackground,
-        borderColor: AppColor.widgetBackground,
-        title: "Colocar no lixo",
-        idText: "trash",
-        backgroundColor: AppColor.widgetBackground,
-        content: const SvgImage(
-          path: "assets/services/trash.svg",
-          height: 30,
-          width: 30,
-          color: AppColor.buttonBackground,
-        ),
-        action: () {},
-      )
-    ];
+  void fetchBuckets() async {
+    Map<String, String> buckets = {};
+
+    try {
+      buckets = await _getBucketsUseCase.handle();
+    } catch (e) {
+      print(e);
+    }
+
+    _buckets.addAll(buckets);
+  }
+
+  Future registerBucket(String cardId) async {
+    isLoading = true;
+    notifyListeners();
+
+    var name = getValue(FormFieldValues.name).value ?? "";
+
+    try {
+      await _registerBucketUseCase.handle(RegisterBucketRequest(
+        name,
+        [cardId],
+      ));
+    } catch (e) {
+      print("$e");
+    }
+
+    isLoading = false;
+    _navigationRouter.go('/');
+    notifyListeners();
+  }
+
+  Future addToBucket(String bucketId, String clothId) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      await _addClothsBucketUseCase.handle(AddClothsBucketRequest(
+        bucketId,
+        [clothId],
+      ));
+    } catch (e) {
+      print("$e");
+    }
+
+    isLoading = false;
+    _navigationRouter.go('/');
+    notifyListeners();
   }
 }

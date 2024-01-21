@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/change_bucket_name_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/get_buckets_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/change_name/change_bucket_name_view_model.dart';
@@ -45,6 +46,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerSingleton(RemoveClothFromBucketUseCase(clothingService));
     locator.registerSingleton(ChangeBucketNameUseCase(clothingService));
     locator.registerSingleton(AddClothsBucketUseCase(clothingService));
+    locator.registerSingleton(GetBucketsUseCase(clothingService));
   }
 
   void _addViewModels(GetIt locator) {
@@ -58,6 +60,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
     var addClothBucketUseCase = locator<AddClothsBucketUseCase>();
+    var getBucketsUseCase = locator<GetBucketsUseCase>();
 
     locator.registerFactory(() => ClothingViewModel(
           authProvider,
@@ -69,8 +72,13 @@ extension ClothingDependencyInjection on DependencyInjection {
           addClothBucketUseCase,
           router.appRouter,
         ));
-    locator.registerFactory(
-        () => InfoClothServiceViewModel(locator<ActionServiceProxy>()));
+    locator.registerFactory(() => InfoClothServiceViewModel(
+          router.appRouter,
+          locator<ActionServiceProxy>(),
+          getBucketsUseCase,
+          addClothBucketUseCase,
+          registerBucketUseCase,
+        ));
     locator.registerFactory(() => InfoClothViewModel(
           markClothAsDailyUseUseCase,
           unMarkClothAsDailyUseUseCase,

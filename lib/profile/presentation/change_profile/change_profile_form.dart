@@ -151,6 +151,7 @@ class ChangeProfileForm extends StatelessWidget {
       ),
       child: CompactListItemUser.open(
         click: () => viewModel.selectProfile(profile.id),
+        hasBorder: viewModel.selectedProfile(profile.id, isMain),
         title: profile.username,
         userLevel: profile.level,
         sustainablePoints: profile.sustainabilityPoints,

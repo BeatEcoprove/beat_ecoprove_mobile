@@ -15,6 +15,7 @@ class CompactListItemUser extends StatelessWidget {
   final int ecoScorePoints;
   final bool withoutBoxShadow;
   final bool hasOptions;
+  final bool hasBorder;
 
   CompactListItemUser({
     super.key,
@@ -25,7 +26,8 @@ class CompactListItemUser extends StatelessWidget {
     this.withoutBoxShadow = false,
     required this.options,
     this.hasOptions = true,
-  }) : click = null;
+  })  : click = null,
+        hasBorder = false;
 
   CompactListItemUser.withoutOptions({
     super.key,
@@ -36,7 +38,8 @@ class CompactListItemUser extends StatelessWidget {
     this.withoutBoxShadow = false,
     this.hasOptions = false,
   })  : click = null,
-        options = null;
+        options = null,
+        hasBorder = false;
 
   CompactListItemUser.open({
     super.key,
@@ -48,6 +51,7 @@ class CompactListItemUser extends StatelessWidget {
     required this.options,
     this.hasOptions = true,
     required this.click,
+    this.hasBorder = false,
   });
 
   @override
@@ -80,9 +84,9 @@ class CompactListItemUser extends StatelessWidget {
           Container(
             width: 70,
             height: height,
-            decoration: const BoxDecoration(
-              color: AppColor.darkGreen,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: hasBorder ? AppColor.primaryInfo : AppColor.darkGreen,
+              borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(40),
                 bottomRight: Radius.circular(40),
                 bottomLeft: borderRadius,

@@ -139,7 +139,7 @@ class GroupForm extends StatelessWidget {
             ),
           ],
         ),
-        type: AppBackgrounds.group,
+        type: AppBackgrounds.registerClothBackground1,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/level_progress.dart';
+import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/profile/presentation/profile/profile_view_model.dart';
@@ -16,7 +17,6 @@ class ProfileForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<ProfileViewModel>(context);
     final goRouter = GoRouter.of(context);
-    double maxWidth = (MediaQuery.of(context).size.width / 0.75);
     double width = (MediaQuery.of(context).size.width);
     final user = viewModel.user;
 
@@ -98,19 +98,18 @@ class ProfileForm extends StatelessWidget {
                     const SizedBox(
                       height: 6,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // TODO: Change user XP and max. XP for level
                         Text(
-                          '0/100',
+                          '${user.xp.toString()}/${user.nextLevelXp.toString()}',
                           textAlign: TextAlign.center,
                           style: AppText.titleToScrollSection,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 3,
                         ),
-                        Text(
+                        const Text(
                           'XP',
                           textAlign: TextAlign.center,
                           style: AppText.rating,
@@ -171,10 +170,13 @@ class ProfileForm extends StatelessWidget {
                     const SizedBox(
                       height: 26,
                     ),
-                    // Line(width: maxWidth, color: AppColor.separatedLine),
-                    // const SizedBox(
-                    //   height: 26,
-                    // ),
+                    const Line(
+                      width: 250,
+                      color: AppColor.separatedLine,
+                    ),
+                    const SizedBox(
+                      height: 26,
+                    ),
                   ],
                 ),
               ),

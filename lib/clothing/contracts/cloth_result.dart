@@ -9,7 +9,7 @@ class ClothResult {
   final int ecoScore;
   final ClothStates clothState;
   final String clothAvatar;
-  final String otherProfileAvatar;
+  final String? otherProfileAvatar;
 
   ClothResult(
     this.id,
@@ -37,7 +37,7 @@ class ClothResult {
       json['ecoScore'],
       ClothStates.getOf(json['clothState']),
       json['clothAvatar'],
-      json['profile']['avatarUrl'],
+      json['profile'] != null ? json['profile']['avatarUrl'] : null,
     );
   }
 }

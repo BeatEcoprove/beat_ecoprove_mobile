@@ -9,6 +9,7 @@ class ClothResult {
   final int ecoScore;
   final ClothStates clothState;
   final String clothAvatar;
+  final String otherProfileAvatar;
 
   ClothResult(
     this.id,
@@ -21,6 +22,7 @@ class ClothResult {
     this.ecoScore,
     this.clothState,
     this.clothAvatar,
+    this.otherProfileAvatar,
   );
 
   factory ClothResult.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class ClothResult {
       json['ecoScore'],
       ClothStates.getOf(json['clothState']),
       json['clothAvatar'],
+      json['profile']['avatarUrl'],
     );
   }
 }

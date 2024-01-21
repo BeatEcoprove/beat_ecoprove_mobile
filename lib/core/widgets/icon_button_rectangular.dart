@@ -103,7 +103,10 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
             boxShadow:
                 widget.withoutBoxShadow ? null : const [AppColor.defaultShadow],
           ),
-          child: Center(child: widget.object),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            child: widget.object,
+          ),
         ),
       );
     }

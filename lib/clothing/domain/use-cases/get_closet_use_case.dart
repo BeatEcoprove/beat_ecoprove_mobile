@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
 class GetClosetUseCase
@@ -49,6 +50,7 @@ class GetClosetUseCase
         ecoScore: cloth.ecoScore,
         size: cloth.size.toUpperCase(),
         child: cloth.clothAvatar,
+        hasProfile: ServerImage(cloth.otherProfileAvatar),
       );
 
       closet.add(card);

@@ -7,4 +7,6 @@ abstract class Tokens {
   static const String sustainablePoints = "sustainable_points";
   static const String ecoScore = "eco_score";
   static const String ecoCoins = "eco_coins";
+  static const String xp = "current_xp";
+  static const String nextLevelXp = "next_level_xp";
 }

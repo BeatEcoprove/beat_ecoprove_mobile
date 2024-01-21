@@ -46,6 +46,8 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
           sustainablePoints: decodedToken[Tokens.sustainablePoints],
           ecoScore: decodedToken[Tokens.ecoScore],
           ecoCoins: decodedToken[Tokens.ecoCoins],
+          xp: decodedToken[Tokens.xp],
+          nextLevelXp: decodedToken[Tokens.nextLevelXp],
         ),
       ),
     );

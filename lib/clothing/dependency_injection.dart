@@ -1,5 +1,7 @@
+import 'package:beat_ecoprove/clothing/domain/use-cases/change_bucket_name_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
+import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/change_name/change_bucket_name_view_model.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/info_bucket_view_model.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
 import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_cloth_services_view_model.dart';
@@ -40,6 +42,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerSingleton(DeleteCardUseCase(clothingService));
     locator.registerSingleton(RegisterBucketUseCase(clothingService));
     locator.registerSingleton(RemoveClothFromBucketUseCase(clothingService));
+    locator.registerSingleton(ChangeBucketNameUseCase(clothingService));
   }
 
   void _addViewModels(GetIt locator) {
@@ -51,6 +54,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     var deleteCardUseCase = locator<DeleteCardUseCase>();
     var registerBucketUseCase = locator<RegisterBucketUseCase>();
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
+    var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
 
     locator.registerFactory(() => ClothingViewModel(
           authProvider,
@@ -70,6 +74,10 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerFactory(() => InfoBucketViewModel(
           removeClothFromBucketUseCase,
           unMarkClothAsDailyUseUseCase,
+        ));
+    locator.registerFactory(() => ChangeBucketNameViewModel(
+          router.appRouter,
+          changeBucketNameUseCase,
         ));
   }
 

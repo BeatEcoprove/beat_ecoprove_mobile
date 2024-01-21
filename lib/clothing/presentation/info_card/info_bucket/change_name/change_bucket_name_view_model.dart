@@ -1,0 +1,48 @@
+import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/clothing/contracts/change_bucket_name_request.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/change_bucket_name_use_case.dart';
+import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:go_router/go_router.dart';
+
+class ChangeBucketNameViewModel extends FormViewModel {
+  final ChangeBucketNameUseCase _changeBucketNameUseCase;
+  final GoRouter _navigationRouter;
+
+  ChangeBucketNameViewModel(
+    this._navigationRouter,
+    this._changeBucketNameUseCase,
+  ) {
+    initializeFields([
+      FormFieldValues.name,
+    ]);
+  }
+
+  void setName(String name) {
+    try {
+      setValue<String>(
+          FormFieldValues.name, BucketName.create(name).toString());
+    } on DomainException catch (e) {
+      setError(FormFieldValues.name, e.message);
+    }
+  }
+
+  Future changeBucketName(String bucketId) async {
+    notifyListeners();
+
+    var name = getValue(FormFieldValues.name).value ?? "";
+
+    try {
+      await _changeBucketNameUseCase.handle(ChangeBucketNameRequest(
+        name,
+        bucketId,
+      ));
+    } catch (e) {
+      print("$e");
+    }
+
+    _navigationRouter.go('/');
+    notifyListeners();
+  }
+}

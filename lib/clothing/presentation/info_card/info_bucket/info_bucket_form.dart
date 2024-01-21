@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class InfoBucketForm extends StatefulWidget {
   final String index;
@@ -73,9 +74,16 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
         ),
       } else ...{
         OptionItem(
-          name: 'Remover Tudo',
+          name: 'Mudar Nome',
           action: () => {
-            viewModel.removeClothFromBucket(
+            context.push("/info/bucket/${widget.card.id}/change_name",
+                extra: widget.card.id)
+          },
+        ),
+        OptionItem(
+          name: 'Remover Tudo',
+          action: () async => {
+            await viewModel.removeClothFromBucket(
                 (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
                 widget.card.id),
           },

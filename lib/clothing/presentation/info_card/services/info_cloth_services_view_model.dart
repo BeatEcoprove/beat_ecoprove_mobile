@@ -83,20 +83,22 @@ class InfoClothServiceViewModel extends ViewModel {
     return [
       Service(
         foregroundColor: AppColor.buttonBackground,
-        backgroundColor: Colors.white,
+        borderColor: AppColor.widgetBackground,
+        backgroundColor: AppColor.widgetBackground,
         title: "Cesto",
         idText: "bucket",
         content: const SvgImage(
           path: "assets/services/bucket.svg",
-          height: 30,
-          width: 30,
+          height: 20,
+          width: 20,
           color: AppColor.buttonBackground,
         ),
         services: {
           "Em que cesto pretende adicionar esta peça?": [
             ServiceItem(
               foregroundColor: AppColor.buttonBackground,
-              backgroundColor: Colors.white,
+              borderColor: AppColor.widgetBackground,
+              backgroundColor: AppColor.widgetBackground,
               title: "Novo cesto",
               idText: "bucket_new_bucket",
               content: const Icon(
@@ -113,26 +115,28 @@ class InfoClothServiceViewModel extends ViewModel {
       ...result,
       ServiceItem(
         foregroundColor: AppColor.buttonBackground,
+        borderColor: AppColor.widgetBackground,
         title: "Enviar para reciclagem",
         idText: "recycle",
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.widgetBackground,
         content: const SvgImage(
           path: "assets/services/recycle.svg",
-          height: 50,
-          width: 50,
+          height: 30,
+          width: 30,
           color: AppColor.buttonBackground,
         ),
         action: () {},
       ),
       ServiceItem(
         foregroundColor: AppColor.buttonBackground,
+        borderColor: AppColor.widgetBackground,
         title: "Colocar no lixo",
         idText: "trash",
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.widgetBackground,
         content: const SvgImage(
           path: "assets/services/trash.svg",
-          height: 50,
-          width: 50,
+          height: 30,
+          width: 30,
           color: AppColor.buttonBackground,
         ),
         action: () {},

@@ -128,7 +128,8 @@ class _ClothingFormState extends State<ClothingForm> {
                           services: {
                             "Em que cesto pretende inserir esta peça?": [
                               ServiceItem(
-                                backgroundColor: Colors.white,
+                                backgroundColor: AppColor.widgetBackground,
+                                borderColor: Colors.transparent,
                                 foregroundColor: AppColor.buttonBackground,
                                 title: "Novo cesto",
                                 idText: "bucket_new_bucket",

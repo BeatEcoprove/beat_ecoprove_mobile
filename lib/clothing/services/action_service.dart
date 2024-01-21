@@ -27,7 +27,13 @@ class ActionService {
       expectedCode: 200,
     );
 
-    return result.map((e) => ServiceResult.fromJson(e)).toList();
+    return result.map((e) {
+      var services = ServiceResult.fromJson(e);
+      services.actions.sort(
+        (a, b) => a.title.compareTo(b.title),
+      );
+      return services;
+    }).toList();
   }
 
   Future makeMaintenanceOnCloth(MakeMaintenanceOnClothRequest request) async {

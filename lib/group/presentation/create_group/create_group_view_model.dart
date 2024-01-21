@@ -80,6 +80,6 @@ class CreateGroupViewModel extends FormViewModel {
       print("$e");
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 }

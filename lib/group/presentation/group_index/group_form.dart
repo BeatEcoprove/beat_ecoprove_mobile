@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
@@ -30,87 +31,113 @@ class GroupForm extends StatelessWidget {
         hasSearchBar: true,
       ),
       body: AppBackground(
-        content: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: FutureBuilder(
-            future: memo.runOnce(() async => await viewModel.getGroups()),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                default:
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 26),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+        content: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: FutureBuilder(
+                future: memo.runOnce(() async => await viewModel.getGroups()),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    default:
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 18, vertical: 26),
+                              child: Column(
                                 children: [
-                                  const Text(
-                                    "Meus Grupos",
-                                    style: AppText.titleToScrollSection,
-                                    overflow: TextOverflow.ellipsis,
+                                  const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Meus Grupos",
+                                        style: AppText.titleToScrollSection,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
                                   ),
-                                  InkWell(
-                                    child: const Icon(
-                                      Icons.add_rounded,
-                                      color: AppColor.widgetSecondary,
-                                    ),
-                                    onTap: () => goRouter.push('/create'),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Column(
+                                    children: _renderCards(
+                                        goRouter,
+                                        viewModel
+                                            .getAllAuthenticatedUserGroups),
+                                  ),
+                                  const SizedBox(
+                                    height: 26,
+                                  ),
+                                  const Line(
+                                    width: 200,
+                                    color: AppColor.separatedLine,
+                                  ),
+                                  const SizedBox(
+                                    height: 26,
+                                  ),
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Grupos Globais",
+                                        style: AppText.titleToScrollSection,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Column(
+                                    children: _renderCards(
+                                        goRouter, viewModel.getAllPublicGroups),
                                   )
                                 ],
                               ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              Column(
-                                children: _renderCards(goRouter,
-                                    viewModel.getAllAuthenticatedUserGroups),
-                              ),
-                              const SizedBox(
-                                height: 26,
-                              ),
-                              const Line(
-                                width: 200,
-                                color: AppColor.separatedLine,
-                              ),
-                              const SizedBox(
-                                height: 26,
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Grupos Globais",
-                                    style: AppText.titleToScrollSection,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              Column(
-                                children: _renderCards(
-                                    goRouter, viewModel.getAllPublicGroups),
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-              }
-            },
-          ),
+                      );
+                  }
+                },
+              ),
+            ),
+            Positioned(
+              bottom: 16,
+              right: 26,
+              child: FloatingButton(
+                color: AppColor.darkGreen,
+                dimension: 64,
+                icon: const Icon(
+                  size: 34,
+                  Icons.add_circle_outline_rounded,
+                  color: AppColor.widgetBackground,
+                ),
+                onPressed: () => goRouter.push('/create'),
+              ),
+            ),
+            const Positioned(
+              bottom: 78,
+              right: 9,
+              child: FloatingButton(
+                color: AppColor.buttonBackground,
+                dimension: 49,
+                icon: Icon(
+                  size: 29,
+                  Icons.notifications_none_rounded,
+                  color: AppColor.widgetBackground,
+                ),
+              ),
+            ),
+          ],
         ),
         type: AppBackgrounds.group,
       ),

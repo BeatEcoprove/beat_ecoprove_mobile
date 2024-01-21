@@ -8,7 +8,6 @@ import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
-import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -69,9 +68,9 @@ class GroupForm extends StatelessWidget {
                                   ),
                                   Column(
                                     children: _renderCards(
-                                        goRouter,
-                                        viewModel
-                                            .getAllAuthenticatedUserGroups),
+                                      goRouter,
+                                      viewModel.getAllAuthenticatedUserGroups,
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 26,
@@ -98,7 +97,9 @@ class GroupForm extends StatelessWidget {
                                   ),
                                   Column(
                                     children: _renderCards(
-                                        goRouter, viewModel.getAllPublicGroups),
+                                      goRouter,
+                                      viewModel.getAllPublicGroups,
+                                    ),
                                   )
                                 ],
                               ),
@@ -153,7 +154,7 @@ class GroupForm extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () => goRouter.push("/chat", extra: e),
-              child: CompactListItem.groupWithOptions(
+              child: CompactListItem.group(
                 isCircular: true,
                 widget: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
@@ -165,12 +166,6 @@ class GroupForm extends StatelessWidget {
                 title: e.name,
                 subTitle: "${e.membersCount} membros",
                 state: e.isPublic ? "Público" : "Privado",
-                options: [
-                  OptionItem(
-                    name: 'Sair do Grupo',
-                    action: () {},
-                  )
-                ],
               ),
             ),
           ),

@@ -131,7 +131,7 @@ class CompactListItem extends StatelessWidget {
               width: 60,
             ),
             Positioned(
-              bottom: 0,
+              bottom: 6,
               width: 65,
               child: Text(
                 state!,

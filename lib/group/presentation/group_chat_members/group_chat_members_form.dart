@@ -120,7 +120,8 @@ class GroupChatMembersForm extends StatelessWidget {
                                   .map(
                                     (member) => Container(
                                       margin: const EdgeInsets.symmetric(
-                                          vertical: 8),
+                                        vertical: 8,
+                                      ),
                                       child: CompactListItemUser(
                                         title: member.username,
                                         userLevel: member.level,
@@ -132,10 +133,23 @@ class GroupChatMembersForm extends StatelessWidget {
                                         options: [
                                           OptionItem(
                                               name: 'Promover a líder',
-                                              action: () {}),
+                                              action: () async => {
+                                                    await viewModel
+                                                        .promoteMember(
+                                                      member.id,
+                                                      params.groupId,
+                                                    )
+                                                  }),
+                                          //TODO: CHANGE
                                           OptionItem(
-                                              name: 'Remover do Grupo',
-                                              action: () {}),
+                                              name:
+                                                  'Sair do Grupo / Remover do Grupo',
+                                              action: () async => {
+                                                    await viewModel.leaveGroup(
+                                                      member.id,
+                                                      params.groupId,
+                                                    )
+                                                  }),
                                         ],
                                       ),
                                     ),

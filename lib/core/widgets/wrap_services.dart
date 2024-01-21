@@ -39,6 +39,7 @@ class _WrapServicesState extends State<WrapServices> {
   ServiceButton renderServiceButton(ServiceTemplate service) {
     return ServiceButton(
       colorForeground: service.foregroundColor,
+      colorBorder: service.borderColor,
       colorBackground: service.backgroundColor,
       object: service.content,
       dimension: widget.dimension,

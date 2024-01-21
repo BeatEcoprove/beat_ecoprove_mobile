@@ -161,8 +161,9 @@ class PrizesForm extends StatelessWidget {
           children: [
             ServiceButton(
               colorForeground: AppColor.buttonBackground,
+              colorBorder: AppColor.widgetBackground,
               dimension: 120,
-              colorBackground: AppColor.servicesCloth,
+              colorBackground: AppColor.widgetBackground,
               object: SvgImage(
                 path: 'assets/services/dry.svg',
                 width: 60,
@@ -176,8 +177,9 @@ class PrizesForm extends StatelessWidget {
             ),
             ServiceButton(
               colorForeground: AppColor.buttonBackground,
+              colorBorder: AppColor.widgetBackground,
               dimension: 120,
-              colorBackground: AppColor.servicesCloth,
+              colorBackground: AppColor.widgetBackground,
               object: SvgImage(
                 path: 'assets/services/wash.svg',
                 width: 70,
@@ -191,8 +193,9 @@ class PrizesForm extends StatelessWidget {
             ),
             ServiceButton(
               colorForeground: AppColor.buttonBackground,
+              colorBorder: AppColor.widgetBackground,
               dimension: 120,
-              colorBackground: AppColor.servicesCloth,
+              colorBackground: AppColor.widgetBackground,
               object: SvgImage(
                 path: 'assets/services/iron.svg',
                 width: 60,
@@ -206,8 +209,9 @@ class PrizesForm extends StatelessWidget {
             ),
             ServiceButton(
               colorForeground: AppColor.buttonBackground,
+              colorBorder: AppColor.widgetBackground,
               dimension: 120,
-              colorBackground: AppColor.servicesCloth,
+              colorBackground: AppColor.widgetBackground,
               object: SvgImage(
                 path: 'assets/services/repair.svg',
                 width: 60,

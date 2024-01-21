@@ -28,7 +28,6 @@ class AppColor {
 
   static const Color helpGreen = Color.fromRGBO(31, 173, 79, 1);
 
-  static const Color servicesCloth = Color.fromRGBO(249, 249, 249, 1);
   static const Color darkGrey = Color.fromRGBO(65, 67, 71, 1);
   static const Color disabledColor = Color.fromRGBO(94, 116, 77, 1);
 

@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/clothing/contracts/action_result.dart';
 import 'package:beat_ecoprove/clothing/domain/models/service_state.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
 class ServiceResult {
@@ -39,23 +40,24 @@ class ServiceResult {
   Service toService(Function(String, String, String) callback) {
     return Service<List<ServiceItem>>(
       foregroundColor: AppColor.buttonBackground,
-      backgroundColor: Colors.white,
+      borderColor: Colors.transparent,
+      backgroundColor: AppColor.widgetBackground,
       title: title,
       idText: id,
-      content:
-          const Image(image: NetworkImage("https://github.com/DiogoCC7.png")),
+      content: Image(
+        image: ServerImage(badge),
+      ),
       services: {
         description: actions
             .map(
               (action) => ServiceItem(
                 foregroundColor: AppColor.buttonBackground,
-                backgroundColor: Colors.white,
+                borderColor: Colors.transparent,
+                backgroundColor: AppColor.widgetBackground,
                 title: action.title,
                 idText: action.id,
-                content: const Icon(
-                  Icons.add,
-                  size: 50,
-                  color: AppColor.buttonBackground,
+                content: Image(
+                  image: ServerImage(action.badge),
                 ),
                 action: () async =>
                     await callback(id, action.id, ServiceState.available),

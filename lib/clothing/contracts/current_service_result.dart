@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/clothing/contracts/action_result.dart';
 import 'package:beat_ecoprove/clothing/domain/models/service_state.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
 class CurrentServiceResult {
@@ -31,24 +32,25 @@ class CurrentServiceResult {
 
   Service toService(Function(String, String, String) callback) {
     return Service(
-      foregroundColor: Colors.white,
+      foregroundColor: AppColor.buttonBackground,
+      borderColor: AppColor.buttonBackground,
       title: title,
       idText: id,
-      backgroundColor: AppColor.buttonBackground,
-      content:
-          const Image(image: NetworkImage("https://github.com/DiogoCC7.png")),
+      backgroundColor: AppColor.widgetBackground,
+      content: Image(
+        image: ServerImage(badge),
+      ),
       services: {
-        "Encerre a ação de forma a concluì-la": [
+        "Encerre a ação de forma a concluí-la": [
           ServiceItem(
-            foregroundColor: Colors.white,
+            foregroundColor: AppColor.buttonBackground,
+            borderColor: AppColor.buttonBackground,
             title: runningAction.title,
             idText: runningAction.id,
-            content: const Icon(
-              Icons.add,
-              size: 50,
-              color: Colors.white,
+            content: Image(
+              image: ServerImage(runningAction.badge),
             ),
-            backgroundColor: AppColor.buttonBackground,
+            backgroundColor: AppColor.widgetBackground,
             action: () async =>
                 await callback(id, runningAction.id, ServiceState.running),
           )

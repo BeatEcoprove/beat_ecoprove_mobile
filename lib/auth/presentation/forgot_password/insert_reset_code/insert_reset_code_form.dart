@@ -59,7 +59,7 @@ class InsertResetCodeForm extends StatelessWidget {
             ),
           ),
         ),
-        type: AppBackgrounds.settings,
+        type: AppBackgrounds.login,
       ),
     );
   }

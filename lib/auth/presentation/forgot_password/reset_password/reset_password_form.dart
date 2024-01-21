@@ -82,7 +82,7 @@ class ResetPasswordForm extends StatelessWidget {
             ),
           ),
         ),
-        type: AppBackgrounds.settings,
+        type: AppBackgrounds.login,
       ),
     );
   }

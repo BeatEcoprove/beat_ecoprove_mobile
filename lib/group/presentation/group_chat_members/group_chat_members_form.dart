@@ -107,9 +107,7 @@ class GroupChatMembersForm extends StatelessWidget {
                                         userLevel: member.level,
                                         sustainablePoints:
                                             member.sustainabilityPoints,
-                                        //TODO: CHAGE TO ECOSCORE
-                                        ecoScorePoints:
-                                            member.sustainabilityPoints,
+                                        ecoScorePoints: member.ecoScorePoints,
                                         hasOptions: !viewModel.details.admins
                                             .any((e) => e.id == member.id),
                                         options: [
@@ -144,9 +142,7 @@ class GroupChatMembersForm extends StatelessWidget {
                                         userLevel: admin.level,
                                         sustainablePoints:
                                             admin.sustainabilityPoints,
-                                        //TODO: CHAGE TO ECOSCORE
-                                        ecoScorePoints:
-                                            admin.sustainabilityPoints,
+                                        ecoScorePoints: admin.ecoScorePoints,
                                       ),
                                     ),
                                   )

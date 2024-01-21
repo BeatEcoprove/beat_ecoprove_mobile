@@ -85,7 +85,6 @@ class ChangeProfileForm extends StatelessWidget {
                                         const SizedBox(
                                           width: 6,
                                         ),
-                                        //TODO: CHANGE TO TOTAL OF POINTS OF THE PROFILES
                                         Points.ecoScore(
                                           points: [
                                             viewModel
@@ -96,8 +95,7 @@ class ChangeProfileForm extends StatelessWidget {
                                               0,
                                               (previousValue, myObject) =>
                                                   previousValue +
-                                                  myObject
-                                                      .sustainabilityPoints),
+                                                  myObject.ecoScorePoints),
                                         ),
                                       ],
                                     ),
@@ -156,8 +154,7 @@ class ChangeProfileForm extends StatelessWidget {
         title: profile.username,
         userLevel: profile.level,
         sustainablePoints: profile.sustainabilityPoints,
-        //TODO:CHANGE TO SCOREPOINTS
-        ecoScorePoints: profile.sustainabilityPoints,
+        ecoScorePoints: profile.ecoScorePoints,
         hasOptions: (viewModel.nestedProfile != profile.id) && !isMain,
         options: [
           OptionItem(

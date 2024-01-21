@@ -58,8 +58,7 @@ class MakeProfileActionView extends StatelessWidget {
                       title: params.profile.username,
                       userLevel: params.profile.level,
                       sustainablePoints: params.profile.sustainabilityPoints,
-                      //TODO: CHANGE TO ECOSCORE
-                      ecoScorePoints: params.profile.sustainabilityPoints,
+                      ecoScorePoints: params.profile.ecoScorePoints,
                     ),
                     const SizedBox(
                       height: 36,

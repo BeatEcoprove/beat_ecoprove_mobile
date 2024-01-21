@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
+import 'package:beat_ecoprove/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
@@ -20,6 +22,7 @@ class ClothingViewModel extends FormViewModel {
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final DeleteCardUseCase _deleteCardUseCase;
   final RegisterBucketUseCase _registerBucketUseCase;
+  final AddClothsBucketUseCase _addToBucketUseCase;
   final GoRouter _navigationRouter;
 
   late bool isLoading = false;
@@ -30,6 +33,7 @@ class ClothingViewModel extends FormViewModel {
   late Map<String, dynamic> _selectedFilters = {};
   late List<String> _selectedHorizontalFilters = [];
   final List<CardItem> _cards = [];
+  final List<CardItem> _buckets = [];
 
   ClothingViewModel(
     this._authProvider,
@@ -38,6 +42,7 @@ class ClothingViewModel extends FormViewModel {
     this._unMarkClothAsDailyUseUseCase,
     this._deleteCardUseCase,
     this._registerBucketUseCase,
+    this._addToBucketUseCase,
     this._navigationRouter,
   ) {
     _user = _authProvider.appUser;
@@ -112,6 +117,8 @@ class ClothingViewModel extends FormViewModel {
 
   List<CardItem> get getCloset => _cards;
 
+  List<CardItem> get getBuckets => _buckets;
+
   Future<List<CardItem>> fetchCloset() async {
     Map<String, String> param = {};
 
@@ -126,6 +133,9 @@ class ClothingViewModel extends FormViewModel {
     try {
       _cards.clear();
       _cards.addAll(await _getClosetUseCase.handle(param));
+
+      _buckets.addAll(_cards.where(
+          (element) => element.hasChildren == true && element.id != "outfit"));
     } catch (e) {
       print("$e");
     }
@@ -217,6 +227,36 @@ class ClothingViewModel extends FormViewModel {
     try {
       await _registerBucketUseCase.handle(RegisterBucketRequest(
         name,
+        listIds,
+      ));
+    } catch (e) {
+      print("$e");
+    }
+
+    isLoading = false;
+    _selectedCards.clear();
+    _navigationRouter.go('/');
+    notifyListeners();
+  }
+
+  Future addToBucket(
+      String bucketId, Map<String, List<String>> selectedCards) async {
+    List<String> listIds = [];
+
+    isLoading = true;
+    notifyListeners();
+
+    for (var elem in selectedCards.entries) {
+      if (elem.value.isEmpty) {
+        listIds.add(elem.key);
+      } else {
+        listIds.addAll(elem.value);
+      }
+    }
+
+    try {
+      await _addToBucketUseCase.handle(AddClothsBucketRequest(
+        bucketId,
         listIds,
       ));
     } catch (e) {

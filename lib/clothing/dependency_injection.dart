@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/change_bucket_name_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
@@ -43,6 +44,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerSingleton(RegisterBucketUseCase(clothingService));
     locator.registerSingleton(RemoveClothFromBucketUseCase(clothingService));
     locator.registerSingleton(ChangeBucketNameUseCase(clothingService));
+    locator.registerSingleton(AddClothsBucketUseCase(clothingService));
   }
 
   void _addViewModels(GetIt locator) {
@@ -55,6 +57,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     var registerBucketUseCase = locator<RegisterBucketUseCase>();
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
+    var addClothBucketUseCase = locator<AddClothsBucketUseCase>();
 
     locator.registerFactory(() => ClothingViewModel(
           authProvider,
@@ -63,6 +66,7 @@ extension ClothingDependencyInjection on DependencyInjection {
           unMarkClothAsDailyUseUseCase,
           deleteCardUseCase,
           registerBucketUseCase,
+          addClothBucketUseCase,
           router.appRouter,
         ));
     locator.registerFactory(

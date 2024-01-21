@@ -50,7 +50,9 @@ class GetClosetUseCase
         ecoScore: cloth.ecoScore,
         size: cloth.size.toUpperCase(),
         child: cloth.clothAvatar,
-        hasProfile: ServerImage(cloth.otherProfileAvatar),
+        hasProfile: cloth.otherProfileAvatar != null
+            ? ServerImage(cloth.otherProfileAvatar!)
+            : null,
       );
 
       closet.add(card);

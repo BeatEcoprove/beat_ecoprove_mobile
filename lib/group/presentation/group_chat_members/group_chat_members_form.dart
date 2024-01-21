@@ -53,7 +53,9 @@ class GroupChatMembersForm extends StatelessWidget {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: AppColor.primaryColor,
+                    ),
                   );
                 default:
                   return Column(
@@ -62,6 +64,23 @@ class GroupChatMembersForm extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const SizedBox(
+                              height: 26,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    viewModel.details.description,
+                                    textAlign: TextAlign.center,
+                                    style: AppText.subHeader,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               height: 26,
                             ),

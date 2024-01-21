@@ -4,13 +4,14 @@ class ProfileResult {
   final int level;
   final int levelPercentage;
   final int sustainabilityPoints;
+  final int ecoScorePoints;
   final String avatarUrl;
 
   ProfileResult(this.id, this.username, this.level, this.levelPercentage,
-      this.sustainabilityPoints, this.avatarUrl);
+      this.sustainabilityPoints, this.ecoScorePoints, this.avatarUrl);
 
   factory ProfileResult.empty() {
-    return ProfileResult('', '', 0, 0, 0, '');
+    return ProfileResult('', '', 0, 0, 0, 0, '');
   }
 
   factory ProfileResult.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,7 @@ class ProfileResult {
       json['level'],
       json['levelPercentage'],
       json['sustainabilityPoints'],
+      json['ecoScore'],
       json['avatarUrl'],
     );
   }

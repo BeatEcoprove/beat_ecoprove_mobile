@@ -54,8 +54,8 @@ class CompactListItemUser extends StatelessWidget {
   Widget build(BuildContext context) {
     if (click != null) {
       return InkWell(
-        child: body(context),
         onTap: click,
+        child: body(context),
       );
     }
 

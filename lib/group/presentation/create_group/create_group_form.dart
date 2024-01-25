@@ -10,7 +10,6 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatte
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 
 class CreateGroupForm extends StatelessWidget {
   const CreateGroupForm({super.key});
@@ -18,7 +17,6 @@ class CreateGroupForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<CreateGroupViewModel>(context);
-    final goRouter = GoRouter.of(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -107,10 +105,7 @@ class CreateGroupForm extends StatelessWidget {
                               content: "Registar",
                               textColor: Colors.white,
                               disabled: viewModel.thereAreErrors,
-                              onPress: () {
-                                goRouter.pop();
-                                viewModel.registerGroup();
-                              },
+                              onPress: () async => viewModel.registerGroup(),
                             )
                           ],
                         ),

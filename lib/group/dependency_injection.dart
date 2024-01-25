@@ -39,10 +39,12 @@ extension GroupDependencyInjection on DependencyInjection {
     var getDetailsUseCase = locator<GetDetailsUseCase>();
     var leaveGroupUseCase = locator<LeaveGroupUseCase>();
     var promoteGroupMemberUseCase = locator<PromoteMemberUseCase>();
+    var navigator = locator<AppRouter>();
 
     locator.registerFactory(() => GroupViewModel(
           authProvider,
           getGroupsUseCase,
+          navigator.appRouter,
         ));
     locator.registerFactory(
         () => GroupChatViewModel(authProvider, router.appRouter));
@@ -54,6 +56,7 @@ extension GroupDependencyInjection on DependencyInjection {
         ));
     locator.registerFactory(() => CreateGroupViewModel(
           registerGroupUseCase,
+          navigator.appRouter,
         ));
   }
 

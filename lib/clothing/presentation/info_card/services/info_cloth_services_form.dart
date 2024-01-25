@@ -152,7 +152,7 @@ class _InfoClothServiceFormState extends State<InfoClothServiceForm> {
                     color: AppColor.buttonBackground,
                   ),
                   action: () async =>
-                      {await viewModel.addToBucket(bucket.key, clothId)},
+                      await viewModel.addToBucket(bucket.key, clothId),
                 )
               }
             ]

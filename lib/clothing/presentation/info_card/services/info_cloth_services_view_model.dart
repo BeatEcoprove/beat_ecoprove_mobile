@@ -96,7 +96,7 @@ class InfoClothServiceViewModel extends FormViewModel {
 
   List<ServiceTemplate> get getAllServices => _services;
 
-  void handleAction(String serviceId, String actionId, String state) async {
+  Future handleAction(String serviceId, String actionId, String state) async {
     try {
       switch (state) {
         case ServiceState.available:
@@ -114,6 +114,7 @@ class InfoClothServiceViewModel extends FormViewModel {
       print(e);
     }
 
+    _navigationRouter.pop();
     notifyListeners();
   }
 

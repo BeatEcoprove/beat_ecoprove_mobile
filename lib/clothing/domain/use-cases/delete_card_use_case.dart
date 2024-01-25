@@ -24,7 +24,7 @@ class DeleteCardUseCase implements UseCase<DeleteCardRequest, Future> {
         case "cloth":
           await _closetService.deleteCloth(request.cardId);
         default:
-          throw Exception("Invalid type");
+          break;
       }
     } on HttpConflictRequestError catch (e) {
       print(e);

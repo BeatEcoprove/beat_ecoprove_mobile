@@ -4,13 +4,16 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/change_bucket_name_use_c
 import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class ChangeBucketNameViewModel extends FormViewModel {
+  final NotificationProvider _notificationProvider;
   final ChangeBucketNameUseCase _changeBucketNameUseCase;
   final GoRouter _navigationRouter;
 
   ChangeBucketNameViewModel(
+    this._notificationProvider,
     this._navigationRouter,
     this._changeBucketNameUseCase,
   ) {
@@ -40,7 +43,17 @@ class ChangeBucketNameViewModel extends FormViewModel {
       ));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Cesto atualizado com sucesso!",
+      type: NotificationTypes.success,
+    );
 
     _navigationRouter.go('/');
     notifyListeners();

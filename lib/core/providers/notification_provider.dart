@@ -50,7 +50,7 @@ class NotificationProvider extends ViewModel {
 
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: 16,
+        top: 72,
         left: 16,
         right: 16,
         child: notification,
@@ -59,7 +59,7 @@ class NotificationProvider extends ViewModel {
 
     overlay.insert(overlayEntry);
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 2), () {
       overlayEntry.remove();
     });
   }

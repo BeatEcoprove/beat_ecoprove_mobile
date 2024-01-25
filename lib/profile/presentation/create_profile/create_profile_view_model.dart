@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/profile/contracts/register_profile_request.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/register_profile_use_case.dart';
 import 'package:beat_ecoprove/profile/domain/value_objects/profile_name.dart';
@@ -14,11 +15,13 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateProfileViewModel extends FormViewModel {
+  final NotificationProvider _notificationProvider;
   static const defaultImage = "assets/default_avatar.png";
   final RegisterProfileUseCase _registerProfileUseCase;
   final GoRouter _navigationRouter;
 
   CreateProfileViewModel(
+    this._notificationProvider,
     this._navigationRouter,
     this._registerProfileUseCase,
   ) {
@@ -95,6 +98,11 @@ class CreateProfileViewModel extends FormViewModel {
               action: () => _navigationRouter.pop()));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
 
     notifyListeners();

@@ -9,12 +9,14 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/profile/contracts/promote_profile_request.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/promote_profile_use_case.dart';
 import 'package:go_router/go_router.dart';
 
 class ParamsProfileViewModel extends FormViewModel {
+  final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final AuthenticationService _authenticationService;
   final PromoteProfileUseCase _promoteProfileUseCase;
@@ -23,6 +25,7 @@ class ParamsProfileViewModel extends FormViewModel {
   late ProfilesResult _profilesResult;
 
   ParamsProfileViewModel(
+    this._notificationProvider,
     this._authProvider,
     this._authenticationService,
     this._navigationRouter,
@@ -121,6 +124,11 @@ class ParamsProfileViewModel extends FormViewModel {
           ));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
   }
 }

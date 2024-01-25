@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/delete_profile_use_case.dart';
@@ -13,6 +14,7 @@ import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_c
 import 'package:go_router/go_router.dart';
 
 class ChangeProfileViewModel extends ViewModel {
+  final NotificationProvider _notificationProvider;
   final AuthenticationService _authService;
   final AuthenticationProvider _authProvider;
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
@@ -22,6 +24,7 @@ class ChangeProfileViewModel extends ViewModel {
   late ProfilesResult _profilesResult;
 
   ChangeProfileViewModel(
+    this._notificationProvider,
     this._authProvider,
     this._navigationRouter,
     this._getNestedProfilesUseCase,
@@ -67,6 +70,11 @@ class ChangeProfileViewModel extends ViewModel {
       _authProvider.setProfile(profileId: profileId);
     }
 
+    _notificationProvider.showNotification(
+      "Perfil alterado!",
+      type: NotificationTypes.success,
+    );
+
     _navigationRouter.pop();
   }
 
@@ -94,6 +102,11 @@ class ChangeProfileViewModel extends ViewModel {
               action: () => _navigationRouter.pop()));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
   }
 

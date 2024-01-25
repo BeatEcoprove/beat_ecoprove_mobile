@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/providers/auth/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';

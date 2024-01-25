@@ -1,5 +1,5 @@
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/providers/auth/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/routes.dart';

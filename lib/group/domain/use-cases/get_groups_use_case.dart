@@ -1,6 +1,6 @@
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/domain/models/group_list.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
@@ -18,9 +18,12 @@ class GetGroupsUseCase implements UseCaseAction<Future<GroupList>> {
 
     try {
       groupsResult = await _groupService.getGroups();
-    } on HttpError catch (e) {
+    } on HttpConflictRequestError catch (e) {
       print(e);
       throw Exception(e.getError().title);
+    } catch (e) {
+      print(e);
+      throw Exception("Algo correu mal!");
     }
 
     for (var privateGroup in groupsResult.privateGroups) {

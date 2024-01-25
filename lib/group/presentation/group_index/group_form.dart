@@ -41,7 +41,9 @@ class GroupForm extends StatelessWidget {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: AppColor.primaryColor,
+                        ),
                       );
                     default:
                       return SingleChildScrollView(

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
-import 'package:beat_ecoprove/core/providers/auth/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/register_group_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/register_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_description.dart';
@@ -83,6 +83,12 @@ class CreateGroupViewModel extends FormViewModel {
       ));
     } catch (e) {
       print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
 
     _notificationProvider.showNotification(

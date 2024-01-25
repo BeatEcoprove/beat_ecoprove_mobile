@@ -29,7 +29,6 @@ class ClothingForm extends StatefulWidget {
 
 class _ClothingFormState extends State<ClothingForm> {
   late ClothingViewModel viewModel;
-  final memo = AsyncMemoizer();
   late Modal _overlay;
 
   @override
@@ -41,11 +40,8 @@ class _ClothingFormState extends State<ClothingForm> {
       bottom: 198,
       left: 36,
       right: 36,
-      action: () async {
-        if (!viewModel.isLoading) {
-          await viewModel.registerBucket(viewModel.selectedCards);
-        }
-      },
+      action: () async =>
+          await viewModel.registerBucket(viewModel.selectedCards),
       titleModal: "Criar Cesto",
       buttonText: "Criar",
     );
@@ -92,12 +88,7 @@ class _ClothingFormState extends State<ClothingForm> {
                     Icons.directions_walk_rounded,
                     color: AppColor.widgetBackground,
                   ),
-                  onPressed: () async => {
-                    if (!viewModel.isLoading)
-                      {
-                        await viewModel.setStateFromCloth(),
-                      },
-                  },
+                  onPressed: () async => await viewModel.setStateFromCloth(),
                 ),
               ),
               const Positioned(
@@ -253,7 +244,7 @@ class _ClothingFormState extends State<ClothingForm> {
                     .map((filter) => filter.toFilterRow())
                     .toList(),
                 onSelectionChanged: (filter) =>
-                    {viewModel.changeFilterSelection(filter)},
+                    viewModel.changeFilterSelection(filter),
                 filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
                 selectedFilters: viewModel.allSelectedFilters,
               ),
@@ -297,24 +288,26 @@ class _ClothingFormState extends State<ClothingForm> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FutureBuilder(
-              future: memo.runOnce(() async => await viewModel.fetchCloset()),
+              future: viewModel.fetchCloset(),
               builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const CircularProgressIndicator(
-                      color: AppColor.primaryColor,
-                      strokeWidth: 4,
-                    );
-                  default:
-                    return CardList(
-                      clothesItems: viewModel.getCloset,
-                      selectedCards: viewModel.selectedCards,
-                      onSelectionToDelete: (id) => {viewModel.removeCard(id)},
-                      onSelectionChanged: (cards) =>
-                          {viewModel.changeCardsSelection(cards)},
-                      action: "remove",
-                    );
+                if (snapshot.connectionState == ConnectionState.waiting &&
+                    viewModel.getCloset.isEmpty) {
+                  return const CircularProgressIndicator(
+                    color: AppColor.primaryColor,
+                    strokeWidth: 4,
+                  );
                 }
+
+                return CardList(
+                  clothesItems: viewModel.getCloset,
+                  selectedCards: viewModel.selectedCards,
+                  onSelectionToDelete: (id) => viewModel.removeCard(id),
+                  onSelectionChanged: (cards) =>
+                      viewModel.changeCardsSelection(cards),
+                  onElementSelected: (card) async =>
+                      await viewModel.openInfoCard(card),
+                  action: "remove",
+                );
               },
             ),
           ],

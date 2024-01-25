@@ -25,8 +25,6 @@ class ClothingViewModel extends FormViewModel {
   final AddClothsBucketUseCase _addToBucketUseCase;
   final GoRouter _navigationRouter;
 
-  late bool isLoading = false;
-
   final AuthenticationProvider _authProvider;
   late final User _user;
   late final Map<String, List<String>> _selectedCards = {};
@@ -34,6 +32,8 @@ class ClothingViewModel extends FormViewModel {
   late List<String> _selectedHorizontalFilters = [];
   final List<CardItem> _cards = [];
   final List<CardItem> _buckets = [];
+
+  late bool shouldUpdateData = true;
 
   ClothingViewModel(
     this._authProvider,
@@ -50,6 +50,10 @@ class ClothingViewModel extends FormViewModel {
   }
 
   User get user => _user;
+
+  void setUpdateUpdateData(bool value) {
+    shouldUpdateData = value;
+  }
 
   void setName(String name) {
     try {
@@ -87,7 +91,6 @@ class ClothingViewModel extends FormViewModel {
 
   void changeHorizontalFiltersSelection(List<String> filters) {
     _selectedHorizontalFilters = filters;
-    fetchCloset();
     notifyListeners();
   }
 
@@ -97,7 +100,6 @@ class ClothingViewModel extends FormViewModel {
 
   void changeFilterSelection(Map<String, dynamic> filters) {
     _selectedFilters = filters;
-    fetchCloset();
     notifyListeners();
   }
 
@@ -119,7 +121,7 @@ class ClothingViewModel extends FormViewModel {
 
   List<CardItem> get getBuckets => _buckets;
 
-  Future<List<CardItem>> fetchCloset() async {
+  Future<void> fetchCloset() async {
     Map<String, String> param = {};
 
     for (var (value as Map<String, String>) in _selectedFilters.values) {
@@ -139,7 +141,6 @@ class ClothingViewModel extends FormViewModel {
     } catch (e) {
       print("$e");
     }
-    return _cards;
   }
 
   Future setStateFromCloth() async {
@@ -203,7 +204,6 @@ class ClothingViewModel extends FormViewModel {
       print("$e");
     }
 
-    isLoading = false;
     _selectedCards.clear();
     notifyListeners();
   }
@@ -211,7 +211,6 @@ class ClothingViewModel extends FormViewModel {
   Future registerBucket(Map<String, List<String>> selectedCards) async {
     List<String> listIds = [];
 
-    isLoading = true;
     notifyListeners();
 
     for (var elem in selectedCards.entries) {
@@ -233,7 +232,6 @@ class ClothingViewModel extends FormViewModel {
       print("$e");
     }
 
-    isLoading = false;
     _selectedCards.clear();
     _navigationRouter.go('/');
     notifyListeners();
@@ -243,7 +241,6 @@ class ClothingViewModel extends FormViewModel {
       String bucketId, Map<String, List<String>> selectedCards) async {
     List<String> listIds = [];
 
-    isLoading = true;
     notifyListeners();
 
     for (var elem in selectedCards.entries) {
@@ -263,9 +260,19 @@ class ClothingViewModel extends FormViewModel {
       print("$e");
     }
 
-    isLoading = false;
     _selectedCards.clear();
     _navigationRouter.go('/');
+    notifyListeners();
+  }
+
+  bool isBucketItem(CardItem card) => card.hasChildren;
+
+  Future openInfoCard(CardItem card) async {
+    var path = isBucketItem(card)
+        ? "/info/bucket/${card.id}"
+        : "/info/cloth/${card.id}";
+
+    await _navigationRouter.push(path, extra: card);
     notifyListeners();
   }
 }

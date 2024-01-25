@@ -13,6 +13,7 @@ class CardList extends StatefulWidget {
   final Function(List<String>)? actionToOptionRemoveFromBucket;
 
   final Function(Map<String, List<String>>) onSelectionChanged;
+  final Function(CardItem card)? onElementSelected;
   final Function(String) onSelectionToDelete;
   final Types? cardsType;
   final String action;
@@ -27,6 +28,7 @@ class CardList extends StatefulWidget {
     this.cardsType,
     required this.action,
     this.actionToOptionRemoveFromBucket,
+    this.onElementSelected,
   }) : super(key: key);
 
   @override
@@ -68,7 +70,6 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
-    final goRouter = GoRouter.of(context);
     return Wrap(
       alignment: WrapAlignment.start,
       runSpacing: 8,
@@ -80,7 +81,10 @@ class _CardListState extends State<CardList> {
             child: InkWell(
               onTap: () {
                 if (!widget.selectedCards.keys.contains(card.id)) {
-                  openInfoCard(card, goRouter);
+                  // openInfoCard(card, goRouter);
+                  if (widget.onElementSelected != null) {
+                    widget.onElementSelected!(card);
+                  }
                 }
               },
               onLongPress: () {

@@ -3,14 +3,17 @@ import 'package:beat_ecoprove/core/widgets/chat/chat_message.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessageText extends ChatMessage {
+  final String messageText;
+
   const ChatMessageText({
     super.key,
+    required this.messageText,
   });
 
   @override
   Widget body(BuildContext context) {
-    return const Text(
-      "Hello World!",
+    return Text(
+      messageText,
       style: AppText.titleToScrollSection,
       overflow: TextOverflow.ellipsis,
       maxLines: 10,

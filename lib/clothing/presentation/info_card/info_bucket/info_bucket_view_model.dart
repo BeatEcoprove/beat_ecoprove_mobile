@@ -1,9 +1,11 @@
 import 'package:beat_ecoprove/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class InfoBucketViewModel extends ViewModel {
+  final NotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
 
@@ -11,6 +13,7 @@ class InfoBucketViewModel extends ViewModel {
   late final List<String> _selectedClothCards = [];
 
   InfoBucketViewModel(
+    this._notificationProvider,
     this._removeClothFromBucketUseCase,
     this._unMarkClothAsDailyUseUseCase,
   );
@@ -38,7 +41,17 @@ class InfoBucketViewModel extends ViewModel {
           idBucket));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Peça/s removida/s com sucesso!",
+      type: NotificationTypes.success,
+    );
   }
 
   Future unMarkClothsFromBucket(List<String> idsCloth) async {
@@ -48,6 +61,16 @@ class InfoBucketViewModel extends ViewModel {
           .toList());
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Estado da/s peça/s atualizado!",
+      type: NotificationTypes.success,
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
@@ -38,16 +39,14 @@ class GroupChatForm extends StatelessWidget {
       body: Stack(
         children: [
           const Positioned.fill(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
+            child: Padding(
+              padding:
+                  EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 84),
+              child: ScrollHandler(
                 child: Column(
-                  verticalDirection: VerticalDirection.up,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ChatMessageText(),
+                    ChatMessageText(messageText: "Hello World!"),
                   ],
                 ),
               ),

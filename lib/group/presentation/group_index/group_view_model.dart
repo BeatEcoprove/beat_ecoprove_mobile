@@ -1,11 +1,13 @@
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
 import 'package:go_router/go_router.dart';
 
 class GroupViewModel extends ViewModel {
+  final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final GetGroupsUseCase _getGroupsUseCase;
   final GoRouter _navigationRouter;
@@ -15,7 +17,11 @@ class GroupViewModel extends ViewModel {
   final List<GroupItem> _privateGroups = [];
 
   GroupViewModel(
-      this._authProvider, this._getGroupsUseCase, this._navigationRouter) {
+    this._notificationProvider,
+    this._authProvider,
+    this._getGroupsUseCase,
+    this._navigationRouter,
+  ) {
     _user = _authProvider.appUser;
   }
 
@@ -35,8 +41,13 @@ class GroupViewModel extends ViewModel {
       _publicGroups.addAll(result.globals);
     } catch (e) {
       print("$e");
-    }
 
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
+    }
     return;
   }
 

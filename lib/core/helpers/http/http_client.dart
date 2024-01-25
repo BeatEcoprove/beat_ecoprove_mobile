@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_unauthorized_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_statuscodes.dart';
@@ -37,6 +38,8 @@ class HttpClient {
       switch (statusCode) {
         case HttpStatusCodes.badRequest:
           throw HttpBadRequestError(response);
+        case HttpStatusCodes.conflictRequest:
+          throw HttpConflictRequestError(response);
         case HttpStatusCodes.unAuthorized:
           throw HttpUnAuthorizedError(response);
         default:

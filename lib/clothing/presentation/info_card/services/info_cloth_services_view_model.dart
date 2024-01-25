@@ -12,10 +12,12 @@ import 'package:beat_ecoprove/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class InfoClothServiceViewModel extends FormViewModel {
+  final NotificationProvider _notificationProvider;
   late List<String> _selectedServices = [];
   final List<String> _blockedServices = [];
   final List<ServiceTemplate> _services = [];
@@ -32,6 +34,7 @@ class InfoClothServiceViewModel extends FormViewModel {
   late String activityId;
 
   InfoClothServiceViewModel(
+    this._notificationProvider,
     this._navigationRouter,
     this._actionService,
     this._getBucketsUseCase,
@@ -81,6 +84,11 @@ class InfoClothServiceViewModel extends FormViewModel {
       );
     } catch (e) {
       print(e);
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
   }
 
@@ -112,9 +120,19 @@ class InfoClothServiceViewModel extends FormViewModel {
       }
     } catch (e) {
       print(e);
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
 
     _navigationRouter.pop();
+    _notificationProvider.showNotification(
+      "Ação registada!",
+      type: NotificationTypes.success,
+    );
+
     notifyListeners();
   }
 
@@ -125,6 +143,11 @@ class InfoClothServiceViewModel extends FormViewModel {
       buckets = await _getBucketsUseCase.handle();
     } catch (e) {
       print(e);
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
 
     _buckets.addAll(buckets);
@@ -143,7 +166,17 @@ class InfoClothServiceViewModel extends FormViewModel {
       ));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Cesto criado!",
+      type: NotificationTypes.success,
+    );
 
     isLoading = false;
     _navigationRouter.go('/');
@@ -161,7 +194,17 @@ class InfoClothServiceViewModel extends FormViewModel {
       ));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Peça/s adicionada/s ao cesto com sucesso!",
+      type: NotificationTypes.success,
+    );
 
     isLoading = false;
     _navigationRouter.go('/');

@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/clothing/contracts/bucket_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/closet_result.dart';
 import 'package:beat_ecoprove/clothing/services/closet_service.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 
 class GetBucketsUseCase implements UseCaseAction<Future<Map<String, String>>> {
@@ -18,9 +18,12 @@ class GetBucketsUseCase implements UseCaseAction<Future<Map<String, String>>> {
       ClosetResult closet = await _clothingService.getBuckets();
 
       buckets = closet.buckets;
-    } on HttpError catch (e) {
+    } on HttpConflictRequestError catch (e) {
       print(e);
       throw Exception(e.getError().title);
+    } catch (e) {
+      print(e);
+      throw Exception("Algo correu mal!");
     }
 
     for (var bucket in buckets) {

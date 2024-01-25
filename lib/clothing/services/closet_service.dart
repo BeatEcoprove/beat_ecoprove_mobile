@@ -43,14 +43,14 @@ class ClosetService {
     await _httpClient.makeRequestJson(
         method: HttpMethods.delete,
         path: "profiles/closet/cloth/$clothId",
-        expectedCode: 200);
+        expectedCode: 201);
   }
 
   Future deleteBucket(String bucketId) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.delete,
         path: "profiles/closet/bucket/$bucketId",
-        expectedCode: 200);
+        expectedCode: 201);
   }
 
   Future registerCloth(RegisterClothRequest request) async {

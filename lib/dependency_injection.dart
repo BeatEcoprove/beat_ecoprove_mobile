@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/profile/dependency_injection.dart';
@@ -25,6 +26,8 @@ class DependencyInjection {
 
   void setupDIContainer() {
     var authProvider = locator.registerSingleton(AuthenticationProvider());
+    locator.registerSingleton(NotificationProvider());
+
     authProvider.checkAuth();
 
     locator.registerSingleton(AppRouter([

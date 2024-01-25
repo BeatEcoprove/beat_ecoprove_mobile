@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/delete_profile_use_case.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
@@ -35,6 +36,7 @@ extension ProfileDependencyInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var authenticationService = locator<AuthenticationService>();
+    var notificationProvider = locator<NotificationProvider>();
     var authProvider = locator<AuthenticationProvider>();
     var router = locator<AppRouter>();
     var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
@@ -51,16 +53,19 @@ extension ProfileDependencyInjection on DependencyInjection {
     locator.registerFactory(
         () => TradePointsViewModel(authProvider, router.appRouter));
     locator.registerFactory(() => ChangeProfileViewModel(
+        notificationProvider,
         authProvider,
         router.appRouter,
         getNestedProfilesUseCase,
         deleteProfileUseCase,
         locator<AuthenticationService>()));
     locator.registerFactory(() => CreateProfileViewModel(
+          notificationProvider,
           router.appRouter,
           createProfilesUseCase,
         ));
     locator.registerFactory(() => ParamsProfileViewModel(
+          notificationProvider,
           authProvider,
           authenticationService,
           router.appRouter,

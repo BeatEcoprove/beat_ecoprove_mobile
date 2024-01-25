@@ -70,14 +70,16 @@ class ChangeProfileViewModel extends ViewModel {
     _navigationRouter.pop();
   }
 
-  void promoteProfile(String profileId) {
+  Future promoteProfile(String profileId) async {
     // clean profileId
     _authProvider.setProfile();
 
-    _navigationRouter.pushReplacement(
+    await _navigationRouter.pushReplacement(
       "/addparams",
       extra: profileId,
     );
+
+    notifyListeners();
   }
 
   Future<void> deleteProfile(String profileId) async {
@@ -95,6 +97,8 @@ class ChangeProfileViewModel extends ViewModel {
     } catch (e) {
       print("$e");
     }
+
+    notifyListeners();
   }
 
   void settings() {
@@ -124,5 +128,10 @@ class ChangeProfileViewModel extends ViewModel {
         nextLevelXp: decodedToken[Tokens.nextLevelXp],
       ),
     ));
+  }
+
+  Future createProfile() async {
+    await _navigationRouter.push("/createprofile");
+    notifyListeners();
   }
 }

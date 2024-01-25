@@ -113,7 +113,8 @@ class ParamsProfileViewModel extends FormViewModel {
         profileId,
       ));
 
-      _navigationRouter.pushReplacement("/show_completed",
+      _navigationRouter.pop();
+      _navigationRouter.push("/show_completed",
           extra: ShowCompletedViewParams(
             text: "Uma conta com este perfil foi criada com sucesso!",
             textButton: "Continuar",

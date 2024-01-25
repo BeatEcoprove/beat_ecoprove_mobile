@@ -20,15 +20,16 @@ class PersonalViewModel extends FormViewModel {
   }
 
   void setName(String name) {
-    int spaceCount = name.split(" ").length - 1;
-
-    if (spaceCount == 0 || spaceCount > 1) {
-      return;
-    }
-
-    var [firstName, lastName] = name.split(" ");
-
     try {
+      int spaceCount = name.split(" ").length - 1;
+
+      if (spaceCount == 0 || spaceCount > 1) {
+        throw DomainException(
+            "Insira o seu primeiro e segundo nome separado por um espaço.");
+      }
+
+      var [firstName, lastName] = name.split(" ");
+
       setValue<String>(
           FormFieldValues.name, Name.create(firstName, lastName).toString());
     } on DomainException catch (e) {

@@ -8,14 +8,17 @@ import 'package:beat_ecoprove/group/domain/use-cases/register_group_use_case.dar
 import 'package:beat_ecoprove/group/domain/value_objects/group_description.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_name.dart';
 import 'package:flutter/rendering.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateGroupViewModel extends FormViewModel {
   static const defaultImage = "assets/default_avatar.png";
   final RegisterGroupUseCase _registerGroupUseCase;
+  final GoRouter _navigationRouter;
 
   CreateGroupViewModel(
     this._registerGroupUseCase,
+    this._navigationRouter,
   ) {
     initializeFields([
       FormFieldValues.groupName,
@@ -23,8 +26,6 @@ class CreateGroupViewModel extends FormViewModel {
       FormFieldValues.groupIsPublic,
       FormFieldValues.groupPicture,
     ]);
-    setValue(FormFieldValues.groupName, "");
-    setValue(FormFieldValues.groupDescription, "");
     setValue(FormFieldValues.groupIsPublic, "Público");
     setValue(FormFieldValues.groupPicture, XFile(defaultImage));
   }
@@ -68,7 +69,7 @@ class CreateGroupViewModel extends FormViewModel {
     return FileImage(File(groupImage.path));
   }
 
-  void registerGroup() async {
+  Future registerGroup() async {
     try {
       await _registerGroupUseCase.handle(RegisterGroupRequest(
         getValue(FormFieldValues.groupName).value ?? "",
@@ -76,10 +77,10 @@ class CreateGroupViewModel extends FormViewModel {
         getValue(FormFieldValues.groupIsPublic).value ?? "",
         getValue(FormFieldValues.groupPicture).value ?? "",
       ));
+
+      _navigationRouter.pop();
     } catch (e) {
       print("$e");
     }
-
-    // notifyListeners();
   }
 }

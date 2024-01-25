@@ -122,7 +122,7 @@ class GroupForm extends StatelessWidget {
                   Icons.add_circle_outline_rounded,
                   color: AppColor.widgetBackground,
                 ),
-                onPressed: () => goRouter.push('/create'),
+                onPressed: () async => await viewModel.createGroup(),
               ),
             ),
             const Positioned(

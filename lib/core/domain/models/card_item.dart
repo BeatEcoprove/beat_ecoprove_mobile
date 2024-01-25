@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CardItem<T> {
   final String id;
-  final ClothStates? clothState;
+  late ClothStates? clothState;
   final String title;
   final String? brand;
   final T child;

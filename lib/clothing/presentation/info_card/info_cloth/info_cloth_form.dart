@@ -28,11 +28,10 @@ class InfoClothForm extends StatefulWidget {
 }
 
 class _InfoClothFormState extends State<InfoClothForm> {
-  late bool isInUse = widget.card.clothState == ClothStates.inUse;
-
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<InfoClothViewModel>(context);
+    viewModel.isInUse = widget.card.clothState == ClothStates.inUse;
 
     const Radius borderRadius = Radius.circular(25);
     double maxWidth = MediaQuery.of(context).size.width;
@@ -84,15 +83,12 @@ class _InfoClothFormState extends State<InfoClothForm> {
                 right: 28,
                 top: 185,
                 child: RoundedButton(
-                    text: "Utilizar",
-                    textWhenSelected: "Cancelar",
-                    isSelect: isInUse,
-                    onAction: () async {
-                      await viewModel.setClothState([widget.card.id], isInUse);
-                      setState(() {
-                        isInUse = !isInUse;
-                      });
-                    }),
+                  text: "Utilizar",
+                  textWhenSelected: "Cancelar",
+                  isSelect: viewModel.isInUse,
+                  onAction: () async => await viewModel.setClothState(
+                      widget.card.id, widget.card),
+                ),
               ),
               Positioned(
                 top: 237,

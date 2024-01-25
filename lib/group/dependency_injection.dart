@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/auth/notification_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
@@ -33,6 +34,7 @@ extension GroupDependencyInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
+    var notificationProvider = locator<NotificationProvider>();
     var router = locator<AppRouter>();
     var registerGroupUseCase = locator<RegisterGroupUseCase>();
     var getGroupsUseCase = locator<GetGroupsUseCase>();
@@ -53,6 +55,7 @@ extension GroupDependencyInjection on DependencyInjection {
           promoteGroupMemberUseCase,
         ));
     locator.registerFactory(() => CreateGroupViewModel(
+          notificationProvider,
           registerGroupUseCase,
         ));
   }

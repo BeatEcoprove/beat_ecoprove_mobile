@@ -109,7 +109,7 @@ class CreateGroupForm extends StatelessWidget {
                               disabled: viewModel.thereAreErrors,
                               onPress: () {
                                 goRouter.pop();
-                                viewModel.registerGroup();
+                                viewModel.registerGroup(context);
                               },
                             )
                           ],

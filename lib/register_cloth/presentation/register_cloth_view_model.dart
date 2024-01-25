@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/register_cloth/contracts/register_cloth_request.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
@@ -26,10 +27,12 @@ class RegisterClothViewModel extends FormViewModel {
 
   late final User _user;
   final AuthenticationProvider _authProvider;
+  final NotificationProvider _notificationProvider;
 
   late Map<String, dynamic> _selectedFilter = {};
 
   RegisterClothViewModel(
+    this._notificationProvider,
     this._authProvider,
     this._registerClothUseCase,
     this._getColorsUseCase,
@@ -159,7 +162,17 @@ class RegisterClothViewModel extends FormViewModel {
       ));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Peça criada!",
+      type: NotificationTypes.success,
+    );
 
     // notifyListeners();
   }

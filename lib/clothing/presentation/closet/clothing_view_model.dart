@@ -14,6 +14,7 @@ import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class ClothingViewModel extends FormViewModel {
@@ -28,6 +29,7 @@ class ClothingViewModel extends FormViewModel {
   late bool isLoading = false;
 
   final AuthenticationProvider _authProvider;
+  final NotificationProvider _notificationProvider;
   late final User _user;
   late final Map<String, List<String>> _selectedCards = {};
   late Map<String, dynamic> _selectedFilters = {};
@@ -36,6 +38,7 @@ class ClothingViewModel extends FormViewModel {
   final List<CardItem> _buckets = [];
 
   ClothingViewModel(
+    this._notificationProvider,
     this._authProvider,
     this._getClosetUseCase,
     this._markClothAsDailyUseUseCase,
@@ -110,7 +113,18 @@ class ClothingViewModel extends FormViewModel {
           .handle(DeleteCardRequest(cardId: card.id, type: type));
     } catch (e) {
       print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Removido com sucesso!",
+      type: NotificationTypes.success,
+    );
 
     _navigationRouter.go("/");
   }
@@ -138,10 +152,17 @@ class ClothingViewModel extends FormViewModel {
           (element) => element.hasChildren == true && element.id != "outfit"));
     } catch (e) {
       print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
     }
+
     return _cards;
   }
 
+//TODO: Add Notifications
   Future setStateFromCloth() async {
     List<String> listIdsInUse = [];
     List<String> listIdsIdle = [];
@@ -231,7 +252,17 @@ class ClothingViewModel extends FormViewModel {
       ));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Cesto criado!",
+      type: NotificationTypes.success,
+    );
 
     isLoading = false;
     _selectedCards.clear();
@@ -261,7 +292,17 @@ class ClothingViewModel extends FormViewModel {
       ));
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Peça/s adicionada/s ao cesto com sucesso!",
+      type: NotificationTypes.success,
+    );
 
     isLoading = false;
     _selectedCards.clear();

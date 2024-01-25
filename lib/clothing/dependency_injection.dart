@@ -19,6 +19,7 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
@@ -52,6 +53,7 @@ extension ClothingDependencyInjection on DependencyInjection {
   void _addViewModels(GetIt locator) {
     var router = locator<AppRouter>();
     var authProvider = locator<AuthenticationProvider>();
+    var notificationProvider = locator<NotificationProvider>();
     var getClosetUseCase = locator<GetClosetUseCase>();
     var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
     var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
@@ -63,6 +65,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     var getBucketsUseCase = locator<GetBucketsUseCase>();
 
     locator.registerFactory(() => ClothingViewModel(
+          notificationProvider,
           authProvider,
           getClosetUseCase,
           markClothAsDailyUseUseCase,
@@ -73,6 +76,7 @@ extension ClothingDependencyInjection on DependencyInjection {
           router.appRouter,
         ));
     locator.registerFactory(() => InfoClothServiceViewModel(
+          notificationProvider,
           router.appRouter,
           locator<ActionServiceProxy>(),
           getBucketsUseCase,
@@ -80,14 +84,17 @@ extension ClothingDependencyInjection on DependencyInjection {
           registerBucketUseCase,
         ));
     locator.registerFactory(() => InfoClothViewModel(
+          notificationProvider,
           markClothAsDailyUseUseCase,
           unMarkClothAsDailyUseUseCase,
         ));
     locator.registerFactory(() => InfoBucketViewModel(
+          notificationProvider,
           removeClothFromBucketUseCase,
           unMarkClothAsDailyUseUseCase,
         ));
     locator.registerFactory(() => ChangeBucketNameViewModel(
+          notificationProvider,
           router.appRouter,
           changeBucketNameUseCase,
         ));

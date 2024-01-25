@@ -128,8 +128,8 @@ class NotificationWidget extends StatelessWidget {
         Positioned(
           child: Container(
             margin: const EdgeInsets.only(
-              top: 10,
-              bottom: 10,
+              top: height / 3,
+              bottom: height / 2,
               left: 80,
               right: 10,
             ),
@@ -137,7 +137,7 @@ class NotificationWidget extends StatelessWidget {
               message,
               style: AppText.textButton,
               overflow: TextOverflow.ellipsis,
-              maxLines: 4,
+              maxLines: 2,
             ),
           ),
         ),

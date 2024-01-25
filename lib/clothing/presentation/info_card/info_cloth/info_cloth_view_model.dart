@@ -1,12 +1,15 @@
 import 'package:beat_ecoprove/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class InfoClothViewModel extends ViewModel {
+  final NotificationProvider _notificationProvider;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
 
   InfoClothViewModel(
+    this._notificationProvider,
     this._markClothAsDailyUseUseCase,
     this._unMarkClothAsDailyUseUseCase,
   );
@@ -22,7 +25,17 @@ class InfoClothViewModel extends ViewModel {
       await _markClothAsDailyUseUseCase.handle(idsCloth);
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Estado da/s peça/s alterado!",
+      type: NotificationTypes.success,
+    );
   }
 
   Future _unMarkClothAsDailyUse(List<String> idsCloth) async {
@@ -30,6 +43,16 @@ class InfoClothViewModel extends ViewModel {
       await _unMarkClothAsDailyUseUseCase.handle(idsCloth);
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Estado da/s peça/s alterado!",
+      type: NotificationTypes.success,
+    );
   }
 }

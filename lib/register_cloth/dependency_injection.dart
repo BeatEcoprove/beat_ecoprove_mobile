@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/clothing/services/closet_service_proxy.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/register_cloth_use_case.dart';
@@ -20,11 +21,13 @@ extension RegisterClothInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
+    var notificationProvider = locator<NotificationProvider>();
     var registerClothUseCase = locator<RegisterClothUseCase>();
     var getColorsUseCase = locator<GetColorsUseCase>();
     var getBrandsUseCase = locator<GetBrandsUseCase>();
 
     locator.registerFactory(() => RegisterClothViewModel(
+          notificationProvider,
           authProvider,
           registerClothUseCase,
           getColorsUseCase,

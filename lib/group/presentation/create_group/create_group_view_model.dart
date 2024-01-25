@@ -3,20 +3,25 @@ import 'dart:io';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/register_group_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/register_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_description.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_name.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateGroupViewModel extends FormViewModel {
+  final NotificationProvider _notificationProvider;
+
   static const defaultImage = "assets/default_avatar.png";
   final RegisterGroupUseCase _registerGroupUseCase;
   final GoRouter _navigationRouter;
 
   CreateGroupViewModel(
+    this._notificationProvider,
     this._registerGroupUseCase,
     this._navigationRouter,
   ) {
@@ -81,6 +86,17 @@ class CreateGroupViewModel extends FormViewModel {
       _navigationRouter.pop();
     } catch (e) {
       print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+      return;
     }
+
+    _notificationProvider.showNotification(
+      "Grupo criado com sucesso!",
+      type: NotificationTypes.success,
+    );
   }
 }

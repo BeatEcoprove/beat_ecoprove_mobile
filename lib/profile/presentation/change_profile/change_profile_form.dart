@@ -118,9 +118,8 @@ class ChangeProfileForm extends StatelessWidget {
                                   width: 8,
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    context.push("/createprofile");
-                                  },
+                                  onTap: () async =>
+                                      await viewModel.createProfile(),
                                   child: const Text(
                                     "Adicionar",
                                     style: AppText.underlineStyle,
@@ -168,7 +167,8 @@ class ChangeProfileForm extends StatelessWidget {
                       "Tem a certeza que pretende criar uma conta com este perfil?",
                   textButton: "Criar",
                   profile: profile,
-                  action: () => viewModel.promoteProfile(profile.id),
+                  action: () async =>
+                      await viewModel.promoteProfile(profile.id),
                 ),
               );
             },
@@ -182,9 +182,7 @@ class ChangeProfileForm extends StatelessWidget {
                   text: "Tem a certeza que pretende remover este perfil?",
                   textButton: "Remover",
                   profile: profile,
-                  action: () async {
-                    await viewModel.deleteProfile(profile.id);
-                  },
+                  action: () async => await viewModel.deleteProfile(profile.id),
                 ),
               );
             },

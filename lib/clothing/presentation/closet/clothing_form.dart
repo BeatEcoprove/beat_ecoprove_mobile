@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:beat_ecoprove/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
@@ -301,7 +300,8 @@ class _ClothingFormState extends State<ClothingForm> {
                 return CardList(
                   clothesItems: viewModel.getCloset,
                   selectedCards: viewModel.selectedCards,
-                  onSelectionToDelete: (id) => viewModel.removeCard(id),
+                  onSelectionToDelete: (id) async =>
+                      await viewModel.removeCard(id),
                   onSelectionChanged: (cards) =>
                       viewModel.changeCardsSelection(cards),
                   onElementSelected: (card) async =>

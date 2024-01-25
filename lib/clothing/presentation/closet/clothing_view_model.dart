@@ -113,22 +113,20 @@ class ClothingViewModel extends FormViewModel {
     try {
       await _deleteCardUseCase
           .handle(DeleteCardRequest(cardId: card.id, type: type));
+
+      _notificationProvider.showNotification(
+        "Removido com sucesso!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
-
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
-    _notificationProvider.showNotification(
-      "Removido com sucesso!",
-      type: NotificationTypes.success,
-    );
-
-    _navigationRouter.go("/");
+    notifyListeners();
   }
 
   List<CardItem> get getCloset => _cards;
@@ -262,7 +260,6 @@ class ClothingViewModel extends FormViewModel {
       type: NotificationTypes.success,
     );
 
-    isLoading = false;
     _selectedCards.clear();
     _navigationRouter.go('/');
     notifyListeners();
@@ -301,7 +298,6 @@ class ClothingViewModel extends FormViewModel {
       type: NotificationTypes.success,
     );
 
-    isLoading = false;
     _selectedCards.clear();
     _navigationRouter.go('/');
     notifyListeners();

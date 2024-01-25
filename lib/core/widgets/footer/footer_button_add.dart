@@ -12,7 +12,7 @@ class FooterButton extends StatelessWidget {
     final goRouter = GoRouter.of(context);
 
     return InkWell(
-      onTap: () => goRouter.push("/register-cloth"),
+      onTap: () async => await goRouter.push("/register-cloth"),
       child: Container(
         decoration: const BoxDecoration(
             color: AppColor.darkGreen,

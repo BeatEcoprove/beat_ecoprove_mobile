@@ -15,7 +15,6 @@ import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 
 class RegisterClothForm extends StatelessWidget {
   const RegisterClothForm({
@@ -69,7 +68,6 @@ double calculateHeightSections(double percent, BuildContext context) {
 
 Widget _buildRegisterForm(
     BuildContext context, RegisterClothViewModel viewModel) {
-  final goRouter = GoRouter.of(context);
   const double textBoxGap = 12;
   const double dimension = 50;
 
@@ -226,10 +224,7 @@ Widget _buildRegisterForm(
             content: "Registar",
             textColor: Colors.white,
             disabled: viewModel.thereAreErrors,
-            onPress: () {
-              goRouter.pop();
-              viewModel.registerCloth();
-            },
+            onPress: () async => await viewModel.registerCloth(),
           )
         ],
       ),

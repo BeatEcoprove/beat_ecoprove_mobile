@@ -17,6 +17,7 @@ import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_name.dar
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_type.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterClothViewModel extends FormViewModel {
@@ -28,6 +29,7 @@ class RegisterClothViewModel extends FormViewModel {
   late final User _user;
   final AuthenticationProvider _authProvider;
   final NotificationProvider _notificationProvider;
+  final GoRouter _navigationRouter;
 
   late Map<String, dynamic> _selectedFilter = {};
 
@@ -37,6 +39,7 @@ class RegisterClothViewModel extends FormViewModel {
     this._registerClothUseCase,
     this._getColorsUseCase,
     this._getBrandsUseCase,
+    this._navigationRouter,
   ) {
     _user = _authProvider.appUser;
     initializeFields([
@@ -150,7 +153,7 @@ class RegisterClothViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  void registerCloth() async {
+  Future registerCloth() async {
     try {
       await _registerClothUseCase.handle(RegisterClothRequest(
         getValue(FormFieldValues.clothName).value ?? "",
@@ -160,20 +163,21 @@ class RegisterClothViewModel extends FormViewModel {
         getValue(FormFieldValues.clothColor).value ?? "FF000000",
         getValue(FormFieldValues.clothImage).value ?? "",
       ));
+
+      _notificationProvider.showNotification(
+        "Peça criada!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
+
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
-    _notificationProvider.showNotification(
-      "Peça criada!",
-      type: NotificationTypes.success,
-    );
-
-    // notifyListeners();
+    _navigationRouter.pop();
+    notifyListeners();
   }
 }

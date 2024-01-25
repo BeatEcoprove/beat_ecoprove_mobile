@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/register_cloth/domain/use-cases/register_cloth_use
 import 'package:beat_ecoprove/register_cloth/presentation/register_cloth_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
 
 extension RegisterClothInjection on DependencyInjection {
@@ -25,6 +26,7 @@ extension RegisterClothInjection on DependencyInjection {
     var registerClothUseCase = locator<RegisterClothUseCase>();
     var getColorsUseCase = locator<GetColorsUseCase>();
     var getBrandsUseCase = locator<GetBrandsUseCase>();
+    var appRouter = locator<AppRouter>();
 
     locator.registerFactory(() => RegisterClothViewModel(
           notificationProvider,
@@ -32,6 +34,7 @@ extension RegisterClothInjection on DependencyInjection {
           registerClothUseCase,
           getColorsUseCase,
           getBrandsUseCase,
+          appRouter.appRouter,
         ));
   }
 

@@ -81,6 +81,8 @@ flutter:
     - assets/background4/background2.svg
     - assets/background5/background1.svg
     - assets/background6/background1.svg
+    - assets/background8/background1.svg
+    - assets/background8/background2.svg
     - assets/background10/background1.svg
     - assets/applicationTitle.svg
     - assets/default_avatar.png

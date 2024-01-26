@@ -213,7 +213,7 @@ class ProfileForm extends StatelessWidget {
                   style: AppText.underlineStyle,
                 ),
                 //TODO: ADD PAGE
-                onTap: () => viewModel.levelUp(),
+                onTap: () {},
               ),
             )
           ],

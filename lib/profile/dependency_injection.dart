@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/delete_profile_use_case.dart';
@@ -39,15 +38,14 @@ extension ProfileDependencyInjection on DependencyInjection {
     var authenticationService = locator<AuthenticationService>();
     var notificationProvider = locator<NotificationProvider>();
     var authProvider = locator<AuthenticationProvider>();
-    var levelUpProvider = locator<LevelUpProvider>();
     var router = locator<AppRouter>();
     var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
     var createProfilesUseCase = locator<RegisterProfileUseCase>();
     var deleteProfileUseCase = locator<DeleteProfileUseCase>();
     var promoteProfileUseCase = locator<PromoteProfileUseCase>();
 
-    locator.registerFactory(() =>
-        ProfileViewModel(levelUpProvider, authProvider, router.appRouter));
+    locator.registerFactory(
+        () => ProfileViewModel(authProvider, router.appRouter));
     locator.registerFactory(
         () => SettingsViewModel(authProvider, router.appRouter));
     locator

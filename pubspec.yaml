@@ -84,6 +84,9 @@ flutter:
     - assets/background8/background1.svg
     - assets/background8/background2.svg
     - assets/background10/background1.svg
+    - assets/level_up/leaf1.svg
+    - assets/level_up/leaf2.svg
+    - assets/level_up/crown.svg
     - assets/applicationTitle.svg
     - assets/default_avatar.png
     - assets/salsa.png

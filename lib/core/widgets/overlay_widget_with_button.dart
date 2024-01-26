@@ -11,6 +11,7 @@ class Modal {
   final VoidCallback action;
   final String buttonText;
   final String titleModal;
+  final bool hasCancelButton;
 
   Modal({
     this.right = 16,
@@ -20,6 +21,7 @@ class Modal {
     required this.action,
     required this.buttonText,
     required this.titleModal,
+    this.hasCancelButton = true,
   });
 
   create(BuildContext context, Widget content) {
@@ -48,7 +50,7 @@ class Modal {
             top: top,
             child: Material(
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: const BoxDecoration(
                   color: AppColor.widgetBackground,
                   borderRadius: BorderRadius.all(borderRadius),
@@ -94,13 +96,14 @@ class Modal {
                               const SizedBox(
                                 height: 6,
                               ),
-                              FormattedButton(
-                                content: "Cancelar",
-                                buttonColor: AppColor.widgetBackground,
-                                textColor: AppColor.black,
-                                height: 46,
-                                onPress: () => remove(),
-                              ),
+                              if (hasCancelButton)
+                                FormattedButton(
+                                  content: "Cancelar",
+                                  buttonColor: AppColor.widgetBackground,
+                                  textColor: AppColor.black,
+                                  height: 46,
+                                  onPress: () => remove(),
+                                ),
                             ],
                           ),
                         ],

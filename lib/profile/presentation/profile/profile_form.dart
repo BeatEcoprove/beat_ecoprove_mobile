@@ -178,7 +178,7 @@ class ProfileForm extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    _medals(),
+                    _medals(viewModel),
                   ],
                 ),
               ),
@@ -189,7 +189,7 @@ class ProfileForm extends StatelessWidget {
     );
   }
 
-  Widget _medals() {
+  Widget _medals(ProfileViewModel viewModel) {
     return Column(
       children: [
         Row(
@@ -213,7 +213,7 @@ class ProfileForm extends StatelessWidget {
                   style: AppText.underlineStyle,
                 ),
                 //TODO: ADD PAGE
-                onTap: () {},
+                onTap: () => viewModel.levelUp(),
               ),
             )
           ],

@@ -21,6 +21,9 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
+import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
+import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
 
@@ -48,6 +51,8 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerSingleton(ChangeBucketNameUseCase(clothingService));
     locator.registerSingleton(AddClothsBucketUseCase(clothingService));
     locator.registerSingleton(GetBucketsUseCase(clothingService));
+    locator.registerSingleton(GetColorsUseCase(clothingService));
+    locator.registerSingleton(GetBrandsUseCase(clothingService));
   }
 
   void _addViewModels(GetIt locator) {
@@ -63,6 +68,9 @@ extension ClothingDependencyInjection on DependencyInjection {
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
     var addClothBucketUseCase = locator<AddClothsBucketUseCase>();
     var getBucketsUseCase = locator<GetBucketsUseCase>();
+    var getColorsUseCase = locator<GetColorsUseCase>();
+    var getBrandsUseCase = locator<GetBrandsUseCase>();
+    var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
 
     locator.registerFactory(() => ClothingViewModel(
           notificationProvider,
@@ -73,6 +81,9 @@ extension ClothingDependencyInjection on DependencyInjection {
           deleteCardUseCase,
           registerBucketUseCase,
           addClothBucketUseCase,
+          getColorsUseCase,
+          getBrandsUseCase,
+          getNestedProfilesUseCase,
           router.appRouter,
         ));
     locator.registerFactory(() => InfoClothServiceViewModel(

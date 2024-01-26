@@ -60,10 +60,10 @@ class DependencyInjection {
     locator.registerFactory(() => HttpClient());
 
     addAuth();
+    addProfile();
     addCloset();
     addHome();
     addCloth();
     addGroup();
-    addProfile();
   }
 }

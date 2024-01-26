@@ -240,8 +240,11 @@ class _ClothingFormState extends State<ClothingForm> {
                 contentPaddingTop: 56,
                 bodyTop: 0,
                 options: optionsToFilter
-                    .map((filter) => filter.toFilterRow())
-                    .toList(),
+                        .map((filter) => filter.toFilterRow())
+                        .toList() +
+                    viewModel.getColors +
+                    viewModel.getBrands +
+                    viewModel.getNestedProfiles,
                 onSelectionChanged: (filter) =>
                     viewModel.changeFilterSelection(filter),
                 filterIsSelect: (filter) => viewModel.haveThisFilter(filter),

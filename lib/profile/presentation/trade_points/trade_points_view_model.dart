@@ -3,13 +3,23 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/profile/contracts/trade_points_request.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/trade_points_use_case.dart';
+import 'package:go_router/go_router.dart';
 
 class TradePointsViewModel extends FormViewModel {
+  final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
+  final TradePointsUseCase _tradePointsUseCase;
+  final GoRouter _navigationRouter;
   late final User _user;
 
   TradePointsViewModel(
+    this._navigationRouter,
+    this._notificationProvider,
     this._authProvider,
+    this._tradePointsUseCase,
   ) {
     _user = _authProvider.appUser;
     initializeFields([
@@ -46,4 +56,29 @@ class TradePointsViewModel extends FormViewModel {
 
   int get getEcoCoins => 100;
   int get getSustainablePoints => 10;
+
+  Future<void> tradePoints() async {
+    try {
+      await _tradePointsUseCase.handle(TradePointsRequest(
+        getValue(FormFieldValues.ecoCoins).value ?? 0,
+        getValue(FormFieldValues.sustainablePoints).value ?? 0,
+      ));
+
+      _notificationProvider.showNotification(
+        "Troca realizada!",
+        type: NotificationTypes.success,
+      );
+
+      _navigationRouter.pop();
+    } catch (e) {
+      print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+
+    notifyListeners();
+  }
 }

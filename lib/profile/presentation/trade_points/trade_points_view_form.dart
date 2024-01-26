@@ -29,20 +29,39 @@ class TradePointsForm extends StatelessWidget {
         content: GoBack(
           posTop: 18,
           posLeft: 18,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 84),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _tradeTable(viewModel),
-                _tradeEcoCoinsToSustainablePoints(viewModel),
-                _tradeSustainablePointsToEcoCoins(viewModel),
-                FormattedButton(
-                  content: "Confirmar",
-                  textColor: Colors.white,
-                  onPress: () {},
-                ),
-              ],
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 84),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _tradeTable(viewModel),
+                          const SizedBox(
+                            height: 36,
+                          ),
+                          _tradeEcoCoinsToSustainablePoints(viewModel),
+                          const SizedBox(
+                            height: 36,
+                          ),
+                          _tradeSustainablePointsToEcoCoins(viewModel),
+                          const SizedBox(
+                            height: 64,
+                          ),
+                          FormattedButton(
+                            content: "Confirmar",
+                            textColor: Colors.white,
+                            onPress: () {},
+                          ),
+                        ]),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

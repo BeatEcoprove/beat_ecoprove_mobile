@@ -50,8 +50,9 @@ extension ProfileDependencyInjection on DependencyInjection {
         () => SettingsViewModel(authProvider, router.appRouter));
     locator
         .registerFactory(() => PrizesViewModel(authProvider, router.appRouter));
-    locator.registerFactory(
-        () => TradePointsViewModel(authProvider, router.appRouter));
+    locator.registerFactory(() => TradePointsViewModel(
+          authProvider,
+        ));
     locator.registerFactory(() => ChangeProfileViewModel(
         notificationProvider,
         authProvider,

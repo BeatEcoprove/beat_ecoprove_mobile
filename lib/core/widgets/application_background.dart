@@ -201,18 +201,26 @@ class AppBackground extends StatelessWidget {
 
   Widget background8(Widget content) {
     return Stack(children: [
-      Positioned.fill(
-          bottom: 50,
-          left: -65,
+      const Positioned.fill(
+          left: -45,
+          bottom: -50,
           child: Align(
             alignment: Alignment.bottomLeft,
-            child: Transform.rotate(
-              angle: 2.2,
-              child: const SvgImage(
-                path: 'assets/background5/background1.svg',
-                height: 200,
-                width: 200,
-              ),
+            child: SvgImage(
+              path: 'assets/background8/background2.svg',
+              height: backgroundImageHeight,
+              width: backgroundImageHeight,
+            ),
+          )),
+      const Positioned.fill(
+          top: -60,
+          right: -80,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: SvgImage(
+              path: 'assets/background8/background1.svg',
+              height: 200,
+              width: 200,
             ),
           )),
       content
@@ -310,7 +318,7 @@ class AppBackground extends StatelessWidget {
         return background6(content);
       case AppBackgrounds.settings:
         return background7(content);
-      case AppBackgrounds.group:
+      case AppBackgrounds.trade:
         return background8(content);
       case AppBackgrounds.members:
         return background9(content);
@@ -336,7 +344,7 @@ enum AppBackgrounds {
   closet,
   infoBucket,
   settings,
-  group,
+  trade,
   members,
   createGroup
 }

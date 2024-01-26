@@ -16,8 +16,6 @@ extension RegisterClothInjection on DependencyInjection {
     var closetService = locator<ClosetServiceProxy>();
 
     locator.registerSingleton(RegisterClothUseCase(closetService));
-    locator.registerSingleton(GetColorsUseCase(closetService));
-    locator.registerSingleton(GetBrandsUseCase(closetService));
   }
 
   void _addViewModels(GetIt locator) {

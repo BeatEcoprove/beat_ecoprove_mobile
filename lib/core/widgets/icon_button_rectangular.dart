@@ -83,7 +83,7 @@ class _IconButtonRectangularState extends State<IconButtonRectangular>
                   : const BorderRadius.all(borderRadius),
               boxShadow: const [AppColor.defaultShadow],
             ),
-            child: Center(child: widget.object),
+            child: widget.object,
           ),
         ),
       );

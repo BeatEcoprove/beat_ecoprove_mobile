@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
@@ -10,11 +12,21 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/domain/models/color_item.dart';
+import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
+import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
+import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
+import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ClothingViewModel extends FormViewModel {
@@ -24,6 +36,9 @@ class ClothingViewModel extends FormViewModel {
   final DeleteCardUseCase _deleteCardUseCase;
   final RegisterBucketUseCase _registerBucketUseCase;
   final AddClothsBucketUseCase _addToBucketUseCase;
+  final GetColorsUseCase _getColorsUseCase;
+  final GetBrandsUseCase _getBrandsUseCase;
+  final GetNestedProfilesUseCase _getNestedProfilesUseCase;
   final GoRouter _navigationRouter;
 
   final AuthenticationProvider _authProvider;
@@ -34,6 +49,9 @@ class ClothingViewModel extends FormViewModel {
   late List<String> _selectedHorizontalFilters = [];
   final List<CardItem> _cards = [];
   final List<CardItem> _buckets = [];
+  late List<FilterRow> _getColors = [];
+  late List<FilterRow> _getBrands = [];
+  late List<FilterRow> _getNestedProfiles = [];
 
   late bool shouldUpdateData = true;
 
@@ -46,10 +64,16 @@ class ClothingViewModel extends FormViewModel {
     this._deleteCardUseCase,
     this._registerBucketUseCase,
     this._addToBucketUseCase,
+    this._getColorsUseCase,
+    this._getBrandsUseCase,
+    this._getNestedProfilesUseCase,
     this._navigationRouter,
   ) {
     _user = _authProvider.appUser;
     initializeFields([FormFieldValues.name]);
+    getAllColors();
+    getAllBrands();
+    getAllNestedProfiles();
   }
 
   User get user => _user;
@@ -337,5 +361,106 @@ class ClothingViewModel extends FormViewModel {
 
     await _navigationRouter.push(path, extra: card);
     notifyListeners();
+  }
+
+  List<FilterRow> get getColors => _getColors;
+
+  Future<List<FilterRow>> getAllColors() async {
+    List<ColorItem> colors = [];
+    List<FilterButtonItem> colorItems = [];
+
+    try {
+      colors = await _getColorsUseCase.handle();
+    } catch (e) {
+      print("$e");
+    }
+
+    for (var color in colors) {
+      colorItems.add(FilterButtonItem(
+        text: color.name,
+        value: color.hex,
+        backgroundColor: Color(
+          int.parse(
+            color.hex,
+            radix: 16,
+          ),
+        ),
+        dimension: 30,
+        tag: "color",
+      ));
+    }
+
+    _getColors = [
+      FilterRow(
+        title: 'Cor',
+        options: colorItems,
+        isCircular: true,
+      )
+    ];
+    return [FilterRow(options: colorItems, isCircular: true)];
+  }
+
+  List<FilterRow> get getBrands => _getBrands;
+
+  Future<List<FilterRow>> getAllBrands() async {
+    List<BrandItem> brands = [];
+    List<FilterButtonItem> brandItems = [];
+
+    try {
+      brands = await _getBrandsUseCase.handle();
+    } catch (e) {
+      print("$e");
+    }
+
+    //TODO: CHANGE CONTENT TO SERVER IMAGE
+    for (var brand in brands) {
+      brandItems.add(FilterButtonItem(
+        text: brand.name,
+        content: Image.asset("assets/default_avatar.png"),
+        value: brand.name,
+        tag: "brand",
+      ));
+    }
+
+    _getBrands = [
+      FilterRow(
+        title: 'Marca',
+        options: brandItems,
+      )
+    ];
+    return [FilterRow(title: 'Marca', options: brandItems)];
+  }
+
+  List<FilterRow> get getNestedProfiles => _getNestedProfiles;
+
+  Future<List<FilterRow>> getAllNestedProfiles() async {
+    List<ProfileResult> nestedProfiles = [];
+    List<FilterButtonItem> profileItem = [];
+
+    try {
+      var profiles = await _getNestedProfilesUseCase.handle();
+      nestedProfiles = profiles.nestedProfiles;
+    } catch (e) {
+      print("$e");
+    }
+
+    for (var profile in nestedProfiles) {
+      profileItem.add(FilterButtonItem(
+        text: profile.username,
+        content: PresentImage(
+          path: ServerImage(profile.avatarUrl),
+        ),
+        value: profile.id,
+        tag: "profileId",
+      ));
+    }
+
+    _getNestedProfiles = [
+      FilterRow(
+        title: 'Perfis',
+        options: profileItem,
+      )
+    ];
+    return [FilterRow(title: 'Perfis', options: profileItem)];
   }
 }

@@ -56,7 +56,7 @@ class TradePointsForm extends StatelessWidget {
                           FormattedButton(
                             content: "Confirmar",
                             textColor: Colors.white,
-                            onPress: () {},
+                            onPress: () => viewModel.tradePoints(),
                           ),
                         ]),
                   ),
@@ -195,9 +195,10 @@ class TradePointsForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    ((viewModel.getValue(FormFieldValues.ecoCoins).value ~/
+                    ((viewModel.getValue(FormFieldValues.ecoCoins).value /
                                 viewModel.getEcoCoins) *
                             viewModel.getSustainablePoints)
+                        .toInt()
                         .toString(),
                     style: AppText.titleToScrollSection,
                     overflow: TextOverflow.ellipsis,
@@ -275,9 +276,10 @@ class TradePointsForm extends StatelessWidget {
                   Text(
                     ((viewModel
                                     .getValue(FormFieldValues.sustainablePoints)
-                                    .value ~/
+                                    .value /
                                 viewModel.getSustainablePoints) *
                             viewModel.getEcoCoins)
+                        .toInt()
                         .toString(),
                     style: AppText.titleToScrollSection,
                     overflow: TextOverflow.ellipsis,

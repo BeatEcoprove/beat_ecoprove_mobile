@@ -46,8 +46,8 @@ class GroupViewModel extends ViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
+
     return;
   }
 

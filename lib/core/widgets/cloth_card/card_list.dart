@@ -4,7 +4,6 @@ import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class CardList extends StatefulWidget {
   final List<CardItem> clothesItems;
@@ -81,7 +80,6 @@ class _CardListState extends State<CardList> {
             child: InkWell(
               onTap: () {
                 if (!widget.selectedCards.keys.contains(card.id)) {
-                  // openInfoCard(card, goRouter);
                   if (widget.onElementSelected != null) {
                     widget.onElementSelected!(card);
                   }
@@ -107,10 +105,4 @@ class _CardListState extends State<CardList> {
   }
 
   bool isBucketItem(CardItem card) => card.hasChildren;
-
-  void openInfoCard(CardItem card, GoRouter goRouter) {
-    isBucketItem(card)
-        ? goRouter.push("/info/bucket/${card.id}", extra: card)
-        : goRouter.push("/info/cloth/${card.id}", extra: card);
-  }
 }

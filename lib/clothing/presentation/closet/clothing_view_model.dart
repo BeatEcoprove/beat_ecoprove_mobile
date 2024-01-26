@@ -440,27 +440,30 @@ class ClothingViewModel extends FormViewModel {
     try {
       var profiles = await _getNestedProfilesUseCase.handle();
       nestedProfiles = profiles.nestedProfiles;
+
+      if (_user.name == profiles.mainProfile.username) {
+        for (var profile in nestedProfiles) {
+          profileItem.add(FilterButtonItem(
+            text: profile.username,
+            content: PresentImage(
+              path: ServerImage(profile.avatarUrl),
+            ),
+            value: profile.id,
+            tag: "profileId",
+          ));
+        }
+
+        _getNestedProfiles = [
+          FilterRow(
+            title: 'Perfis',
+            options: profileItem,
+          )
+        ];
+      }
     } catch (e) {
       print("$e");
     }
 
-    for (var profile in nestedProfiles) {
-      profileItem.add(FilterButtonItem(
-        text: profile.username,
-        content: PresentImage(
-          path: ServerImage(profile.avatarUrl),
-        ),
-        value: profile.id,
-        tag: "profileId",
-      ));
-    }
-
-    _getNestedProfiles = [
-      FilterRow(
-        title: 'Perfis',
-        options: profileItem,
-      )
-    ];
     return [FilterRow(title: 'Perfis', options: profileItem)];
   }
 }

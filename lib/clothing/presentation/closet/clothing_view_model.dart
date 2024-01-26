@@ -145,6 +145,7 @@ class ClothingViewModel extends FormViewModel {
     }
 
     try {
+      _buckets.clear();
       _cards.clear();
       _cards.addAll(await _getClosetUseCase.handle(param));
 
@@ -160,41 +161,39 @@ class ClothingViewModel extends FormViewModel {
     }
   }
 
-//TODO: Add Notifications
   Future setStateFromCloth() async {
     List<String> listIdsInUse = [];
     List<String> listIdsIdle = [];
     List<String> selectedElements = [];
+
+    void addToLists(CardItem card) {
+      switch (card.clothState!) {
+        case ClothStates.inUse:
+          if (!listIdsInUse.contains(card.id)) {
+            listIdsInUse.add(card.id);
+          }
+          break;
+        case ClothStates.idle:
+          if (!listIdsIdle.contains(card.id)) {
+            listIdsIdle.add(card.id);
+          }
+          break;
+        case ClothStates.blocked:
+          break;
+      }
+    }
 
     for (var e in getCloset) {
       if (e.clothState == null) {
         var cards = e.child as List<CardItem>;
 
         for (var card in cards) {
-          switch (card.clothState!) {
-            case ClothStates.inUse:
-              listIdsInUse.add(card.id);
-              break;
-            case ClothStates.idle:
-              listIdsIdle.add(card.id);
-              break;
-            case ClothStates.blocked:
-              break;
-          }
+          addToLists(card);
         }
       }
 
       if (e.clothState != null) {
-        switch (e.clothState!) {
-          case ClothStates.inUse:
-            listIdsInUse.add(e.id);
-            break;
-          case ClothStates.idle:
-            listIdsIdle.add(e.id);
-            break;
-          case ClothStates.blocked:
-            break;
-        }
+        addToLists(e);
       }
     }
 
@@ -206,22 +205,48 @@ class ClothingViewModel extends FormViewModel {
       }
     }
 
-    try {
-      await _markClothAsDailyUseUseCase.handle(listIdsIdle
-          .where((elemento) => selectedElements.contains(elemento))
-          .toList());
-    } catch (e) {
-      print("$e");
+    var listToMark = listIdsIdle
+        .where((elemento) => selectedElements.contains(elemento))
+        .toList();
+
+    if (listToMark.isNotEmpty) {
+      try {
+        await _markClothAsDailyUseUseCase.handle(listToMark);
+        _notificationProvider.showNotification(
+          "Estado/s atualizado/s!",
+          type: NotificationTypes.success,
+        );
+      } catch (e) {
+        print("$e");
+        _notificationProvider.showNotification(
+          e.toString(),
+          type: NotificationTypes.error,
+        );
+      }
     }
 
+    var listToUnMark = listIdsInUse
+        .where((elemento) => selectedElements.contains(elemento))
+        .toList();
+
     try {
-      await _unMarkClothAsDailyUseUseCase.handle(listIdsInUse
-          .where((elemento) => selectedElements.contains(elemento))
-          .toList());
+      await _unMarkClothAsDailyUseUseCase.handle(listToUnMark);
+
+      _notificationProvider.showNotification(
+        "Estado/s atualizado/s!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
     }
 
+    listIdsInUse.clear();
+    listIdsIdle.clear();
+    selectedElements.clear();
     _selectedCards.clear();
     notifyListeners();
   }

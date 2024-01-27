@@ -60,7 +60,15 @@ class _InfoClothServiceFormState extends State<InfoClothServiceForm> {
   @override
   Widget build(BuildContext context) {
     viewModel = ViewModel.of<InfoClothServiceViewModel>(context);
-    viewModel.clothId = widget.card.id;
+    if (widget.card.hasChildren) {
+      List<String> listIds = [];
+      for (var cloth in widget.card.child) {
+        listIds.add(cloth.id);
+      }
+      viewModel.clothId = listIds;
+    } else {
+      viewModel.clothId = [widget.card.id];
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

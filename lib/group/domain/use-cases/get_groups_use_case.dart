@@ -16,8 +16,11 @@ class GetGroupsUseCase
     GroupsResult groupsResult;
     List<GroupItem> privateGroups = [];
     List<GroupItem> publicGroups = [];
+    String searchParam = '';
 
-    var searchParam = param.keys.first;
+    if (param.isNotEmpty) {
+      searchParam = _prepareRequest(param);
+    }
 
     try {
       groupsResult = await _groupService.getGroups(searchParam);
@@ -60,5 +63,22 @@ class GetGroupsUseCase
     }
 
     return GroupList(globals: publicGroups, mine: privateGroups);
+  }
+
+  String _prepareRequest(Map<String, String> params) {
+    Set<String> tags = {};
+    String endPoint = '&';
+
+    for (var param in params.values) {
+      tags.add(param);
+    }
+
+    for (var tag in tags) {
+      endPoint +=
+          '$tag=${params.entries.where((entry) => entry.value.contains(tag)).map((entry) => entry.key).join(',')}';
+      endPoint += '&';
+    }
+
+    return endPoint;
   }
 }

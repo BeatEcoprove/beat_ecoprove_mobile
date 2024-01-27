@@ -43,8 +43,10 @@ class GroupViewModel extends FormViewModel {
   List<GroupItem> get getAllAuthenticatedUserGroups => _privateGroups;
   List<GroupItem> get getAllPublicGroups => _publicGroups;
 
-  Future<void> getGroups() async {
+  Future<void> getGroups(int limit) async {
     Map<String, String> param = {};
+
+    param.addAll({limit.toString(): "pageSize"});
 
     param.addAll({getValue(FormFieldValues.search).value ?? "": "search"});
 

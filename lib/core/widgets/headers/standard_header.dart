@@ -14,12 +14,31 @@ class StandardHeader extends Header {
   final bool hasSettings;
   final bool hasSearchBar;
   final String title;
+  final Function(String)? onChange;
+  final String initialValue;
+  final String errorMessage;
 
   const StandardHeader({
     this.title = '',
     this.hasSustainablePoints = true,
     this.hasSettings = false,
     this.hasSearchBar = false,
+    this.helpPress,
+    this.settingsPress,
+    required this.sustainablePoints,
+    this.onChange,
+    super.key,
+  })  : initialValue = '',
+        errorMessage = '';
+
+  const StandardHeader.searchBar({
+    this.title = '',
+    this.hasSustainablePoints = true,
+    this.hasSettings = false,
+    this.hasSearchBar = true,
+    required this.onChange,
+    required this.initialValue,
+    required this.errorMessage,
     this.helpPress,
     this.settingsPress,
     required this.sustainablePoints,
@@ -87,12 +106,15 @@ class StandardHeader extends Header {
           ],
         ),
         if (hasSearchBar)
-          const Column(
+          Column(
             children: [
               DefaultFormattedTextField(
                 hintText: "Pesquisar",
-                leftIcon: Icon(Icons.search_rounded),
-              )
+                leftIcon: const Icon(Icons.search_rounded),
+                onChange: onChange,
+                initialValue: initialValue,
+                errorMessage: errorMessage,
+              ),
             ],
           ),
       ],

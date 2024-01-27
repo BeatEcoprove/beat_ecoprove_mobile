@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
@@ -22,12 +23,14 @@ class GroupForm extends StatelessWidget {
     final memo = AsyncMemoizer();
 
     return Scaffold(
-      appBar: StandardHeader(
+      appBar: StandardHeader.searchBar(
         title: "Grupos",
         sustainablePoints: viewModel.user.sustainablePoints,
         hasSustainablePoints: false,
         hasSettings: false,
-        hasSearchBar: true,
+        onChange: (search) => viewModel.setSearch(search),
+        initialValue: '',
+        errorMessage: viewModel.getValue(FormFieldValues.search).error,
       ),
       body: AppBackground(
         content: Stack(
@@ -72,6 +75,7 @@ class GroupForm extends StatelessWidget {
                                     children: _renderCards(
                                       goRouter,
                                       viewModel.getAllAuthenticatedUserGroups,
+                                      3,
                                     ),
                                   ),
                                   const SizedBox(
@@ -101,6 +105,7 @@ class GroupForm extends StatelessWidget {
                                     children: _renderCards(
                                       goRouter,
                                       viewModel.getAllPublicGroups,
+                                      viewModel.getAllPublicGroups.length,
                                     ),
                                   )
                                 ],
@@ -147,8 +152,10 @@ class GroupForm extends StatelessWidget {
     );
   }
 
-  List<Widget> _renderCards(GoRouter goRouter, List<GroupItem> groups) {
+  List<Widget> _renderCards(
+      GoRouter goRouter, List<GroupItem> groups, int limit) {
     return groups
+        .take(limit)
         .map(
           (e) => Container(
             margin: const EdgeInsets.symmetric(

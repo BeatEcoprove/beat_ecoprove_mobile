@@ -5,19 +5,22 @@ import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 
-class GetGroupsUseCase implements UseCaseAction<Future<GroupList>> {
+class GetGroupsUseCase
+    implements UseCase<Map<String, String>, Future<GroupList>> {
   final GroupService _groupService;
 
   GetGroupsUseCase(this._groupService);
 
   @override
-  Future<GroupList> handle() async {
+  Future<GroupList> handle(param) async {
     GroupsResult groupsResult;
     List<GroupItem> privateGroups = [];
     List<GroupItem> publicGroups = [];
 
+    var searchParam = param.keys.first;
+
     try {
-      groupsResult = await _groupService.getGroups();
+      groupsResult = await _groupService.getGroups(searchParam);
     } on HttpConflictRequestError catch (e) {
       print(e);
       throw Exception(e.getError().title);

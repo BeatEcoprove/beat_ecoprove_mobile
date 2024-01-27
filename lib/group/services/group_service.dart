@@ -10,10 +10,10 @@ class GroupService {
 
   GroupService(this._httpClient);
 
-  Future<GroupsResult> getGroups() async {
+  Future<GroupsResult> getGroups(String param) async {
     return GroupsResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "groups?page=1&pageSize=10",
+      path: "groups?page=1&pageSize=10&search=$param",
       expectedCode: 200,
     ));
   }

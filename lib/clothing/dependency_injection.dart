@@ -105,6 +105,7 @@ extension ClothingDependencyInjection on DependencyInjection {
           notificationProvider,
           removeClothFromBucketUseCase,
           unMarkClothAsDailyUseUseCase,
+          router.appRouter,
         ));
     locator.registerFactory(() => ChangeBucketNameViewModel(
           notificationProvider,

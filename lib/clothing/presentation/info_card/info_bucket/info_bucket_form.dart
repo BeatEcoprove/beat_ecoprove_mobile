@@ -49,6 +49,7 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
                 : await viewModel.removeClothFromBucket(
                     idCloth, widget.card.id);
           },
+          onElementSelected: (card) async => await viewModel.openInfoCard(card),
         ),
       ],
     );

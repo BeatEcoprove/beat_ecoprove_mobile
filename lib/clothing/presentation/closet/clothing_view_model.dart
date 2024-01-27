@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
+import 'package:beat_ecoprove/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/get_closet_use_case.dart';
@@ -357,7 +358,11 @@ class ClothingViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  List<FilterRow> get getColors => _getColors;
+  List<FilterRow> get getFilters =>
+      optionsToFilter.map((filter) => filter.toFilterRow()).toList() +
+      _getColors +
+      _getBrands +
+      _getNestedProfiles;
 
   Future<List<FilterRow>> getAllColors() async {
     List<ColorItem> colors = [];
@@ -394,8 +399,6 @@ class ClothingViewModel extends FormViewModel {
     return [FilterRow(options: colorItems, isCircular: true)];
   }
 
-  List<FilterRow> get getBrands => _getBrands;
-
   Future<List<FilterRow>> getAllBrands() async {
     List<BrandItem> brands = [];
     List<FilterButtonItem> brandItems = [];
@@ -424,8 +427,6 @@ class ClothingViewModel extends FormViewModel {
     ];
     return [FilterRow(title: 'Marca', options: brandItems)];
   }
-
-  List<FilterRow> get getNestedProfiles => _getNestedProfiles;
 
   Future<List<FilterRow>> getAllNestedProfiles() async {
     List<ProfileResult> nestedProfiles = [];

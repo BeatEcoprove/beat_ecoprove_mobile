@@ -278,8 +278,6 @@ class ClothingViewModel extends FormViewModel {
   Future registerBucket(Map<String, List<String>> selectedCards) async {
     List<String> listIds = [];
 
-    notifyListeners();
-
     for (var elem in selectedCards.entries) {
       if (elem.value.isEmpty) {
         listIds.add(elem.key);
@@ -295,19 +293,17 @@ class ClothingViewModel extends FormViewModel {
         name,
         listIds,
       ));
+      _notificationProvider.showNotification(
+        "Cesto criado!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
-
-    _notificationProvider.showNotification(
-      "Cesto criado!",
-      type: NotificationTypes.success,
-    );
 
     _selectedCards.clear();
     _navigationRouter.go('/');
@@ -317,8 +313,6 @@ class ClothingViewModel extends FormViewModel {
   Future addToBucket(
       String bucketId, Map<String, List<String>> selectedCards) async {
     List<String> listIds = [];
-
-    notifyListeners();
 
     for (var elem in selectedCards.entries) {
       if (elem.value.isEmpty) {

@@ -237,7 +237,7 @@ class InfoClothServiceViewModel extends FormViewModel {
     }
 
     isLoading = false;
-    _navigationRouter.go('/');
+    _navigationRouter.pop();
     notifyListeners();
   }
 

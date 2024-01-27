@@ -1,13 +1,16 @@
 import 'package:beat_ecoprove/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class InfoBucketViewModel extends ViewModel {
   final NotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
+  final GoRouter _navigationRouter;
 
   late final Map<String, List<String>> _selectedCards = {};
   late final List<String> _selectedClothCards = [];
@@ -16,6 +19,7 @@ class InfoBucketViewModel extends ViewModel {
     this._notificationProvider,
     this._removeClothFromBucketUseCase,
     this._unMarkClothAsDailyUseUseCase,
+    this._navigationRouter,
   );
 
   void changeCardsSelection(Map<String, List<String>> cards) {
@@ -72,5 +76,16 @@ class InfoBucketViewModel extends ViewModel {
       "Estado da/s peça/s atualizado!",
       type: NotificationTypes.success,
     );
+  }
+
+  bool isBucketItem(CardItem card) => card.hasChildren;
+
+  Future openInfoCard(CardItem card) async {
+    var path = isBucketItem(card)
+        ? "/info/bucket/${card.id}"
+        : "/info/cloth/${card.id}";
+
+    await _navigationRouter.push(path, extra: card);
+    notifyListeners();
   }
 }

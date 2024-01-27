@@ -211,10 +211,15 @@ class _ClothingFormState extends State<ClothingForm> {
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: DefaultFormattedTextField(
                   hintText: "Pesquisar",
-                  leftIcon: Icon(Icons.search_rounded),
+                  leftIcon: const Icon(Icons.search_rounded),
+                  onChange: (search) => viewModel.setSearch(search),
+                  initialValue:
+                      viewModel.getValue(FormFieldValues.search).value,
+                  errorMessage:
+                      viewModel.getValue(FormFieldValues.search).error,
                 ),
               ),
               const Padding(

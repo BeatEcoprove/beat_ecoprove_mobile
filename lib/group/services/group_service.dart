@@ -13,7 +13,7 @@ class GroupService {
   Future<GroupsResult> getGroups(String param) async {
     return GroupsResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "groups?page=1&pageSize=10&search=$param",
+      path: "groups?page=1$param",
       expectedCode: 200,
     ));
   }

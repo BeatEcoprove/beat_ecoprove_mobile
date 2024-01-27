@@ -2,10 +2,12 @@ import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/presentation/list_details_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
@@ -39,7 +41,7 @@ class GroupForm extends StatelessWidget {
               width: double.infinity,
               height: double.infinity,
               child: FutureBuilder(
-                future: memo.runOnce(() async => await viewModel.getGroups()),
+                future: memo.runOnce(() async => await viewModel.getGroups(3)),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -54,18 +56,58 @@ class GroupForm extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 18, vertical: 26),
+                                horizontal: 18,
+                                vertical: 26,
+                              ),
                               child: Column(
                                 children: [
-                                  const Row(
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Meus Grupos",
                                         style: AppText.titleToScrollSection,
                                         overflow: TextOverflow.ellipsis,
                                       ),
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 12),
+                                        child: GestureDetector(
+                                          child: const Text(
+                                            "Ver Mais",
+                                            textAlign: TextAlign.center,
+                                            style: AppText.underlineStyle,
+                                          ),
+                                          onTap: () => {
+                                            goRouter.push(
+                                              "/list_details",
+                                              extra: ListDetailsViewParams(
+                                                searchBar:
+                                                    DefaultFormattedTextField(
+                                                  hintText: "Pesquisar",
+                                                  leftIcon: const Icon(
+                                                      Icons.search_rounded),
+                                                  onChange: (search) =>
+                                                      viewModel
+                                                          .setSearch(search),
+                                                  initialValue: '',
+                                                  errorMessage: viewModel
+                                                      .getValue(FormFieldValues
+                                                          .search)
+                                                      .error,
+                                                ),
+                                                title: "Meus Grupos",
+                                                list: _renderCards(
+                                                  goRouter,
+                                                  viewModel
+                                                      .getAllAuthenticatedUserGroups,
+                                                ),
+                                              ),
+                                            ),
+                                          },
+                                        ),
+                                      )
                                     ],
                                   ),
                                   const SizedBox(
@@ -75,7 +117,6 @@ class GroupForm extends StatelessWidget {
                                     children: _renderCards(
                                       goRouter,
                                       viewModel.getAllAuthenticatedUserGroups,
-                                      3,
                                     ),
                                   ),
                                   const SizedBox(
@@ -105,7 +146,6 @@ class GroupForm extends StatelessWidget {
                                     children: _renderCards(
                                       goRouter,
                                       viewModel.getAllPublicGroups,
-                                      viewModel.getAllPublicGroups.length,
                                     ),
                                   )
                                 ],
@@ -147,15 +187,13 @@ class GroupForm extends StatelessWidget {
             ),
           ],
         ),
-        type: AppBackgrounds.registerClothBackground1,
+        type: AppBackgrounds.members,
       ),
     );
   }
 
-  List<Widget> _renderCards(
-      GoRouter goRouter, List<GroupItem> groups, int limit) {
+  List<Widget> _renderCards(GoRouter goRouter, List<GroupItem> groups) {
     return groups
-        .take(limit)
         .map(
           (e) => Container(
             margin: const EdgeInsets.symmetric(

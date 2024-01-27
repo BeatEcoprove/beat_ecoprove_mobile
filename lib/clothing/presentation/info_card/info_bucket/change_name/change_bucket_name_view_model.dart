@@ -32,8 +32,6 @@ class ChangeBucketNameViewModel extends FormViewModel {
   }
 
   Future changeBucketName(String bucketId) async {
-    notifyListeners();
-
     var name = getValue(FormFieldValues.name).value ?? "";
 
     try {
@@ -41,21 +39,20 @@ class ChangeBucketNameViewModel extends FormViewModel {
         name,
         bucketId,
       ));
+
+      _notificationProvider.showNotification(
+        "Cesto atualizado com sucesso!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
-    _notificationProvider.showNotification(
-      "Cesto atualizado com sucesso!",
-      type: NotificationTypes.success,
-    );
-
-    _navigationRouter.go('/');
+    _navigationRouter.pop();
     notifyListeners();
   }
 }

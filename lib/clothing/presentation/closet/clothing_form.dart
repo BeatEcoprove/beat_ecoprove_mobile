@@ -197,6 +197,7 @@ class _ClothingFormState extends State<ClothingForm> {
 
   SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
     const Radius borderRadius = Radius.circular(5);
+    final options = viewModel.getFilters;
 
     return SliverAppBar(
       toolbarHeight: 76,
@@ -239,12 +240,7 @@ class _ClothingFormState extends State<ClothingForm> {
                 overlayPaddingTop: 110,
                 contentPaddingTop: 56,
                 bodyTop: 0,
-                options: optionsToFilter
-                        .map((filter) => filter.toFilterRow())
-                        .toList() +
-                    viewModel.getColors +
-                    viewModel.getBrands +
-                    viewModel.getNestedProfiles,
+                options: options,
                 onSelectionChanged: (filter) =>
                     viewModel.changeFilterSelection(filter),
                 filterIsSelect: (filter) => viewModel.haveThisFilter(filter),

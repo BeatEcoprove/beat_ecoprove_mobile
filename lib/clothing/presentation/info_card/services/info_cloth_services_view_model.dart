@@ -33,7 +33,7 @@ class InfoClothServiceViewModel extends FormViewModel {
 
   final ActionService _actionService;
   final ClosetService _closetService;
-  late String clothId;
+  late List<String> clothId;
   late String activityId;
 
   InfoClothServiceViewModel(
@@ -167,8 +167,11 @@ class InfoClothServiceViewModel extends FormViewModel {
     try {
       switch (state) {
         case ServiceState.available:
-          await _actionService.makeMaintenanceOnCloth(
-              MakeMaintenanceOnClothRequest(clothId, serviceId, actionId));
+          for (var cloth in clothId) {
+            await _actionService.makeMaintenanceOnCloth(
+                MakeMaintenanceOnClothRequest(cloth, serviceId, actionId));
+          }
+
           _notificationProvider.showNotification(
             "Ação registada!",
             type: NotificationTypes.success,
@@ -177,8 +180,11 @@ class InfoClothServiceViewModel extends FormViewModel {
         case ServiceState.running:
           if (activityId.isEmpty) throw Exception("Activity id is empty");
 
-          await _actionService.finishMaintenanceOnCLoth(
-              FinishMaintenanceOnClothRequest(clothId, activityId));
+          for (var cloth in clothId) {
+            await _actionService.finishMaintenanceOnCLoth(
+                FinishMaintenanceOnClothRequest(cloth, activityId));
+          }
+
           _notificationProvider.showNotification(
             "Ação desmarcada!",
             type: NotificationTypes.success,

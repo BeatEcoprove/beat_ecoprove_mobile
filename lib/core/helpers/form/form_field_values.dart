@@ -30,7 +30,8 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   profilePicture(value: "avatar"),
   profileUserName(value: "userName"),
   ecoCoins(value: "ecoCoins"),
-  sustainablePoints(value: "sustainablePoints");
+  sustainablePoints(value: "sustainablePoints"),
+  search(value: "search");
 
   final String value;
   const FormFieldValues({required this.value});

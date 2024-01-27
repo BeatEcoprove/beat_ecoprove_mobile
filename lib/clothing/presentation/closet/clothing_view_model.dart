@@ -71,7 +71,10 @@ class ClothingViewModel extends FormViewModel {
     this._navigationRouter,
   ) {
     _user = _authProvider.appUser;
-    initializeFields([FormFieldValues.name]);
+    initializeFields([
+      FormFieldValues.name,
+      FormFieldValues.search,
+    ]);
     getAllColors();
     getAllBrands();
     getAllNestedProfiles();
@@ -89,6 +92,14 @@ class ClothingViewModel extends FormViewModel {
           FormFieldValues.name, BucketName.create(name).toString());
     } on DomainException catch (e) {
       setError(FormFieldValues.name, e.message);
+    }
+  }
+
+  void setSearch(String search) {
+    try {
+      setValue<String>(FormFieldValues.search, search);
+    } on DomainException catch (e) {
+      setError(FormFieldValues.search, e.message);
     }
   }
 
@@ -168,6 +179,8 @@ class ClothingViewModel extends FormViewModel {
     for (var filter in _selectedHorizontalFilters) {
       param.addAll({filter: 'category'});
     }
+
+    param.addAll({getValue(FormFieldValues.search).value ?? "": "search"});
 
     try {
       _buckets.clear();
@@ -328,19 +341,17 @@ class ClothingViewModel extends FormViewModel {
         bucketId,
         listIds,
       ));
+      _notificationProvider.showNotification(
+        "Peça/s adicionada/s ao cesto com sucesso!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
-
-    _notificationProvider.showNotification(
-      "Peça/s adicionada/s ao cesto com sucesso!",
-      type: NotificationTypes.success,
-    );
 
     _selectedCards.clear();
     _navigationRouter.go('/');
@@ -355,7 +366,6 @@ class ClothingViewModel extends FormViewModel {
         : "/info/cloth/${card.id}";
 
     await _navigationRouter.push(path, extra: card);
-    notifyListeners();
   }
 
   List<FilterRow> get getFilters =>

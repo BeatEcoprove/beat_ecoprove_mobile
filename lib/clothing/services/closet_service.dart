@@ -53,6 +53,16 @@ class ClosetService {
         expectedCode: 201);
   }
 
+  Future<BucketResult> getBucket(String bucketId) async {
+    return BucketResult.fromJson(
+      await _httpClient.makeRequestJson(
+        method: HttpMethods.get,
+        path: "profiles/closet/bucket/$bucketId",
+        expectedCode: 201,
+      ),
+    );
+  }
+
   Future registerCloth(RegisterClothRequest request) async {
     await _httpClient.makeRequestMultiPart(
         method: HttpMethods.post,

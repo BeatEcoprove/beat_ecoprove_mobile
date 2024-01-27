@@ -56,6 +56,7 @@ extension ClothingDependencyInjection on DependencyInjection {
   }
 
   void _addViewModels(GetIt locator) {
+    var closetService = locator<ClosetService>();
     var router = locator<AppRouter>();
     var authProvider = locator<AuthenticationProvider>();
     var notificationProvider = locator<NotificationProvider>();
@@ -90,6 +91,7 @@ extension ClothingDependencyInjection on DependencyInjection {
           notificationProvider,
           router.appRouter,
           locator<ActionServiceProxy>(),
+          closetService,
           getBucketsUseCase,
           addClothBucketUseCase,
           registerBucketUseCase,

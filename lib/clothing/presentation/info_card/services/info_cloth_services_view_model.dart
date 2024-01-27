@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/clothing/contracts/add_cloths_bucket_request.dart';
+import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/clothing/contracts/finish_maintenance_on_cloth_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/make_maintenance_on_cloth_request.dart';
 import 'package:beat_ecoprove/clothing/contracts/register_bucket_request.dart';
@@ -9,6 +10,7 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/get_buckets_use_case.dar
 import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/clothing/services/action_service.dart';
+import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
@@ -30,6 +32,7 @@ class InfoClothServiceViewModel extends FormViewModel {
   late bool isLoading = false;
 
   final ActionService _actionService;
+  final ClosetService _closetService;
   late String clothId;
   late String activityId;
 
@@ -37,6 +40,7 @@ class InfoClothServiceViewModel extends FormViewModel {
     this._notificationProvider,
     this._navigationRouter,
     this._actionService,
+    this._closetService,
     this._getBucketsUseCase,
     this._addClothsBucketUseCase,
     this._registerBucketUseCase,
@@ -58,10 +62,66 @@ class InfoClothServiceViewModel extends FormViewModel {
   bool get haveServicesSelected => _selectedServices.isNotEmpty;
 
   Future fetchServices(
-      String clothId, bool isBucket, BuildContext context) async {
+      String cardId, bool isBucket, BuildContext context) async {
+    await fetchBuckets();
+
+    if (isBucket) {
+      await fetchBucketServices(cardId, context);
+    } else {
+      await fetchClothServices(cardId, context);
+    }
+  }
+
+  Future fetchBucketServices(String bucketId, BuildContext context) async {
     List<Service<dynamic>> services = [];
 
-    fetchBuckets();
+    try {
+      var availableServices = await _actionService.getAllServices();
+      services.addAll(
+          availableServices.map((e) => e.toService(handleAction)).toList());
+
+      var bucket = await _closetService.getBucket(bucketId);
+
+      for (var cloth in bucket.associatedCloth) {
+        try {
+          var result = await _actionService.getCurrentServiceActivity(cloth.id);
+          if (result.status != 'Finished') {
+            //TODO: CHANGE TO BLOCKED CLOTH
+            _blockedServices.add(cloth.id);
+            _notificationProvider.showNotification(
+              'Tem pelo menos uma peça de roupa numa atividade!',
+              type: NotificationTypes.warning,
+            );
+          }
+        } catch (e) {
+          print(e);
+        }
+
+        if (cloth.state == ClothStates.inUse.value) {
+          //TODO: CHANGE TO BLOCKED CLOTH
+          _blockedServices.add(cloth.id);
+          _notificationProvider.showNotification(
+            'Tem pelo menos uma peça de roupa em uso!',
+            type: NotificationTypes.warning,
+          );
+        }
+      }
+
+      _services.clear();
+      _services.addAll(
+        services,
+      );
+    } catch (e) {
+      print(e);
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+  }
+
+  Future fetchClothServices(String clothId, BuildContext context) async {
+    List<Service<dynamic>> services = [];
 
     try {
       var availableServices =
@@ -88,7 +148,6 @@ class InfoClothServiceViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
   }
 
@@ -110,12 +169,20 @@ class InfoClothServiceViewModel extends FormViewModel {
         case ServiceState.available:
           await _actionService.makeMaintenanceOnCloth(
               MakeMaintenanceOnClothRequest(clothId, serviceId, actionId));
+          _notificationProvider.showNotification(
+            "Ação registada!",
+            type: NotificationTypes.success,
+          );
           break;
         case ServiceState.running:
           if (activityId.isEmpty) throw Exception("Activity id is empty");
 
           await _actionService.finishMaintenanceOnCLoth(
               FinishMaintenanceOnClothRequest(clothId, activityId));
+          _notificationProvider.showNotification(
+            "Ação desmarcada!",
+            type: NotificationTypes.success,
+          );
           break;
       }
     } catch (e) {
@@ -124,19 +191,13 @@ class InfoClothServiceViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
     _navigationRouter.pop();
-    _notificationProvider.showNotification(
-      "Ação registada!",
-      type: NotificationTypes.success,
-    );
-
     notifyListeners();
   }
 
-  void fetchBuckets() async {
+  Future fetchBuckets() async {
     Map<String, String> buckets = {};
 
     try {
@@ -147,7 +208,6 @@ class InfoClothServiceViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
     _buckets.addAll(buckets);
@@ -155,7 +215,6 @@ class InfoClothServiceViewModel extends FormViewModel {
 
   Future registerBucket(String cardId) async {
     isLoading = true;
-    notifyListeners();
 
     var name = getValue(FormFieldValues.name).value ?? "";
 
@@ -164,19 +223,18 @@ class InfoClothServiceViewModel extends FormViewModel {
         name,
         [cardId],
       ));
+
+      _notificationProvider.showNotification(
+        "Cesto criado!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
-
-    _notificationProvider.showNotification(
-      "Cesto criado!",
-      type: NotificationTypes.success,
-    );
 
     isLoading = false;
     _navigationRouter.go('/');
@@ -185,29 +243,27 @@ class InfoClothServiceViewModel extends FormViewModel {
 
   Future addToBucket(String bucketId, String clothId) async {
     isLoading = true;
-    notifyListeners();
 
     try {
       await _addClothsBucketUseCase.handle(AddClothsBucketRequest(
         bucketId,
         [clothId],
       ));
+
+      _notificationProvider.showNotification(
+        "Peça/s adicionada/s ao cesto com sucesso!",
+        type: NotificationTypes.success,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
-    _notificationProvider.showNotification(
-      "Peça/s adicionada/s ao cesto com sucesso!",
-      type: NotificationTypes.success,
-    );
-
     isLoading = false;
-    _navigationRouter.go('/');
+    _navigationRouter.pop();
     notifyListeners();
   }
 }

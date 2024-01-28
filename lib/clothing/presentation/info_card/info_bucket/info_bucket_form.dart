@@ -45,9 +45,9 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
           action: "removeFromBucket",
           actionToOptionRemoveFromBucket: (idCloth) async {
             widget.card.id == "outfit"
-                ? await viewModel.unMarkClothsFromBucket(idCloth)
+                ? await viewModel.unMarkClothsFromBucket(widget.card, idCloth)
                 : await viewModel.removeClothFromBucket(
-                    idCloth, widget.card.id);
+                    widget.card, idCloth, widget.card.id);
           },
           onElementSelected: (card) async => await viewModel.openInfoCard(card),
         ),
@@ -68,6 +68,7 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
           action: () => {
             {
               viewModel.unMarkClothsFromBucket(
+                widget.card,
                 (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
               ),
             }
@@ -85,6 +86,7 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
           name: 'Remover Tudo',
           action: () async => {
             await viewModel.removeClothFromBucket(
+                widget.card,
                 (widget.card.child as List<CardItem>).map((e) => e.id).toList(),
                 widget.card.id),
           },

@@ -370,6 +370,7 @@ class ClothingViewModel extends FormViewModel {
         : "/info/cloth/${card.id}";
 
     await _navigationRouter.push(path, extra: card);
+    notifyListeners();
   }
 
   List<FilterRow> get getFilters =>

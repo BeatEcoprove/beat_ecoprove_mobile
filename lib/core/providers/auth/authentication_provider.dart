@@ -3,8 +3,10 @@ import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/store.dart';
+import 'package:beat_ecoprove/core/providers/websockets/auth_ws_notifier.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 
 class AuthenticationProvider extends ViewModel {
   late String profileId = '';
@@ -57,6 +59,7 @@ class AuthenticationProvider extends ViewModel {
     _appUser = authentication.user;
     _accessToken = authentication.accessToken;
     _refreshToken = authentication.refreshToken;
+    DependencyInjection.locator<AuthWSNotifier>().listen();
 
     notifyListeners();
   }

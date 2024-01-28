@@ -27,15 +27,14 @@ class LevelUpProvider extends ViewModel {
     notifyListeners();
   }
 
-  void showLevelUpNotification() {
+  void showLevelUpNotification({int level = 0}) {
     _overlay.create(
       context,
-      _content(),
+      _content(level: level),
     );
   }
 
-  //TODO: Change
-  Widget _content({int level = 10}) {
+  Widget _content({int level = 0}) {
     const double ratioOffset = 80;
     const double heightStack = 175;
     const double widthStack = 220;

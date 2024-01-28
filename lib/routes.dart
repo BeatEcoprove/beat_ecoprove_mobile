@@ -34,17 +34,19 @@ class AppRouter {
     var leverUpProvider = DependencyInjection.locator<LevelUpProvider>();
     leverUpProvider.setContext(context);
 
-    return authProvider.isAuthenticated
-        ? const Swiper(
-            views: [HomeView(), ClothingView(), GroupView(), ProfileView()],
-            bottomNavigationBarOptions: [
-              Icon(Icons.home_rounded),
-              SvgImage(path: "assets/shirt.svg"),
-              Icon(Icons.public_rounded),
-              Icon(Icons.person),
-            ],
-          )
-        : const LoginView();
+    if (!authProvider.isAuthenticated) {
+      return const LoginView();
+    }
+
+    return const Swiper(
+      views: [HomeView(), ClothingView(), GroupView(), ProfileView()],
+      bottomNavigationBarOptions: [
+        Icon(Icons.home_rounded),
+        SvgImage(path: "assets/shirt.svg"),
+        Icon(Icons.public_rounded),
+        Icon(Icons.person),
+      ],
+    );
   }
 
   List<RouteBase> _setupRoutes() {

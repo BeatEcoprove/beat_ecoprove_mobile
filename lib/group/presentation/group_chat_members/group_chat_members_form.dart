@@ -1,10 +1,13 @@
 import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item_user.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/group_header.dart';
+import 'package:beat_ecoprove/core/widgets/overlay_widget_with_button.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +25,7 @@ class GroupParams {
   });
 }
 
-class GroupChatMembersForm extends StatelessWidget {
+class GroupChatMembersForm extends StatefulWidget {
   final GroupParams params;
 
   const GroupChatMembersForm({
@@ -31,15 +34,47 @@ class GroupChatMembersForm extends StatelessWidget {
   });
 
   @override
+  State<GroupChatMembersForm> createState() => _GroupChatMembersFormState();
+}
+
+class _GroupChatMembersFormState extends State<GroupChatMembersForm> {
+  late GroupChatMembersViewModel viewModel;
+  late Modal _overlay;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _overlay = Modal(
+      top: 198,
+      bottom: 198,
+      left: 36,
+      right: 36,
+      action: () async => await viewModel.inviteToGroup(widget.params.groupId),
+      titleModal: "Convidar para o grupo",
+      buttonText: "Convidar",
+    );
+  }
+
+  Widget createInviteCard() {
+    return DefaultFormattedTextField(
+      hintText: "Nome do utilizador",
+      onChange: (name) => viewModel.setUserName(name),
+      initialValue: viewModel.getValue(FormFieldValues.userName).value,
+      errorMessage: viewModel.getValue(FormFieldValues.userName).error,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final viewModel = ViewModel.of<GroupChatMembersViewModel>(context);
+    viewModel = ViewModel.of<GroupChatMembersViewModel>(context);
     final memo = AsyncMemoizer();
 
     return Scaffold(
       appBar: GroupHeader(
-        title: params.title,
-        state: params.state,
-        numberMembers: params.numberMembers.toString(),
+        title: widget.params.title,
+        state: widget.params.state,
+        numberMembers: widget.params.numberMembers.toString(),
       ),
       body: AppBackground(
         content: Padding(
@@ -48,7 +83,7 @@ class GroupChatMembersForm extends StatelessWidget {
           ),
           child: FutureBuilder(
             future: memo.runOnce(
-                () async => await viewModel.getDetails(params.groupId)),
+                () async => await viewModel.getDetails(widget.params.groupId)),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
@@ -100,18 +135,20 @@ class GroupChatMembersForm extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5),
                                       child: Text(
-                                        "${params.numberMembers} membros",
+                                        "${widget.params.numberMembers} membros",
                                         style: AppText.subHeader,
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                   ],
                                 ),
-                                const InkWell(
-                                  child: Icon(
+                                InkWell(
+                                  child: const Icon(
                                     Icons.add_rounded,
                                     color: AppColor.widgetSecondary,
                                   ),
+                                  onTap: () async => await _overlay.create(
+                                      context, createInviteCard()),
                                 )
                               ],
                             ),
@@ -137,7 +174,7 @@ class GroupChatMembersForm extends StatelessWidget {
                                                     await viewModel
                                                         .promoteMember(
                                                       member.id,
-                                                      params.groupId,
+                                                      widget.params.groupId,
                                                     )
                                                   }),
                                           //TODO: CHANGE
@@ -147,7 +184,7 @@ class GroupChatMembersForm extends StatelessWidget {
                                               action: () async => {
                                                     await viewModel.leaveGroup(
                                                       member.id,
-                                                      params.groupId,
+                                                      widget.params.groupId,
                                                     )
                                                   }),
                                         ],

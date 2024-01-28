@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
+import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/profile/contracts/promote_profile_request.dart';
 import 'package:beat_ecoprove/profile/contracts/register_profile_request.dart';
@@ -41,5 +42,13 @@ class ProfileService {
       body: request,
       expectedCode: 200,
     );
+  }
+
+  Future<ProfileResult> getByUserName(String request) async {
+    return ProfileResult.fromJson(await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "profiles/$request",
+      expectedCode: 200,
+    ));
   }
 }

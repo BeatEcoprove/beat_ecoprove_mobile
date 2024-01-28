@@ -1,5 +1,6 @@
 enum WebsocketMessageType implements Comparable<WebsocketMessageType> {
-  levelUp(value: "LevelUp");
+  levelUp(value: "LevelUp"),
+  inviteToGroup(value: "InviteToGroup");
 
   final String value;
 

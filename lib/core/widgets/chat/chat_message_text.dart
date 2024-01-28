@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class ChatMessageText extends ChatMessage {
   final String messageText;
+  final DateTime createdAt;
 
   const ChatMessageText({
     super.key,
     required this.messageText,
+    required this.createdAt,
   });
 
   @override

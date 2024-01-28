@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/group/contracts/accept_member_request.dart';
+import 'package:beat_ecoprove/group/contracts/chat_messages.dart';
 import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
@@ -89,5 +90,15 @@ class GroupService {
       path: "groups/${request.groupId}/invite/${request.memberId}",
       expectedCode: 200,
     );
+  }
+
+  Future<ChatMessages> getMessages(String groupId) async {
+    var response = await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "groups/$groupId/messages",
+      expectedCode: 200,
+    );
+
+    return ChatMessages.fromJson(response);
   }
 }

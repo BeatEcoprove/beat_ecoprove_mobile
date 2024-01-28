@@ -2,10 +2,12 @@ import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_details_view.dart';
 import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
+import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
 import 'package:beat_ecoprove/core/providers/websockets/auth_ws_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/group_ws_notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
@@ -37,6 +39,7 @@ class DependencyInjection {
     var levelUpdater = locator.registerSingleton(LevelUpProvider());
     var notification = locator.registerSingleton(NotificationProvider());
     var notificationManager = locator.registerSingleton(NotificationManager());
+    var groupManager = locator.registerSingleton(GroupManager());
 
     authProvider.checkAuth();
 
@@ -87,6 +90,17 @@ class DependencyInjection {
       notification,
       notificationManager,
       locator<GroupService>(),
+      groupManager,
+    ));
+
+    locator.registerSingleton(GroupWSNotifier(
+      ws,
+      authProvider,
+      levelUpdater,
+      notification,
+      notificationManager,
+      locator<GroupService>(),
+      groupManager,
     ));
   }
 }

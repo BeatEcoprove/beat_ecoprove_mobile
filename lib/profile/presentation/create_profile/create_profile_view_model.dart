@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
@@ -96,6 +97,11 @@ class CreateProfileViewModel extends FormViewModel {
               text: "Perfil criado com sucesso",
               textButton: "Confirmar",
               action: () => _navigationRouter.pop()));
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(

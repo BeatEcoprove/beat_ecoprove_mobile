@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -123,6 +124,11 @@ class ParamsProfileViewModel extends FormViewModel {
             textButton: "Continuar",
             action: () => _navigationRouter.pop(),
           ));
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(

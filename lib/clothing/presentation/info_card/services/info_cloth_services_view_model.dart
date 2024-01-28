@@ -14,6 +14,7 @@ import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -93,6 +94,11 @@ class InfoClothServiceViewModel extends FormViewModel {
               type: NotificationTypes.warning,
             );
           }
+        } on HttpBadRequestError catch (e) {
+          _notificationProvider.showNotification(
+            e.getError().title,
+            type: NotificationTypes.error,
+          );
         } catch (e) {
           print(e);
         }
@@ -110,6 +116,11 @@ class InfoClothServiceViewModel extends FormViewModel {
       _services.clear();
       _services.addAll(
         services,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print(e);
@@ -141,6 +152,11 @@ class InfoClothServiceViewModel extends FormViewModel {
       _services.clear();
       _services.addAll(
         services,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print(e);
@@ -191,6 +207,11 @@ class InfoClothServiceViewModel extends FormViewModel {
           );
           break;
       }
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print(e);
       _notificationProvider.showNotification(
@@ -208,6 +229,11 @@ class InfoClothServiceViewModel extends FormViewModel {
 
     try {
       buckets = await _getBucketsUseCase.handle();
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print(e);
       _notificationProvider.showNotification(
@@ -234,6 +260,11 @@ class InfoClothServiceViewModel extends FormViewModel {
         "Cesto criado!",
         type: NotificationTypes.success,
       );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
@@ -259,6 +290,11 @@ class InfoClothServiceViewModel extends FormViewModel {
       _notificationProvider.showNotification(
         "Peça/s adicionada/s ao cesto com sucesso!",
         type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print("$e");

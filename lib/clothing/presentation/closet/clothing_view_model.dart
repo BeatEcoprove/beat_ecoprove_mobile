@@ -19,6 +19,7 @@ import 'package:beat_ecoprove/core/domain/models/color_item.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
@@ -154,12 +155,13 @@ class ClothingViewModel extends FormViewModel {
         "Removido com sucesso!",
         type: NotificationTypes.success,
       );
-    } catch (e) {
-      print("$e");
+    } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
-        e.toString(),
+        e.getError().title,
         type: NotificationTypes.error,
       );
+    } catch (e) {
+      print("$e");
     }
 
     notifyListeners();
@@ -191,6 +193,11 @@ class ClothingViewModel extends FormViewModel {
 
       _buckets.addAll(_cards.where(
           (element) => element.hasChildren == true && element.id != "outfit"));
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
 
@@ -258,6 +265,11 @@ class ClothingViewModel extends FormViewModel {
           "Estado/s atualizado/s!",
           type: NotificationTypes.success,
         );
+      } on HttpBadRequestError catch (e) {
+        _notificationProvider.showNotification(
+          e.getError().title,
+          type: NotificationTypes.error,
+        );
       } catch (e) {
         print("$e");
         _notificationProvider.showNotification(
@@ -277,6 +289,11 @@ class ClothingViewModel extends FormViewModel {
       _notificationProvider.showNotification(
         "Estado/s atualizado/s!",
         type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print("$e");
@@ -315,6 +332,11 @@ class ClothingViewModel extends FormViewModel {
         "Cesto criado!",
         type: NotificationTypes.success,
       );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
@@ -348,6 +370,11 @@ class ClothingViewModel extends FormViewModel {
       _notificationProvider.showNotification(
         "Peça/s adicionada/s ao cesto com sucesso!",
         type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print("$e");

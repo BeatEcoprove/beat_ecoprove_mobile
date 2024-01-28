@@ -15,7 +15,6 @@ class UnMarkClothAsDailyUseUseCase implements UseCase<List<String>, Future> {
       print(e);
       throw Exception(e.getError().title);
     } catch (e) {
-      print(e);
       throw Exception("Algo correu mal!");
     }
   }

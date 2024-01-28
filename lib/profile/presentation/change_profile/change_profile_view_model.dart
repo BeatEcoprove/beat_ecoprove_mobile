@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
 import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
@@ -102,6 +103,11 @@ class ChangeProfileViewModel extends ViewModel {
               text: "Perfil foi removido.",
               textButton: "Continuar",
               action: () => _navigationRouter.pop()));
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(

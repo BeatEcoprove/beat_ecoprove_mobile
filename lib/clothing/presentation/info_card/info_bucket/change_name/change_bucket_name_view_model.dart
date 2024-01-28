@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/change_bucket_name_use_c
 import 'package:beat_ecoprove/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -43,6 +44,11 @@ class ChangeBucketNameViewModel extends FormViewModel {
       _notificationProvider.showNotification(
         "Cesto atualizado com sucesso!",
         type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print("$e");

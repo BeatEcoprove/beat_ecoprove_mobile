@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/clothing/contracts/remove_cloth_from_bucket_reques
 import 'package:beat_ecoprove/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:go_router/go_router.dart';
@@ -47,6 +48,11 @@ class InfoBucketViewModel extends ViewModel {
           idBucket));
 
       card.child.removeWhere((element) => idCloth.contains(element.id));
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(
@@ -75,6 +81,11 @@ class InfoBucketViewModel extends ViewModel {
           .forEach((element) {
         element.clothState = ClothStates.idle;
       });
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
       _notificationProvider.showNotification(

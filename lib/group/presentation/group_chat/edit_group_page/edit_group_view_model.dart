@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/update_group_request.dart';
@@ -100,6 +101,11 @@ class EditGroupViewModel extends FormViewModel {
         type: NotificationTypes.success,
       );
       _navigationRouter.pop();
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
 

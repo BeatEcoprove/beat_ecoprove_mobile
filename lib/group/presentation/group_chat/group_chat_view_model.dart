@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -120,6 +121,11 @@ class GroupChatViewModel extends FormViewModel {
           group: groupDetails,
           adminId: adminsIds,
         ),
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print("$e");

@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
@@ -76,6 +77,11 @@ class GroupChatMembersViewModel extends FormViewModel {
       _groupDetailsResult = await _getDetailsUseCase.handle(groupId);
       _isAdmin = hasPrivilegies();
       _isCreator = hasCreatorPrivilegies();
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
 
@@ -94,6 +100,11 @@ class GroupChatMembersViewModel extends FormViewModel {
       _notificationProvider.showNotification(
         "Foi removido do grupo!",
         type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print("$e");
@@ -115,6 +126,11 @@ class GroupChatMembersViewModel extends FormViewModel {
         "Membro foi promovido a Administrador!",
         type: NotificationTypes.success,
       );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
 
@@ -134,6 +150,11 @@ class GroupChatMembersViewModel extends FormViewModel {
       _notificationProvider.showNotification(
         "Administrador foi despromovido!",
         type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
       );
     } catch (e) {
       print("$e");
@@ -162,6 +183,11 @@ class GroupChatMembersViewModel extends FormViewModel {
           "Utilizador foi convidado!",
           type: NotificationTypes.success,
         );
+      } on HttpBadRequestError catch (e) {
+        _notificationProvider.showNotification(
+          e.getError().title,
+          type: NotificationTypes.error,
+        );
       } catch (e) {
         print("$e");
 
@@ -170,6 +196,11 @@ class GroupChatMembersViewModel extends FormViewModel {
           type: NotificationTypes.error,
         );
       }
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print("$e");
 

@@ -1,10 +1,13 @@
 import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_code/insert_reset_code_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InsertResetCodeForm extends StatelessWidget {
   const InsertResetCodeForm({super.key});
@@ -12,6 +15,7 @@ class InsertResetCodeForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<InsertResetCodeViewModel>(context);
+    // viewModel.sendCode(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -25,18 +29,38 @@ class InsertResetCodeForm extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Column(
+                  Column(
                     children: [
-                      Text(
-                        "Coloque o código enviado para o seu email",
-                        style: AppText.alternativeHeader,
+                      const Text(
+                        "Foi enviado um código para o seu email",
+                        style: AppText.smallHeader,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(
+                      const Text(
+                        "Coloque o código enviado para o seu email",
+                        style: AppText.smallSubHeader,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
                         height: 136,
                       ),
-                      Text("Caixas de Texto"),
-                      SizedBox(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: DefaultFormattedTextField(
+                          hintText: "Código",
+                          keyboardType: TextInputType.number,
+                          initialValue:
+                              viewModel.getValue(FormFieldValues.email).value,
+                          errorMessage:
+                              viewModel.getValue(FormFieldValues.email).error,
+                          onChange: (value) => viewModel.setCode(value),
+                          inputFormatter: [
+                            LengthLimitingTextInputFormatter(6),
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
                         height: 36,
                       ),
                     ],
@@ -45,12 +69,11 @@ class InsertResetCodeForm extends StatelessWidget {
                     children: [
                       FormattedButton(
                         content: "Continuar",
-                        buttonColor: AppColor.buttonBackground,
-                        textColor: AppColor.widgetBackground,
-                        height: 46,
-                        onPress: () => {
-                          viewModel.verifyCode(),
+                        textColor: Colors.white,
+                        onPress: () async {
+                          viewModel.verifyCode();
                         },
+                        disabled: viewModel.thereAreErrors,
                       ),
                     ],
                   ),

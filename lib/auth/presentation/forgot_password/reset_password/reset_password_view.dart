@@ -5,12 +5,19 @@ import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordView extends StatelessWidget {
-  const ResetPasswordView({Key? key}) : super(key: key);
+  final ResetPasswordParams params;
+
+  const ResetPasswordView({
+    Key? key,
+    required this.params,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider(
         viewModel: DependencyInjection.locator<ResetPasswordViewModel>(),
-        child: const ResetPasswordForm());
+        child: ResetPasswordForm(
+          params: params,
+        ));
   }
 }

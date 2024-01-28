@@ -75,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     child: GestureDetector(
-                      onTap: () => context.push("/insert_reset_code"),
+                      onTap: () async => await viewModel.handleForgotPassword(),
                       child: const Text(
                         "Esqueceu-se da Palavra-chave?",
                         style: AppText.underlineStyle,

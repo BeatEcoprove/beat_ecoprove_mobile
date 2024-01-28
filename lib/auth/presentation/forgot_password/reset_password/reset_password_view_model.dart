@@ -1,17 +1,19 @@
+import 'package:beat_ecoprove/auth/contracts/resetpassword_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:go_router/go_router.dart';
 
 class ResetPasswordViewModel extends FormViewModel {
   final GoRouter _navigationRouter;
+  final AuthenticationService _authenticationService;
 
-  ResetPasswordViewModel(this._navigationRouter) {
+  ResetPasswordViewModel(this._navigationRouter, this._authenticationService) {
     initializeFields([
-      FormFieldValues.email,
       FormFieldValues.password,
-      FormFieldValues.confirmPassword
+      FormFieldValues.confirmPassword,
     ]);
   }
 
@@ -52,5 +54,22 @@ class ResetPasswordViewModel extends FormViewModel {
     } on DomainException catch (e) {
       setError(FormFieldValues.confirmPassword, e.message);
     }
+  }
+
+  void handleRefreshPassword(String code) async {
+    var password = getValue(FormFieldValues.password).value ?? "";
+
+    try {
+      await _authenticationService.resetPassword(ResetPasswordRequest(
+        code,
+        password,
+      ));
+
+      _navigationRouter.pop();
+    } catch (e) {
+      print("$e");
+    }
+
+    notifyListeners();
   }
 }

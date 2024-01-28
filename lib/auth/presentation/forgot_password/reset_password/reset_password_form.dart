@@ -8,8 +8,16 @@ import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 
+class ResetPasswordParams {
+  final String code;
+
+  ResetPasswordParams({required this.code});
+}
+
 class ResetPasswordForm extends StatelessWidget {
-  const ResetPasswordForm({super.key});
+  final ResetPasswordParams params;
+
+  const ResetPasswordForm({super.key, required this.params});
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +78,11 @@ class ResetPasswordForm extends StatelessWidget {
                     children: [
                       FormattedButton(
                         content: "Continuar",
-                        buttonColor: AppColor.buttonBackground,
                         textColor: AppColor.widgetBackground,
+                        disabled: viewModel.thereAreErrors,
                         height: 46,
-                        onPress: () => {},
+                        onPress: () =>
+                            viewModel.handleRefreshPassword(params.code),
                       ),
                     ],
                   ),

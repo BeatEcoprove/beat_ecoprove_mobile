@@ -40,8 +40,8 @@ extension AuthDependencyInjection on DependencyInjection {
     var authService = locator<AuthenticationService>();
     var router = locator<AppRouter>();
 
-    locator.registerFactory(
-        () => LoginViewModel(locator<LoginUseCase>(), router.appRouter));
+    locator.registerFactory(() =>
+        LoginViewModel(locator<LoginUseCase>(), router.appRouter, authService));
     locator.registerFactory(() => SignInViewModel(
         router.appRouter, singInPersonalUseCase, singInEnterpriseUseCase));
     locator.registerFactory(() => SelectUserViewModel());
@@ -50,8 +50,13 @@ extension AuthDependencyInjection on DependencyInjection {
     locator.registerFactory(() => FinalStageViewModel(authService));
     locator.registerFactory(() => EnterpriseStageViewModel());
     locator.registerFactory(() => EnterpriseAddressStageViewModel());
-    locator.registerFactory(() => InsertResetCodeViewModel(router.appRouter));
-    locator.registerFactory(() => ResetPasswordViewModel(router.appRouter));
+    locator.registerFactory(() => InsertResetCodeViewModel(
+          router.appRouter,
+        ));
+    locator.registerFactory(() => ResetPasswordViewModel(
+          router.appRouter,
+          authService,
+        ));
   }
 
   void addAuth() {

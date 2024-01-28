@@ -1,17 +1,22 @@
+import 'package:beat_ecoprove/auth/contracts/forgotpassword_request.dart';
 import 'package:beat_ecoprove/auth/contracts/login_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginViewModel extends FormViewModel {
   final LoginUseCase _loginUseCase;
+  final AuthenticationService _authenticationService;
   final GoRouter _navigationRouter;
 
-  LoginViewModel(this._loginUseCase, this._navigationRouter) {
+  LoginViewModel(
+      this._loginUseCase, this._navigationRouter, this._authenticationService) {
     initializeFields([FormFieldValues.email, FormFieldValues.password]);
   }
 
@@ -37,6 +42,28 @@ class LoginViewModel extends FormViewModel {
       setValue(FormFieldValues.password, Password.create(password).toString());
     } on DomainException catch (e) {
       setError(FormFieldValues.password, e.message);
+    }
+  }
+
+  Future handleForgotPassword() async {
+    var email = getValue(FormFieldValues.email);
+    var emailValue = email.value ?? "";
+
+    if (email.error.isNotEmpty || emailValue.isEmpty) {
+      setError(FormFieldValues.email, email.error);
+      notifyListeners();
+      return;
+    }
+
+    try {
+      await _authenticationService
+          .sendForgotPassword(ForgotPasswordRequest(emailValue));
+
+      await _navigationRouter.push("/insert_reset_code");
+    } on HttpInternalError catch (e) {
+      setError(FormFieldValues.email, e.getError().title);
+    } catch (e) {
+      return;
     }
   }
 

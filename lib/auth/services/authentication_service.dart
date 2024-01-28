@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
+import 'package:beat_ecoprove/auth/contracts/forgotpassword_request.dart';
 import 'package:beat_ecoprove/auth/contracts/login_request.dart';
 import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
+import 'package:beat_ecoprove/auth/contracts/resetpassword_request.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sign_in_personal_request.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sing_in_enterprise_request.dart';
 import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
@@ -41,6 +43,22 @@ class AuthenticationService {
         path: "auth/login",
         body: request,
         expectedCode: 200));
+  }
+
+  Future<void> sendForgotPassword(ForgotPasswordRequest request) async {
+    await _httpClient.makeRequestJson(
+        method: HttpMethods.post,
+        path: "auth/forgot_password",
+        body: request,
+        expectedCode: 200);
+  }
+
+  Future<void> resetPassword(ResetPasswordRequest request) async {
+    await _httpClient.makeRequestJson(
+        method: HttpMethods.post,
+        path: "auth/reset_password?code=${request.code}",
+        body: request,
+        expectedCode: 200);
   }
 
   Future<bool> validateFields(ValidateFieldRequest request) async {

@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_code/insert_reset_code_view.dart';
+import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_password/reset_password_form.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_password/reset_password_view.dart';
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view.dart';
@@ -30,6 +31,7 @@ final GoRoute authRoutes = GoRoute(
       ),
       GoRoute(
         path: 'reset_password',
-        builder: (context, state) => const ResetPasswordView(),
+        builder: (context, state) =>
+            ResetPasswordView(params: state.extra as ResetPasswordParams),
       ),
     ]);

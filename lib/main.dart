@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/core/providers/websockets/auth_ws_notifier.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/routes.dart';
@@ -23,9 +22,6 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) =>
             DependencyInjection.locator<AuthenticationProvider>(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => DependencyInjection.locator<AuthWSNotifier>(),
       ),
       ChangeNotifierProvider(
         create: (context) =>

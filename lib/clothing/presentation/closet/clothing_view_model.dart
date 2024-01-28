@@ -169,7 +169,8 @@ class ClothingViewModel extends FormViewModel {
 
   List<CardItem> get getBuckets => _buckets;
 
-  Future<void> fetchCloset() async {
+  Future<List<CardItem>> fetchCloset() async {
+    List<CardItem> result = [];
     Map<String, String> param = {};
 
     for (var (value as Map<String, String>) in _selectedFilters.values) {
@@ -185,7 +186,8 @@ class ClothingViewModel extends FormViewModel {
     try {
       _buckets.clear();
       _cards.clear();
-      _cards.addAll(await _getClosetUseCase.handle(param));
+      result = await _getClosetUseCase.handle(param);
+      _cards.addAll(result);
 
       _buckets.addAll(_cards.where(
           (element) => element.hasChildren == true && element.id != "outfit"));
@@ -197,6 +199,8 @@ class ClothingViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+
+    return result;
   }
 
   Future setStateFromCloth() async {

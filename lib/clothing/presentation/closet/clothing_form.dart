@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
@@ -15,6 +16,7 @@ import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_select
 import 'package:beat_ecoprove/core/widgets/overlay_widget_with_button.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class ClothingForm extends StatefulWidget {
@@ -214,6 +216,9 @@ class _ClothingFormState extends State<ClothingForm> {
               Expanded(
                 child: DefaultFormattedTextField(
                   hintText: "Pesquisar",
+                  inputFormatter: [
+                    LengthLimitingTextInputFormatter(35),
+                  ],
                   leftIcon: const Icon(Icons.search_rounded),
                   onChange: (search) => viewModel.setSearch(search),
                   initialValue:
@@ -302,7 +307,7 @@ class _ClothingFormState extends State<ClothingForm> {
                 }
 
                 return CardList(
-                  clothesItems: viewModel.getCloset,
+                  clothesItems: snapshot.data as List<CardItem>,
                   selectedCards: viewModel.selectedCards,
                   onSelectionToDelete: (id) async =>
                       await viewModel.removeCard(id),

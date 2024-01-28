@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
+import 'package:beat_ecoprove/group/contracts/accept_member_request.dart';
 import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
@@ -68,6 +69,15 @@ class GroupService {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
       path: "groups/${request.groupId}/promote/${request.memberId}/member",
+      body: request,
+      expectedCode: 200,
+    );
+  }
+
+  Future acceptMember(AcceptMemberOnGroupRequest request) async {
+    await _httpClient.makeRequestJson(
+      method: HttpMethods.patch,
+      path: "groups/${request.groupId}/invite/${request.code}/accept",
       body: request,
       expectedCode: 200,
     );

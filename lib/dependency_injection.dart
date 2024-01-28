@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/providers/websockets/auth_ws_notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
+import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:beat_ecoprove/profile/dependency_injection.dart';
 import 'package:beat_ecoprove/profile/routes.dart';
 import 'package:beat_ecoprove/register_cloth/dependency_injection.dart';
@@ -37,8 +38,6 @@ class DependencyInjection {
     var notification = locator.registerSingleton(NotificationProvider());
     var notificationManager = locator.registerSingleton(NotificationManager());
 
-    locator.registerSingleton(AuthWSNotifier(
-        ws, authProvider, levelUpdater, notification, notificationManager));
     authProvider.checkAuth();
 
     locator.registerSingleton(AppRouter([
@@ -80,5 +79,14 @@ class DependencyInjection {
     addHome();
     addCloth();
     addGroup();
+
+    locator.registerSingleton(AuthWSNotifier(
+      ws,
+      authProvider,
+      levelUpdater,
+      notification,
+      notificationManager,
+      locator<GroupService>(),
+    ));
   }
 }

@@ -33,7 +33,10 @@ class _NotificationViewState extends State<NotificationView> {
     return Stack(
       children: [
         FloatingButton(
-          onPressed: () => print("hello"),
+          onPressed: () {
+            var notification = widget.notifications.first;
+            notification.handle(notification);
+          },
           color: AppColor.buttonBackground,
           dimension: 49,
           icon: const Icon(

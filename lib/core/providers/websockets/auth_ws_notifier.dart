@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/providers/notifications/notification_manager.
 import 'package:beat_ecoprove/core/providers/websockets/dtos/requests/websocket_auth_message.dart';
 import 'package:beat_ecoprove/core/providers/websockets/notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
+import 'package:beat_ecoprove/group/services/group_service.dart';
 
 class AuthWSNotifier extends Notifier {
   final WSSessionManager websocketNotifier;
@@ -16,8 +17,14 @@ class AuthWSNotifier extends Notifier {
       this.authenticationProvider,
       LevelUpProvider levelUpProvider,
       NotificationProvider notificationProvider,
-      NotificationManager notificationManager)
-      : super(levelUpProvider, notificationProvider, notificationManager);
+      NotificationManager notificationManager,
+      GroupService groupService)
+      : super(
+          levelUpProvider,
+          notificationProvider,
+          notificationManager,
+          groupService,
+        );
 
   void listen() {
     var token = authenticationProvider.accessToken;

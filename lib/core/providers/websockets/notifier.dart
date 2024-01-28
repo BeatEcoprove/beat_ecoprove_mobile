@@ -10,15 +10,19 @@ import 'package:beat_ecoprove/core/providers/websockets/dtos/websocket_message_t
 import 'package:beat_ecoprove/core/providers/websockets/dtos/websocket_result.dart';
 import 'dart:convert' as convert;
 
+import 'package:beat_ecoprove/group/services/group_service.dart';
+
 abstract class Notifier {
   final LevelUpProvider levelUpProvider;
   final NotificationProvider notificationProvider;
   final NotificationManager notificationManager;
+  final GroupService groupService;
 
   Notifier(
     this.levelUpProvider,
     this.notificationProvider,
     this.notificationManager,
+    this.groupService,
   );
 
   Handler? getWebSocketMessage(String event) {
@@ -27,10 +31,17 @@ abstract class Notifier {
 
     switch (result.type) {
       case WebsocketMessageType.levelUp:
-        return LevelUpHandler(WebsocketLevelMessage(json), levelUpProvider);
+        return LevelUpHandler(
+          WebsocketLevelMessage(json),
+          levelUpProvider,
+        );
       case WebsocketMessageType.inviteToGroup:
-        return InviteToGroupHandler(WebsocketInviteToGroup(json),
-            notificationProvider, notificationManager);
+        return InviteToGroupHandler(
+          WebsocketInviteToGroup(json),
+          notificationProvider,
+          notificationManager,
+          groupService,
+        );
       default:
         return null;
     }

@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/group/domain/use-cases/despromove_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_by_user_name_use_case.dart';
@@ -39,6 +40,7 @@ extension GroupDependencyInjection on DependencyInjection {
     locator.registerSingleton(PromoteMemberUseCase(groupService));
     locator.registerSingleton(InviteMemberToGroupUseCase(groupService));
     locator.registerSingleton(GetByUserNameUseCase(profileService));
+    locator.registerSingleton(DespromoveMemberUseCase(groupService));
   }
 
   void _addViewModels(GetIt locator) {
@@ -53,6 +55,7 @@ extension GroupDependencyInjection on DependencyInjection {
     var promoteGroupMemberUseCase = locator<PromoteMemberUseCase>();
     var inviteMemberToGroupUseCase = locator<InviteMemberToGroupUseCase>();
     var getByUserName = locator<GetByUserNameUseCase>();
+    var despromoveGroupMemberUseCase = locator<DespromoveMemberUseCase>();
     var navigator = locator<AppRouter>();
 
     locator.registerFactory(() => GroupViewModel(
@@ -73,6 +76,7 @@ extension GroupDependencyInjection on DependencyInjection {
           getDetailsUseCase,
           leaveGroupUseCase,
           promoteGroupMemberUseCase,
+          despromoveGroupMemberUseCase,
           inviteMemberToGroupUseCase,
           getByUserName,
         ));

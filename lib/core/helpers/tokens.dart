@@ -1,4 +1,5 @@
 abstract class Tokens {
+  static const String id = "profile_id";
   static const String name = "given_name";
   static const String email = "email";
   static const String avatarUrl = "avatar_url";

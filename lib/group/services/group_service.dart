@@ -64,6 +64,15 @@ class GroupService {
     );
   }
 
+  Future despromoveMember(ActionToMemberOfGroupRequest request) async {
+    await _httpClient.makeRequestJson(
+      method: HttpMethods.patch,
+      path: "groups/${request.groupId}/promote/${request.memberId}/member",
+      body: request,
+      expectedCode: 200,
+    );
+  }
+
   Future inviteMember(InviteMemberRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,

@@ -34,6 +34,7 @@ class SignInEnterpriseUseCase
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
         user: User(
+          id: decodedToken[Tokens.id],
           name: decodedToken[Tokens.name],
           avatarUrl: decodedToken[Tokens.avatarUrl],
           level: decodedToken[Tokens.level],

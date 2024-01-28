@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/invite_member_request.dart';
+import 'package:beat_ecoprove/group/domain/use-cases/despromove_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_by_user_name_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/invite_member_to_group_use_case.dart';
@@ -20,10 +21,13 @@ class GroupChatMembersViewModel extends FormViewModel {
   final GetDetailsUseCase _getDetailsUseCase;
   final LeaveGroupUseCase _leaveGroupUseCase;
   final PromoteMemberUseCase _promoteMemberUseCase;
+  final DespromoveMemberUseCase _despromoveMemberUseCase;
   final InviteMemberToGroupUseCase _inviteMemberToGroupUseCase;
   final GetByUserNameUseCase _getByUserNamesUseCase;
   late final User _user;
   late GroupDetailsResult _groupDetailsResult;
+  late bool _isAdmin;
+  late bool _isCreator;
 
   GroupChatMembersViewModel(
     this._notificationProvider,
@@ -31,6 +35,7 @@ class GroupChatMembersViewModel extends FormViewModel {
     this._getDetailsUseCase,
     this._leaveGroupUseCase,
     this._promoteMemberUseCase,
+    this._despromoveMemberUseCase,
     this._inviteMemberToGroupUseCase,
     this._getByUserNamesUseCase,
   ) {
@@ -42,6 +47,18 @@ class GroupChatMembersViewModel extends FormViewModel {
   }
 
   User get user => _user;
+
+  bool get isAdmin => _isAdmin;
+
+  bool get isCreator => _isCreator;
+
+  bool hasPrivilegies() {
+    return details.admins.map((elem) => elem.id).contains(user.id);
+  }
+
+  bool hasCreatorPrivilegies() {
+    return details.creator.id == user.id;
+  }
 
   void setUserName(String userName) {
     try {
@@ -57,6 +74,8 @@ class GroupChatMembersViewModel extends FormViewModel {
   Future<void> getDetails(String groupId) async {
     try {
       _groupDetailsResult = await _getDetailsUseCase.handle(groupId);
+      _isAdmin = hasPrivilegies();
+      _isCreator = hasCreatorPrivilegies();
     } catch (e) {
       print("$e");
 
@@ -84,6 +103,7 @@ class GroupChatMembersViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+    notifyListeners();
   }
 
   Future<void> promoteMember(String memberId, String groupId) async {
@@ -103,6 +123,27 @@ class GroupChatMembersViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+    notifyListeners();
+  }
+
+  Future<void> despromoveMember(String memberId, String groupId) async {
+    try {
+      await _despromoveMemberUseCase
+          .handle(ActionToMemberOfGroupRequest(memberId, groupId));
+
+      _notificationProvider.showNotification(
+        "Administrador foi despromovido!",
+        type: NotificationTypes.success,
+      );
+    } catch (e) {
+      print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+    notifyListeners();
   }
 
   Future<void> inviteToGroup(String groupId) async {

@@ -2,24 +2,25 @@ import 'package:beat_ecoprove/core/providers/notifications/notification.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class NotificationManager extends ViewModel {
-  final List<Notification> _notifications = [];
+  final List<Notification> notifications = [];
+  late String oi = "oi";
 
   void addNotification(Notification notification) {
-    _notifications.add(notification);
+    notifications.add(notification);
+    oi = "desoi";
     notifyListeners();
   }
 
   void removeNotification(Notification notification) {
-    _notifications.remove(notification);
+    notifications.remove(notification);
     notifyListeners();
   }
 
   T getNotification<T extends Notification>() {
-    return _notifications.firstWhere((notification) {
+    return notifications.firstWhere((notification) {
       return notification is T;
     }) as T;
   }
 
-  List<Notification> get notifications => _notifications;
-  int get notificationsCount => _notifications.length;
+  int get notificationsCount => notifications.length;
 }

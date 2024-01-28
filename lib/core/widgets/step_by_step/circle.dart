@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class Circle extends StatefulWidget {
   final double strokeWidth;
   final Color? color;
+  final Color? backgroundColor;
   final double height;
   final Widget? child;
   final bool isFull;
@@ -11,6 +12,7 @@ class Circle extends StatefulWidget {
   const Circle(
       {required this.height,
       this.child,
+      this.backgroundColor,
       this.strokeWidth = 2,
       this.color,
       this.isFull = false,

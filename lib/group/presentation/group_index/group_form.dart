@@ -10,6 +10,7 @@ import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
+import 'package:beat_ecoprove/core/widgets/notification_viewer.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
 import 'package:flutter/material.dart';
@@ -172,19 +173,12 @@ class GroupForm extends StatelessWidget {
                 onPressed: () async => await viewModel.createGroup(),
               ),
             ),
-            const Positioned(
-              bottom: 78,
-              right: 9,
-              child: FloatingButton(
-                color: AppColor.buttonBackground,
-                dimension: 49,
-                icon: Icon(
-                  size: 29,
-                  Icons.notifications_none_rounded,
-                  color: AppColor.widgetBackground,
-                ),
-              ),
-            ),
+            Positioned(
+                bottom: 78,
+                right: 9,
+                child: NotificationView(
+                  notifications: viewModel.notifications,
+                ))
           ],
         ),
         type: AppBackgrounds.members,

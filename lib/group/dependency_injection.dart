@@ -7,7 +7,9 @@ import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/leave_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/promote_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/register_group_use_case.dart';
+import 'package:beat_ecoprove/group/domain/use-cases/update_group_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view_model.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
@@ -26,6 +28,7 @@ extension GroupDependencyInjection on DependencyInjection {
     var groupService = locator<GroupService>();
 
     locator.registerSingleton(RegisterGroupUseCase(groupService));
+    locator.registerSingleton(UpdateGroupUseCase(groupService));
     locator.registerSingleton(GetGroupsUseCase(groupService));
     locator.registerSingleton(GetDetailsUseCase(groupService));
     locator.registerSingleton(LeaveGroupUseCase(groupService));
@@ -37,6 +40,7 @@ extension GroupDependencyInjection on DependencyInjection {
     var notificationProvider = locator<NotificationProvider>();
     var router = locator<AppRouter>();
     var registerGroupUseCase = locator<RegisterGroupUseCase>();
+    var updateGroupUseCase = locator<UpdateGroupUseCase>();
     var getGroupsUseCase = locator<GetGroupsUseCase>();
     var getDetailsUseCase = locator<GetDetailsUseCase>();
     var leaveGroupUseCase = locator<LeaveGroupUseCase>();
@@ -49,14 +53,23 @@ extension GroupDependencyInjection on DependencyInjection {
           getGroupsUseCase,
           navigator.appRouter,
         ));
-    locator.registerFactory(
-        () => GroupChatViewModel(authProvider, router.appRouter));
+    locator.registerFactory(() => GroupChatViewModel(
+          notificationProvider,
+          authProvider,
+          getDetailsUseCase,
+          router.appRouter,
+        ));
     locator.registerFactory(() => GroupChatMembersViewModel(
           notificationProvider,
           authProvider,
           getDetailsUseCase,
           leaveGroupUseCase,
           promoteGroupMemberUseCase,
+        ));
+    locator.registerFactory(() => EditGroupViewModel(
+          notificationProvider,
+          updateGroupUseCase,
+          navigator.appRouter,
         ));
     locator.registerFactory(() => CreateGroupViewModel(
           notificationProvider,

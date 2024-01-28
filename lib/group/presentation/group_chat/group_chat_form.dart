@@ -25,10 +25,11 @@ class GroupChatForm extends StatelessWidget {
     double maxWidth = MediaQuery.of(context).size.width - lateralPadding;
 
     var params = GroupParams(
-        groupId: groupItem.id,
-        title: groupItem.name,
-        state: groupItem.isPublic == true ? "Público" : "Privado",
-        numberMembers: groupItem.membersCount.toString());
+      groupId: groupItem.id,
+      title: groupItem.name,
+      state: groupItem.isPublic == true ? "Público" : "Privado",
+      numberMembers: groupItem.membersCount.toString(),
+    );
 
     return Scaffold(
       appBar: GroupHeader(
@@ -52,6 +53,7 @@ class GroupChatForm extends StatelessWidget {
               ),
             ),
           ),
+
           Positioned(
             top: 12,
             right: 20,
@@ -62,6 +64,20 @@ class GroupChatForm extends StatelessWidget {
                 color: AppColor.bottomNavigationBar,
               ),
               onPress: () => goRouter.push("/members", extra: params),
+            ),
+          ),
+          Positioned(
+            top: 70,
+            right: 20,
+            child: CircularButton(
+              height: 46,
+              icon: const Icon(
+                Icons.mode_edit_outline_outlined,
+                color: AppColor.bottomNavigationBar,
+              ),
+              onPress: () async => viewModel.isLoading
+                  ? {}
+                  : await viewModel.updateGroup(groupItem.id),
             ),
           ),
           // const Positioned(

@@ -71,6 +71,7 @@ class _GroupChatMembersFormState extends State<GroupChatMembersForm> {
     final memo = AsyncMemoizer();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: GroupHeader(
         title: widget.params.title,
         state: widget.params.state,
@@ -142,14 +143,15 @@ class _GroupChatMembersFormState extends State<GroupChatMembersForm> {
                                     ),
                                   ],
                                 ),
-                                InkWell(
-                                  child: const Icon(
-                                    Icons.add_rounded,
-                                    color: AppColor.widgetSecondary,
-                                  ),
-                                  onTap: () async => await _overlay.create(
-                                      context, createInviteCard()),
-                                )
+                                if (viewModel.isAdmin || viewModel.isCreator)
+                                  InkWell(
+                                    child: const Icon(
+                                      Icons.add_rounded,
+                                      color: AppColor.widgetSecondary,
+                                    ),
+                                    onTap: () async => await _overlay.create(
+                                        context, createInviteCard()),
+                                  )
                               ],
                             ),
                             Column(
@@ -159,36 +161,74 @@ class _GroupChatMembersFormState extends State<GroupChatMembersForm> {
                                       margin: const EdgeInsets.symmetric(
                                         vertical: 8,
                                       ),
-                                      child: CompactListItemUser(
-                                        title: member.username,
-                                        userLevel: member.level,
-                                        sustainablePoints:
-                                            member.sustainabilityPoints,
-                                        ecoScorePoints: member.ecoScorePoints,
-                                        hasOptions: !viewModel.details.admins
-                                            .any((e) => e.id == member.id),
-                                        options: [
-                                          OptionItem(
-                                              name: 'Promover a líder',
-                                              action: () async => {
-                                                    await viewModel
-                                                        .promoteMember(
-                                                      member.id,
-                                                      widget.params.groupId,
-                                                    )
-                                                  }),
-                                          //TODO: CHANGE
-                                          OptionItem(
-                                              name:
-                                                  'Sair do Grupo / Remover do Grupo',
-                                              action: () async => {
-                                                    await viewModel.leaveGroup(
-                                                      member.id,
-                                                      widget.params.groupId,
-                                                    )
-                                                  }),
-                                        ],
-                                      ),
+                                      child: (!viewModel.isCreator &&
+                                              !viewModel.isAdmin &&
+                                              viewModel.user.id != member.id)
+                                          ? CompactListItemUser.withoutOptions(
+                                              title: member.username,
+                                              userLevel: member.level,
+                                              sustainablePoints:
+                                                  member.sustainabilityPoints,
+                                              ecoScorePoints:
+                                                  member.ecoScorePoints,
+                                            )
+                                          : CompactListItemUser(
+                                              title: member.username,
+                                              userLevel: member.level,
+                                              sustainablePoints:
+                                                  member.sustainabilityPoints,
+                                              ecoScorePoints:
+                                                  member.ecoScorePoints,
+                                              hasOptions: member.id !=
+                                                  viewModel.details.creator.id,
+                                              options: [
+                                                if (viewModel.user.id !=
+                                                    member.id)
+                                                  OptionItem(
+                                                      name: viewModel
+                                                              .details.admins
+                                                              .any((e) =>
+                                                                  e.id ==
+                                                                  member.id)
+                                                          ? 'Despromover'
+                                                          : 'Promover',
+                                                      action: () async => {
+                                                            viewModel.details
+                                                                    .admins
+                                                                    .any((e) =>
+                                                                        e.id ==
+                                                                        member
+                                                                            .id)
+                                                                ? await viewModel
+                                                                    .despromoveMember(
+                                                                    member.id,
+                                                                    widget
+                                                                        .params
+                                                                        .groupId,
+                                                                  )
+                                                                : await viewModel
+                                                                    .promoteMember(
+                                                                    member.id,
+                                                                    widget
+                                                                        .params
+                                                                        .groupId,
+                                                                  )
+                                                          }),
+                                                OptionItem(
+                                                    name: viewModel.user.id !=
+                                                            member.id
+                                                        ? 'Remover do Grupo'
+                                                        : 'Sair do Grupo',
+                                                    action: () async => {
+                                                          await viewModel
+                                                              .leaveGroup(
+                                                            member.id,
+                                                            widget
+                                                                .params.groupId,
+                                                          )
+                                                        }),
+                                              ],
+                                            ),
                                     ),
                                   )
                                   .toList(),
@@ -197,7 +237,7 @@ class _GroupChatMembersFormState extends State<GroupChatMembersForm> {
                               height: 26,
                             ),
                             const Text(
-                              "Administrador",
+                              "Administradores",
                               style: AppText.titleToScrollSection,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -207,13 +247,55 @@ class _GroupChatMembersFormState extends State<GroupChatMembersForm> {
                                     (admin) => Container(
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 8),
-                                      child: CompactListItemUser.withoutOptions(
-                                        title: admin.username,
-                                        userLevel: admin.level,
-                                        sustainablePoints:
-                                            admin.sustainabilityPoints,
-                                        ecoScorePoints: admin.ecoScorePoints,
-                                      ),
+                                      child: (!viewModel.isCreator &&
+                                              !viewModel.isAdmin &&
+                                              viewModel.user.id != admin.id)
+                                          ? CompactListItemUser.withoutOptions(
+                                              title: admin.username,
+                                              userLevel: admin.level,
+                                              sustainablePoints:
+                                                  admin.sustainabilityPoints,
+                                              ecoScorePoints:
+                                                  admin.ecoScorePoints,
+                                            )
+                                          : CompactListItemUser(
+                                              title: admin.username,
+                                              userLevel: admin.level,
+                                              sustainablePoints:
+                                                  admin.sustainabilityPoints,
+                                              ecoScorePoints:
+                                                  admin.ecoScorePoints,
+                                              hasOptions: viewModel
+                                                      .details.creator.id !=
+                                                  admin.id,
+                                              options: [
+                                                if (viewModel.user.id !=
+                                                    admin.id)
+                                                  OptionItem(
+                                                      name: 'Despromover',
+                                                      action: () async => {
+                                                            await viewModel
+                                                                .despromoveMember(
+                                                              admin.id,
+                                                              widget.params
+                                                                  .groupId,
+                                                            )
+                                                          }),
+                                                OptionItem(
+                                                    name: viewModel.user.id !=
+                                                            admin.id
+                                                        ? 'Remover do Grupo'
+                                                        : 'Sair do Grupo',
+                                                    action: () async => {
+                                                          await viewModel
+                                                              .leaveGroup(
+                                                            admin.id,
+                                                            widget
+                                                                .params.groupId,
+                                                          )
+                                                        }),
+                                              ],
+                                            ),
                                     ),
                                   )
                                   .toList(),

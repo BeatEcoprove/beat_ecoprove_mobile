@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
 import 'package:beat_ecoprove/group/contracts/register_group_request.dart';
+import 'package:beat_ecoprove/group/contracts/update_group_request.dart';
 
 class GroupService {
   final HttpAuthClient _httpClient;
@@ -30,6 +31,15 @@ class GroupService {
     await _httpClient.makeRequestMultiPart(
       method: HttpMethods.post,
       path: "groups",
+      body: request,
+      expectedCode: 200,
+    );
+  }
+
+  Future updateGroup(UpdateGroupRequest request) async {
+    await _httpClient.makeRequestMultiPart(
+      method: HttpMethods.put,
+      path: "groups/${request.groupId}/update/${request.adminId}",
       body: request,
       expectedCode: 200,
     );

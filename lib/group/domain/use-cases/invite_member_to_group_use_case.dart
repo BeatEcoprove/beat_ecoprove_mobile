@@ -16,9 +16,6 @@ class InviteMemberToGroupUseCase
     } on HttpConflictRequestError catch (e) {
       print(e);
       throw Exception(e.getError().title);
-    } catch (e) {
-      print(e);
-      throw Exception("Algo correu mal!");
     }
   }
 }

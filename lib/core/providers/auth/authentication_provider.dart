@@ -44,6 +44,8 @@ class AuthenticationProvider extends ViewModel {
         ),
       ),
     );
+
+    DependencyInjection.locator<AuthWSNotifier>().listen();
   }
 
   bool validateToken(String refreshToken) {
@@ -60,7 +62,6 @@ class AuthenticationProvider extends ViewModel {
     _appUser = authentication.user;
     _accessToken = authentication.accessToken;
     _refreshToken = authentication.refreshToken;
-    DependencyInjection.locator<AuthWSNotifier>().listen();
 
     notifyListeners();
   }

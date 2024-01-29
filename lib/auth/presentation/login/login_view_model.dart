@@ -8,6 +8,8 @@ import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
+import 'package:beat_ecoprove/core/providers/websockets/auth_ws_notifier.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginViewModel extends FormViewModel {
@@ -82,6 +84,7 @@ class LoginViewModel extends FormViewModel {
     }
 
     setLoading(false);
+    DependencyInjection.locator<AuthWSNotifier>().listen();
     notifyListeners();
   }
 }

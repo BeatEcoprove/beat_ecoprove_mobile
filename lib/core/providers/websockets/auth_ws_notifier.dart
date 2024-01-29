@@ -31,7 +31,11 @@ class AuthWSNotifier extends Notifier {
 
   void listen() {
     var token = authenticationProvider.refreshToken;
-    var authChannel = websocketNotifier.createChannel('auth', token);
+
+    var authChannel = websocketNotifier.createChannel(
+      authenticationProvider.appUser.id,
+      token,
+    );
 
     authChannel.stream.listen(
       (event) {
@@ -44,11 +48,12 @@ class AuthWSNotifier extends Notifier {
         handler.handle();
       },
       onDone: () {
-        websocketNotifier.removeChannel('auth');
+        websocketNotifier.removeChannel(authenticationProvider.appUser.id);
         isListening = false;
       },
     );
 
-    websocketNotifier.sendMessage('auth', AuthWebSocketMessage(), token);
+    websocketNotifier.sendMessage(
+        authenticationProvider.appUser.id, AuthWebSocketMessage(), token);
   }
 }

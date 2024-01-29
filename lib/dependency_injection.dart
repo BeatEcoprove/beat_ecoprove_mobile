@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
-import 'package:beat_ecoprove/core/presentation/list_details_view.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
 import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
@@ -75,8 +76,9 @@ class DependencyInjection {
     ]));
 
     locator.registerFactory(() => HttpClient());
-
     addAuth();
+
+    locator.registerFactory(() => ListDetailsViewModel());
     addProfile();
     addCloset();
     addHome();

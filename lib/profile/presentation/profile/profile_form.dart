@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/level_progress.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
@@ -178,7 +178,7 @@ class ProfileForm extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    _medals(viewModel),
+                    _medals(viewModel, goRouter),
                   ],
                 ),
               ),
@@ -189,7 +189,7 @@ class ProfileForm extends StatelessWidget {
     );
   }
 
-  Widget _medals(ProfileViewModel viewModel) {
+  Widget _medals(ProfileViewModel viewModel, GoRouter goRouter) {
     return Column(
       children: [
         Row(
@@ -212,48 +212,25 @@ class ProfileForm extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: AppText.underlineStyle,
                 ),
-                //TODO: ADD PAGE
-                onTap: () {},
+                onTap: () {
+                  goRouter.push(
+                    "/list_details",
+                    extra: ListDetailsViewParams(
+                        title: "Minhas Medalhas",
+                        onSearch: (searchTerm) async {
+                          return viewModel.medalItems
+                              .where((medal) => medal.title
+                                  .toLowerCase()
+                                  .contains(searchTerm.toLowerCase()))
+                              .toList();
+                        }),
+                  );
+                },
               ),
             )
           ],
         ),
-        const SizedBox(
-          height: 8,
-        ),
-        CompactListItem.withoutOptions(
-          widget: const Icon(
-            Icons.military_tech_rounded,
-            color: Colors.amber,
-            size: 54,
-          ),
-          title: "Campeão I",
-          subTitle: "Ser o primeiro 1 vez no grupo de amigos",
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        CompactListItem.withoutOptions(
-          widget: const Icon(
-            Icons.military_tech_rounded,
-            color: Colors.blue,
-            size: 54,
-          ),
-          title: "Socializador I",
-          subTitle: "Convidou 1 amigo",
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        CompactListItem.withoutOptions(
-          widget: const Icon(
-            Icons.military_tech_rounded,
-            color: AppColor.darkGreen,
-            size: 54,
-          ),
-          title: "Sustentável",
-          subTitle: "Ter 5+ peças com eco-Score acima de 30",
-        ),
+        ...viewModel.medalItems,
       ],
     );
   }

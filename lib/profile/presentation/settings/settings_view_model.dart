@@ -18,4 +18,8 @@ class SettingsViewModel extends ViewModel {
     await _authProvider.logout();
     _navigationRouter.go("/");
   }
+
+  void sendFeedback() {
+    _navigationRouter.push("/feedback");
+  }
 }

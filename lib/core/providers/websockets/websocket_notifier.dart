@@ -6,8 +6,15 @@ import 'dart:convert' as convert;
 class WSSessionManager {
   final Map<String, IOWebSocketChannel> _channels = {};
 
-  void sendMessage(String channelName, WebSocketMessage message) {
-    _channels[channelName]!.sink.add(convert.jsonEncode(message.toJson()));
+  void sendMessage(
+      String channelName, WebSocketMessage message, String jwtToken) {
+    var socket = _channels[channelName];
+
+    if (socket == null || socket.closeCode != null) {
+      socket = createChannel(channelName, jwtToken);
+    }
+
+    socket.sink.add(convert.jsonEncode(message.toJson()));
   }
 
   void removeChannel(String channelName) {
@@ -21,7 +28,7 @@ class WSSessionManager {
     var url = Uri.parse(ServerConfig.websocketUrl);
 
     if (_channels.containsKey(channelName)) {
-      return _channels[channelName]!;
+      removeChannel(channelName);
     }
 
     _channels[channelName] = IOWebSocketChannel.connect(url,

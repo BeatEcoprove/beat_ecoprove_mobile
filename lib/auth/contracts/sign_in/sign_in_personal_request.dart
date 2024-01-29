@@ -29,7 +29,7 @@ class SignInPersonalRequest implements BaseMultiPartRequest {
   Map<String, dynamic> toMultiPart() {
     return {
       'name': name,
-      'bornDate': DateFormat('MM/dd/yyyy').format(bornDate),
+      'bornDate': DateFormat('yyyy-MM-dd').format(bornDate),
       'gender': gender.value,
       'userName': userName,
       'avatarPicture': avatarPicture,

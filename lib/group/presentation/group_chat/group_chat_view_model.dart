@@ -24,6 +24,7 @@ class GroupChatViewModel extends FormViewModel {
   final GroupManager _groupManager;
   final List<ChatMessageText> messages = [];
   late bool isLoading = false;
+  late bool hasConnectionActive = false;
   late final User _user;
 
   GroupChatViewModel(
@@ -67,7 +68,11 @@ class GroupChatViewModel extends FormViewModel {
   User get user => _user;
 
   Future initGroupConnection(String groupId) async {
-    _groupWSNotifier.listen(groupId);
+    if (!hasConnectionActive) {
+      hasConnectionActive = true;
+      _groupWSNotifier.listen(groupId);
+    }
+
     var fetchChatMessages = await _groupService.getMessages(groupId);
 
     messages.clear();

@@ -30,28 +30,25 @@ class AuthWSNotifier extends Notifier {
         );
 
   void listen() {
-    var token = authenticationProvider.accessToken;
+    var token = authenticationProvider.refreshToken;
     var authChannel = websocketNotifier.createChannel('auth', token);
 
-    if (!isListening) {
-      isListening = true;
-      authChannel.stream.listen(
-        (event) {
-          var handler = getWebSocketMessage(event);
+    authChannel.stream.listen(
+      (event) {
+        var handler = getWebSocketMessage(event);
 
-          if (handler == null) {
-            return;
-          }
+        if (handler == null) {
+          return;
+        }
 
-          handler.handle();
-        },
-        onDone: () {
-          websocketNotifier.removeChannel('auth');
-          isListening = false;
-        },
-      );
-    }
+        handler.handle();
+      },
+      onDone: () {
+        websocketNotifier.removeChannel('auth');
+        isListening = false;
+      },
+    );
 
-    websocketNotifier.sendMessage('auth', AuthWebSocketMessage());
+    websocketNotifier.sendMessage('auth', AuthWebSocketMessage(), token);
   }
 }

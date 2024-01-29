@@ -32,36 +32,41 @@ class GroupWSNotifier extends Notifier {
 
   void sendGroupMessage(String groupId, String message) {
     websocketNotifier.sendMessage(
-      'group',
-      SendTextWebSocketMessage(groupId, message),
-    );
+        groupId,
+        SendTextWebSocketMessage(
+          groupId,
+          message,
+        ),
+        authenticationProvider.refreshToken);
+  }
+
+  void close(String groupid) {
+    websocketNotifier.removeChannel(groupid);
+    isListening = false;
   }
 
   void listen(String groupId) {
     var token = authenticationProvider.accessToken;
-    var authChannel = websocketNotifier.createChannel('group', token);
+    var groupChannel = websocketNotifier.createChannel(groupId, token);
 
-    if (!isListening) {
-      isListening = true;
-      authChannel.stream.listen(
-        (event) {
-          print(event);
-          var handler = getWebSocketMessage(event);
+    groupChannel.stream.listen(
+      (event) {
+        print(event);
+        var handler = getWebSocketMessage(event);
 
-          if (handler == null) {
-            return;
-          }
+        if (handler == null) {
+          return;
+        }
 
-          handler.handle();
-        },
-        onDone: () {
-          websocketNotifier.removeChannel('group');
-          isListening = false;
-        },
-      );
+        handler.handle();
+      },
+      onDone: () {
+        websocketNotifier.removeChannel(groupId);
+        isListening = false;
+      },
+    );
 
-      websocketNotifier.sendMessage(
-          'group', ConnectGroupWebSocketMessage(groupId));
-    }
+    websocketNotifier.sendMessage(
+        groupId, ConnectGroupWebSocketMessage(groupId), token);
   }
 }

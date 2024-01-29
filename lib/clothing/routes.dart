@@ -78,7 +78,7 @@ final GoRoute clothingRoutes = GoRoute(
         GoRoute(
           path: 'change_name',
           builder: (context, state) =>
-              ChangeBucketNameView(bucket: state.extra as String),
+              ChangeBucketNameView(bucket: state.extra as CardItem),
         ),
       ],
     ),

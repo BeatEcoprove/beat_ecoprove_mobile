@@ -79,7 +79,7 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
           name: 'Mudar Nome',
           action: () => {
             context.push("/info/bucket/${widget.card.id}/change_name",
-                extra: widget.card.id)
+                extra: widget.card)
           },
         ),
         OptionItem(

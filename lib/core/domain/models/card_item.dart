@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CardItem<T> {
   final String id;
   late ClothStates? clothState;
-  final String title;
+  late String title;
   final String? brand;
   final T child;
   final ImageProvider? hasProfile;

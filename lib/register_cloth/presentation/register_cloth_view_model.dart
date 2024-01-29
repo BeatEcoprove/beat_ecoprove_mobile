@@ -51,8 +51,7 @@ class RegisterClothViewModel extends FormViewModel {
     setValue(FormFieldValues.clothType,
         ClothType.getAllTypes().firstOrNull?.displayValue);
     setValue(FormFieldValues.clothSize, ClothSize.getAllTypes().firstOrNull);
-    //TODO: Change
-    setValue(FormFieldValues.clothBrand, "Salsa");
+    setValue(FormFieldValues.clothBrand, getAllBrands().firstOrNull);
     setValue(FormFieldValues.clothColor,
         _selectedFilter.keys.firstOrNull ?? "FF000000");
     setValue(FormFieldValues.clothImage, XFile(defaultImage));

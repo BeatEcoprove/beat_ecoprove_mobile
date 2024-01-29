@@ -448,11 +448,12 @@ class ClothingViewModel extends FormViewModel {
       print("$e");
     }
 
-    //TODO: CHANGE CONTENT TO SERVER IMAGE
     for (var brand in brands) {
       brandItems.add(FilterButtonItem(
         text: brand.name,
-        content: Image.asset("assets/default_avatar.png"),
+        dimension: 60,
+        content: PresentImage(
+            fit: BoxFit.scaleDown, path: ServerImage(brand.brandAvatar)),
         value: brand.name,
         tag: "brand",
       ));

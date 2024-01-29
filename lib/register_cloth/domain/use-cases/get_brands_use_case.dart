@@ -21,9 +21,10 @@ class GetBrandsUseCase implements UseCaseAction<Future> {
       throw Exception(e.getError().title);
     }
 
-    for (var color in brandResult) {
+    for (var brand in brandResult) {
       brands.add(BrandItem(
-        name: color.name,
+        name: brand.name,
+        brandAvatar: brand.brandAvatar,
       ));
     }
 

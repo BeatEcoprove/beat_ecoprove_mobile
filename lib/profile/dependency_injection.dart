@@ -74,6 +74,7 @@ extension ProfileDependencyInjection on DependencyInjection {
           notificationProvider,
           router.appRouter,
           createProfilesUseCase,
+          authenticationService,
         ));
     locator.registerFactory(() => ParamsProfileViewModel(
           notificationProvider,

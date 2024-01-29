@@ -1,15 +1,18 @@
 import 'dart:io';
 
+import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
+import 'package:beat_ecoprove/auth/domain/value_objects/name.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/profile/contracts/register_profile_request.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/register_profile_use_case.dart';
-import 'package:beat_ecoprove/profile/domain/value_objects/profile_name.dart';
 import 'package:beat_ecoprove/profile/domain/value_objects/profile_user_name.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 
 class CreateProfileViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
+  final AuthenticationService _authenticationService;
   static const defaultImage = "assets/default_avatar.png";
   final RegisterProfileUseCase _registerProfileUseCase;
   final GoRouter _navigationRouter;
@@ -25,6 +29,7 @@ class CreateProfileViewModel extends FormViewModel {
     this._notificationProvider,
     this._navigationRouter,
     this._registerProfileUseCase,
+    this._authenticationService,
   ) {
     initializeFields([
       FormFieldValues.profileName,
@@ -33,24 +38,44 @@ class CreateProfileViewModel extends FormViewModel {
       FormFieldValues.profilePicture,
       FormFieldValues.profileUserName,
     ]);
-    setValue(FormFieldValues.profileName, "");
     setValue(FormFieldValues.profileBornDate, DateTime.now());
     setValue(FormFieldValues.profileGender,
         Gender.getAllTypes().firstOrNull?.displayValue);
     setValue(FormFieldValues.profilePicture, XFile(defaultImage));
-    setValue(FormFieldValues.profileUserName, "");
   }
 
   void setProfileName(String profileName) {
     try {
+      int spaceCount = profileName.split(" ").length - 1;
+
+      if (spaceCount == 0 || spaceCount > 1) {
+        throw DomainException(
+            "Insira o seu primeiro e segundo nome separado por um espaço.");
+      }
+
+      var [firstName, lastName] = profileName.split(" ");
+
       setValue<String>(FormFieldValues.profileName,
-          ProfileName.create(profileName).toString());
+          Name.create(firstName, lastName).toString());
     } on DomainException catch (e) {
       setError(FormFieldValues.profileName, e.message);
     }
   }
 
-  void setProfileUserName(String profileUserName) {
+  Future setProfileUserName(String profileUserName) async {
+    try {
+      bool isValid = await _authenticationService
+          .validateFields(ValidateFieldRequest("username", profileUserName));
+
+      if (!isValid) {
+        setError(
+            FormFieldValues.profileUserName, "O nome de utilizador já existe");
+        return;
+      }
+    } on HttpError {
+      return;
+    }
+
     try {
       setValue<String>(FormFieldValues.profileUserName,
           ProfileUserName.create(profileUserName).toString());
@@ -80,7 +105,7 @@ class CreateProfileViewModel extends FormViewModel {
     return FileImage(File(profileImage.path));
   }
 
-  void registerProfile() async {
+  Future registerProfile() async {
     try {
       await _registerProfileUseCase.handle(RegisterProfileRequest(
         getValue(FormFieldValues.profileName).value ?? "",

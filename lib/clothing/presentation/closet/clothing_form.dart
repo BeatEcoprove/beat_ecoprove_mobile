@@ -217,7 +217,7 @@ class _ClothingFormState extends State<ClothingForm> {
                 child: DefaultFormattedTextField(
                   hintText: "Pesquisar",
                   inputFormatter: [
-                    LengthLimitingTextInputFormatter(35),
+                    LengthLimitingTextInputFormatter(25),
                   ],
                   leftIcon: const Icon(Icons.search_rounded),
                   onChange: (search) => viewModel.setSearch(search),

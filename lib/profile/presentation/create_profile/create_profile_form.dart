@@ -94,8 +94,8 @@ class CreateProfileForm extends StatelessWidget {
                           errorMessage: viewModel
                               .getValue(FormFieldValues.profileUserName)
                               .error,
-                          onChange: (value) =>
-                              viewModel.setProfileUserName(value),
+                          onChange: (value) async =>
+                              await viewModel.setProfileUserName(value),
                           initialValue: viewModel
                               .getValue(FormFieldValues.profileUserName)
                               .value,
@@ -121,7 +121,7 @@ class CreateProfileForm extends StatelessWidget {
                 content: "Continuar",
                 textColor: Colors.white,
                 disabled: viewModel.thereAreErrors,
-                onPress: () => viewModel.registerProfile(),
+                onPress: () async => await viewModel.registerProfile(),
               )
             ],
           ),

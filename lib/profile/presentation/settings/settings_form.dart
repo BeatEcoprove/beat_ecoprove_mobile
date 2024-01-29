@@ -19,41 +19,69 @@ class SettingsForm extends StatelessWidget {
         title: "Definições",
         sustainablePoints: viewModel.user.sustainablePoints,
       ),
-      body: AppBackground(
-        content: SizedBox(
+      body: GoBack(
+        posLeft: 18,
+        posTop: 18,
+        child: SizedBox(
           height: double.infinity,
           width: double.infinity,
-          child: GoBack(
-            posTop: 18,
-            posLeft: 18,
-            child: Padding(
+          child: AppBackground(
+            content: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 106, horizontal: 18),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                height: 75,
-                decoration: const BoxDecoration(
-                  color: AppColor.endSession,
-                  borderRadius: BorderRadius.all(borderRadius),
-                  boxShadow: [AppColor.defaultShadow],
-                ),
-                child: InkWell(
-                  onTap: () async => await viewModel.logout(),
-                  child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Terminar Sessão",
-                          textAlign: TextAlign.center,
-                          style: AppText.firstHeaderWhite,
-                        ),
-                      ]),
-                ),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    height: 75,
+                    decoration: const BoxDecoration(
+                      color: AppColor.widgetBackground,
+                      borderRadius: BorderRadius.all(borderRadius),
+                      boxShadow: [AppColor.defaultShadow],
+                    ),
+                    child: InkWell(
+                      onTap: () => viewModel.sendFeedback(),
+                      child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Enviar Feedback",
+                              textAlign: TextAlign.center,
+                              style: AppText.firstHeader,
+                            ),
+                          ]),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    height: 75,
+                    decoration: const BoxDecoration(
+                      color: AppColor.endSession,
+                      borderRadius: BorderRadius.all(borderRadius),
+                      boxShadow: [AppColor.defaultShadow],
+                    ),
+                    child: InkWell(
+                      onTap: () async => await viewModel.logout(),
+                      child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Terminar Sessão",
+                              textAlign: TextAlign.center,
+                              style: AppText.firstHeaderWhite,
+                            ),
+                          ]),
+                    ),
+                  ),
+                ],
               ),
             ),
+            type: AppBackgrounds.settings,
           ),
         ),
-        type: AppBackgrounds.settings,
       ),
     );
   }

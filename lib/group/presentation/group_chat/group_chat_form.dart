@@ -136,6 +136,9 @@ class _GroupChatFormState extends State<GroupChatForm> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      width: 4,
+                    ),
                     Container(
                       width: 52,
                       height: 50,

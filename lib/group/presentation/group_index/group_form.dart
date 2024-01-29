@@ -2,12 +2,11 @@ import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/presentation/list_details_view.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
-import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/notification_viewer.dart';
@@ -42,7 +41,8 @@ class GroupForm extends StatelessWidget {
               width: double.infinity,
               height: double.infinity,
               child: FutureBuilder(
-                future: memo.runOnce(() async => await viewModel.getGroups(3)),
+                future: memo
+                    .runOnce(() async => await viewModel.getGroups(3, null)),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -84,27 +84,16 @@ class GroupForm extends StatelessWidget {
                                             goRouter.push(
                                               "/list_details",
                                               extra: ListDetailsViewParams(
-                                                searchBar:
-                                                    DefaultFormattedTextField(
-                                                  hintText: "Pesquisar",
-                                                  leftIcon: const Icon(
-                                                      Icons.search_rounded),
-                                                  onChange: (search) =>
-                                                      viewModel
-                                                          .setSearch(search),
-                                                  initialValue: '',
-                                                  errorMessage: viewModel
-                                                      .getValue(FormFieldValues
-                                                          .search)
-                                                      .error,
-                                                ),
-                                                title: "Meus Grupos",
-                                                list: _renderCards(
-                                                  goRouter,
-                                                  viewModel
-                                                      .getAllAuthenticatedUserGroups,
-                                                ),
-                                              ),
+                                                  title: "Meus Grupos",
+                                                  onSearch: (searchTerm) async {
+                                                    await viewModel.getGroups(
+                                                        100, searchTerm);
+
+                                                    return _renderCards(
+                                                        goRouter,
+                                                        viewModel
+                                                            .getAllAuthenticatedUserGroups);
+                                                  }),
                                             ),
                                           },
                                         ),

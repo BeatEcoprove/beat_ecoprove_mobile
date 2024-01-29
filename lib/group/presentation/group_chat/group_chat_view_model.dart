@@ -47,6 +47,8 @@ class GroupChatViewModel extends FormViewModel {
     messages.clear();
     var mapMessages = _groupManager.messages.map((message) {
       return ChatMessageText(
+        userName: message.username,
+        avatarUrl: message.avatarPicture,
         messageText: message.message,
         createdAt: DateTime.now(),
       );
@@ -71,6 +73,8 @@ class GroupChatViewModel extends FormViewModel {
     messages.clear();
     var mapMessages = fetchChatMessages.messages.map((message) {
       return ChatMessageText(
+        userName: message.username,
+        avatarUrl: message.avatarPicture,
         messageText: message.content,
         createdAt: message.createdAt,
       );

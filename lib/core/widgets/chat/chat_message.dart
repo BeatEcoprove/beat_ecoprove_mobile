@@ -27,7 +27,7 @@ abstract class ChatMessage extends StatelessWidget {
             boxShadow: [AppColor.defaultShadow],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(8),
             child: body(context),
           ),
         ),

@@ -10,9 +10,8 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/register_cloth/contracts/register_cloth_request.dart';
-import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
-import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/register_cloth_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_name.dart';
 import 'package:beat_ecoprove/register_cloth/domain/value_objects/cloth_size.dart';
@@ -24,8 +23,7 @@ import 'package:image_picker/image_picker.dart';
 class RegisterClothViewModel extends FormViewModel {
   static const defaultImage = "assets/default_avatar.png";
   final RegisterClothUseCase _registerClothUseCase;
-  final GetColorsUseCase _getColorsUseCase;
-  final GetBrandsUseCase _getBrandsUseCase;
+  final StaticValuesProvider _staticValuesProvider;
 
   late final User _user;
   final AuthenticationProvider _authProvider;
@@ -38,9 +36,8 @@ class RegisterClothViewModel extends FormViewModel {
     this._notificationProvider,
     this._authProvider,
     this._registerClothUseCase,
-    this._getColorsUseCase,
-    this._getBrandsUseCase,
     this._navigationRouter,
+    this._staticValuesProvider,
   ) {
     _user = _authProvider.appUser;
     initializeFields([
@@ -92,12 +89,12 @@ class RegisterClothViewModel extends FormViewModel {
     return FileImage(File(clothImage.path));
   }
 
-  Future<List<String>> getAllBrands() async {
+  List<String> getAllBrands() {
     List<BrandItem> brandResult = [];
     List<String> brands = [];
 
     try {
-      brandResult = await _getBrandsUseCase.handle();
+      brandResult = _staticValuesProvider.brands;
     } catch (e) {
       print("$e");
     }
@@ -109,12 +106,12 @@ class RegisterClothViewModel extends FormViewModel {
     return brands;
   }
 
-  Future<List<FilterRow>> getAllColors() async {
+  List<FilterRow> getAllColors() {
     List<ColorItem> colors = [];
     List<FilterButtonItem> colorItems = [];
 
     try {
-      colors = await _getColorsUseCase.handle();
+      colors = _staticValuesProvider.colors;
     } catch (e) {
       print("$e");
     }

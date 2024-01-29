@@ -22,12 +22,11 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
-import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
-import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,9 +37,8 @@ class ClothingViewModel extends FormViewModel {
   final DeleteCardUseCase _deleteCardUseCase;
   final RegisterBucketUseCase _registerBucketUseCase;
   final AddClothsBucketUseCase _addToBucketUseCase;
-  final GetColorsUseCase _getColorsUseCase;
-  final GetBrandsUseCase _getBrandsUseCase;
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
+  final StaticValuesProvider _valuesProvider;
   final GoRouter _navigationRouter;
 
   final AuthenticationProvider _authProvider;
@@ -66,10 +64,9 @@ class ClothingViewModel extends FormViewModel {
     this._deleteCardUseCase,
     this._registerBucketUseCase,
     this._addToBucketUseCase,
-    this._getColorsUseCase,
-    this._getBrandsUseCase,
     this._getNestedProfilesUseCase,
     this._navigationRouter,
+    this._valuesProvider,
   ) {
     _user = _authProvider.appUser;
     initializeFields([
@@ -411,7 +408,7 @@ class ClothingViewModel extends FormViewModel {
     List<FilterButtonItem> colorItems = [];
 
     try {
-      colors = await _getColorsUseCase.handle();
+      colors = _valuesProvider.colors;
     } catch (e) {
       print("$e");
     }
@@ -446,7 +443,7 @@ class ClothingViewModel extends FormViewModel {
     List<FilterButtonItem> brandItems = [];
 
     try {
-      brands = await _getBrandsUseCase.handle();
+      brands = _valuesProvider.brands;
     } catch (e) {
       print("$e");
     }

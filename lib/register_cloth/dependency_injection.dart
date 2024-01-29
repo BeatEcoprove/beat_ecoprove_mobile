@@ -1,7 +1,6 @@
-import 'package:beat_ecoprove/clothing/services/closet_service_proxy.dart';
+import 'package:beat_ecoprove/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
-import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_colors_use_case.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/register_cloth_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/presentation/register_cloth_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -13,7 +12,7 @@ extension RegisterClothInjection on DependencyInjection {
   void _addServices(GetIt locator) {}
 
   void _addUseCases(GetIt locator) {
-    var closetService = locator<ClosetServiceProxy>();
+    var closetService = locator<ClosetService>();
 
     locator.registerSingleton(RegisterClothUseCase(closetService));
   }
@@ -22,17 +21,14 @@ extension RegisterClothInjection on DependencyInjection {
     var authProvider = locator<AuthenticationProvider>();
     var notificationProvider = locator<NotificationProvider>();
     var registerClothUseCase = locator<RegisterClothUseCase>();
-    var getColorsUseCase = locator<GetColorsUseCase>();
-    var getBrandsUseCase = locator<GetBrandsUseCase>();
     var appRouter = locator<AppRouter>();
 
     locator.registerFactory(() => RegisterClothViewModel(
           notificationProvider,
           authProvider,
           registerClothUseCase,
-          getColorsUseCase,
-          getBrandsUseCase,
           appRouter.appRouter,
+          locator<StaticValuesProvider>(),
         ));
   }
 

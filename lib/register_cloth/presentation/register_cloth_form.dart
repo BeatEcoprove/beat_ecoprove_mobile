@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
@@ -129,24 +128,11 @@ Widget _buildRegisterForm(
           const SizedBox(
             height: textBoxGap,
           ),
-          FutureBuilder(
-            future: viewModel.getAllBrands(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return const CircularProgressIndicator(
-                    color: AppColor.primaryColor,
-                    strokeWidth: 4,
-                  );
-                default:
-                  return FormattedDropDown(
-                    options: snapshot.data!,
-                    value: viewModel.getValue(FormFieldValues.clothBrand).value,
-                    onValueChanged: (value) =>
-                        viewModel.setValue(FormFieldValues.clothBrand, value),
-                  );
-              }
-            },
+          FormattedDropDown(
+            options: viewModel.getAllBrands(),
+            value: viewModel.getValue(FormFieldValues.clothBrand).value,
+            onValueChanged: (value) =>
+                viewModel.setValue(FormFieldValues.clothBrand, value),
           ),
           const SizedBox(
             height: textBoxGap,
@@ -161,59 +147,42 @@ Widget _buildRegisterForm(
               const SizedBox(
                 width: 12,
               ),
-              FutureBuilder(
-                future: viewModel.getAllColors(),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return const CircularProgressIndicator(
-                        color: AppColor.primaryColor,
-                        strokeWidth: 4,
-                      );
-                    default:
-                      return FilterButton(
-                        headerButton: const Icon(
-                          Icons.close_rounded,
-                          size: 36,
-                          color: AppColor.widgetSecondary,
-                        ),
-                        bodyTop: 36,
-                        bodyRight: 36,
-                        bodyButton: Container(
-                          width: dimension,
-                          height: dimension,
-                          decoration: BoxDecoration(
-                            color:
-                                viewModel.allSelectedFilters.keys.firstOrNull ==
-                                        null
-                                    ? Colors.black
-                                    : Color(
-                                        int.parse(
-                                          viewModel.allSelectedFilters.keys
-                                              .firstOrNull!,
-                                          radix: 16,
-                                        ),
-                                      ),
-                            shape: BoxShape.circle,
-                            boxShadow: const [AppColor.defaultShadow],
+              FilterButton(
+                headerButton: const Icon(
+                  Icons.close_rounded,
+                  size: 36,
+                  color: AppColor.widgetSecondary,
+                ),
+                bodyTop: 36,
+                bodyRight: 36,
+                bodyButton: Container(
+                  width: dimension,
+                  height: dimension,
+                  decoration: BoxDecoration(
+                    color: viewModel.allSelectedFilters.keys.firstOrNull == null
+                        ? Colors.black
+                        : Color(
+                            int.parse(
+                              viewModel.allSelectedFilters.keys.firstOrNull!,
+                              radix: 16,
+                            ),
                           ),
-                        ),
-                        overlayPaddingBottom: 36,
-                        overlayPaddingTop: 36,
-                        contentPaddingRight: 30,
-                        contentPaddingLeft: 30,
-                        contentPaddingTop: 106,
-                        contentPaddingBottom: 106,
-                        needOnlyOne: true,
-                        options: snapshot.data as List<FilterRow>,
-                        onSelectionChanged: (filter) =>
-                            {viewModel.changeFilterSelection(filter)},
-                        filterIsSelect: (filter) =>
-                            viewModel.haveThisFilter(filter),
-                        selectedFilters: viewModel.allSelectedFilters,
-                      );
-                  }
-                },
+                    shape: BoxShape.circle,
+                    boxShadow: const [AppColor.defaultShadow],
+                  ),
+                ),
+                overlayPaddingBottom: 36,
+                overlayPaddingTop: 36,
+                contentPaddingRight: 30,
+                contentPaddingLeft: 30,
+                contentPaddingTop: 106,
+                contentPaddingBottom: 106,
+                needOnlyOne: true,
+                options: viewModel.getAllColors(),
+                onSelectionChanged: (filter) =>
+                    {viewModel.changeFilterSelection(filter)},
+                filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
+                selectedFilters: viewModel.allSelectedFilters,
               ),
             ],
           ),

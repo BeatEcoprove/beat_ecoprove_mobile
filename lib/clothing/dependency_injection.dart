@@ -10,7 +10,6 @@ import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_clot
 import 'package:beat_ecoprove/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/clothing/services/action_service_proxy.dart';
 import 'package:beat_ecoprove/clothing/services/closet_service.dart';
-import 'package:beat_ecoprove/clothing/services/closet_service_proxy.dart';
 import 'package:beat_ecoprove/clothing/services/outfit_service.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/clothing/domain/use-cases/get_closet_use_case.dart';
@@ -20,6 +19,7 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_us
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/register_cloth/domain/use-cases/get_brands_use_case.dart';
@@ -37,8 +37,7 @@ extension ClothingDependencyInjection on DependencyInjection {
   }
 
   void _addUseCases(GetIt locator) {
-    locator.registerSingleton(ClosetServiceProxy(locator<HttpAuthClient>()));
-    var clothingService = locator<ClosetServiceProxy>();
+    var clothingService = locator<ClosetService>();
     var outfitService = locator<OutfitService>();
 
     locator.registerSingleton(ActionServiceProxy(locator<HttpAuthClient>()));
@@ -53,6 +52,12 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerSingleton(GetBucketsUseCase(clothingService));
     locator.registerSingleton(GetColorsUseCase(clothingService));
     locator.registerSingleton(GetBrandsUseCase(clothingService));
+
+    locator.registerSingleton(StaticValuesProvider(
+      locator<AuthenticationProvider>(),
+      locator<GetColorsUseCase>(),
+      locator<GetBrandsUseCase>(),
+    ));
   }
 
   void _addViewModels(GetIt locator) {
@@ -69,8 +74,8 @@ extension ClothingDependencyInjection on DependencyInjection {
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
     var addClothBucketUseCase = locator<AddClothsBucketUseCase>();
     var getBucketsUseCase = locator<GetBucketsUseCase>();
-    var getColorsUseCase = locator<GetColorsUseCase>();
-    var getBrandsUseCase = locator<GetBrandsUseCase>();
+    locator<GetColorsUseCase>();
+    locator<GetBrandsUseCase>();
     var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
 
     locator.registerFactory(() => ClothingViewModel(
@@ -82,10 +87,9 @@ extension ClothingDependencyInjection on DependencyInjection {
           deleteCardUseCase,
           registerBucketUseCase,
           addClothBucketUseCase,
-          getColorsUseCase,
-          getBrandsUseCase,
           getNestedProfilesUseCase,
           router.appRouter,
+          locator<StaticValuesProvider>(),
         ));
     locator.registerFactory(() => InfoClothServiceViewModel(
           notificationProvider,

@@ -70,6 +70,7 @@ class CompactListItemUser extends StatelessWidget {
 
   Widget body(BuildContext context) {
     const double height = 88;
+    double width = (MediaQuery.of(context).size.width);
 
     return Container(
       height: height,
@@ -92,7 +93,7 @@ class CompactListItemUser extends StatelessWidget {
                 bottomLeft: borderRadius,
                 topLeft: borderRadius,
               ),
-              boxShadow: [AppColor.defaultShadow],
+              boxShadow: const [AppColor.defaultShadow],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +129,8 @@ class CompactListItemUser extends StatelessWidget {
                     Points.sustainablePoints(
                       points: sustainablePoints,
                     ),
-                    Points.ecoScore(points: ecoScorePoints),
+                    if (width > AppColor.maxWidthToImage)
+                      Points.ecoScore(points: ecoScorePoints),
                   ],
                 )
               ],

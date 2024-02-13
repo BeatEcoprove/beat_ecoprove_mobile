@@ -43,73 +43,63 @@ class Modal {
               ),
             ),
           ),
-          Positioned(
-            left: left,
-            right: right,
-            bottom: bottom,
-            top: top,
-            child: Material(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
-                  color: AppColor.widgetBackground,
-                  borderRadius: BorderRadius.all(borderRadius),
-                  boxShadow: [AppColor.defaultShadow],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Positioned.fill(
+            child: Container(
+              margin: EdgeInsets.only(
+                top: top,
+                right: right,
+                left: left,
+                bottom: bottom,
+              ),
+              child: Material(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: const BoxDecoration(
+                    color: AppColor.widgetBackground,
+                    borderRadius: BorderRadius.all(borderRadius),
+                    boxShadow: [AppColor.defaultShadow],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        titleModal,
+                        style: AppText.titleToScrollSection,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      content,
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Column(
                         children: [
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 36,
-                              ),
-                              Text(
-                                titleModal,
-                                style: AppText.titleToScrollSection,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(
-                                height: 62,
-                              ),
-                              content,
-                              const SizedBox(
-                                height: 62,
-                              ),
-                            ],
+                          FormattedButton(
+                              content: buttonText,
+                              buttonColor: AppColor.buttonBackground,
+                              textColor: AppColor.widgetBackground,
+                              height: 46,
+                              onPress: () => {
+                                    action(),
+                                    remove(),
+                                  }),
+                          const SizedBox(
+                            height: 6,
                           ),
-                          Column(
-                            children: [
-                              FormattedButton(
-                                  content: buttonText,
-                                  buttonColor: AppColor.buttonBackground,
-                                  textColor: AppColor.widgetBackground,
-                                  height: 46,
-                                  onPress: () => {
-                                        action(),
-                                        remove(),
-                                      }),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              if (hasCancelButton)
-                                FormattedButton(
-                                  content: "Cancelar",
-                                  buttonColor: AppColor.widgetBackground,
-                                  textColor: AppColor.black,
-                                  height: 46,
-                                  onPress: () => remove(),
-                                ),
-                            ],
-                          ),
+                          if (hasCancelButton)
+                            FormattedButton(
+                              content: "Cancelar",
+                              buttonColor: AppColor.widgetBackground,
+                              textColor: AppColor.black,
+                              height: 46,
+                              onPress: () => remove(),
+                            ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

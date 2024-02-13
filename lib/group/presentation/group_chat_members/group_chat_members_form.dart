@@ -46,8 +46,8 @@ class _GroupChatMembersFormState extends State<GroupChatMembersForm> {
     super.initState();
 
     _overlay = Modal(
-      top: 198,
-      bottom: 198,
+      top: 76,
+      bottom: 72,
       left: 36,
       right: 36,
       action: () async => await viewModel.inviteToGroup(widget.params.groupId),

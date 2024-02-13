@@ -46,10 +46,12 @@ class PrizesForm extends StatelessWidget {
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Categorias",
-                          style: AppText.titleToScrollSection,
-                          overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Text(
+                            "Categorias",
+                            style: AppText.titleToScrollSection,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         Text(
                           "Ver mais",
@@ -65,10 +67,12 @@ class PrizesForm extends StatelessWidget {
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Recomendados para si",
-                          style: AppText.titleToScrollSection,
-                          overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Text(
+                            "Recomendados para si",
+                            style: AppText.titleToScrollSection,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -104,21 +108,23 @@ class PrizesForm extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Trocar Pontos',
-                  style: AppText.headerBlack,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  'Clique aqui para trocar pontos',
-                  style: AppText.subHeader,
-                  overflow: TextOverflow.ellipsis,
-                )
-              ],
+            Expanded(
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Trocar Pontos',
+                    style: AppText.headerBlack,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    'Clique aqui para trocar pontos',
+                    style: AppText.subHeader,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(8),

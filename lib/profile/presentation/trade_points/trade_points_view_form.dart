@@ -151,8 +151,10 @@ class TradePointsForm extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Wrap(
+          alignment: WrapAlignment.center,
+          runSpacing: 8,
+          spacing: 8,
           children: [
             Container(
               height: 50,
@@ -178,9 +180,12 @@ class TradePointsForm extends StatelessWidget {
                     viewModel.getValue(FormFieldValues.ecoCoins).error,
               ),
             ),
-            const Icon(
-              Icons.arrow_right_alt_rounded,
-              color: AppColor.widgetSecondary,
+            const SizedBox(
+              height: 50,
+              child: Icon(
+                Icons.arrow_right_alt_rounded,
+                color: AppColor.widgetSecondary,
+              ),
             ),
             Container(
               height: 50,
@@ -230,8 +235,10 @@ class TradePointsForm extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Wrap(
+          alignment: WrapAlignment.center,
+          runSpacing: 8,
+          spacing: 8,
           children: [
             Container(
               height: 50,
@@ -257,9 +264,12 @@ class TradePointsForm extends StatelessWidget {
                     viewModel.getValue(FormFieldValues.sustainablePoints).error,
               ),
             ),
-            const Icon(
-              Icons.arrow_right_alt_rounded,
-              color: AppColor.widgetSecondary,
+            const SizedBox(
+              height: 50,
+              child: Icon(
+                Icons.arrow_right_alt_rounded,
+                color: AppColor.widgetSecondary,
+              ),
             ),
             Container(
               height: 50,

@@ -25,56 +25,64 @@ class PrizesForm extends StatelessWidget {
         hasSustainablePoints: true,
         sustainablePoints: viewModel.user.sustainablePoints,
       ),
-      body: AppBackground(
-        content: GoBack(
-          posTop: 18,
-          posLeft: 18,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 84,
-                ),
-                _changePoints(context),
-                const SizedBox(
-                  height: 18,
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: AppBackground(
+            content: GoBack(
+              posTop: 18,
+              posLeft: 18,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
                   children: [
-                    Text(
-                      "Categorias",
-                      style: AppText.titleToScrollSection,
-                      overflow: TextOverflow.ellipsis,
+                    const SizedBox(
+                      height: 84,
                     ),
-                    Text(
-                      "Ver mais",
-                      style: AppText.underlineStyle,
-                      overflow: TextOverflow.ellipsis,
+                    _changePoints(context),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Categorias",
+                          style: AppText.titleToScrollSection,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          "Ver mais",
+                          style: AppText.underlineStyle,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    _categoriesCards(),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Recomendados para si",
+                          style: AppText.titleToScrollSection,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    _buildAdvertisementSection(),
+                    const SizedBox(
+                      height: 16,
                     ),
                   ],
                 ),
-                _categoriesCards(),
-                const SizedBox(
-                  height: 18,
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Recomendados para si",
-                      style: AppText.titleToScrollSection,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-                _buildAdvertisementSection()
-              ],
+              ),
             ),
+            type: AppBackgrounds.settings,
           ),
         ),
-        type: AppBackgrounds.settings,
       ),
     );
   }

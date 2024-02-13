@@ -94,11 +94,11 @@ class InfoClothServiceViewModel extends FormViewModel {
               type: NotificationTypes.warning,
             );
           }
-        } on HttpBadRequestError catch (e) {
-          _notificationProvider.showNotification(
-            e.getError().title,
-            type: NotificationTypes.error,
-          );
+          // } on HttpBadRequestError catch (e) {
+          //   _notificationProvider.showNotification(
+          //     e.getError().title,
+          //     type: NotificationTypes.error,
+          //   );
         } catch (e) {
           print(e);
         }

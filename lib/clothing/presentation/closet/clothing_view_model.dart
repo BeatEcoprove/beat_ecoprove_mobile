@@ -103,9 +103,11 @@ class ClothingViewModel extends FormViewModel {
 
   bool get haveSelectedCards => _selectedCards.isNotEmpty;
 
-  bool get haveBucketInSelected => _selectedCards.values.every(
+  bool get haveBucketInSelected =>
+      _selectedCards.values.every(
         (cards) => cards.isEmpty,
-      );
+      ) &&
+      !_selectedCards.keys.any((element) => element == "outfit");
 
   void changeCardsSelection(Map<String, List<String>> cards) {
     if (_selectedCards.containsKey(cards.keys.first)) {

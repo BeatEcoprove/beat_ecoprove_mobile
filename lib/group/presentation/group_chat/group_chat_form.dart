@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -49,8 +48,13 @@ class _GroupChatFormState extends State<GroupChatForm> {
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 16, bottom: 84),
-                child: ScrollHandler(
+                  left: 16,
+                  right: 16,
+                  top: 16,
+                  bottom: 84,
+                ),
+                child: SingleChildScrollView(
+                  reverse: true,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: viewModel.messages,
@@ -71,20 +75,20 @@ class _GroupChatFormState extends State<GroupChatForm> {
                 onPress: () => goRouter.push("/members", extra: params),
               ),
             ),
-            Positioned(
-              top: 70,
-              right: 20,
-              child: CircularButton(
-                height: 46,
-                icon: const Icon(
-                  Icons.mode_edit_outline_outlined,
-                  color: AppColor.bottomNavigationBar,
-                ),
-                onPress: () async => viewModel.isLoading
-                    ? {}
-                    : await viewModel.updateGroup(widget.groupItem.id),
-              ),
-            ),
+            // Positioned(
+            //   top: 70,
+            //   right: 20,
+            //   child: CircularButton(
+            //     height: 46,
+            //     icon: const Icon(
+            //       Icons.mode_edit_outline_outlined,
+            //       color: AppColor.bottomNavigationBar,
+            //     ),
+            //     onPress: () async => viewModel.isLoading
+            //         ? {}
+            //         : await viewModel.updateGroup(widget.groupItem.id),
+            //   ),
+            // ),
             // const Positioned(
             //   top: 70,
             //   right: 20,
@@ -105,7 +109,7 @@ class _GroupChatFormState extends State<GroupChatForm> {
                     SizedBox(
                       width: maxWidth - 100,
                       child: DefaultFormattedTextField(
-                        hintText: "Escreve a tua mensagem...",
+                        hintText: "Escreva a mensagem ...",
                         leftIcon: const Icon(Icons.mode_edit_outline_outlined),
                         initialValue:
                             viewModel.getValue(FormFieldValues.search).value,
@@ -136,7 +140,7 @@ class _GroupChatFormState extends State<GroupChatForm> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     Container(

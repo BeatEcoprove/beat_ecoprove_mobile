@@ -72,42 +72,41 @@ class ChangeProfileForm extends StatelessWidget {
                             ),
                             Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                Wrap(
+                                  alignment: WrapAlignment.center,
+                                  runSpacing: 8,
+                                  spacing: 8,
                                   children: [
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          "Eco-Score dos perfis",
-                                          style: AppText.strongStyle,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        const SizedBox(
-                                          width: 6,
-                                        ),
-                                        Points.ecoScore(
-                                          points: [
-                                            viewModel
-                                                .profilesResult.mainProfile,
-                                            ...viewModel
-                                                .profilesResult.nestedProfiles
-                                          ].fold(
-                                              0,
-                                              (previousValue, myObject) =>
-                                                  previousValue +
-                                                  myObject.ecoScorePoints),
-                                        ),
-                                      ],
+                                    const Text(
+                                      "Eco-Score dos perfis",
+                                      style: AppText.strongStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(
+                                      width: 6,
+                                    ),
+                                    Points.ecoScore(
+                                      points: [
+                                        viewModel.profilesResult.mainProfile,
+                                        ...viewModel
+                                            .profilesResult.nestedProfiles
+                                      ].fold(
+                                          0,
+                                          (previousValue, myObject) =>
+                                              previousValue +
+                                              myObject.ecoScorePoints),
                                     ),
                                   ],
                                 ),
                               ],
                             ),
                             const SizedBox(
-                              height: 6,
+                              height: 16,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            Wrap(
+                              alignment: WrapAlignment.center,
+                              runSpacing: 6,
+                              spacing: 6,
                               children: [
                                 const Text(
                                   "Adicionar um perfil",

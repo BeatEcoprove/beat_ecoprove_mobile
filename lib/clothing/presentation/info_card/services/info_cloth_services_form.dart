@@ -34,8 +34,8 @@ class _InfoClothServiceFormState extends State<InfoClothServiceForm> {
     super.initState();
 
     _overlay = Modal(
-      top: 198,
-      bottom: 198,
+      top: 72,
+      bottom: 72,
       left: 36,
       right: 36,
       action: () async {

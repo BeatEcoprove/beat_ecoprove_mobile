@@ -4,12 +4,12 @@ class WebsocketInviteToGroup extends WebsocketResult {
   final String message;
   final String code;
   final String groupId;
-  final String invitorId;
+  final String fromId;
 
   WebsocketInviteToGroup(Map<String, dynamic> json)
-      : message = json['Message'],
-        code = json['Code'],
-        groupId = json['GroupId'],
-        invitorId = json['InvitorId'],
+      : message = json['Content']['Message'],
+        code = json['Content']['Code'],
+        groupId = json['Content']['Group'],
+        fromId = json['Content']['From'],
         super.fromJson(json);
 }

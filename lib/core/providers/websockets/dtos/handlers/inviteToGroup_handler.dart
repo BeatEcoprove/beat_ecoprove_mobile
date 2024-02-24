@@ -28,7 +28,7 @@ class InviteToGroupHandler extends Handler<WebsocketInviteToGroup> {
             await _handleAccept(notification as InviteToGroupNotification),
         message.code,
         message.groupId,
-        message.invitorId));
+        message.fromId));
   }
 
   Future _handleAccept(InviteToGroupNotification notification) async {

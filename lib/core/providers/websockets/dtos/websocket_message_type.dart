@@ -1,8 +1,8 @@
 enum WebsocketMessageType implements Comparable<WebsocketMessageType> {
-  levelUp(value: "LevelUp"),
-  inviteToGroup(value: "InviteToGroup"),
-  connectToGroup(value: "connectToGroup"),
-  sendTextMessage(value: "sendTextMessage"),
+  levelUp(value: "LevelUpNotificationEvent"),
+  inviteToGroup(value: "InviteGroupNotificationEvent"),
+  connectToGroup(value: "ConnectGroupEvent"),
+  sendTextMessage(value: "SentGroupTextMessageEvent"),
   chatTextMessage(value: "ChatTextMessage"),
   serverChatMessage(value: "ServerChatMessage"),
   ;

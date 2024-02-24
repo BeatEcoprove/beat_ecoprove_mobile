@@ -3,7 +3,50 @@ import 'package:beat_ecoprove/core/providers/websockets/dtos/websocket_message.d
 import 'package:web_socket_channel/io.dart';
 import 'dart:convert' as convert;
 
-class WSSessionManager {
+abstract class IWebSocketManager {
+  void sendMessage(WebSocketMessage message, String jwtToken);
+  void close();
+  Future<IOWebSocketChannel> createChannel(String jwtToken);
+  bool isAlive();
+}
+
+class SingleSessionManager implements IWebSocketManager {
+  final Uri url;
+  late bool isConnectionAlive = false;
+  late IOWebSocketChannel session;
+
+  SingleSessionManager(String url) : url = Uri.parse(url);
+
+  @override
+  Future<IOWebSocketChannel> createChannel(String jwtToken) async {
+    var url = Uri.parse(ServerConfig.websocketUrl);
+
+    session = IOWebSocketChannel.connect(url,
+        headers: {"Authorization": "Bearer $jwtToken"});
+
+    await session.ready;
+    return session;
+  }
+
+  @override
+  void sendMessage(WebSocketMessage message, String jwtToken) {
+    session.sink.add(convert.jsonEncode(message.toJson()));
+  }
+
+  @override
+  void close() {
+    if (isAlive()) {
+      session.sink.close();
+    }
+  }
+
+  @override
+  bool isAlive() {
+    return session.closeCode == null;
+  }
+}
+
+class MultiConnectionSessionManager {
   final Map<String, IOWebSocketChannel> _channels = {};
 
   void sendMessage(

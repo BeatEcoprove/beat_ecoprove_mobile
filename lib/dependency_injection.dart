@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
@@ -36,11 +37,24 @@ class DependencyInjection {
   void setupDIContainer() {
     var authProvider = locator.registerSingleton(AuthenticationProvider());
 
-    var ws = locator.registerSingleton(WSSessionManager());
+    var ws = locator.registerSingleton<IWebSocketManager>(SingleSessionManager(
+      ServerConfig.websocketUrl,
+    ));
+
     var levelUpdater = locator.registerSingleton(LevelUpProvider());
     var notification = locator.registerSingleton(NotificationProvider());
     var notificationManager = locator.registerSingleton(NotificationManager());
     var groupManager = locator.registerSingleton(GroupManager());
+
+    locator.registerSingleton<IWCNotifier>(SingleConnectionWsNotifier(
+      ws,
+      authProvider,
+      levelUpdater,
+      notification,
+      notificationManager,
+      // locator<GroupService>(),
+      groupManager,
+    ));
 
     authProvider.checkAuth();
 
@@ -84,16 +98,6 @@ class DependencyInjection {
     addHome();
     addCloth();
     addGroup();
-
-    locator.registerSingleton(AuthWSNotifier(
-      ws,
-      authProvider,
-      levelUpdater,
-      notification,
-      notificationManager,
-      locator<GroupService>(),
-      groupManager,
-    ));
 
     locator.registerSingleton(GroupWSNotifier(
       ws,

@@ -7,7 +7,9 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/persona
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in_strategy.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/providers/websockets/auth_ws_notifier.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
 
 class SignInViewModel extends ViewModel {
@@ -24,18 +26,20 @@ class SignInViewModel extends ViewModel {
   }
 
   void handleSignIn(SignUserType signType) async {
-    SignInStratagy stratagy;
+    SignInStratagy strategy;
 
     switch (signType) {
       case SignUserType.personal:
-        stratagy = PersonalSignIn(_signInPersonalUseCase);
+        strategy = PersonalSignIn(_signInPersonalUseCase);
         break;
       default:
-        stratagy = EnterpriseSignIn(_signInEnterpriseUseCase);
+        strategy = EnterpriseSignIn(_signInEnterpriseUseCase);
     }
 
     try {
-      await stratagy.handleSignIn(dataList);
+      await strategy.handleSignIn(dataList);
+      await DependencyInjection.locator<IWCNotifier>().logIn();
+
       _navigationRouter.go("/show_completed",
           extra: ShowCompletedViewParams(
             text: "Conta criada com sucesso",
@@ -43,7 +47,7 @@ class SignInViewModel extends ViewModel {
             action: () => _navigationRouter.go("/"),
           ));
     } catch (e) {
-      print("Error on authentication: $e!");
+      // TODO: Put some sort of way of telling the user that someting went wrong with he's register
       return;
     }
   }

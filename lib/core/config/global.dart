@@ -10,8 +10,6 @@ class AppColor {
   static const Color widgetBackgroundBlurry =
       Color.fromARGB(128, 255, 255, 255);
 
-  static const Color midGreen = Color.fromARGB(110, 2, 97, 83);
-
   static const Color widgetBackgroundWithNothing =
       Color.fromRGBO(249, 249, 249, 1);
   static const Color widgetSecondary = Color.fromRGBO(106, 119, 138, 1);
@@ -26,10 +24,10 @@ class AppColor {
   static const Color lightGreen = Color.fromRGBO(77, 168, 5, 1);
   static const Color levelProgressGreen = Color.fromRGBO(199, 225, 178, 1);
 
-  static const Color helpGreen = Color.fromRGBO(31, 173, 79, 1);
+  static const Color helpButton = Color.fromRGBO(31, 173, 79, 1);
 
   static const Color darkGrey = Color.fromRGBO(65, 67, 71, 1);
-  static const Color disabledColor = Color.fromRGBO(94, 116, 77, 1);
+  static const Color disabledButton = Color.fromRGBO(94, 116, 77, 1);
 
   static const Color shadowColor = Color.fromRGBO(66, 71, 76, 0.08);
 
@@ -39,6 +37,9 @@ class AppColor {
 
   static const Color endSession = Color.fromRGBO(208, 0, 0, 1);
 
+  static const Color black = Color.fromRGBO(0, 0, 0, 1);
+
+  // Notifications Colors
   static const Color primaryError = Color.fromRGBO(255, 97, 102, 1);
   static const Color error = Color.fromRGBO(255, 58, 65, 1);
 
@@ -48,12 +49,18 @@ class AppColor {
   static const Color primaryInfo = Color.fromRGBO(0, 161, 223, 1);
   static const Color info = Color.fromRGBO(0, 113, 255, 1);
 
-  static const Color black = Color.fromRGBO(0, 0, 0, 1);
-
+  // Services Colors
   static const Color orange = Color.fromRGBO(230, 110, 0, 1);
   static const Color yellow = Color.fromRGBO(225, 176, 2, 1);
   static const Color lightBlue = Color.fromRGBO(2, 172, 225, 1);
   static const Color darkBlue = Color.fromRGBO(3, 101, 247, 1);
+
+  // Be@t Colors
+  static const Color beatDawnPink = Color.fromRGBO(234, 222, 216, 1);
+  static const Color beatBilobaFlower = Color.fromRGBO(177, 140, 255, 1);
+  static const Color beatInchWorm = Color.fromRGBO(194, 255, 88, 1);
+  static const Color beatAquamarineBlue = Color.fromRGBO(65, 224, 213, 1);
+  static const Color beatFirefly = Color.fromRGBO(40, 73, 64, 1);
 
   static const BorderRadius borderRadius = BorderRadius.all(Radius.circular(5));
   static const BorderRadius borderRadius10 =

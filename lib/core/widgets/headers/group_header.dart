@@ -110,7 +110,7 @@ class GroupHeader extends Header {
                     iconSize: 20,
                     icon: const Icon(
                       Icons.help_outline_rounded,
-                      color: AppColor.helpGreen,
+                      color: AppColor.helpButton,
                     ),
                     onPressed: helpPress,
                   ),

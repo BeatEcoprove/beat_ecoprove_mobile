@@ -46,7 +46,7 @@ class LevelProgress extends StatelessWidget {
               child: CustomPaint(
                 size: Size(height, height),
                 foregroundPainter: LevelProgressPainter(
-                  completeColor: AppColor.midGreen,
+                  completeColor: AppColor.beatFirefly,
                   width: 7,
                   percent: value,
                 ),

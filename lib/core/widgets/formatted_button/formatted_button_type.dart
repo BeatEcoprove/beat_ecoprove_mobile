@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 enum FormattedButtonType implements Comparable<FormattedButtonType> {
   normal(color: AppColor.buttonBackground),
-  disabled(color: AppColor.disabledColor);
+  disabled(color: AppColor.disabledButton);
 
   final Color color;
 

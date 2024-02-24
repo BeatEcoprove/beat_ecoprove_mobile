@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dar
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/core/providers/websockets/group_ws_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view.dart';
@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 
 class GroupChatViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
-  final GroupWSNotifier _groupWSNotifier;
+  final IWCNotifier _sessionWsNotifier;
   final GroupService _groupService;
 
   final AuthenticationProvider _authProvider;
@@ -32,7 +32,7 @@ class GroupChatViewModel extends FormViewModel {
     this._authProvider,
     this._getDetailsUseCase,
     this._navigationRouter,
-    this._groupWSNotifier,
+    this._sessionWsNotifier,
     this._groupManager,
     this._groupService,
   ) {
@@ -68,11 +68,6 @@ class GroupChatViewModel extends FormViewModel {
   User get user => _user;
 
   Future initGroupConnection(String groupId) async {
-    if (!hasConnectionActive) {
-      hasConnectionActive = true;
-      _groupWSNotifier.listen(groupId);
-    }
-
     var fetchChatMessages = await _groupService.getMessages(groupId);
 
     messages.clear();
@@ -88,6 +83,10 @@ class GroupChatViewModel extends FormViewModel {
     messages.addAll(mapMessages);
     messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
     notifyListeners();
+  }
+
+  void exitGroup(String groupId) {
+    _sessionWsNotifier.exitGroup(groupId);
   }
 
   void setTextMessage(String text) {
@@ -106,7 +105,7 @@ class GroupChatViewModel extends FormViewModel {
         throw DomainException("Digite uma mensagem");
       }
 
-      _groupWSNotifier.sendGroupMessage(groupId, text);
+      _sessionWsNotifier.sendMessageOnGroup(groupId, text);
     } on DomainException catch (e) {
       _notificationProvider.showNotification(
         e.message,

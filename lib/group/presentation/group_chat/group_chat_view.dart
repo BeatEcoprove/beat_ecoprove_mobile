@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
+import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/view_model_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_form.dart';
@@ -15,6 +16,8 @@ class GroupChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DependencyInjection.locator<IWCNotifier>().enterGroup(groupItem.id);
+
     return ViewModelProvider(
         viewModel: DependencyInjection.locator<GroupChatViewModel>(),
         child: GroupChatForm(

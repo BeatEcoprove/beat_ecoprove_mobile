@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/websockets/dtos/requests/websocket_group_message.dart';
 import 'package:beat_ecoprove/core/providers/websockets/notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 
@@ -17,15 +18,16 @@ abstract class IWCNotifier extends Notifier {
     super.groupService,
   );
 
-  Future _listen() async {
-    var token = authenticationProvider.refreshToken;
+  String get accessToken => authenticationProvider.refreshToken;
+  bool get isTokenAvailable => accessToken.isEmpty;
 
-    if (token.isEmpty) {
+  Future _listen() async {
+    if (isTokenAvailable) {
       return;
     }
 
     var channel = await websocketNotifier.createChannel(
-      token,
+      accessToken,
     );
 
     channel.stream.listen(
@@ -66,11 +68,13 @@ abstract class IWCNotifier extends Notifier {
   }
 
   void enterGroup(String id);
-  void messageGroup(String id, String message, String who);
+  void sendMessageOnGroup(String id, String message);
   void exitGroup(String id);
 }
 
 class SingleConnectionWsNotifier extends IWCNotifier {
+  late bool isOnActiveGroup = false;
+
   SingleConnectionWsNotifier(
     super.websocketNotifier,
     super.authenticationProvider,
@@ -81,11 +85,24 @@ class SingleConnectionWsNotifier extends IWCNotifier {
   );
 
   @override
-  void enterGroup(String id) {}
+  void enterGroup(String id) {
+    if (isOnActiveGroup) {
+      return;
+    }
+
+    websocketNotifier.sendMessage(
+      ConnectGroupWebSocketMessage(id),
+      accessToken,
+    );
+
+    isOnActiveGroup = true;
+  }
 
   @override
-  void exitGroup(String id) {}
+  void exitGroup(String id) {
+    isOnActiveGroup = false;
+  }
 
   @override
-  void messageGroup(String id, String message, String who) {}
+  void sendMessageOnGroup(String id, String message) {}
 }

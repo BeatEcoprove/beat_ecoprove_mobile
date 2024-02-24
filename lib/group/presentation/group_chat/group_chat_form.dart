@@ -37,6 +37,7 @@ class _GroupChatFormState extends State<GroupChatForm> {
 
     return Scaffold(
       appBar: GroupHeader(
+        onGoBackPress: () => viewModel.exitGroup(widget.groupItem.id),
         title: params.title,
         state: params.state,
         numberMembers: params.numberMembers,

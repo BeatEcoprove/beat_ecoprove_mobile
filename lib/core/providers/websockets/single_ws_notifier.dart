@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/requests/websocket_group_message.dart';
+import 'package:beat_ecoprove/core/providers/websockets/dtos/requests/websocket_sendtext_message.dart';
 import 'package:beat_ecoprove/core/providers/websockets/notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 
@@ -104,5 +105,17 @@ class SingleConnectionWsNotifier extends IWCNotifier {
   }
 
   @override
-  void sendMessageOnGroup(String id, String message) {}
+  void sendMessageOnGroup(String id, String message) {
+    if (!isOnActiveGroup) {
+      return;
+    }
+
+    websocketNotifier.sendMessage(
+      SendTextWebSocketMessage(
+        id,
+        message,
+      ),
+      accessToken,
+    );
+  }
 }

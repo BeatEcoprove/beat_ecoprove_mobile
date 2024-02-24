@@ -1,4 +1,6 @@
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/config/server_config.dart';
+import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
@@ -9,7 +11,6 @@ import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
-import 'package:beat_ecoprove/core/providers/websockets/group_ws_notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
@@ -46,14 +47,23 @@ class DependencyInjection {
     var notificationManager = locator.registerSingleton(NotificationManager());
     var groupManager = locator.registerSingleton(GroupManager());
 
+    locator.registerFactory(() => HttpClient());
+
+    var httpClient = locator<HttpClient>();
+    var authService =
+        locator.registerSingleton(AuthenticationService(httpClient));
+    locator.registerFactory(
+        () => HttpAuthClient(httpClient, authProvider, authService));
+
+    locator.registerFactory(() => GroupService(locator<HttpAuthClient>()));
     locator.registerSingleton<IWCNotifier>(SingleConnectionWsNotifier(
       ws,
       authProvider,
       levelUpdater,
       notification,
       notificationManager,
-      // locator<GroupService>(),
       groupManager,
+      locator<GroupService>(),
     ));
 
     authProvider.checkAuth();
@@ -89,7 +99,6 @@ class DependencyInjection {
       ),
     ]));
 
-    locator.registerFactory(() => HttpClient());
     addAuth();
 
     locator.registerFactory(() => ListDetailsViewModel());
@@ -98,15 +107,5 @@ class DependencyInjection {
     addHome();
     addCloth();
     addGroup();
-
-    locator.registerSingleton(GroupWSNotifier(
-      ws,
-      authProvider,
-      levelUpdater,
-      notification,
-      notificationManager,
-      locator<GroupService>(),
-      groupManager,
-    ));
   }
 }

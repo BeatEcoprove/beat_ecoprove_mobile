@@ -12,8 +12,6 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterp
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_stage_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_view_model.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
-import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
-import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/routes.dart';
@@ -61,15 +59,6 @@ extension AuthDependencyInjection on DependencyInjection {
 
   void addAuth() {
     GetIt locator = DependencyInjection.locator;
-
-    var httpClient = locator<HttpClient>();
-    var authProvider = locator<AuthenticationProvider>();
-
-    var authService =
-        locator.registerSingleton(AuthenticationService(httpClient));
-
-    locator.registerFactory(
-        () => HttpAuthClient(httpClient, authProvider, authService));
 
     _addUseCases(locator);
     _addViewModels(locator);

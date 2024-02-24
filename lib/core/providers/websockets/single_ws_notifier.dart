@@ -16,6 +16,7 @@ abstract class IWCNotifier extends Notifier {
     super.levelUpProvider,
     super.notificationProvider,
     super.notificationManager,
+    super.groupManager,
     super.groupService,
   );
 
@@ -77,13 +78,13 @@ class SingleConnectionWsNotifier extends IWCNotifier {
   late bool isOnActiveGroup = false;
 
   SingleConnectionWsNotifier(
-    super.websocketNotifier,
-    super.authenticationProvider,
-    super.levelUpProvider,
-    super.notificationProvider,
-    super.notificationManager,
-    super.groupManager,
-  );
+      super.websocketNotifier,
+      super.authenticationProvider,
+      super.levelUpProvider,
+      super.notificationProvider,
+      super.notificationManager,
+      super.groupManager,
+      super.groupService);
 
   @override
   void enterGroup(String id) {

@@ -10,10 +10,13 @@ class SendTextWebSocketMessage extends WebSocketMessage {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
+    var json = super.toJson();
+
+    json.addAll({
       'groupId': groupId,
       'message': message,
-      'type': type,
-    };
+    });
+
+    return json;
   }
 }

@@ -12,7 +12,7 @@ class AuthenticationProvider extends ViewModel {
   late String profileId = '';
   late User? _appUser;
   late String? _accessToken;
-  late String? _refreshToken;
+  late String _refreshToken = '';
 
   AuthenticationProvider() {
     _appUser = null;
@@ -22,6 +22,11 @@ class AuthenticationProvider extends ViewModel {
   void checkAuth() async {
     String refreshToken =
         await StorageService.getValue(Store.refreshToken) ?? '';
+
+    _refreshToken = refreshToken;
+    notifyListeners();
+
+    DependencyInjection.locator<IWCNotifier>().logIn();
 
     if (refreshToken.isEmpty || !validateToken(refreshToken)) return;
 
@@ -44,8 +49,6 @@ class AuthenticationProvider extends ViewModel {
         ),
       ),
     );
-
-    DependencyInjection.locator<AuthWSNotifier>().listen();
   }
 
   bool validateToken(String refreshToken) {
@@ -67,13 +70,14 @@ class AuthenticationProvider extends ViewModel {
   }
 
   Future logout() async {
+    DependencyInjection.locator<IWCNotifier>().logOut();
     await StorageService.clearValue(Store.refreshToken);
     _appUser = null;
     notifyListeners();
   }
 
   String get profile => profileId;
-  String get refreshToken => _refreshToken!;
+  String get refreshToken => _refreshToken;
   String get accessToken => _accessToken!;
   User get appUser => _appUser!;
 

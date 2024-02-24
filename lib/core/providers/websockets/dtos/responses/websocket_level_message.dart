@@ -1,11 +1,13 @@
 import 'package:beat_ecoprove/core/providers/websockets/dtos/websocket_result.dart';
 
 class WebsocketLevelMessage extends WebsocketResult {
-  final String id;
   final int level;
+  final int xp;
+  final String message;
 
   WebsocketLevelMessage(Map<String, dynamic> json)
-      : id = json['Id'],
-        level = json['Level'],
+      : level = json['Content']['Level'],
+        xp = json['Content']['Xp'],
+        message = json['Content']['Message'],
         super.fromJson(json);
 }

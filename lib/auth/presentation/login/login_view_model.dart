@@ -84,7 +84,8 @@ class LoginViewModel extends FormViewModel {
     }
 
     setLoading(false);
-    DependencyInjection.locator<AuthWSNotifier>().listen();
+
+    await DependencyInjection.locator<IWCNotifier>().logIn();
     notifyListeners();
   }
 }

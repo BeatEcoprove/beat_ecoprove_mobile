@@ -5,20 +5,22 @@ import 'package:go_router/go_router.dart';
 
 class GoBack extends StatefulWidget {
   final String? goBackPath;
+  final VoidCallback? onExit;
   final Widget child;
   final double posTop;
   final double posLeft;
 
   final bool Function()? changeDefaultBehavior;
 
-  const GoBack(
-      {this.goBackPath,
-      this.changeDefaultBehavior,
-      required this.child,
-      Key? key,
-      required this.posTop,
-      required this.posLeft})
-      : super(key: key);
+  const GoBack({
+    this.goBackPath,
+    this.changeDefaultBehavior,
+    required this.child,
+    Key? key,
+    required this.posTop,
+    required this.posLeft,
+    this.onExit,
+  }) : super(key: key);
 
   @override
   State<GoBack> createState() => _GoBackState();
@@ -39,6 +41,10 @@ class _GoBackState extends State<GoBack> {
       widget.goBackPath != null
           ? goRouter.go(widget.goBackPath!)
           : goRouter.pop();
+
+      if (widget.onExit != null) {
+        widget.onExit!();
+      }
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class GroupHeader extends Header {
   final VoidCallback? helpPress;
+  final VoidCallback? onGoBackPress;
 
   final String title;
   final String state;
@@ -15,6 +16,7 @@ class GroupHeader extends Header {
     required this.state,
     required this.numberMembers,
     this.helpPress,
+    this.onGoBackPress,
     Key? key,
   }) : super(key: key);
 
@@ -29,6 +31,7 @@ class GroupHeader extends Header {
     double maxWidthDisplay = (MediaQuery.of(context).size.width);
 
     return GoBack(
+      onExit: onGoBackPress,
       posTop: 0,
       posLeft: 4,
       child: Column(

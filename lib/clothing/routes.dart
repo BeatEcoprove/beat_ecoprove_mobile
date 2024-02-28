@@ -5,8 +5,10 @@ import 'package:beat_ecoprove/clothing/presentation/info_card/info_cloth/info_cl
 import 'package:beat_ecoprove/clothing/presentation/info_card/services/info_cloth_services_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,7 +28,11 @@ final GoRoute clothingRoutes = GoRoute(
               index: state.pathParameters['id'] ?? '0',
               card: state.extra as CardItem,
             ),
-            InfoClothServiceView(card: state.extra as CardItem),
+            InfoClothServiceView(
+              bucketInfoManager:
+                  DependencyInjection.locator<IBucketInfoManager<String>>(),
+              card: state.extra as CardItem,
+            ),
           ],
           bottomNavigationBarOptions: [
             Line(
@@ -52,10 +58,14 @@ final GoRoute clothingRoutes = GoRoute(
         return Swiper(
           views: [
             InfoBucketView(
+              bucketInfoManager:
+                  DependencyInjection.locator<IBucketInfoManager<String>>(),
               index: state.pathParameters['id'] ?? '0',
               card: state.extra as CardItem,
             ),
             InfoClothServiceView(
+              bucketInfoManager:
+                  DependencyInjection.locator<IBucketInfoManager<String>>(),
               card: state.extra as CardItem,
             ),
           ],

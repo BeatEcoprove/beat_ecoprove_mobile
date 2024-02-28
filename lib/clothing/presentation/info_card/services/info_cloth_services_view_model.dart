@@ -15,11 +15,13 @@ import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class InfoClothServiceViewModel extends FormViewModel {
+  final IBucketInfoManager _bucketInfoManager;
   final NotificationProvider _notificationProvider;
   late List<String> _selectedServices = [];
   final List<String> _blockedServices = [];
@@ -38,6 +40,7 @@ class InfoClothServiceViewModel extends FormViewModel {
   late String activityId;
 
   InfoClothServiceViewModel(
+    this._bucketInfoManager,
     this._notificationProvider,
     this._navigationRouter,
     this._actionService,
@@ -65,7 +68,7 @@ class InfoClothServiceViewModel extends FormViewModel {
   Future fetchServices(
       String cardId, bool isBucket, BuildContext context) async {
     await fetchBuckets();
-
+    print(clothId);
     if (isBucket) {
       await fetchBucketServices(cardId, context);
     } else {
@@ -83,11 +86,13 @@ class InfoClothServiceViewModel extends FormViewModel {
 
       var bucket = await _closetService.getBucket(bucketId);
 
-      for (var cloth in bucket.associatedCloth) {
+      for (var cloth in bucket.associatedCloth
+          .where((element) =>
+              !_bucketInfoManager.getAllClothes().contains(element.id))
+          .toList()) {
         try {
           var result = await _actionService.getCurrentServiceActivity(cloth.id);
           if (result.status != 'Finished') {
-            //TODO: CHANGE TO BLOCKED CLOTH
             _blockedServices.add(cloth.id);
             _notificationProvider.showNotification(
               'Tem pelo menos uma peça de roupa numa atividade!',
@@ -104,7 +109,6 @@ class InfoClothServiceViewModel extends FormViewModel {
         }
 
         if (cloth.state == ClothStates.inUse.value) {
-          //TODO: CHANGE TO BLOCKED CLOTH
           _blockedServices.add(cloth.id);
           _notificationProvider.showNotification(
             'Tem pelo menos uma peça de roupa em uso!',

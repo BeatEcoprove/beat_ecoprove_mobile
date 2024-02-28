@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
@@ -15,11 +16,13 @@ import 'package:flutter/material.dart';
 class InfoClothServiceForm extends StatefulWidget {
   final CardItem card;
   final String title;
+  final IBucketInfoManager bucketInfoManager;
 
   const InfoClothServiceForm({
     super.key,
     this.title = '',
     required this.card,
+    required this.bucketInfoManager,
   });
   @override
   State<InfoClothServiceForm> createState() => _InfoClothServiceFormState();
@@ -61,11 +64,10 @@ class _InfoClothServiceFormState extends State<InfoClothServiceForm> {
   Widget build(BuildContext context) {
     viewModel = ViewModel.of<InfoClothServiceViewModel>(context);
     if (widget.card.hasChildren) {
-      List<String> listIds = [];
-      for (var cloth in widget.card.child) {
-        listIds.add(cloth.id);
-      }
-      viewModel.clothId = listIds;
+      viewModel.clothId = (widget.card.child as List<CardItem>)
+          .map((element) => element.id)
+          .where((e) => !widget.bucketInfoManager.getAllClothes().contains(e))
+          .toList();
     } else {
       viewModel.clothId = [widget.card.id];
     }
@@ -76,6 +78,7 @@ class _InfoClothServiceFormState extends State<InfoClothServiceForm> {
         content: GoBack(
           posLeft: 18,
           posTop: 18,
+          onExit: () => widget.bucketInfoManager.removeClothes(),
           child: SizedBox(
             height: double.infinity,
             width: double.infinity,

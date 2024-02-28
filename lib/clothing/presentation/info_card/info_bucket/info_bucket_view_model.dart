@@ -4,20 +4,20 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/remove_cloth_from_bucket
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:go_router/go_router.dart';
 
 class InfoBucketViewModel extends ViewModel {
+  final IBucketInfoManager<String> _bucketInfoManager;
   final NotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final GoRouter _navigationRouter;
 
-  late final Map<String, List<String>> _selectedCards = {};
-  late final List<String> _selectedClothCards = [];
-
   InfoBucketViewModel(
+    this._bucketInfoManager,
     this._notificationProvider,
     this._removeClothFromBucketUseCase,
     this._unMarkClothAsDailyUseUseCase,
@@ -25,25 +25,25 @@ class InfoBucketViewModel extends ViewModel {
   );
 
   void changeCardsSelection(Map<String, List<String>> cards) {
-    if (_selectedCards.containsKey(cards.keys.first)) {
-      _selectedCards.remove(cards.keys.first);
-      _selectedClothCards.remove(cards.keys.first);
+    if (_bucketInfoManager.getAllClothes().contains(cards.keys.first)) {
+      _bucketInfoManager.removeCloth(cards.keys.first);
     } else {
-      _selectedCards.addAll(cards);
-      _selectedClothCards.add(cards.keys.first);
+      _bucketInfoManager.addCloth(cards.keys.first);
     }
 
     notifyListeners();
   }
 
-  Map<String, List<String>> get selectedCards => _selectedCards;
+  Map<String, List<String>> get selectedCards =>
+      _bucketInfoManager.getAllClothesMap();
 
   Future removeClothFromBucket(
       CardItem card, List<String> idCloth, String idBucket) async {
     try {
       await _removeClothFromBucketUseCase.handle(RemoveClothFromBucketRequest(
           idCloth
-              .where((element) => !_selectedClothCards.contains(element))
+              .where((element) =>
+                  !_bucketInfoManager.getAllClothes().contains(element))
               .toList(),
           idBucket));
 
@@ -59,7 +59,6 @@ class InfoBucketViewModel extends ViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
     _notificationProvider.showNotification(
@@ -73,7 +72,8 @@ class InfoBucketViewModel extends ViewModel {
   Future unMarkClothsFromBucket(CardItem card, List<String> idsCloth) async {
     try {
       await _unMarkClothAsDailyUseUseCase.handle(idsCloth
-          .where((element) => !_selectedClothCards.contains(element))
+          .where((element) =>
+              !_bucketInfoManager.getAllClothes().contains(element))
           .toList());
 
       card.child
@@ -92,7 +92,6 @@ class InfoBucketViewModel extends ViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
     _notificationProvider.showNotification(

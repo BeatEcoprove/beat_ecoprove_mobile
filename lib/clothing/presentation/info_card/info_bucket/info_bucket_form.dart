@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/clothing/presentation/info_card/info_bucket/info_b
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
@@ -13,9 +14,11 @@ import 'package:go_router/go_router.dart';
 class InfoBucketForm extends StatefulWidget {
   final String index;
   final CardItem card;
+  final IBucketInfoManager bucketInfoManager;
 
   InfoBucketForm({
     super.key,
+    required this.bucketInfoManager,
     required this.card,
     required this.index,
   });
@@ -28,7 +31,6 @@ class InfoBucketForm extends StatefulWidget {
 
 class _InfoBucketFormState extends State<InfoBucketForm> {
   late List<OptionItem> options;
-  final List<String> selectedCardItems = [];
 
   Widget renderCards(InfoBucketViewModel viewModel) {
     return Column(
@@ -122,6 +124,7 @@ class _InfoBucketFormState extends State<InfoBucketForm> {
       body: GoBack(
         posTop: 18,
         posLeft: 18,
+        onExit: () => widget.bucketInfoManager.removeClothes(),
         child: AppBackground(
           content: Stack(
             children: [

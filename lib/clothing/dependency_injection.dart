@@ -18,6 +18,7 @@ import 'package:beat_ecoprove/clothing/domain/use-cases/register_bucket_use_case
 import 'package:beat_ecoprove/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -34,6 +35,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerFactory(() => ClosetService(httpClient));
     locator.registerFactory(() => OutfitService(httpClient));
     locator.registerFactory(() => ActionService(httpClient));
+    locator.registerSingleton<IBucketInfoManager<String>>(BucketInfoManager());
   }
 
   void _addUseCases(GetIt locator) {
@@ -61,6 +63,7 @@ extension ClothingDependencyInjection on DependencyInjection {
   }
 
   void _addViewModels(GetIt locator) {
+    var bucketInfoManager = locator<IBucketInfoManager<String>>();
     var closetService = locator<ClosetService>();
     var router = locator<AppRouter>();
     var authProvider = locator<AuthenticationProvider>();
@@ -92,6 +95,7 @@ extension ClothingDependencyInjection on DependencyInjection {
           locator<StaticValuesProvider>(),
         ));
     locator.registerFactory(() => InfoClothServiceViewModel(
+          bucketInfoManager,
           notificationProvider,
           router.appRouter,
           locator<ActionServiceProxy>(),
@@ -106,6 +110,7 @@ extension ClothingDependencyInjection on DependencyInjection {
           unMarkClothAsDailyUseUseCase,
         ));
     locator.registerFactory(() => InfoBucketViewModel(
+          bucketInfoManager,
           notificationProvider,
           removeClothFromBucketUseCase,
           unMarkClothAsDailyUseUseCase,

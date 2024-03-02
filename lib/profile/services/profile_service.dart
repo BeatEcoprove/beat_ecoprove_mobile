@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
+import 'package:beat_ecoprove/group/contracts/invite_group_notification_result.dart';
 import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/profile/contracts/promote_profile_request.dart';
@@ -48,6 +49,15 @@ class ProfileService {
     return ProfileResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path: "profiles/$request",
+      expectedCode: 200,
+    ));
+  }
+
+  Future<InviteGroupNotificationResult> getInvitesToGroups() async {
+    return InviteGroupNotificationResult.fromJson(
+        await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "profiles/notifications",
       expectedCode: 200,
     ));
   }

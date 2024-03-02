@@ -119,14 +119,43 @@ class GroupForm extends StatelessWidget {
                                   const SizedBox(
                                     height: 26,
                                   ),
-                                  const Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Grupos Globais",
                                         style: AppText.titleToScrollSection,
                                         overflow: TextOverflow.ellipsis,
                                       ),
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 12),
+                                        child: GestureDetector(
+                                          child: const Text(
+                                            "Ver Mais",
+                                            textAlign: TextAlign.center,
+                                            style: AppText.underlineStyle,
+                                          ),
+                                          onTap: () => {
+                                            goRouter.push(
+                                              "/list_details",
+                                              extra: ListDetailsViewParams(
+                                                  title: "Grupos Globais",
+                                                  onSearch: (searchTerm) async {
+                                                    await viewModel.getGroups(
+                                                        100, searchTerm);
+
+                                                    return _renderCards(
+                                                      goRouter,
+                                                      viewModel
+                                                          .getAllPublicGroups,
+                                                    );
+                                                  }),
+                                            ),
+                                          },
+                                        ),
+                                      )
                                     ],
                                   ),
                                   const SizedBox(

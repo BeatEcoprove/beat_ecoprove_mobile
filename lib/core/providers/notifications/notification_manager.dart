@@ -3,11 +3,9 @@ import 'package:beat_ecoprove/core/view_model.dart';
 
 class NotificationManager extends ViewModel {
   final List<Notification> notifications = [];
-  late String oi = "oi";
 
   void addNotification(Notification notification) {
     notifications.add(notification);
-    oi = "desoi";
     notifyListeners();
   }
 

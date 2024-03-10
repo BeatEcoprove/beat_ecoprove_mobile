@@ -1,5 +1,5 @@
-import 'package:beat_ecoprove/clothing/services/action_service.dart';
-import 'package:beat_ecoprove/clothing/services/closet_service.dart';
+import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
+import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';

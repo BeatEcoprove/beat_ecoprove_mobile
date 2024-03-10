@@ -32,7 +32,12 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   ecoCoins(value: "ecoCoins"),
   sustainablePoints(value: "sustainablePoints"),
   search(value: "search"),
-  code(value: "code");
+  code(value: "code"),
+  storeCountry(value: "storeCountry"),
+  storeLocality(value: "storeLocality"),
+  storeStreet(value: "storeStreet"),
+  storePostalCode(value: "storePostalCode"),
+  storeNumberPort(value: "storeNumberPort");
 
   final String value;
   const FormFieldValues({required this.value});

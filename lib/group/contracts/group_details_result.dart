@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 
 class GroupDetailsResult {
   final String id;

@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item_user.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
-import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

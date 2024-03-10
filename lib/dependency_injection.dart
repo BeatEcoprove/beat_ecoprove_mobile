@@ -15,18 +15,24 @@ import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart'
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
-import 'package:beat_ecoprove/profile/dependency_injection.dart';
-import 'package:beat_ecoprove/profile/routes.dart';
-import 'package:beat_ecoprove/register_cloth/dependency_injection.dart';
+import 'package:beat_ecoprove/client/profile/dependency_injection.dart';
+import 'package:beat_ecoprove/client/profile/routes.dart';
+import 'package:beat_ecoprove/client/register_cloth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/routes.dart';
-import 'package:beat_ecoprove/clothing/dependency_injection.dart';
-import 'package:beat_ecoprove/clothing/routes.dart';
+import 'package:beat_ecoprove/client/clothing/dependency_injection.dart';
+import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/home/dependency_injection.dart';
-import 'package:beat_ecoprove/register_cloth/routes.dart';
+import 'package:beat_ecoprove/client/register_cloth/routes.dart';
 import 'package:beat_ecoprove/routes.dart';
+import 'package:beat_ecoprove/service_provider/orders/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/orders/routes.dart';
+import 'package:beat_ecoprove/service_provider/profile/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/profile/routes.dart';
+import 'package:beat_ecoprove/service_provider/stores/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -74,6 +80,9 @@ class DependencyInjection {
       registerClothRoutes,
       groupRoutes,
       profileRoutes,
+      serviceProviderProfileRoutes,
+      storeRoutes,
+      orderRoutes,
       GoRoute(
         path: '/show_completed',
         builder: (context, state) =>
@@ -103,9 +112,12 @@ class DependencyInjection {
 
     locator.registerFactory(() => ListDetailsViewModel());
     addProfile();
+    addServiceProviderProfile();
     addCloset();
     addHome();
     addCloth();
     addGroup();
+    addStore();
+    addOrders();
   }
 }

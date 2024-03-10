@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
-import 'package:beat_ecoprove/profile/contracts/profile_result.dart';
-import 'package:beat_ecoprove/profile/services/profile_service.dart';
+import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
 
 class GetByUserNameUseCase implements UseCase<String, Future<ProfileResult>> {
   final ProfileService _profileService;

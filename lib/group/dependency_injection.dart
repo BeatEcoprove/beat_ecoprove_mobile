@@ -19,7 +19,7 @@ import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_mode
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
-import 'package:beat_ecoprove/profile/services/profile_service.dart';
+import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
 import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
 

@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/clothing/contracts/cloth_result.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';

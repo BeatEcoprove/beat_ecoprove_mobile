@@ -68,7 +68,6 @@ class InfoClothServiceViewModel extends FormViewModel {
   Future fetchServices(
       String cardId, bool isBucket, BuildContext context) async {
     await fetchBuckets();
-    print(clothId);
     if (isBucket) {
       await fetchBucketServices(cardId, context);
     } else {

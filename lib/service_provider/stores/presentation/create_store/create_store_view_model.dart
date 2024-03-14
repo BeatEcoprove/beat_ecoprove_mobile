@@ -35,6 +35,9 @@ class CreateStoreViewModel extends FormViewModel {
       FormFieldValues.storeNumberPort,
     ]);
     setValue(FormFieldValues.groupPicture, XFile(defaultImage));
+    //TODO: CHANGE
+    setValue(FormFieldValues.storeCountry, "Portugal");
+    setValue(FormFieldValues.storeLocality, "Lisboa");
   }
 
   void setStoreStreet(String storeStreet) {

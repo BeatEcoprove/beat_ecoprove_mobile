@@ -39,7 +39,6 @@ class OrdersViewModel extends FormViewModel {
   ) {
     _user = _authProvider.appUser;
     initializeFields([
-      FormFieldValues.name,
       FormFieldValues.search,
     ]);
     getAllColors();

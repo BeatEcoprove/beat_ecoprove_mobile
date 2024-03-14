@@ -5,7 +5,7 @@ import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item_user.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
@@ -147,14 +147,16 @@ class ChangeProfileForm extends StatelessWidget {
       margin: const EdgeInsets.symmetric(
         vertical: 8,
       ),
-      child: CompactListItemUser.open(
+      child: CompactListItem.userCanClick(
         click: () => viewModel.selectProfile(profile.id),
         hasBorder: viewModel.selectedProfile(profile.id, isMain),
         title: profile.username,
         userLevel: profile.level,
         sustainablePoints: profile.sustainabilityPoints,
         ecoScorePoints: profile.ecoScorePoints,
-        hasOptions: (viewModel.nestedProfile != profile.id) && !isMain,
+        typeEnd: (viewModel.nestedProfile != profile.id) && !isMain
+            ? "default"
+            : "withoutOptions",
         options: [
           OptionItem(
             name: 'Promover',

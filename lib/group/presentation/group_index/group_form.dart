@@ -213,7 +213,7 @@ class GroupForm extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () => goRouter.push("/chat", extra: e),
-              child: CompactListItem.group(
+              child: CompactListItem.withSecondSubText(
                 isCircular: true,
                 widget: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
@@ -224,7 +224,7 @@ class GroupForm extends StatelessWidget {
                 ),
                 title: e.name,
                 subTitle: "${e.membersCount} membros",
-                state: e.isPublic ? "Público" : "Privado",
+                secondSubText: e.isPublic ? "Público" : "Privado",
               ),
             ),
           ),

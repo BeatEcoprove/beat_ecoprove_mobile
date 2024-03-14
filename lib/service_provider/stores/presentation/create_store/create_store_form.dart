@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/formatters/postal_code_formatter.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -21,7 +22,6 @@ class CreateStoreForm extends StatelessWidget {
     double maxWidth = (MediaQuery.of(context).size.width) - 48;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: AppBackground(
           content: SizedBox(
             height: double.infinity,
@@ -29,10 +29,10 @@ class CreateStoreForm extends StatelessWidget {
             child: GoBack(
               posLeft: 22,
               posTop: 48,
-              child: Column(
-                children: [
-                  SingleChildScrollView(
-                    child: Padding(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 26),
                       child: Center(
@@ -104,18 +104,18 @@ class CreateStoreForm extends StatelessWidget {
                                       child: DefaultFormattedTextField(
                                         hintText: "Código Postal",
                                         inputFormatter: [
-                                          LengthLimitingTextInputFormatter(8),
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                          LengthLimitingTextInputFormatter(7),
+                                          PostalCodeFormatter(),
                                         ],
-                                        onChange: (storePostalCode) async =>
-                                            viewModel.setStorePostalCode(
-                                                storePostalCode),
-                                        initialValue: viewModel
-                                            .getValue(
-                                                FormFieldValues.storePostalCode)
-                                            .value,
+                                        initialValue: viewModel.getDefault(
+                                            FormFieldValues.postalCode),
+                                        onChange: (postalCode) => viewModel
+                                            .setStorePostalCode(postalCode),
                                         errorMessage: viewModel
                                             .getValue(
-                                                FormFieldValues.storePostalCode)
+                                                FormFieldValues.postalCode)
                                             .error,
                                       ),
                                     ),
@@ -159,8 +159,8 @@ class CreateStoreForm extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

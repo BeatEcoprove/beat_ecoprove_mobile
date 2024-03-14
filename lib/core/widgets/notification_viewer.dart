@@ -1,6 +1,4 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification.dart'

@@ -1,9 +1,10 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
 import 'package:go_router/go_router.dart';
 
 class StoreViewModel extends FormViewModel {
@@ -11,7 +12,8 @@ class StoreViewModel extends FormViewModel {
   final GoRouter _navigationRouter;
   late final User _user;
 
-  final List<Widget> _stores = [];
+  late Map<String, dynamic> _selectedFilters = {};
+  final List<StoreItem> _stores = [];
 
   StoreViewModel(
     this._authProvider,
@@ -34,9 +36,37 @@ class StoreViewModel extends FormViewModel {
     }
   }
 
-  List<Widget> get stores => _stores;
+  // List<StoreItem> get stores => _stores;
+  List<StoreItem> get stores => [
+        StoreItem(
+          id: "1",
+          name: "Wash&Clean",
+          numberWorkers: 10,
+          country: "Portugal",
+          locality: "Póvoa de Varzim",
+          street: "Rua",
+          postalCode: "4564-133",
+          numberPort: "50",
+          sustainablePoints: 250,
+          rating: 5,
+          picture: "public/profile/d9b26350-47ec-41c5-8303-f5e73474d996.png",
+          level: 10,
+        ),
+      ];
+
+  bool haveThisFilter(String filter) => _selectedFilters.containsKey(filter);
+
+  Map<String, dynamic> get allSelectedFilters => _selectedFilters;
+
+  void changeFilterSelection(Map<String, dynamic> filters) {
+    _selectedFilters = filters;
+    notifyListeners();
+  }
+
+  List<FilterRow> get getFilters => [];
 
   Future<void> getStores() async {
+    //TODO: CREATE USE CASE TO GET MINE STORES
     return;
   }
 

@@ -1,0 +1,142 @@
+import 'package:async/async.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/core/widgets/application_background.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/floating_button.dart';
+import 'package:beat_ecoprove/core/widgets/headers/store_header.dart';
+import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_workers_view_model.dart';
+import 'package:flutter/material.dart';
+
+class StoreParams {
+  final String storeId;
+  final String name;
+  final int numberWorkers;
+  final String picture;
+
+  StoreParams({
+    required this.storeId,
+    required this.name,
+    required this.numberWorkers,
+    required this.picture,
+  });
+}
+
+class StoreWorkersForm extends StatefulWidget {
+  final StoreParams params;
+
+  const StoreWorkersForm({
+    super.key,
+    required this.params,
+  });
+
+  @override
+  State<StoreWorkersForm> createState() => _StoreWorkersFormState();
+}
+
+class _StoreWorkersFormState extends State<StoreWorkersForm> {
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ViewModel.of<StoreWorkersViewModel>(context);
+    final memo = AsyncMemoizer();
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: StoreHeader(
+        title: widget.params.name,
+        numberMembers: widget.params.numberWorkers,
+        picture: widget.params.picture,
+      ),
+      body: AppBackground(
+        content: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Funcionários",
+                        style: AppText.titleToScrollSection,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      FutureBuilder(
+                        future: memo.runOnce(() async =>
+                            await viewModel.getWorkers(widget.params.storeId)),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColor.primaryColor,
+                                ),
+                              );
+                            default:
+                              return Column(
+                                children: viewModel.workers
+                                    .map(
+                                      (worker) => Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 8,
+                                          ),
+                                          child:
+                                              //TODO: CHANGE
+                                              // viewModel.user.type != "regularWorker" ?
+                                              CompactListItem.workerCanEditType(
+                                            title: worker.name,
+                                            subTitle: worker.email,
+                                            options: viewModel.options,
+                                            dropOptions: viewModel.types,
+                                            dropOptionsValue: viewModel
+                                                .getValue(FormFieldValues.code)
+                                                .value,
+                                            dropOptionsSet: (value) =>
+                                                viewModel.setValue(
+                                                    FormFieldValues.code,
+                                                    value),
+                                          )
+                                          // : CompactListItem.worker()
+                                          ),
+                                    )
+                                    .toList(),
+                              );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            //TODO: CHANGE
+            // if(viewModel.user.type != "regularWorker")
+            Positioned(
+              bottom: 36,
+              right: 26,
+              child: FloatingButton(
+                color: AppColor.darkGreen,
+                dimension: 64,
+                icon: const Icon(
+                  size: 34,
+                  Icons.add_circle_outline_rounded,
+                  color: AppColor.widgetBackground,
+                ),
+                onPressed: () async =>
+                    await viewModel.addWorker(widget.params.storeId),
+              ),
+            ),
+          ],
+        ),
+        type: AppBackgrounds.members,
+      ),
+    );
+  }
+}

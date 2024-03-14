@@ -26,49 +26,6 @@ class OrdersForm extends StatefulWidget {
 class _OrdersFormState extends State<OrdersForm> {
   late OrdersViewModel viewModel;
 
-  @override
-  Widget build(BuildContext context) {
-    viewModel = ViewModel.of<OrdersViewModel>(context);
-    final GoRouter goRouter = GoRouter.of(context);
-
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: StandardHeader(
-        title: "Pedidos",
-        sustainablePoints: viewModel.user.sustainablePoints,
-      ),
-      body: AppBackground(
-        content: Stack(
-          children: [
-            CustomScrollView(
-              slivers: [
-                _buildSearchBarAndFilter(viewModel),
-                _buildFilterSelector(viewModel),
-                _buildOrdersCardsSection(context, viewModel)
-              ],
-            ),
-            Positioned(
-              bottom: 16,
-              right: 26,
-              child: FloatingButton(
-                color: AppColor.darkGreen,
-                dimension: 64,
-                icon: const Icon(
-                  size: 34,
-                  Icons.add_circle_outline_rounded,
-                  color: AppColor.widgetBackground,
-                ),
-                //TODO: READ QRCode TO REGISTER ORDER
-                onPressed: () => {},
-              ),
-            ),
-          ],
-        ),
-        type: AppBackgrounds.clothing,
-      ),
-    );
-  }
-
   SliverAppBar _buildSearchBarAndFilter(OrdersViewModel viewModel) {
     const Radius borderRadius = Radius.circular(5);
     final options = viewModel.getFilters;
@@ -190,6 +147,55 @@ class _OrdersFormState extends State<OrdersForm> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Positioned _addStoreButton() {
+    return Positioned(
+      bottom: 16,
+      right: 26,
+      child: FloatingButton(
+        color: AppColor.darkGreen,
+        dimension: 64,
+        icon: const Icon(
+          size: 34,
+          Icons.add_circle_outline_rounded,
+          color: AppColor.widgetBackground,
+        ),
+        //TODO: READ QRCode TO REGISTER ORDER
+        onPressed: () => {},
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    viewModel = ViewModel.of<OrdersViewModel>(context);
+    final GoRouter goRouter = GoRouter.of(context);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: StandardHeader(
+        title: "Pedidos",
+        sustainablePoints: viewModel.user.sustainablePoints,
+      ),
+      body: AppBackground(
+        content: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                _buildSearchBarAndFilter(viewModel),
+                //TODO: CHANGE
+                // if(viewModel.user.type == "serviceProvider")
+                _buildFilterSelector(viewModel),
+                _buildOrdersCardsSection(context, viewModel)
+              ],
+            ),
+            _addStoreButton(),
+          ],
+        ),
+        type: AppBackgrounds.clothing,
       ),
     );
   }

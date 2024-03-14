@@ -5,7 +5,9 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/with_text_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
@@ -213,18 +215,22 @@ class GroupForm extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () => goRouter.push("/chat", extra: e),
-              child: CompactListItem.withSecondSubText(
-                isCircular: true,
-                widget: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image(
-                    image: ServerImage(e.avatarPicture),
-                    fit: BoxFit.cover,
+              child: CompactListItemRoot(
+                items: [
+                  ImageTitleSubtitleHeader(
+                    isCircular: true,
+                    widget: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image(
+                        image: ServerImage(e.avatarPicture),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    title: e.name,
+                    subTitle: "${e.membersCount} membros",
                   ),
-                ),
-                title: e.name,
-                subTitle: "${e.membersCount} membros",
-                secondSubText: e.isPublic ? "Público" : "Privado",
+                  WithTextFooter(text: e.isPublic ? "Público" : "Privado"),
+                ],
               ),
             ),
           ),

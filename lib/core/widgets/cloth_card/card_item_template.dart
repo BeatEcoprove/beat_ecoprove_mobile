@@ -2,7 +2,9 @@ import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/dialog_card.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
@@ -160,11 +162,16 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     double extraDistance = widget.otherProfileImage != null ? 18 : 0;
     return Stack(
       children: [
-        CompactListItem.withoutOptions(
-          widget: widget.body(context, Types.compact),
-          title: widget.title,
-          subTitle: widget.subTitle ?? '',
-          withoutBoxShadow: true,
+        CompactListItemRoot(
+          items: [
+            ImageTitleSubtitleHeader(
+              widget: widget.body(context, Types.compact),
+              title: widget.title,
+              subTitle: widget.subTitle ?? '',
+              withoutBoxShadow: true,
+            ),
+            const WithoutOptionsFooter(),
+          ],
         ),
         if (widget.otherProfileImage != null)
           _otherProfileImageWidget(35, 46, null, 4),

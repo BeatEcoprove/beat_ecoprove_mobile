@@ -3,7 +3,10 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_and_text_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/with_text_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
@@ -87,38 +90,44 @@ class StoreForm extends StatelessWidget {
               vertical: 4,
             ),
             child: InkWell(
-              onTap: () => goRouter.push("/info/store/${e.id}", extra: e),
-              child:
-                  //TODO: CHANGE BECAUSE OF TYPES OF USERS
-                  //     viewModel.user.type == "gerente" : CompactListItem.withSecondSubTextAndOptions(
-                  //   isCircular: true,
-                  //   widget: ClipRRect(
-                  //     borderRadius: BorderRadius.circular(100),
-                  //     child: Image(
-                  //       image: ServerImage(e.picture),
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //   ),
-                  //   title: e.name,
-                  //   subTitle: "${e.numberWorkers} funcionários",
-                  //   secondSubText: "Nível ${e.level}",
-                  //   options: [],
-                  // ),
-                  //  ?
-                  CompactListItem.withSecondSubText(
-                isCircular: true,
-                widget: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image(
-                    image: ServerImage(e.picture),
-                    fit: BoxFit.cover,
+                onTap: () => goRouter.push("/info/store/${e.id}", extra: e),
+                child:
+                    //TODO: CHANGE BECAUSE OF TYPES OF USERS
+                    //     viewModel.user.type == "gerente" :
+                    //     CompactListItemRoot(
+                    //   items: [
+                    //     ImageTitleSubtitleHeader(
+                    //       isCircular: true,
+                    //       widget: ClipRRect(
+                    //         borderRadius: BorderRadius.circular(100),
+                    //         child: Image(
+                    //           image: ServerImage(e.picture),
+                    //           fit: BoxFit.cover,
+                    //         ),
+                    //       ),
+                    //       title: e.name,
+                    //       subTitle: "${e.numberWorkers} funcionários",
+                    //     ),
+                    //     WithOptionsAndTextFooter(
+                    //         options: [], text: "Nível ${e.level}",)
+                    //   ],
+                    // ),
+                    //  ?
+                    CompactListItemRoot(items: [
+                  ImageTitleSubtitleHeader(
+                    isCircular: true,
+                    widget: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image(
+                        image: ServerImage(e.picture),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    title: e.name,
+                    subTitle: "${e.numberWorkers} funcionários",
                   ),
-                ),
-                title: e.name,
-                subTitle: "${e.numberWorkers} funcionários",
-                secondSubText: "Nível ${e.level}",
-              ),
-            ),
+                  WithTextFooter(text: "Nível ${e.level}")
+                ])),
           ),
         )
         .toList();

@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/profile_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:flutter/material.dart';
@@ -54,11 +56,19 @@ class MakeProfileActionView extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    CompactListItem.userWithoutOptions(
-                      title: params.profile.username,
-                      userLevel: params.profile.level,
-                      sustainablePoints: params.profile.sustainabilityPoints,
-                      ecoScorePoints: params.profile.ecoScorePoints,
+                    CompactListItemRoot(
+                      height: HeightCard.height88,
+                      padding: PaddingCard.padding0,
+                      items: [
+                        ProfileHeader(
+                          title: params.profile.username,
+                          userLevel: params.profile.level,
+                          sustainablePoints:
+                              params.profile.sustainabilityPoints,
+                          ecoScorePoints: params.profile.ecoScorePoints,
+                        ),
+                        const WithoutOptionsFooter(),
+                      ],
                     ),
                     const SizedBox(
                       height: 36,

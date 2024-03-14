@@ -3,7 +3,9 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_provider.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:flutter/material.dart';
 
 class ServiceView extends StatefulWidget {
@@ -70,11 +72,16 @@ class _ServiceViewState extends State<ServiceView> {
                 for (var store in stores)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: CompactListItem.withoutOptions(
-                      isCircular: true,
-                      widget: store.image,
-                      title: store.name,
-                      subTitle: store.serviceProvider,
+                    child: CompactListItemRoot(
+                      items: [
+                        ImageTitleSubtitleHeader(
+                          isCircular: true,
+                          widget: store.image,
+                          title: store.name,
+                          subTitle: store.serviceProvider,
+                        ),
+                        const WithoutOptionsFooter(),
+                      ],
                     ),
                   ),
               ],

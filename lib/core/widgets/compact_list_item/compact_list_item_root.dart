@@ -2,15 +2,15 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item.dart';
 import 'package:flutter/material.dart';
 
-enum Padding implements Comparable<Padding> {
+enum PaddingCard implements Comparable<PaddingCard> {
   padding8(value: 8),
   padding0(value: 0);
 
   final double value;
-  const Padding({required this.value});
+  const PaddingCard({required this.value});
 
   @override
-  int compareTo(Padding other) {
+  int compareTo(PaddingCard other) {
     throw UnimplementedError();
   }
 }
@@ -35,15 +35,16 @@ class CompactListItemRoot extends StatelessWidget {
 
   final VoidCallback? click;
 
-  final Padding padding;
+  final PaddingCard padding;
   final HeightCard height;
 
   const CompactListItemRoot({
     super.key,
     required this.items,
-    this.padding = Padding.padding8,
+    this.padding = PaddingCard.padding8,
     this.height = HeightCard.height75,
-  }) : click = null;
+    this.click,
+  });
 
   @override
   Widget build(BuildContext context) {

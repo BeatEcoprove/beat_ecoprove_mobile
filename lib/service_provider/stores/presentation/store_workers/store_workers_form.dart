@@ -3,7 +3,10 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/worker_header/worker_can_edit_privilegies_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/worker_header/worker_with_type_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/store_header.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_workers_view_model.dart';
@@ -84,27 +87,44 @@ class _StoreWorkersFormState extends State<StoreWorkersForm> {
                                 children: viewModel.workers
                                     .map(
                                       (worker) => Container(
-                                          margin: const EdgeInsets.symmetric(
-                                            vertical: 8,
-                                          ),
-                                          child:
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                        ),
+                                        child:
+                                            //TODO: CHANGE
+                                            // viewModel.user.type != "regularWorker" ?
+                                            //     CompactListItemRoot(
+                                            //   items: [
+                                            //     WorkerCanEditPrivilegiesHeader(
+                                            //       title: worker.name,
+                                            //       subTitle: worker.email,
+                                            //       dropOptions: viewModel.types,
+                                            //       dropOptionsValue: viewModel
+                                            //           .getValue(
+                                            //               FormFieldValues.code)
+                                            //           .value,
+                                            //       dropOptionsSet: (value) =>
+                                            //           viewModel.setValue(
+                                            //               FormFieldValues.code,
+                                            //               value),
+                                            //     ),
+                                            //     WithOptionsFooter(
+                                            //       options: viewModel.options,
+                                            //     )
+                                            //   ],
+                                            // ),
+                                            // :
+                                            CompactListItemRoot(
+                                          items: [
+                                            WorkerWithTypeHeader(
+                                              title: worker.name,
+                                              subTitle: worker.email,
                                               //TODO: CHANGE
-                                              // viewModel.user.type != "regularWorker" ?
-                                              CompactListItem.workerCanEditType(
-                                            title: worker.name,
-                                            subTitle: worker.email,
-                                            options: viewModel.options,
-                                            dropOptions: viewModel.types,
-                                            dropOptionsValue: viewModel
-                                                .getValue(FormFieldValues.code)
-                                                .value,
-                                            dropOptionsSet: (value) =>
-                                                viewModel.setValue(
-                                                    FormFieldValues.code,
-                                                    value),
-                                          )
-                                          // : CompactListItem.worker()
-                                          ),
+                                              workerType: "Regular",
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     )
                                     .toList(),
                               );

@@ -3,10 +3,10 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_h
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:flutter/material.dart';
 
-class WorkerCanEditPrivilegiesHeader extends WorkerHeader {
+class WorkerWithTypeHeader extends WorkerHeader {
   final String workerType;
 
-  const WorkerCanEditPrivilegiesHeader({
+  const WorkerWithTypeHeader({
     super.key,
     required super.title,
     required super.subTitle,
@@ -49,10 +49,12 @@ class WorkerCanEditPrivilegiesHeader extends WorkerHeader {
             borderRadius: BorderRadius.all(borderRadius),
             boxShadow: [AppColor.defaultShadow],
           ),
-          child: Text(
-            workerType,
-            style: AppText.subHeader,
-            overflow: TextOverflow.ellipsis,
+          child: Center(
+            child: Text(
+              workerType,
+              style: AppText.subHeader,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       ],

@@ -1,5 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/compact_list_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/compact_list_item_header.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:flutter/material.dart';
 

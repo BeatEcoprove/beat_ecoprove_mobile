@@ -5,7 +5,9 @@ import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view_model.dart';
 import 'package:beat_ecoprove/home/widgets/welcome_card.dart';
@@ -114,15 +116,21 @@ class HomeForm extends StatelessWidget {
                 for (var service in services)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: CompactListItem(
-                      widget: service.widget,
-                      title: service.title,
-                      subTitle: service.subtitle,
-                      options: [
-                        OptionItem(
-                          name: 'Não voltar a aparecer',
-                          action: () {},
-                        )
+                    child: CompactListItemRoot(
+                      items: [
+                        ImageTitleSubtitleHeader(
+                          widget: service.widget,
+                          title: service.title,
+                          subTitle: service.subtitle,
+                        ),
+                        WithOptionsFooter(
+                          options: [
+                            OptionItem(
+                              name: 'Não voltar a aparecer',
+                              action: () {},
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ),

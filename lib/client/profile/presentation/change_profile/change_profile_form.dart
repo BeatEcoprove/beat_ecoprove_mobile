@@ -5,7 +5,10 @@ import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
-import 'package:beat_ecoprove/core/widgets/compact_list_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/profile_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
@@ -147,47 +150,56 @@ class ChangeProfileForm extends StatelessWidget {
       margin: const EdgeInsets.symmetric(
         vertical: 8,
       ),
-      child: CompactListItem.userCanClick(
+      child: CompactListItemRoot(
+        height: HeightCard.height88,
+        padding: PaddingCard.padding0,
         click: () => viewModel.selectProfile(profile.id),
-        hasBorder: viewModel.selectedProfile(profile.id, isMain),
-        title: profile.username,
-        userLevel: profile.level,
-        sustainablePoints: profile.sustainabilityPoints,
-        ecoScorePoints: profile.ecoScorePoints,
-        typeEnd: (viewModel.nestedProfile != profile.id) && !isMain
-            ? "default"
-            : "withoutOptions",
-        options: [
-          OptionItem(
-            name: 'Promover',
-            action: () {
-              goRouter.push(
-                "/make_profile_action",
-                extra: MakeProfileActionViewParams(
-                  text:
-                      "Tem a certeza que pretende criar uma conta com este perfil?",
-                  textButton: "Criar",
-                  profile: profile,
-                  action: () async =>
-                      await viewModel.promoteProfile(profile.id),
-                ),
-              );
-            },
+        items: [
+          ProfileHeader(
+            hasBorder: viewModel.selectedProfile(profile.id, isMain),
+            title: profile.username,
+            userLevel: profile.level,
+            sustainablePoints: profile.sustainabilityPoints,
+            ecoScorePoints: profile.ecoScorePoints,
           ),
-          OptionItem(
-            name: 'Remover',
-            action: () {
-              goRouter.push(
-                "/make_profile_action",
-                extra: MakeProfileActionViewParams(
-                  text: "Tem a certeza que pretende remover este perfil?",
-                  textButton: "Remover",
-                  profile: profile,
-                  action: () async => await viewModel.deleteProfile(profile.id),
-                ),
-              );
-            },
-          ),
+          (viewModel.nestedProfile != profile.id) && !isMain
+              ? WithOptionsFooter(
+                  options: [
+                    OptionItem(
+                      name: 'Promover',
+                      action: () {
+                        goRouter.push(
+                          "/make_profile_action",
+                          extra: MakeProfileActionViewParams(
+                            text:
+                                "Tem a certeza que pretende criar uma conta com este perfil?",
+                            textButton: "Criar",
+                            profile: profile,
+                            action: () async =>
+                                await viewModel.promoteProfile(profile.id),
+                          ),
+                        );
+                      },
+                    ),
+                    OptionItem(
+                      name: 'Remover',
+                      action: () {
+                        goRouter.push(
+                          "/make_profile_action",
+                          extra: MakeProfileActionViewParams(
+                            text:
+                                "Tem a certeza que pretende remover este perfil?",
+                            textButton: "Remover",
+                            profile: profile,
+                            action: () async =>
+                                await viewModel.deleteProfile(profile.id),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                )
+              : const WithoutOptionsFooter()
         ],
       ),
     );

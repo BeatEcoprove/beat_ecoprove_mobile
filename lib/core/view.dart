@@ -18,23 +18,19 @@ abstract class IView<TViewModel extends ViewModel> extends StatefulWidget {
   State<IView> createState() => _ViewState<TViewModel>();
 }
 
-// ignore: must_be_immutable
 abstract class ArgumentedView<TViewModel extends ViewModel, TArgument>
     extends IView<TViewModel> {
-  TArgument? args;
+  final TArgument args;
 
-  static ArgumentedView of<T extends ArgumentedView, TArgument>(TArgument arg) {
-    var view = DependencyInjection.locator<T>();
+  const ArgumentedView({
+    super.key,
+    required super.viewModel,
+    required this.args,
+  });
 
-    view.setArgs(arg);
-    return view;
+  static ArgumentedView of<TView extends ArgumentedView>(dynamic arguments) {
+    return DependencyInjection.locator<TView>(param1: arguments);
   }
-
-  void setArgs(TArgument newArgs) {
-    this.args = newArgs;
-  }
-
-  ArgumentedView({super.key, required super.viewModel});
 }
 
 class _ViewState<TViewModel extends ViewModel>

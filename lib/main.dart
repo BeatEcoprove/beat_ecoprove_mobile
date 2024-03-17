@@ -4,10 +4,10 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
-import 'package:beat_ecoprove/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -16,7 +16,8 @@ void main() async {
   await dotenv.load(fileName: '.env');
   await StorageService.initStorage();
 
-  DependencyInjection().setupDIContainer();
+  var app = DependencyInjection().setupDIContainer();
+  app.build();
 
   runApp(MultiProvider(
     providers: [
@@ -36,13 +37,13 @@ void main() async {
       )
     ],
     child: MainApp(
-      appRouter: DependencyInjection.locator<AppRouter>(),
+      appRouter: app.navigationManager.router,
     ),
   ));
 }
 
 class MainApp extends StatelessWidget {
-  final AppRouter appRouter;
+  final GoRouter appRouter;
 
   const MainApp({
     super.key,
@@ -56,7 +57,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       theme: ThemeData(fontFamily: 'Lato'),
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter.appRouter,
+      routerConfig: appRouter,
     );
   }
 }

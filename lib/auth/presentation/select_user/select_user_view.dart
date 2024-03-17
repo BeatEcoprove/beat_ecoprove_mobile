@@ -1,22 +1,60 @@
-import 'package:beat_ecoprove/auth/presentation/select_user/select_user_form.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
-import 'package:beat_ecoprove/core/view_model_provider.dart';
-import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/view.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
+import 'package:beat_ecoprove/core/widgets/selector_button/selector_button.dart';
 import 'package:flutter/material.dart';
 
-class SelectUserView extends StatelessWidget {
-  const SelectUserView({Key? key}) : super(key: key);
+class SelectUserView extends IView<SelectUserViewModel> {
+  static const double _topPadding = 200;
+  static const double _bottomPadding = 100;
+  static const double _horizontalPadding = 24;
+
+  const SelectUserView({
+    super.key,
+    required super.viewModel,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return ViewModelProvider(
-      viewModel: DependencyInjection.locator<SelectUserViewModel>(),
-      child: const Scaffold(
-        body: GoBack(
-          posTop: 48,
-          posLeft: 22,
-          child: SelectUserForm(),
+  Widget build(BuildContext context, SelectUserViewModel viewModel) {
+    return Scaffold(
+      body: GoBack(
+        posTop: 48,
+        posLeft: 22,
+        child: ScrollHandler(
+          topPadding: _topPadding,
+          bottomPadding: _bottomPadding,
+          leftPadding: _horizontalPadding,
+          rightPadding: _horizontalPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // title
+              const Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Selecione o Tipo de Utilizador",
+                  textAlign: TextAlign.center,
+                  style: AppText.header,
+                ),
+              ),
+              SelectorButton(
+                selectors: const ["Pessoal", "Empresa"],
+                onIndexChanged: (selectedIndex) =>
+                    viewModel.setSelectionIndex(selectedIndex),
+              ),
+              FormattedButton(
+                content: "Continuar",
+                textColor: Colors.white,
+                onPress: () {
+                  viewModel.handleSignIn();
+                },
+              ),
+              // Footer
+            ],
+          ),
         ),
       ),
     );

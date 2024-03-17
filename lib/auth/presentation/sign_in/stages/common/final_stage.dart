@@ -1,23 +1,22 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/final_stage_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class FinalStage extends StatelessWidget {
+class FinalStage extends Stage<FinalStageViewModel> {
   static const double textFieldsGap = 26;
 
-  const FinalStage({super.key});
+  const FinalStage({
+    super.key,
+    required super.viewModel,
+    required super.controller,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final controller = Provider.of<SignInController>(context);
-    final viewModel = ViewModel.of<FinalStageViewModel>(context);
-
+  Widget build(BuildContext context, FinalStageViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

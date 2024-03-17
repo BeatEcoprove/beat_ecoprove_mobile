@@ -1,14 +1,24 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_view_controller.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/step_by_step.dart';
 import 'package:flutter/material.dart';
 
 class SignInWrapper extends StatelessWidget {
-  final List<Widget> sections;
+  final List<Stage> sections;
 
   const SignInWrapper({required this.sections, Key? key}) : super(key: key);
+
+  void _handleGoPrevious(SignInController signInController) {
+    var stage = sections[signInController.currentPage];
+    var data = stage.viewModel.fields;
+
+    stage.handlePrevious(
+      data: data,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +28,9 @@ class SignInWrapper extends StatelessWidget {
       posTop: 48,
       posLeft: 22,
       goBackPath: '/select-user',
-      changeDefaultBehavior: () => signInController.defualtBehavior(),
+      changeDefaultBehavior: () => signInController.defualtBehavior(
+        () => _handleGoPrevious(signInController),
+      ),
       child: Column(
         children: [
           Container(

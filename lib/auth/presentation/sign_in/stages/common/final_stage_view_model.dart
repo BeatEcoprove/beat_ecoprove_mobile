@@ -3,14 +3,14 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
-import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
-class FinalStageViewModel extends FormViewModel {
+class FinalStageViewModel extends StageViewModel {
   final AuthenticationService _authenticationService;
 
-  FinalStageViewModel(this._authenticationService) {
+  FinalStageViewModel(super.signInViewModel, this._authenticationService) {
     initializeFields([
       FormFieldValues.email,
       FormFieldValues.password,
@@ -31,7 +31,7 @@ class FinalStageViewModel extends FormViewModel {
         return;
       }
     } on HttpError {
-      return;
+      print("no connected to the server");
     }
 
     try {

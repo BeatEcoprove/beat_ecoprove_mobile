@@ -4,19 +4,33 @@ import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/user_name.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
-import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AvatarStageViewModel extends FormViewModel {
+class AvatarStageViewModel extends StageViewModel {
   static const defaultImage = "assets/default_avatar.png";
   final AuthenticationService _authenticationService;
 
-  AvatarStageViewModel(this._authenticationService) {
-    initializeFields([FormFieldValues.userName, FormFieldValues.avatar]);
+  AvatarStageViewModel(super.signInViewModel, this._authenticationService) {
+    initializeFields([
+      FormFieldValues.userName,
+      FormFieldValues.avatar,
+    ]);
     setValue(FormFieldValues.avatar, XFile(defaultImage));
+  }
+
+  @override
+  void setDefaults(Map<FormFieldValues, FormFieldModel> data) {
+    super.setDefaults(data);
+
+    setToDefaultField(
+      FormFieldValues.avatar,
+      data[FormFieldValues.avatar]?.value ?? XFile(defaultImage),
+    );
   }
 
   Future<void> setUserName(String userName) async {
@@ -31,7 +45,7 @@ class AvatarStageViewModel extends FormViewModel {
         return;
       }
     } on HttpError {
-      return;
+      print("no conection to the server");
     }
 
     try {

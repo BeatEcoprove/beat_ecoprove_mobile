@@ -1,12 +1,12 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/code.dart';
-import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_password/reset_password_form.dart';
+import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_params.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
-import 'package:go_router/go_router.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 
 class InsertResetCodeViewModel extends FormViewModel {
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   InsertResetCodeViewModel(
     this._navigationRouter,
@@ -31,8 +31,8 @@ class InsertResetCodeViewModel extends FormViewModel {
       setError(FormFieldValues.code, "O código não pode ser vazio");
     }
 
-    _navigationRouter.pushReplacement("/reset_password",
-        extra: ResetPasswordParams(
+    _navigationRouter.replaceTop("/reset_password",
+        extras: ResetPasswordParams(
           code: code,
         ));
   }

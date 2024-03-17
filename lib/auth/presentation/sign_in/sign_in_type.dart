@@ -1,37 +1,99 @@
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/avatar_stage.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/avatar_stage_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/final_stage.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/final_stage_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_address_stage.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_address_stage_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_stage.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_stage_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_stage.dart';
-import 'package:flutter/material.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_view_model.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
+import 'package:beat_ecoprove/core/stage.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 
-enum SignUserType implements Comparable<SignUserType> {
-  enterprise(type: "Enterprise", sections: [
-    EnterpriseStage(),
-    EnterpriseAddressStage(),
-    AvatarStage(),
-    FinalStage()
-  ]),
+class SignUseroptions {
+  final String label;
 
-  personal(
-      type: "Personal",
-      sections: [PersonalStage(), AvatarStage(), FinalStage()]);
+  const SignUseroptions(this.label);
 
-  final String type;
-  final List<Widget> sections;
-
-  const SignUserType({required this.type, required this.sections});
-
-  static SignUserType getTypeOf(String? value) {
-    if (value == null) {
-      return SignUserType.personal;
+  List<Stage> getStages(
+    SignInController controller,
+    SignInViewModel viewModel,
+  ) {
+    switch (label) {
+      case "personal":
+        return [
+          PersonalStage(
+            controller: controller,
+            viewModel: PersonalViewModel(viewModel),
+          ),
+          AvatarStage(
+            viewModel: AvatarStageViewModel(
+              viewModel,
+              DependencyInjection.locator<AuthenticationService>(),
+            ),
+            controller: controller,
+          ),
+          FinalStage(
+            viewModel: FinalStageViewModel(
+              viewModel,
+              DependencyInjection.locator<AuthenticationService>(),
+            ),
+            controller: controller,
+          ),
+        ];
+      case "enterprise":
+        return [
+          EnterpriseStage(
+            viewModel: EnterpriseStageViewModel(
+              viewModel,
+            ),
+            controller: controller,
+          ),
+          EnterpriseAddressStage(
+            viewModel: EnterpriseAddressStageViewModel(
+              viewModel,
+            ),
+            controller: controller,
+          ),
+          AvatarStage(
+            viewModel: AvatarStageViewModel(
+              viewModel,
+              DependencyInjection.locator<AuthenticationService>(),
+            ),
+            controller: controller,
+          ),
+          FinalStage(
+            viewModel: FinalStageViewModel(
+              viewModel,
+              DependencyInjection.locator<AuthenticationService>(),
+            ),
+            controller: controller,
+          ),
+        ];
+      default:
+        throw Exception("Invalid user type: $label");
     }
-
-    return SignUserType.values.singleWhere((type) => type.name == value);
   }
 
-  @override
-  int compareTo(SignUserType other) {
-    throw UnimplementedError();
+  static SignUseroptions personal = const SignUseroptions("personal");
+  static SignUseroptions enterprise = const SignUseroptions("enterprise");
+
+  static SignUseroptions getTypeOf(String? value) {
+    if (value == null) {
+      return SignUseroptions.personal;
+    }
+
+    switch (value) {
+      case "personal":
+        return SignUseroptions.personal;
+      case "enterprise":
+        return SignUseroptions.enterprise;
+      default:
+        throw Exception("Invalid user type: $value");
+    }
   }
 }

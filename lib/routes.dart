@@ -1,10 +1,9 @@
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
-import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view.dart';
-import 'package:beat_ecoprove/client/profile/presentation/profile/profile_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -17,12 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
-  final List<RouteBase> routes;
+  final List<RouteBase> routes = [];
   late GoRouter _appRouter;
-
-  AppRouter(this.routes) {
-    _appRouter = GoRouter(routes: _setupRoutes());
-  }
 
   final GoRoute _defaultRoute = GoRoute(
     path: '/',
@@ -39,7 +34,7 @@ class AppRouter {
     leverUpProvider.setContext(context);
 
     if (!authProvider.isAuthenticated) {
-      return const LoginView();
+      return IView.of<LoginView>();
     }
 
     Future.sync(() => DependencyInjection.locator<StaticValuesProvider>()
@@ -78,6 +73,22 @@ class AppRouter {
 
   List<RouteBase> _setupRoutes() {
     return [_defaultRoute, ...routes];
+  }
+
+  AppRouter addRoute(RouteBase route) {
+    routes.add(route);
+
+    return this;
+  }
+
+  AppRouter addRoutes(List<RouteBase> routes) {
+    this.routes.addAll(routes);
+
+    return this;
+  }
+
+  void build() {
+    _appRouter = GoRouter(routes: _setupRoutes());
   }
 
   GoRouter get appRouter => _appRouter;

@@ -4,10 +4,10 @@ import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
-import 'package:go_router/go_router.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 
 class ResetPasswordViewModel extends FormViewModel {
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   final AuthenticationService _authenticationService;
 
   ResetPasswordViewModel(this._navigationRouter, this._authenticationService) {
@@ -66,9 +66,7 @@ class ResetPasswordViewModel extends FormViewModel {
       ));
 
       _navigationRouter.pop();
-    } catch (e) {
-      print("$e");
-    }
+    } catch (e) {}
 
     notifyListeners();
   }

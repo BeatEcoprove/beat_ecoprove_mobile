@@ -1,123 +1,139 @@
+import 'package:beat_ecoprove/application_router.dart';
+import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
+import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
+import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
-import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
-import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
-import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
-import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
-import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
-import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
-import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
-import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
-import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
-import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
-import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
-import 'package:beat_ecoprove/group/dependency_injection.dart';
-import 'package:beat_ecoprove/group/routes.dart';
-import 'package:beat_ecoprove/group/services/group_service.dart';
-import 'package:beat_ecoprove/client/profile/dependency_injection.dart';
-import 'package:beat_ecoprove/client/profile/routes.dart';
-import 'package:beat_ecoprove/client/register_cloth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
-import 'package:beat_ecoprove/auth/routes.dart';
-import 'package:beat_ecoprove/client/clothing/dependency_injection.dart';
-import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/home/dependency_injection.dart';
-import 'package:beat_ecoprove/client/register_cloth/routes.dart';
-import 'package:beat_ecoprove/routes.dart';
-import 'package:beat_ecoprove/service_provider/orders/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/orders/routes.dart';
-import 'package:beat_ecoprove/service_provider/profile/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/profile/routes.dart';
-import 'package:beat_ecoprove/service_provider/stores/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 class DependencyInjection {
   static final GetIt _locator = GetIt.instance;
 
   static GetIt get locator => DependencyInjection._locator;
 
-  void setupDIContainer() {
+  void defaultServices() {
     var authProvider = locator.registerSingleton(AuthenticationProvider());
-
-    var ws = locator.registerSingleton<IWebSocketManager>(SingleSessionManager(
-      ServerConfig.websocketUrl,
-    ));
-
-    var levelUpdater = locator.registerSingleton(LevelUpProvider());
-    var notification = locator.registerSingleton(NotificationProvider());
-    var notificationManager = locator.registerSingleton(NotificationManager());
-    var groupManager = locator.registerSingleton(GroupManager());
-
     locator.registerFactory(() => HttpClient());
 
     var httpClient = locator<HttpClient>();
-    var authService =
-        locator.registerSingleton(AuthenticationService(httpClient));
-    locator.registerFactory(
-        () => HttpAuthClient(httpClient, authProvider, authService));
 
-    locator.registerFactory(() => GroupService(locator<HttpAuthClient>()));
-    locator.registerSingleton<IWCNotifier>(SingleConnectionWsNotifier(
-      ws,
+    var authService = locator.registerSingleton(
+      AuthenticationService(httpClient),
+    );
+
+    locator.registerFactory(() => HttpAuthClient(
+          httpClient,
+          authProvider,
+          authService,
+        ));
+
+    registerDefaultPage(authProvider, authService);
+  }
+
+  void registerDefaultPage(
+      AuthenticationProvider authProvider, AuthenticationService authService) {
+    locator.registerSingleton(LoginUseCase(
       authProvider,
-      levelUpdater,
-      notification,
-      notificationManager,
-      groupManager,
-      locator<GroupService>(),
+      authService,
     ));
 
-    authProvider.checkAuth();
+    locator.registerFactory(() => LoginViewModel(
+          locator<LoginUseCase>(),
+          locator<INavigationManager>(),
+          authService,
+        ));
 
-    locator.registerSingleton(AppRouter([
-      authRoutes,
-      clothingRoutes,
-      registerClothRoutes,
-      groupRoutes,
-      profileRoutes,
-      serviceProviderProfileRoutes,
-      storeRoutes,
-      orderRoutes,
-      GoRoute(
-        path: '/show_completed',
-        builder: (context, state) =>
-            ShowCompletedView(params: state.extra as ShowCompletedViewParams),
+    locator.registerFactory(
+      () => LoginView(
+        viewModel: locator<LoginViewModel>(),
       ),
-      GoRoute(
-        path: '/make_profile_action',
-        builder: (context, state) => MakeProfileActionView(
-          params: state.extra as MakeProfileActionViewParams,
-        ),
-      ),
-      GoRoute(
-        path: '/list_details',
-        builder: (context, state) => ListDetailsView(
-          params: state.extra as ListDetailsViewParams,
-        ),
-      ),
-      GoRoute(
-        path: '/select_service',
-        builder: (context, state) => SelectServiceView(
-          services: state.extra as ServiceParams,
-        ),
-      ),
-    ]));
+    );
+  }
 
-    addAuth();
+  ApplicationRouter setupDIContainer() {
+    var applicationRouter = locator.registerSingleton(ApplicationRouter());
+    locator.registerFactory<INavigationManager>(
+      () => applicationRouter.navigationManager,
+    );
 
-    locator.registerFactory(() => ListDetailsViewModel());
-    addProfile();
-    addServiceProviderProfile();
-    addCloset();
-    addHome();
-    addCloth();
-    addGroup();
-    addStore();
-    addOrders();
+    defaultServices();
+    // var ws = locator.registerSingleton<IWebSocketManager>(SingleSessionManager(
+    //   ServerConfig.websocketUrl,
+    // ));
+
+    // var levelUpdater = locator.registerSingleton(LevelUpProvider());
+    // var notification = locator.registerSingleton(NotificationProvider());
+    // var notificationManager = locator.registerSingleton(NotificationManager());
+    // var groupManager = locator.registerSingleton(GroupManager());
+
+    // locator.registerFactory(() => HttpClient());
+
+    // locator.registerFactory(() => GroupService(locator<HttpAuthClient>()));
+    // locator.registerSingleton<IWCNotifier>(SingleConnectionWsNotifier(
+    //   ws,
+    //   authProvider,
+    //   levelUpdater,
+    //   notification,
+    //   notificationManager,
+    //   groupManager,
+    //   locator<GroupService>(),
+    // ));
+
+    // authProvider.checkAuth();
+    // var router = locator.registerSingleton(AppRouter());
+
+    addAuth(applicationRouter);
+
+    // router.addRoutes(
+    //   [
+    //     authRoutes,
+    //     clothingRoutes,
+    //     registerClothRoutes,
+    //     groupRoutes,
+    //     profileRoutes,
+    //     serviceProviderProfileRoutes,
+    //     storeRoutes,
+    //     orderRoutes,
+    //     GoRoute(
+    //       path: '/show_completed',
+    //       builder: (context, state) =>
+    //           ShowCompletedView(params: state.extra as ShowCompletedViewParams),
+    //     ),
+    //     GoRoute(
+    //       path: '/make_profile_action',
+    //       builder: (context, state) => MakeProfileActionView(
+    //         params: state.extra as MakeProfileActionViewParams,
+    //       ),
+    //     ),
+    //     GoRoute(
+    //       path: '/list_details',
+    //       builder: (context, state) => ListDetailsView(
+    //         params: state.extra as ListDetailsViewParams,
+    //       ),
+    //     ),
+    //     GoRoute(
+    //       path: '/select_service',
+    //       builder: (context, state) => SelectServiceView(
+    //         services: state.extra as ServiceParams,
+    //       ),
+    //     ),
+    //   ],
+    // ).build();
+
+    // locator.registerFactory(() => ListDetailsViewModel());
+    // addProfile();
+    // addServiceProviderProfile();
+    // addCloset();
+    // addHome();
+    // addCloth();
+    // addGroup();
+    // addStore();
+    // addOrders();
+
+    return applicationRouter;
   }
 }

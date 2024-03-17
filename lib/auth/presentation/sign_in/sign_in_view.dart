@@ -1,88 +1,37 @@
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_view_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/avatar_stage_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/final_stage_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_address_stage_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_stage_view_model.dart';
-import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_view_model.dart';
-import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class SignInView extends StatelessWidget {
-  static const double headerGap = 36;
+class SignInViewParams {
+  SignUseroptions userType;
 
-  final SignUserType? userType;
-
-  const SignInView({this.userType, Key? key}) : super(key: key);
-
-  SignUserType getUserType() {
-    if (userType == null) throw Exception("There is no user type");
-
-    return userType!;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        SignInProviders.signInViewModelProvider(),
-        SignInProviders.personalViewModelProvider(),
-        SignInProviders.enterpriseStageViewModelProvider(),
-        SignInProviders.enterpriseAddressViewModelProvider(),
-        SignInProviders.avatarViewModelProvider(),
-        SignInProviders.finalStageViewModelProvider()
-      ],
-      child: Scaffold(
-        body: SignInViewController(
-          type: getUserType(),
-        ),
-      ),
-    );
-  }
+  SignInViewParams(this.userType);
 }
 
-class SignInProviders {
-  static ChangeNotifierProvider<SignInViewModel> signInViewModelProvider() {
-    return ChangeNotifierProvider(
-      create: (context) => DependencyInjection.locator<SignInViewModel>(),
-    );
-  }
+class SignInView extends ArgumentedView<SignInViewModel, SignInViewParams> {
+  static const double headerGap = 36;
 
-  static ChangeNotifierProvider<PersonalViewModel> personalViewModelProvider() {
-    return ChangeNotifierProvider(
-      create: (context) => DependencyInjection.locator<PersonalViewModel>(),
-    );
-  }
+  const SignInView({
+    super.key,
+    required super.viewModel,
+    required super.args,
+  });
 
-  static ChangeNotifierProvider<EnterpriseStageViewModel>
-      enterpriseStageViewModelProvider() {
-    return ChangeNotifierProvider(
-      create: (context) =>
-          DependencyInjection.locator<EnterpriseStageViewModel>(),
+  @override
+  Widget build(BuildContext context, SignInViewModel viewModel) {
+    var controller = SignInController(
+      args.userType,
+      viewModel,
     );
-  }
 
-  static ChangeNotifierProvider<EnterpriseAddressStageViewModel>
-      enterpriseAddressViewModelProvider() {
-    return ChangeNotifierProvider(
-      create: (context) =>
-          DependencyInjection.locator<EnterpriseAddressStageViewModel>(),
-    );
-  }
-
-  static ChangeNotifierProvider<AvatarStageViewModel>
-      avatarViewModelProvider() {
-    return ChangeNotifierProvider(
-      create: (context) => DependencyInjection.locator<AvatarStageViewModel>(),
-    );
-  }
-
-  static ChangeNotifierProvider<FinalStageViewModel>
-      finalStageViewModelProvider() {
-    return ChangeNotifierProvider(
-      create: (context) => DependencyInjection.locator<FinalStageViewModel>(),
+    return Scaffold(
+      body: SignInViewController(
+        viewModel: controller,
+        args: args.userType,
+      ),
     );
   }
 }

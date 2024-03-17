@@ -7,6 +7,8 @@ class Phone {
   Phone._({required this.countryCode, required this.value});
 
   factory Phone.create(String code, String phone) {
+    phone = phone.replaceAll(" ", "").trim();
+
     // must have 9 characters long
     if (phone.length != 9) {
       throw DomainException("O telefone deve ter 9 números");

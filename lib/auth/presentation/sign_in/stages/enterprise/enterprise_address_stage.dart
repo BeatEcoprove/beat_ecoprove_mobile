@@ -1,31 +1,26 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_address_stage_view_model.dart';
 import 'package:beat_ecoprove/core/formatters/postal_code_formatter.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
-class EnterpriseAddressStage extends StatefulWidget {
-  const EnterpriseAddressStage({super.key});
-
-  @override
-  State<EnterpriseAddressStage> createState() => _EnterpriseAddressStageState();
-}
-
-class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
+class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
   static const double _textBoxGap = 26;
 
-  @override
-  Widget build(BuildContext context) {
-    final controller = Provider.of<SignInController>(context);
-    final viewModel = ViewModel.of<EnterpriseAddressStageViewModel>(context);
+  const EnterpriseAddressStage({
+    super.key,
+    required super.viewModel,
+    required super.controller,
+  });
 
+  @override
+  Widget build(
+      BuildContext context, EnterpriseAddressStageViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -111,7 +106,7 @@ class _EnterpriseAddressStageState extends State<EnterpriseAddressStage> {
           content: "Continuar",
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
-          onPress: () => controller.nextPage(viewModel.fields),
+          onPress: () => handleNext(),
         )
       ],
     );

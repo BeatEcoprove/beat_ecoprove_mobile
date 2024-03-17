@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_enterprise_use_case.dart';
@@ -10,41 +11,45 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
-import 'package:go_router/go_router.dart';
 
 class SignInViewModel extends ViewModel {
   final SignInPersonalUseCase _signInPersonalUseCase;
   final SignInEnterpriseUseCase _signInEnterpriseUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   final Map<FormFieldValues, FormFieldModel> dataList = {};
 
-  SignInViewModel(this._navigationRouter, this._signInPersonalUseCase,
-      this._signInEnterpriseUseCase);
+  SignInViewModel(
+    this._navigationRouter,
+    this._signInPersonalUseCase,
+    this._signInEnterpriseUseCase,
+  );
 
-  void handleNext(Map<FormFieldValues, FormFieldModel> data) {
+  void persist(Map<FormFieldValues, FormFieldModel> data) {
     dataList.addAll(data);
   }
 
-  void handleSignIn(SignUserType signType) async {
+  void handleNext(Map<FormFieldValues, FormFieldModel> data) {
+    persist(data);
+  }
+
+  void handleSignIn(SignUseroptions signType) async {
     SignInStratagy strategy;
 
-    switch (signType) {
-      case SignUserType.personal:
-        strategy = PersonalSignIn(_signInPersonalUseCase);
-        break;
-      default:
-        strategy = EnterpriseSignIn(_signInEnterpriseUseCase);
+    if (signType.label == SignUseroptions.personal.label) {
+      strategy = PersonalSignIn(_signInPersonalUseCase);
+    } else {
+      strategy = EnterpriseSignIn(_signInEnterpriseUseCase);
     }
 
     try {
       await strategy.handleSignIn(dataList);
       await DependencyInjection.locator<IWCNotifier>().logIn();
 
-      _navigationRouter.go("/show_completed",
-          extra: ShowCompletedViewParams(
+      await _navigationRouter.pushAsync("/show_completed",
+          extras: ShowCompletedViewParams(
             text: "Conta criada com sucesso",
             textButton: "Entrar",
-            action: () => _navigationRouter.go("/"),
+            action: () => _navigationRouter.push("/"),
           ));
     } catch (e) {
       // TODO: Put some sort of way of telling the user that someting went wrong with he's register

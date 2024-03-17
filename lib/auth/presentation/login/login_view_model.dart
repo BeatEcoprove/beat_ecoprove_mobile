@@ -8,18 +8,24 @@ import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginViewModel extends FormViewModel {
   final LoginUseCase _loginUseCase;
   final AuthenticationService _authenticationService;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   LoginViewModel(
-      this._loginUseCase, this._navigationRouter, this._authenticationService) {
-    initializeFields([FormFieldValues.email, FormFieldValues.password]);
+    this._loginUseCase,
+    this._navigationRouter,
+    this._authenticationService,
+  ) {
+    initializeFields([
+      FormFieldValues.email,
+      FormFieldValues.password,
+    ]);
   }
 
   late bool _isLoading = false;
@@ -61,12 +67,16 @@ class LoginViewModel extends FormViewModel {
       await _authenticationService
           .sendForgotPassword(ForgotPasswordRequest(emailValue));
 
-      await _navigationRouter.push("/insert_reset_code");
+      await _navigationRouter.pushAsync("/insert_reset_code");
     } on HttpInternalError catch (e) {
       setError(FormFieldValues.email, e.getError().title);
     } catch (e) {
       return;
     }
+  }
+
+  void handleSignUp() {
+    _navigationRouter.push("/select-user");
   }
 
   void handleLogin() async {
@@ -78,7 +88,7 @@ class LoginViewModel extends FormViewModel {
     try {
       await _loginUseCase.handle(LoginRequest(email, password));
 
-      _navigationRouter.go("/");
+      _navigationRouter.push("/");
     } catch (e) {
       print("$e");
     }

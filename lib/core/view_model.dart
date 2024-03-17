@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,8 +8,8 @@ abstract class ViewModel with ChangeNotifier {
     return Provider.of<T>(context);
   }
 
-  void initSync() {
-    Future.wait([initAsync()]);
+  void initSync() async {
+    await initAsync();
   }
 
   Future initAsync() {

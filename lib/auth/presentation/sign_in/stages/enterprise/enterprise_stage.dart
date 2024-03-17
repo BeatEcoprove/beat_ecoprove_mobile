@@ -1,30 +1,24 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_stage_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/phone_formatted_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class EnterpriseStage extends StatefulWidget {
-  const EnterpriseStage({super.key});
-
-  @override
-  State<EnterpriseStage> createState() => _EnterpriseStageState();
-}
-
-class _EnterpriseStageState extends State<EnterpriseStage> {
+class EnterpriseStage extends Stage<EnterpriseStageViewModel> {
   static const double _textBoxGap = 26;
 
-  @override
-  Widget build(BuildContext context) {
-    final controller = Provider.of<SignInController>(context);
-    final viewModel = ViewModel.of<EnterpriseStageViewModel>(context);
+  const EnterpriseStage({
+    super.key,
+    required super.viewModel,
+    required super.controller,
+  });
 
+  @override
+  Widget build(BuildContext context, EnterpriseStageViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -90,7 +84,7 @@ class _EnterpriseStageState extends State<EnterpriseStage> {
           content: "Continuar",
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
-          onPress: () => controller.nextPage(viewModel.fields),
+          onPress: () => handleNext(),
         )
       ],
     );

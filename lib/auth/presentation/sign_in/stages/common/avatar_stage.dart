@@ -1,32 +1,22 @@
-import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/avatar_stage_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
-class AvatarStage extends StatefulWidget {
-  const AvatarStage({super.key});
+class AvatarStage extends Stage<AvatarStageViewModel> {
+  const AvatarStage({
+    super.key,
+    required super.viewModel,
+    required super.controller,
+  });
 
   @override
-  State<AvatarStage> createState() => AvatarStageState();
-}
-
-class AvatarStageState extends State<AvatarStage> {
-  @override
-  Widget build(BuildContext context) {
-    final controller = Provider.of<SignInController>(context);
-    final viewModel = ViewModel.of<AvatarStageViewModel>(context);
-
-    void handleNextPage() {
-      controller.nextPage(viewModel.fields);
-    }
-
+  Widget build(BuildContext context, AvatarStageViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -70,7 +60,7 @@ class AvatarStageState extends State<AvatarStage> {
           content: "Continuar",
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
-          onPress: () => handleNextPage(),
+          onPress: () => handleNext(),
         )
       ],
     );

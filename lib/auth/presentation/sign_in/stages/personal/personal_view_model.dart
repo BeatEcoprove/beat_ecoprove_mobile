@@ -65,4 +65,8 @@ class PersonalViewModel extends StageViewModel {
       setError(FormFieldValues.phone, e.message);
     }
   }
+
+  setDate(DateTime date) {
+    setValue(FormFieldValues.bornDate, date);
+  }
 }

@@ -61,6 +61,7 @@ class PersonalStage extends Stage<PersonalViewModel> {
                       DatePicker(
                         value:
                             viewModel.getValue(FormFieldValues.bornDate).value,
+                        onDateChanged: (date) => viewModel.setDate(date),
                       )
                     ],
                   ),

@@ -1,11 +1,14 @@
+import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
+import 'package:beat_ecoprove/client/register_cloth/presentation/register_cloth_view.dart';
+import 'package:beat_ecoprove/client/register_cloth/routes.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/register_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/presentation/register_cloth_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
-import 'package:beat_ecoprove/routes.dart';
 import 'package:get_it/get_it.dart';
 
 extension RegisterClothInjection on DependencyInjection {
@@ -21,22 +24,35 @@ extension RegisterClothInjection on DependencyInjection {
     var authProvider = locator<AuthenticationProvider>();
     var notificationProvider = locator<NotificationProvider>();
     var registerClothUseCase = locator<RegisterClothUseCase>();
-    var appRouter = locator<AppRouter>();
+    var nagivator = locator<INavigationManager>();
 
-    locator.registerFactory(() => RegisterClothViewModel(
-          notificationProvider,
-          authProvider,
-          registerClothUseCase,
-          appRouter.appRouter,
-          locator<StaticValuesProvider>(),
-        ));
+    locator.registerFactory(
+      () => RegisterClothViewModel(
+        notificationProvider,
+        authProvider,
+        registerClothUseCase,
+        nagivator,
+        locator<StaticValuesProvider>(),
+      ),
+    );
   }
 
-  void addCloth() {
+  void _addView(GetIt locator) {
+    locator.registerFactory(
+      () => RegisterClothView(
+        viewModel: locator<RegisterClothViewModel>(),
+      ),
+    );
+  }
+
+  void addCloth(ApplicationRouter router) {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
+    _addView(locator);
+
+    router.addRoute(registerClothRoutes);
   }
 }

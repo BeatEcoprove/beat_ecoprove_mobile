@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
@@ -17,7 +18,6 @@ import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_n
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_type.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterClothViewModel extends FormViewModel {
@@ -28,7 +28,7 @@ class RegisterClothViewModel extends FormViewModel {
   late final User _user;
   final AuthenticationProvider _authProvider;
   final NotificationProvider _notificationProvider;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   late Map<String, dynamic> _selectedFilter = {};
 
@@ -39,7 +39,19 @@ class RegisterClothViewModel extends FormViewModel {
     this._navigationRouter,
     this._staticValuesProvider,
   ) {
-    _user = _authProvider.appUser;
+    // _user = _authProvider.appUser;
+    _user = User(
+        id: "",
+        name: "name",
+        avatarUrl: "avatarUrl",
+        level: "1",
+        levelPercent: "1",
+        sustainablePoints: "200",
+        ecoScore: "200",
+        ecoCoins: "200",
+        xp: "10",
+        nextLevelXp: "2");
+
     initializeFields([
       FormFieldValues.clothName,
       FormFieldValues.clothType,

@@ -1,25 +1,33 @@
-import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ApplicationRouter {
+class ApplicationRouter<TView extends IView> {
   final List<RouteBase> _routes = [];
 
   final NavigationManager _navigationManager = NavigationManager(GoRouter(
     routes: [],
   ));
 
-  final GoRoute _defaultRoute = GoRoute(
-    path: '/',
-    builder: (BuildContext context, GoRouterState state) {
-      return IView.of<LoginView>();
-    },
-  );
+  // final GoRoute _defaultRoute = GoRoute(
+  //   path: '/',
+  //   builder: (BuildContext context, GoRouterState state) {
+  //     return IView.of(view: startingView);
+  //   },
+  // );
+
+  GoRoute getDefaultRoute<TClass extends IView>() {
+    return GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return IView.of<TClass>();
+      },
+    );
+  }
 
   ApplicationRouter() {
-    _routes.add(_defaultRoute);
+    _routes.add(getDefaultRoute<TView>());
   }
 
   NavigationManager get navigationManager => _navigationManager;

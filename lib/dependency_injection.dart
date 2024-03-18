@@ -3,11 +3,17 @@ import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
+import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
+import 'package:beat_ecoprove/client/register_cloth/dependency_injection.dart';
+import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_brands_use_case.dart';
+import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjection {
@@ -55,7 +61,10 @@ class DependencyInjection {
   }
 
   ApplicationRouter setupDIContainer() {
-    var applicationRouter = locator.registerSingleton(ApplicationRouter());
+    var applicationRouter = locator.registerSingleton(
+      ApplicationRouter<LoginView>(),
+    );
+
     locator.registerFactory<INavigationManager>(
       () => applicationRouter.navigationManager,
     );
@@ -66,7 +75,7 @@ class DependencyInjection {
     // ));
 
     // var levelUpdater = locator.registerSingleton(LevelUpProvider());
-    // var notification = locator.registerSingleton(NotificationProvider());
+    locator.registerSingleton(NotificationProvider());
     // var notificationManager = locator.registerSingleton(NotificationManager());
     // var groupManager = locator.registerSingleton(GroupManager());
 
@@ -88,6 +97,16 @@ class DependencyInjection {
 
     addAuth(applicationRouter);
 
+    locator.registerFactory(() => ClosetService(locator<HttpAuthClient>()));
+    locator.registerSingleton(GetColorsUseCase(locator<ClosetService>()));
+    locator.registerSingleton(GetBrandsUseCase(locator<ClosetService>()));
+    locator.registerSingleton(StaticValuesProvider(
+      locator<AuthenticationProvider>(),
+      locator<GetColorsUseCase>(),
+      locator<GetBrandsUseCase>(),
+    ));
+
+    addCloth(applicationRouter);
     // router.addRoutes(
     //   [
     //     authRoutes,

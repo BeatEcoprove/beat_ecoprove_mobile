@@ -10,13 +10,6 @@ class ApplicationRouter<TView extends IView> {
     routes: [],
   ));
 
-  // final GoRoute _defaultRoute = GoRoute(
-  //   path: '/',
-  //   builder: (BuildContext context, GoRouterState state) {
-  //     return IView.of(view: startingView);
-  //   },
-  // );
-
   GoRoute getDefaultRoute<TClass extends IView>() {
     return GoRoute(
       path: '/',

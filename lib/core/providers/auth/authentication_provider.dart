@@ -79,7 +79,18 @@ class AuthenticationProvider extends ViewModel {
   String get profile => profileId;
   String get refreshToken => _refreshToken;
   String get accessToken => _accessToken!;
-  User get appUser => _appUser!;
+  User get appUser => User(
+      id: "",
+      name: "name",
+      avatarUrl: "avatarUrl",
+      level: "1",
+      levelPercent: "1",
+      sustainablePoints: "200",
+      ecoScore: "200",
+      ecoCoins: "200",
+      xp: "10",
+      nextLevelXp: "2");
+  // _appUser!;
 
   void setProfile({String profileId = ""}) {
     this.profileId = profileId;

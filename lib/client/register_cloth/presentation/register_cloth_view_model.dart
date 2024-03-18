@@ -39,18 +39,7 @@ class RegisterClothViewModel extends FormViewModel {
     this._navigationRouter,
     this._staticValuesProvider,
   ) {
-    // _user = _authProvider.appUser;
-    _user = User(
-        id: "",
-        name: "name",
-        avatarUrl: "avatarUrl",
-        level: "1",
-        levelPercent: "1",
-        sustainablePoints: "200",
-        ecoScore: "200",
-        ecoCoins: "200",
-        xp: "10",
-        nextLevelXp: "2");
+    _user = _authProvider.appUser;
 
     initializeFields([
       FormFieldValues.clothName,

@@ -15,10 +15,10 @@ import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class InfoClothServiceViewModel extends FormViewModel {
   final IBucketInfoManager _bucketInfoManager;
@@ -30,7 +30,7 @@ class InfoClothServiceViewModel extends FormViewModel {
   final GetBucketsUseCase _getBucketsUseCase;
   final AddClothsBucketUseCase _addClothsBucketUseCase;
   final RegisterBucketUseCase _registerBucketUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   late bool isLoading = false;
 

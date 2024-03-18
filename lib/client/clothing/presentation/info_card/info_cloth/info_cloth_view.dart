@@ -1,27 +1,217 @@
-import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_form.dart';
+import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
-import 'package:beat_ecoprove/core/domain/models/card_item.dart';
-import 'package:beat_ecoprove/core/view_model_provider.dart';
-import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/view.dart';
+import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
+import 'package:beat_ecoprove/core/widgets/line.dart';
+import 'package:beat_ecoprove/core/widgets/place_to_place.dart';
+import 'package:beat_ecoprove/core/widgets/points.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/rounded_button.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
-class InfoClothView extends StatelessWidget {
-  final String index;
-  final CardItem card;
+class InfoClothView
+    extends ArgumentedView<InfoClothViewModel, InfoClothParams> {
+  final Radius borderRadius = const Radius.circular(25);
 
   const InfoClothView({
-    Key? key,
-    required this.card,
-    required this.index,
-  }) : super(key: key);
+    super.key,
+    required super.viewModel,
+    required super.args,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return ViewModelProvider(
-      viewModel: DependencyInjection.locator<InfoClothViewModel>(),
-      child: InfoClothForm(
-        index: index,
-        card: card,
+  Widget build(BuildContext context, InfoClothViewModel viewModel) {
+    double maxWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: GoBack(
+        posTop: 18,
+        posLeft: 18,
+        child: Container(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          color: Colors.white,
+          child: Stack(
+            children: [
+              Positioned(
+                child: SizedBox(
+                  width: double.maxFinite,
+                  height: 257,
+                  child: Center(
+                    widthFactor: 257,
+                    child: PresentImage(path: ServerImage(args.card.child)),
+                  ),
+                ),
+              ),
+              if (args.card.hasProfile != null)
+                Positioned(
+                  left: 24,
+                  top: 180,
+                  child: IconButtonRectangular(
+                    dimension: 50,
+                    object: PresentImage(
+                      path: args.card.hasProfile!,
+                    ),
+                  ),
+                ),
+              Positioned(
+                top: 18,
+                right: 28,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.more_vert_rounded,
+                    color: AppColor.widgetSecondary,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              Positioned(
+                right: 28,
+                top: 185,
+                child: RoundedButton(
+                  text: "Utilizar",
+                  textWhenSelected: "Cancelar",
+                  isSelect: viewModel.isInUse,
+                  onAction: () async =>
+                      await viewModel.setClothState(args.card.id, args.card),
+                ),
+              ),
+              Positioned(
+                top: 237,
+                bottom: 0,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 22,
+                    vertical: 24,
+                  ),
+                  width: maxWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: borderRadius,
+                      topRight: borderRadius,
+                    ),
+                    color: AppColor.widgetBackground,
+                    boxShadow: const [AppColor.defaultShadow],
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  args.card.title,
+                                  style: AppText.smallHeader,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  args.card.brand!,
+                                  style: AppText.subHeader,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                const Text(
+                                  "Eco-Score",
+                                  style: AppText.smallSubHeader,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Points.ecoScore(points: args.card.ecoScore!),
+                              ],
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Text(
+                              "Color:",
+                              style: AppText.strongStyle,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                color: args.card.color,
+                                shape: BoxShape.circle,
+                                boxShadow: const [AppColor.defaultShadow],
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 36,
+                            ),
+                            const Text(
+                              "Tamanho:",
+                              style: AppText.strongStyle,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Text(
+                              args.card.size!,
+                              style: AppText.smallHeader,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Line(
+                          color: AppColor.separatedLine,
+                          width: maxWidth,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Origem",
+                              style: AppText.smallSubHeader,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              "Destino",
+                              style: AppText.smallSubHeader,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: List.generate(2, (index) {
+                            return const PlaceToPlace(
+                              origin: "Origem",
+                              destination: "Destino",
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

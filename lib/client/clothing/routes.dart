@@ -1,21 +1,25 @@
 import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/change_name/change_bucket_name_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/change_name/change_bucket_name_view.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_params.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_cloth_view.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_parmas.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_services_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
-import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
-import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRoute clothingRoutes = GoRoute(
   name: 'closet',
   path: '/',
-  builder: (BuildContext context, GoRouterState state) => const ClothingView(),
+  builder: (BuildContext context, GoRouterState state) =>
+      IView.of<ClothingView>(),
   routes: [
     GoRoute(
       path: 'info/cloth/:id',
@@ -24,14 +28,16 @@ final GoRoute clothingRoutes = GoRoute(
 
         return Swiper(
           views: [
-            InfoClothView(
-              index: state.pathParameters['id'] ?? '0',
-              card: state.extra as CardItem,
+            ArgumentedView.of<InfoClothView>(
+              InfoClothParams(
+                state.pathParameters['id'] ?? '0',
+                state.extra as CardItem,
+              ),
             ),
-            InfoClothServiceView(
-              bucketInfoManager:
-                  DependencyInjection.locator<IBucketInfoManager<String>>(),
-              card: state.extra as CardItem,
+            ArgumentedView.of<InfoClothServiceView>(
+              InfoClothServiceParms(
+                state.extra as CardItem,
+              ),
             ),
           ],
           bottomNavigationBarOptions: [
@@ -57,16 +63,16 @@ final GoRoute clothingRoutes = GoRoute(
 
         return Swiper(
           views: [
-            InfoBucketView(
-              bucketInfoManager:
-                  DependencyInjection.locator<IBucketInfoManager<String>>(),
-              index: state.pathParameters['id'] ?? '0',
-              card: state.extra as CardItem,
+            ArgumentedView.of<InfoBucketView>(
+              InfoBucketParams(
+                state.pathParameters['id'] ?? '0',
+                state.extra as CardItem,
+              ),
             ),
-            InfoClothServiceView(
-              bucketInfoManager:
-                  DependencyInjection.locator<IBucketInfoManager<String>>(),
-              card: state.extra as CardItem,
+            ArgumentedView.of<InfoClothServiceView>(
+              InfoClothServiceParms(
+                state.extra as CardItem,
+              ),
             ),
           ],
           bottomNavigationBarOptions: [
@@ -87,8 +93,11 @@ final GoRoute clothingRoutes = GoRoute(
       routes: [
         GoRoute(
           path: 'change_name',
-          builder: (context, state) =>
-              ChangeBucketNameView(bucket: state.extra as CardItem),
+          builder: (context, state) => ArgumentedView.of<ChangeBucketNameView>(
+            ChangeBucketNameParams(
+              state.extra as CardItem,
+            ),
+          ),
         ),
       ],
     ),

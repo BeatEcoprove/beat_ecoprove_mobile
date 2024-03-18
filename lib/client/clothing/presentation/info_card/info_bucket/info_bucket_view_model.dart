@@ -4,17 +4,17 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:go_router/go_router.dart';
 
 class InfoBucketViewModel extends ViewModel {
   final IBucketInfoManager<String> _bucketInfoManager;
   final NotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   InfoBucketViewModel(
     this._bucketInfoManager,
@@ -109,7 +109,7 @@ class InfoBucketViewModel extends ViewModel {
         ? "/info/bucket/${card.id}"
         : "/info/cloth/${card.id}";
 
-    await _navigationRouter.push(path, extra: card);
+    await _navigationRouter.pushAsync(path, extras: card);
     notifyListeners();
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
@@ -20,6 +18,7 @@ import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
@@ -28,7 +27,6 @@ import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ClothingViewModel extends FormViewModel {
   final GetClosetUseCase _getClosetUseCase;
@@ -39,7 +37,7 @@ class ClothingViewModel extends FormViewModel {
   final AddClothsBucketUseCase _addToBucketUseCase;
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
   final StaticValuesProvider _valuesProvider;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   final AuthenticationProvider _authProvider;
   final NotificationProvider _notificationProvider;
@@ -345,7 +343,7 @@ class ClothingViewModel extends FormViewModel {
     }
 
     _selectedCards.clear();
-    _navigationRouter.go('/');
+    _navigationRouter.push('/');
     notifyListeners();
   }
 
@@ -384,7 +382,7 @@ class ClothingViewModel extends FormViewModel {
     }
 
     _selectedCards.clear();
-    _navigationRouter.go('/');
+    _navigationRouter.push('/');
     notifyListeners();
   }
 
@@ -395,7 +393,7 @@ class ClothingViewModel extends FormViewModel {
         ? "/info/bucket/${card.id}"
         : "/info/cloth/${card.id}";
 
-    await _navigationRouter.push(path, extra: card);
+    await _navigationRouter.pushAsync(path, extras: card);
     notifyListeners();
   }
 

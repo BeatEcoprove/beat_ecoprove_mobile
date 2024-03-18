@@ -12,6 +12,7 @@ abstract class IView<TViewModel extends ViewModel> extends StatefulWidget {
 
   const IView({super.key, required this.viewModel});
 
+  void init(TViewModel viewModel) {}
   Widget build(BuildContext context, TViewModel viewModel);
 
   @override
@@ -38,6 +39,7 @@ class _ViewState<TViewModel extends ViewModel>
   @override
   void initState() {
     widget.viewModel.initSync();
+    widget.init(widget.viewModel);
     super.initState();
   }
 

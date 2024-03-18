@@ -6,13 +6,13 @@ import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:go_router/go_router.dart';
 
 class ChangeBucketNameViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
   final ChangeBucketNameUseCase _changeBucketNameUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   ChangeBucketNameViewModel(
     this._notificationProvider,

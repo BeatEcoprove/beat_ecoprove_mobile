@@ -3,17 +3,16 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
-import 'package:go_router/go_router.dart';
 
 class StoreViewModel extends FormViewModel {
   final AuthenticationProvider _authProvider;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   late final User _user;
 
   late Map<String, dynamic> _selectedFilters = {};
-  final List<StoreItem> _stores = [];
 
   StoreViewModel(
     this._authProvider,
@@ -71,7 +70,11 @@ class StoreViewModel extends FormViewModel {
   }
 
   Future createStore() async {
-    await _navigationRouter.push('/createStore');
+    await _navigationRouter.pushAsync('/createStore');
     notifyListeners();
+  }
+
+  void goToStore(StoreItem store) {
+    _navigationRouter.push("/info/store/${store.id}", extras: store);
   }
 }

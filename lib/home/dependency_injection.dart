@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service_proxy.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -41,7 +42,7 @@ extension HomeDependencyInjection on DependencyInjection {
     );
   }
 
-  void addHome() {
+  void addHome(ApplicationRouter router) {
     GetIt locator = DependencyInjection.locator;
 
     _addViewModels(locator);

@@ -1,9 +1,10 @@
+import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
-import 'package:beat_ecoprove/routes.dart';
+import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view.dart';
 import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view_model.dart';
+import 'package:beat_ecoprove/service_provider/orders/routes.dart';
 import 'package:get_it/get_it.dart';
 
 extension OrdersDependencyInjection on DependencyInjection {
@@ -13,22 +14,29 @@ extension OrdersDependencyInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
-    var router = locator<AppRouter>();
-    var notificationProvider = locator<NotificationProvider>();
 
-    locator.registerFactory(() => OrdersViewModel(
-          notificationProvider,
-          authProvider,
-          router.appRouter,
-          locator<StaticValuesProvider>(),
-        ));
+    locator.registerFactory(
+      () => OrdersViewModel(
+        authProvider,
+        locator<StaticValuesProvider>(),
+      ),
+    );
   }
 
-  void addOrders() {
+  void _addViews(GetIt locator) {
+    locator.registerFactory(
+      () => OrdersView(viewModel: locator<OrdersViewModel>()),
+    );
+  }
+
+  void addOrders(ApplicationRouter router) {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
+    _addViews(locator);
+
+    router.addRoute(orderRoutes);
   }
 }

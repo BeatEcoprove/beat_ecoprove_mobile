@@ -8,33 +8,27 @@ import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class OrdersViewModel extends FormViewModel {
   final StaticValuesProvider _valuesProvider;
-  final GoRouter _navigationRouter;
 
   final AuthenticationProvider _authProvider;
-  final NotificationProvider _notificationProvider;
   late final User _user;
   late Map<String, dynamic> _selectedFilters = {};
   late List<String> _selectedHorizontalFilters = [];
   late List<FilterRow> _getColors = [];
   late List<FilterRow> _getBrands = [];
 
-  late List<Widget> _orders = [];
+  late final List<Widget> _orders = [];
 
   late bool shouldUpdateData = true;
 
   OrdersViewModel(
-    this._notificationProvider,
     this._authProvider,
-    this._navigationRouter,
     this._valuesProvider,
   ) {
     _user = _authProvider.appUser;

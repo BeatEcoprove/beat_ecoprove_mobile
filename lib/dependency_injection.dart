@@ -20,6 +20,9 @@ import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:beat_ecoprove/home/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/orders/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/profile/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/stores/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjection {
@@ -94,13 +97,10 @@ class DependencyInjection {
     addCloset(applicationRouter);
     addRegisterCloth(applicationRouter);
     addGroup(applicationRouter);
-    addHome();
-
-    // locator.registerFactory(() => ListDetailsViewModel());
-    // addServiceProviderProfile();
-    // addGroup();
-    // addStore();
-    // addOrders();
+    addHome(applicationRouter);
+    addStore(applicationRouter);
+    addServiceProviderProfile(applicationRouter);
+    addOrders(applicationRouter);
 
     return applicationRouter;
   }

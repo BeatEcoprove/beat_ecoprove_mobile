@@ -1,11 +1,9 @@
-import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_workers_form.dart';
-import 'package:go_router/go_router.dart';
+import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
 
 class InfoStoreViewModel extends ViewModel {
-  final NotificationProvider _notificationProvider;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   late List<String> _selectedFilter = [];
   final Map<String, String> _filters = {
@@ -14,7 +12,6 @@ class InfoStoreViewModel extends ViewModel {
   };
 
   InfoStoreViewModel(
-    this._notificationProvider,
     this._navigationRouter,
   );
 
@@ -30,6 +27,6 @@ class InfoStoreViewModel extends ViewModel {
   }
 
   void goToWorkersPage(StoreParams params) {
-    _navigationRouter.push("/store/${params.storeId}/workers", extra: params);
+    _navigationRouter.push("/store/${params.storeId}/workers", extras: params);
   }
 }

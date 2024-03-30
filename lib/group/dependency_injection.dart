@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/application_router.dart';
+import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
@@ -17,9 +18,14 @@ import 'package:beat_ecoprove/group/domain/use-cases/register_group_use_case.dar
 import 'package:beat_ecoprove/group/domain/use-cases/update_group_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view_model.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view_model.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_model.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view_model.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
 import 'package:beat_ecoprove/group/routes.dart';
@@ -146,6 +152,27 @@ extension GroupDependencyInjection on DependencyInjection {
     locator.registerFactory(
       () => CreateGroupView(
         viewModel: locator<CreateGroupViewModel>(),
+      ),
+    );
+
+    locator.registerFactoryParam<GroupChatMembersView, GroupChatParams, void>(
+      (params, _) => GroupChatMembersView(
+        viewModel: locator<GroupChatMembersViewModel>(),
+        args: params,
+      ),
+    );
+
+    locator.registerFactoryParam<GroupChatView, GroupItem, void>(
+      (params, _) => GroupChatView(
+        viewModel: locator<GroupChatViewModel>(),
+        args: params,
+      ),
+    );
+
+    locator.registerFactoryParam<EditGroupView, EditGroupParams, void>(
+      (params, _) => EditGroupView(
+        viewModel: locator<EditGroupViewModel>(),
+        args: params,
       ),
     );
   }

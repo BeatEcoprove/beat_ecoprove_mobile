@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/postal_code.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/register_store_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/register_store_use_case.dart';
@@ -12,14 +13,13 @@ import 'package:beat_ecoprove/service_provider/stores/domain/value_objects/store
 import 'package:beat_ecoprove/service_provider/stores/domain/value_objects/store_street.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateStoreViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
   static const defaultImage = "assets/default_avatar.png";
   final RegisterStoreUseCase _registerStoreUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   CreateStoreViewModel(
     this._notificationProvider,

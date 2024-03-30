@@ -1,25 +1,20 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
-import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:go_router/go_router.dart';
 
 class AddWorkerViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
-  final AuthenticationProvider _authProvider;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
-  late final User _user;
   final List<String> _types = ["Regular", "Gerente"];
 
   AddWorkerViewModel(
     this._notificationProvider,
-    this._authProvider,
     this._navigationRouter,
   ) {
     initializeFields([
@@ -27,7 +22,6 @@ class AddWorkerViewModel extends FormViewModel {
       FormFieldValues.code,
     ]);
     setValue(FormFieldValues.code, _types.firstOrNull);
-    _user = _authProvider.appUser;
   }
 
   List<String> get types => _types;
@@ -50,7 +44,7 @@ class AddWorkerViewModel extends FormViewModel {
 
       _navigationRouter.pop();
       _navigationRouter.push("/show_completed",
-          extra: ShowCompletedViewParams(
+          extras: ShowCompletedViewParams(
               text: "E-mail enviado!",
               textButton: "Voltar",
               action: () => _navigationRouter.pop()));

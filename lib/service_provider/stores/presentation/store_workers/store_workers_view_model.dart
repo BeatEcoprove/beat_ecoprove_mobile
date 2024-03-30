@@ -2,15 +2,13 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/worker.dart';
-import 'package:go_router/go_router.dart';
 
 class StoreWorkersViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   late final User _user;
   final List<Worker> _workers = [
@@ -24,7 +22,6 @@ class StoreWorkersViewModel extends FormViewModel {
   ];
 
   StoreWorkersViewModel(
-    this._notificationProvider,
     this._authProvider,
     this._navigationRouter,
   ) {
@@ -49,7 +46,7 @@ class StoreWorkersViewModel extends FormViewModel {
   }
 
   Future addWorker(String storeId) async {
-    await _navigationRouter.push("/store/$storeId/addWorkers");
+    await _navigationRouter.pushAsync("/store/$storeId/addWorkers");
     notifyListeners();
   }
 }

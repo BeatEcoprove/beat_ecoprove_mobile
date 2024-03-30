@@ -56,10 +56,10 @@ class AppRouter {
       hasRegisterCloth: false,
       views: [
         IView.of<HomeView>(),
-        const OrdersView(),
-        const StoreView(),
+        IView.of<OrdersView>(),
+        IView.of<StoreView>(),
         IView.of<GroupView>(),
-        const ServiceProviderProfileView()
+        IView.of<ServiceProviderProfileView>(),
       ],
       bottomNavigationBarOptions: const [
         Icon(Icons.home_rounded),

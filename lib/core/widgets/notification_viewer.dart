@@ -4,7 +4,6 @@ import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification.dart'
     as custom_notification;
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 typedef CustomNotification = custom_notification.GroupNotification;
 
@@ -48,8 +47,6 @@ class _NotificationViewState extends State<NotificationView> {
 
   @override
   Widget build(BuildContext context) {
-    final GoRouter goRouter = GoRouter.of(context);
-
     return Stack(
       children: [
         FloatingButton(

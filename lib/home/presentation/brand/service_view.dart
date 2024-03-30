@@ -1,23 +1,23 @@
 import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_provider.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
+import 'package:beat_ecoprove/home/presentation/brand/service_view_model.dart';
 import 'package:flutter/material.dart';
 
-class ServiceView extends StatefulWidget {
-  const ServiceView({super.key});
+class ServiceView extends IView<ServiceViewModel> {
+  const ServiceView({
+    super.key,
+    required super.viewModel,
+  });
 
   @override
-  State<ServiceView> createState() => _ServiceViewState();
-}
-
-class _ServiceViewState extends State<ServiceView> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ServiceViewModel viewModel) {
     return CustomScrollView(
       slivers: [
         _buildServiceCard(),

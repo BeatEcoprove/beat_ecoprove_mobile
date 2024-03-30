@@ -5,7 +5,6 @@ import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/client/clothing/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/dependency_injection.dart';
-import 'package:beat_ecoprove/client/profile/presentation/change_profile/change_profile_view.dart';
 import 'package:beat_ecoprove/client/register_cloth/dependency_injection.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
@@ -13,6 +12,8 @@ import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/home/dependency_injection.dart';
+import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjection {
@@ -61,7 +62,7 @@ class DependencyInjection {
 
   ApplicationRouter setupDIContainer() {
     var applicationRouter = locator.registerSingleton(
-      ApplicationRouter<ChangeProfileView>(),
+      ApplicationRouter<HomeView>(),
     );
 
     locator.registerFactory<INavigationManager>(
@@ -98,6 +99,7 @@ class DependencyInjection {
     addProfile(applicationRouter);
     addCloset(applicationRouter);
     addRegisterCloth(applicationRouter);
+    addHome();
     // router.addRoutes(
     //   [
     //     authRoutes,
@@ -135,7 +137,6 @@ class DependencyInjection {
     // ).build();
 
     // locator.registerFactory(() => ListDetailsViewModel());
-    // addProfile();
     // addServiceProviderProfile();
     // addHome();
     // addGroup();

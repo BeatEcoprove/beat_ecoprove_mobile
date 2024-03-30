@@ -52,16 +52,16 @@ class AppRouter {
     // );
 
     // Service Provider Version
-    return const Swiper(
+    return Swiper(
       hasRegisterCloth: false,
       views: [
-        HomeView(),
-        OrdersView(),
-        StoreView(),
-        GroupView(),
-        ServiceProviderProfileView()
+        IView.of<HomeView>(),
+        const OrdersView(),
+        const StoreView(),
+        const GroupView(),
+        const ServiceProviderProfileView()
       ],
-      bottomNavigationBarOptions: [
+      bottomNavigationBarOptions: const [
         Icon(Icons.home_rounded),
         SvgImage(path: "assets/shirt.svg"),
         Icon(Icons.store_mall_directory),

@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/application_router.dart';
+import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_enterprise_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_personal_use_case.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_code/insert_reset_code_view.dart';
@@ -6,6 +7,8 @@ import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_cod
 import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_params.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_password/reset_password_view.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_password/reset_password_view_model.dart';
+import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
+import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view.dart';
@@ -23,11 +26,24 @@ extension AuthDependencyInjection on DependencyInjection {
     var authenticationProvider = locator<AuthenticationProvider>();
 
     locator.registerSingleton(
-      SignInEnterpriseUseCase(authenticationProvider, authenticationService),
+      LoginUseCase(
+        authenticationProvider,
+        authenticationService,
+      ),
     );
 
     locator.registerSingleton(
-      SignInPersonalUseCase(authenticationProvider, authenticationService),
+      SignInEnterpriseUseCase(
+        authenticationProvider,
+        authenticationService,
+      ),
+    );
+
+    locator.registerSingleton(
+      SignInPersonalUseCase(
+        authenticationProvider,
+        authenticationService,
+      ),
     );
   }
 
@@ -37,6 +53,14 @@ extension AuthDependencyInjection on DependencyInjection {
     var authService = locator<AuthenticationService>();
 
     locator.registerFactory(
+      () => LoginViewModel(
+        locator<LoginUseCase>(),
+        locator<INavigationManager>(),
+        authService,
+      ),
+    );
+
+    locator.registerFactory(
       () => SignInViewModel(
         locator<INavigationManager>(),
         singInPersonalUseCase,
@@ -44,40 +68,58 @@ extension AuthDependencyInjection on DependencyInjection {
       ),
     );
 
-    locator.registerFactory(() => InsertResetCodeViewModel(
-          locator<INavigationManager>(),
-        ));
+    locator.registerFactory(
+      () => InsertResetCodeViewModel(
+        locator<INavigationManager>(),
+      ),
+    );
 
-    locator.registerFactory(() => ResetPasswordViewModel(
-          locator<INavigationManager>(),
-          authService,
-        ));
+    locator.registerFactory(
+      () => ResetPasswordViewModel(
+        locator<INavigationManager>(),
+        authService,
+      ),
+    );
 
-    locator.registerFactory(() => SelectUserViewModel(
-          locator<INavigationManager>(),
-        ));
+    locator.registerFactory(
+      () => SelectUserViewModel(
+        locator<INavigationManager>(),
+      ),
+    );
   }
 
   void _addViews(GetIt locator) {
-    locator.registerFactory(() => InsertResetCodeView(
-          viewModel: locator<InsertResetCodeViewModel>(),
-        ));
+    locator.registerFactory(
+      () => LoginView(
+        viewModel: locator<LoginViewModel>(),
+      ),
+    );
+
+    locator.registerFactory(
+      () => InsertResetCodeView(
+        viewModel: locator<InsertResetCodeViewModel>(),
+      ),
+    );
 
     locator.registerFactoryParam<SignInView, SignInViewParams, void>(
-        (args, _) => SignInView(
-              viewModel: locator<SignInViewModel>(),
-              args: args,
-            ));
+      (args, _) => SignInView(
+        viewModel: locator<SignInViewModel>(),
+        args: args,
+      ),
+    );
 
     locator.registerFactoryParam<ResetPasswordView, ResetPasswordParams, void>(
-        (args, _) => ResetPasswordView(
-              viewModel: locator<ResetPasswordViewModel>(),
-              args: args,
-            ));
+      (args, _) => ResetPasswordView(
+        viewModel: locator<ResetPasswordViewModel>(),
+        args: args,
+      ),
+    );
 
-    locator.registerFactory(() => SelectUserView(
-          viewModel: locator<SelectUserViewModel>(),
-        ));
+    locator.registerFactory(
+      () => SelectUserView(
+        viewModel: locator<SelectUserViewModel>(),
+      ),
+    );
   }
 
   void addAuth(ApplicationRouter app) {

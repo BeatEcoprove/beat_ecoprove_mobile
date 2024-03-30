@@ -1,17 +1,18 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
-import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
-import 'package:go_router/go_router.dart';
 
 class GroupChatViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
@@ -20,7 +21,7 @@ class GroupChatViewModel extends FormViewModel {
 
   final AuthenticationProvider _authProvider;
   final GetDetailsUseCase _getDetailsUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   final GroupManager _groupManager;
   final List<ChatMessageText> messages = [];
   late bool isLoading = false;
@@ -123,9 +124,9 @@ class GroupChatViewModel extends FormViewModel {
 
       adminsIds.add(groupDetails.creator.id);
 
-      await _navigationRouter.push(
+      await _navigationRouter.pushAsync(
         "/update",
-        extra: UpdateGroupParams(
+        extras: EditGroupParams(
           group: groupDetails,
           adminId: adminsIds,
         ),
@@ -145,4 +146,9 @@ class GroupChatViewModel extends FormViewModel {
     }
     isLoading = false;
   }
+
+  void goToChatMembers(GroupItem arguments) => _navigationRouter.push(
+        "/members",
+        extras: arguments,
+      );
 }

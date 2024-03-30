@@ -58,7 +58,7 @@ class AppRouter {
         IView.of<HomeView>(),
         const OrdersView(),
         const StoreView(),
-        const GroupView(),
+        IView.of<GroupView>(),
         const ServiceProviderProfileView()
       ],
       bottomNavigationBarOptions: const [

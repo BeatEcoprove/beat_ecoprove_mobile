@@ -1,5 +1,4 @@
 import 'package:beat_ecoprove/application_router.dart';
-import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/client/clothing/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/dependency_injection.dart';
@@ -16,6 +15,9 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
+import 'package:beat_ecoprove/core/view.dart';
+import 'package:beat_ecoprove/group/dependency_injection.dart';
+import 'package:beat_ecoprove/group/presentation/create_group/create_group_view.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:beat_ecoprove/home/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
@@ -25,9 +27,9 @@ class DependencyInjection {
 
   static GetIt get locator => DependencyInjection._locator;
 
-  ApplicationRouter createApplicationRouter() {
+  ApplicationRouter createApplicationRouter<TView extends IView>() {
     var applicationRouter = locator.registerSingleton(
-      ApplicationRouter<LoginView>(),
+      ApplicationRouter<TView>(),
     );
 
     locator.registerFactory<INavigationManager>(
@@ -82,7 +84,7 @@ class DependencyInjection {
   }
 
   ApplicationRouter setupDIContainer() {
-    var applicationRouter = createApplicationRouter();
+    var applicationRouter = createApplicationRouter<CreateGroupView>();
 
     registerProviders(locator);
     registerWebsockets(locator);
@@ -91,6 +93,7 @@ class DependencyInjection {
     addProfile(applicationRouter);
     addCloset(applicationRouter);
     addRegisterCloth(applicationRouter);
+    addGroup(applicationRouter);
     addHome();
 
     // locator.registerFactory(() => ListDetailsViewModel());

@@ -4,21 +4,21 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/update_group_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/update_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_description.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_name.dart';
-import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditGroupViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
   final UpdateGroupUseCase _updateGroupUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   static const defaultImage = "assets/default_avatar.png";
   late GroupDetailsResult _groupDetails = GroupDetailsResult.empty();
   late List<String> _adminsIds;
@@ -79,7 +79,7 @@ class EditGroupViewModel extends FormViewModel {
     return FileImage(File(groupImage.path));
   }
 
-  void setGroupDetails(UpdateGroupParams request) {
+  void setGroupDetails(EditGroupParams request) {
     _groupDetails = request.group;
     _adminsIds = request.adminId;
   }

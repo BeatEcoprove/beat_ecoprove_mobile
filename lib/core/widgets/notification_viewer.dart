@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/providers/notifications/notification.dart'
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-typedef CustomNotification = custom_notification.Notification;
+typedef CustomNotification = custom_notification.GroupNotification;
 
 class NotificationModal extends StatelessWidget {
   const NotificationModal({super.key});

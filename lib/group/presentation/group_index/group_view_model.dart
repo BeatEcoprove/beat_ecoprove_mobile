@@ -4,24 +4,26 @@ import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 
 class GroupViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final NotificationManager _notificationManager;
   final GetGroupsUseCase _getGroupsUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   late final User _user;
 
   final List<GroupItem> _publicGroups = [];
   final List<GroupItem> _privateGroups = [];
-  final List<Notification> notifications = [];
+  final List<GroupNotification> notifications = [];
 
   GroupViewModel(
     this._notificationProvider,
@@ -101,7 +103,40 @@ class GroupViewModel extends FormViewModel {
   }
 
   Future createGroup() async {
-    await _navigationRouter.push('/create');
+    await _navigationRouter.pushAsync('/create');
     notifyListeners();
   }
+
+  void goToMyGroupsList(List<Widget> Function(List<GroupItem>) func) {
+    _navigationRouter.push(
+      "/list_details",
+      extras: ListDetailsViewParams(
+        title: "Meus Grupos",
+        onSearch: (searchTerm) async {
+          await getGroups(100, searchTerm);
+
+          return func(getAllAuthenticatedUserGroups);
+        },
+      ),
+    );
+  }
+
+  void goToPublicList(List<Widget> Function(List<GroupItem>) func) {
+    _navigationRouter.push(
+      "/list_details",
+      extras: ListDetailsViewParams(
+        title: "Grupos Globais",
+        onSearch: (searchTerm) async {
+          await getGroups(100, searchTerm);
+
+          return func(getAllPublicGroups);
+        },
+      ),
+    );
+  }
+
+  void gotToChatGroup(GroupItem item) => _navigationRouter.push(
+        "/chat",
+        extras: item,
+      );
 }

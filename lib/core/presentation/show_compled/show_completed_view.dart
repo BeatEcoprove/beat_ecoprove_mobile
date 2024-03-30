@@ -1,31 +1,22 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
+import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view_model.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
 import 'package:flutter/material.dart';
 
-class ShowCompletedViewParams {
-  final String text;
-  final String textButton;
-  final VoidCallback action;
-
-  ShowCompletedViewParams({
-    required this.text,
-    required this.textButton,
-    required this.action,
-  });
-}
-
-class ShowCompletedView extends StatelessWidget {
-  final ShowCompletedViewParams params;
-
+class ShowCompletedView
+    extends ArgumentedView<ShowCompltedViewModel, ShowCompletedViewParams> {
   const ShowCompletedView({
     super.key,
-    required this.params,
+    required super.viewModel,
+    required super.args,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ShowCompltedViewModel viewModel) {
     return Scaffold(
       body: AppBackground(
         type: AppBackgrounds.completed,
@@ -36,7 +27,7 @@ class ShowCompletedView extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    params.text,
+                    args.text,
                     style: AppText.alternativeHeader,
                     textAlign: TextAlign.center,
                   ),
@@ -56,9 +47,9 @@ class ShowCompletedView extends StatelessWidget {
                 ],
               ),
               FormattedButton(
-                content: params.textButton,
+                content: args.textButton,
                 textColor: Colors.white,
-                onPress: () => params.action(),
+                onPress: () => args.action(),
               ),
             ],
           ),

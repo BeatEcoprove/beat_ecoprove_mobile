@@ -8,9 +8,9 @@ import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
-import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/register_profile_request.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/register_profile_use_case.dart';
@@ -117,7 +117,7 @@ class CreateProfileViewModel extends FormViewModel {
       ));
 
       _navigationRouter.pop();
-      _navigationRouter.push("/show_completed",
+      _navigationRouter.push("/extension/show_completed",
           extras: ShowCompletedViewParams(
               text: "Perfil criado com sucesso",
               textButton: "Confirmar",

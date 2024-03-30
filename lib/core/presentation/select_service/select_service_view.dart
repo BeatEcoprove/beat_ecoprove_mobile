@@ -1,27 +1,21 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
-import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
+import 'package:beat_ecoprove/core/presentation/select_service/select_service_view_model.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/wrap_services.dart';
 import 'package:flutter/material.dart';
 
-class ServiceParams {
-  final Map<String, List<ServiceTemplate>> services;
-
-  ServiceParams({
-    required this.services,
-  });
-}
-
-class SelectServiceView extends StatelessWidget {
-  final ServiceParams services;
-
+class SelectServiceView
+    extends ArgumentedView<SelectServiceViewModel, ServiceParams> {
   const SelectServiceView({
     super.key,
-    required this.services,
+    required super.viewModel,
+    required super.args,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, SelectServiceViewModel viewModel) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AppBackground(
@@ -44,8 +38,8 @@ class SelectServiceView extends StatelessWidget {
                       bottom: 16,
                     ),
                     child: WrapServices.servicesItems(
-                      title: services.services.keys.first,
-                      services: services.services.values
+                      title: args.services.keys.first,
+                      services: args.services.values
                           .expand((value) => value)
                           .toList(),
                     ),

@@ -1,39 +1,24 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
+import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_view_model.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/profile_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-class MakeProfileActionViewParams {
-  final ProfileResult profile;
-  final String text;
-  final String textButton;
-  final VoidCallback action;
-
-  MakeProfileActionViewParams({
-    required this.profile,
-    required this.text,
-    required this.textButton,
-    required this.action,
-  });
-}
-
-class MakeProfileActionView extends StatelessWidget {
-  final MakeProfileActionViewParams params;
-
+class MakeProfileActionView extends ArgumentedView<MakeProfileActionViewModel,
+    MakeProfileActionViewParams> {
   const MakeProfileActionView({
     super.key,
-    required this.params,
+    required super.viewModel,
+    required super.args,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final router = GoRouter.of(context);
-
+  Widget build(BuildContext context, MakeProfileActionViewModel viewModel) {
     return Scaffold(
       body: AppBackground(
         type: AppBackgrounds.completed,
@@ -46,7 +31,7 @@ class MakeProfileActionView extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      params.text,
+                      args.text,
                       style: AppText.alternativeHeader,
                       textAlign: TextAlign.center,
                     ),
@@ -61,11 +46,10 @@ class MakeProfileActionView extends StatelessWidget {
                       padding: PaddingCard.padding0,
                       items: [
                         ProfileHeader(
-                          title: params.profile.username,
-                          userLevel: params.profile.level,
-                          sustainablePoints:
-                              params.profile.sustainabilityPoints,
-                          ecoScorePoints: params.profile.ecoScorePoints,
+                          title: args.profile.username,
+                          userLevel: args.profile.level,
+                          sustainablePoints: args.profile.sustainabilityPoints,
+                          ecoScorePoints: args.profile.ecoScorePoints,
                         ),
                         const WithoutOptionsFooter(),
                       ],
@@ -78,12 +62,12 @@ class MakeProfileActionView extends StatelessWidget {
                 Column(
                   children: [
                     FormattedButton(
-                      content: params.textButton,
+                      content: args.textButton,
                       buttonColor: AppColor.buttonBackground,
                       textColor: AppColor.widgetBackground,
                       height: 46,
                       onPress: () => {
-                        params.action(),
+                        args.action(),
                       },
                     ),
                     const SizedBox(
@@ -94,7 +78,7 @@ class MakeProfileActionView extends StatelessWidget {
                       buttonColor: AppColor.widgetBackground,
                       textColor: AppColor.black,
                       height: 46,
-                      onPress: () => router.pop(),
+                      onPress: () => viewModel.goBack(),
                     ),
                   ],
                 ),

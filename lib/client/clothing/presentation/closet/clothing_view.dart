@@ -5,7 +5,7 @@ import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
-import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
+import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';

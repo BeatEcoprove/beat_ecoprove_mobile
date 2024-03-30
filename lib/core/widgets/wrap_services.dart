@@ -1,6 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
-import 'package:beat_ecoprove/core/presentation/select_service_view.dart';
+import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/widgets/service_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

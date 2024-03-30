@@ -6,8 +6,8 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dar
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/helpers/tokens.dart';
-import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
-import 'package:beat_ecoprove/core/presentation/make%20_profile_action_view.dart';
+import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
+import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -100,7 +100,7 @@ class ChangeProfileViewModel extends ViewModel {
       // clean profileId
       _authProvider.setProfile();
 
-      _navigationRouter.replaceTop("/show_completed",
+      _navigationRouter.replaceTop("/extension/show_completed",
           extras: ShowCompletedViewParams(
               text: "Perfil foi removido.",
               textButton: "Continuar",

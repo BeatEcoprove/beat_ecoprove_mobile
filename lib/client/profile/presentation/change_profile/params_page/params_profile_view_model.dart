@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
-import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
+import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
@@ -118,7 +118,7 @@ class ParamsProfileViewModel extends FormViewModel {
       ));
 
       _navigationRouter.pop();
-      _navigationRouter.push("/show_completed",
+      _navigationRouter.push("/extension/show_completed",
           extras: ShowCompletedViewParams(
             text: "Uma conta com este perfil foi criada com sucesso!",
             textButton: "Continuar",

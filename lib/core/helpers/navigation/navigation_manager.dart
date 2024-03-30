@@ -4,6 +4,7 @@ abstract class INavigationManager {
   Future pushAsync<T>(String path, {T? extras});
   void push<T>(String path, {T? extras});
   void replaceTop<T>(String path, {T? extras});
+  Future replaceTopAsync<T>(String path, {T? extras});
   void pop();
 }
 
@@ -34,5 +35,10 @@ class NavigationManager implements INavigationManager {
   @override
   void replaceTop<T>(String path, {T? extras}) {
     router.pushReplacement(path, extra: extras);
+  }
+
+  @override
+  Future replaceTopAsync<T>(String path, {T? extras}) {
+    return router.pushReplacement(path, extra: extras);
   }
 }

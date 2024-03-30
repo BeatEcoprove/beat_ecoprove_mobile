@@ -8,20 +8,20 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/contracts/promote_profile_request.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/promote_profile_use_case.dart';
-import 'package:go_router/go_router.dart';
 
 class ParamsProfileViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final AuthenticationService _authenticationService;
   final PromoteProfileUseCase _promoteProfileUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   late final User _user;
   late ProfilesResult _profilesResult;
 
@@ -119,7 +119,7 @@ class ParamsProfileViewModel extends FormViewModel {
 
       _navigationRouter.pop();
       _navigationRouter.push("/show_completed",
-          extra: ShowCompletedViewParams(
+          extras: ShowCompletedViewParams(
             text: "Uma conta com este perfil foi criada com sucesso!",
             textButton: "Continuar",
             action: () => _navigationRouter.pop(),

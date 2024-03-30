@@ -45,7 +45,7 @@ extension RegisterClothInjection on DependencyInjection {
     );
   }
 
-  void addCloth(ApplicationRouter router) {
+  void addRegisterCloth(ApplicationRouter router) {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);

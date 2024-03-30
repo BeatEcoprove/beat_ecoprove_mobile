@@ -6,42 +6,45 @@ import 'package:beat_ecoprove/client/profile/presentation/profile/profile_view.d
 import 'package:beat_ecoprove/client/profile/presentation/settings/send_feedback/send_feedback_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/settings/settings_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/trade_points/trade_points_view.dart';
+import 'package:beat_ecoprove/core/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRoute profileRoutes = GoRoute(
   name: 'profile',
   path: '/',
-  builder: (BuildContext context, GoRouterState state) => const ProfileView(),
+  builder: (BuildContext context, GoRouterState state) =>
+      IView.of<ProfileView>(),
   routes: [
     GoRoute(
       path: 'settings',
-      builder: (context, state) => const SettingsView(),
+      builder: (context, state) => IView.of<SettingsView>(),
     ),
     GoRoute(
       path: 'feedback',
-      builder: (context, state) => const SendFeedbackView(),
+      builder: (context, state) => IView.of<SendFeedbackView>(),
     ),
     GoRoute(
       path: 'prizes',
-      builder: (context, state) => const PrizesView(),
+      builder: (context, state) => IView.of<PrizesView>(),
     ),
     GoRoute(
       path: 'tradepoints',
-      builder: (context, state) => const TradePointsView(),
+      builder: (context, state) => IView.of<TradePointsView>(),
     ),
     GoRoute(
       path: 'changeprofile',
-      builder: (context, state) => const ChangeProfileView(),
+      builder: (context, state) => IView.of<ChangeProfileView>(),
     ),
     GoRoute(
       path: 'createprofile',
-      builder: (context, state) => const CreateProfileView(),
+      builder: (context, state) => IView.of<CreateProfileView>(),
     ),
     GoRoute(
       path: 'addparams',
-      builder: (context, state) =>
-          ParamsProfileView(params: state.extra as String),
+      builder: (context, state) => ArgumentedView.of<ParamsProfileView>(
+        state.extra,
+      ),
     ),
   ],
 );

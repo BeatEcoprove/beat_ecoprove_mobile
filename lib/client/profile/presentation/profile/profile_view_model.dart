@@ -1,15 +1,16 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/medal_item.dart';
 import 'package:beat_ecoprove/client/profile/domain/models/medal.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ProfileViewModel extends ViewModel {
   final AuthenticationProvider _authProvider;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   final List<Medal> medals = [
     Medal(
@@ -62,5 +63,24 @@ class ProfileViewModel extends ViewModel {
 
   void settings() {
     _navigationRouter.push('/settings');
+  }
+
+  void goPrizes() => _navigationRouter.push("/prizes");
+
+  void goChangeProfile() => _navigationRouter.push("/changeprofile");
+
+  void goListDetails() {
+    _navigationRouter.push(
+      "/list_details",
+      extras: ListDetailsViewParams(
+        title: "Minhas Medalhas",
+        onSearch: (searchTerm) async {
+          return medalItems
+              .where((medal) =>
+                  medal.title.toLowerCase().contains(searchTerm.toLowerCase()))
+              .toList();
+        },
+      ),
+    );
   }
 }

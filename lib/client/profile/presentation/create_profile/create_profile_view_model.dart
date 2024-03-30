@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/name.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/complete_sign_in_view.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
@@ -15,7 +16,6 @@ import 'package:beat_ecoprove/client/profile/contracts/register_profile_request.
 import 'package:beat_ecoprove/client/profile/domain/use-cases/register_profile_use_case.dart';
 import 'package:beat_ecoprove/client/profile/domain/value_objects/profile_user_name.dart';
 import 'package:flutter/rendering.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateProfileViewModel extends FormViewModel {
@@ -23,7 +23,7 @@ class CreateProfileViewModel extends FormViewModel {
   final AuthenticationService _authenticationService;
   static const defaultImage = "assets/default_avatar.png";
   final RegisterProfileUseCase _registerProfileUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   CreateProfileViewModel(
     this._notificationProvider,
@@ -118,7 +118,7 @@ class CreateProfileViewModel extends FormViewModel {
 
       _navigationRouter.pop();
       _navigationRouter.push("/show_completed",
-          extra: ShowCompletedViewParams(
+          extras: ShowCompletedViewParams(
               text: "Perfil criado com sucesso",
               textButton: "Confirmar",
               action: () => _navigationRouter.pop()));

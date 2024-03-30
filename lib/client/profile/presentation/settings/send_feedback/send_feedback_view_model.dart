@@ -3,20 +3,20 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/send_feedback_request.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/send_feedback_use_case.dart';
 import 'package:beat_ecoprove/client/profile/domain/value_objects/feedback_description.dart';
 import 'package:beat_ecoprove/client/profile/domain/value_objects/feedback_name.dart';
-import 'package:go_router/go_router.dart';
 
 class SendFeedbackViewModel extends FormViewModel {
   late final User _user;
   final AuthenticationProvider _authProvider;
   final NotificationProvider _notificationProvider;
   final SendFeedbackUseCase _sendFeedbackUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
 
   SendFeedbackViewModel(
     this._notificationProvider,

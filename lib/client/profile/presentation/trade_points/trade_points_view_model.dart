@@ -3,17 +3,17 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/trade_points_request.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/trade_points_use_case.dart';
-import 'package:go_router/go_router.dart';
 
 class TradePointsViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final TradePointsUseCase _tradePointsUseCase;
-  final GoRouter _navigationRouter;
+  final INavigationManager _navigationRouter;
   late final User _user;
 
   TradePointsViewModel(

@@ -4,10 +4,9 @@ import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/client/clothing/dependency_injection.dart';
-import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
-import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
+import 'package:beat_ecoprove/client/profile/dependency_injection.dart';
+import 'package:beat_ecoprove/client/profile/presentation/change_profile/change_profile_view.dart';
 import 'package:beat_ecoprove/client/register_cloth/dependency_injection.dart';
-import 'package:beat_ecoprove/client/register_cloth/presentation/register_cloth_view.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
@@ -62,7 +61,7 @@ class DependencyInjection {
 
   ApplicationRouter setupDIContainer() {
     var applicationRouter = locator.registerSingleton(
-      ApplicationRouter<RegisterClothView>(),
+      ApplicationRouter<ChangeProfileView>(),
     );
 
     locator.registerFactory<INavigationManager>(
@@ -96,14 +95,9 @@ class DependencyInjection {
     // var router = locator.registerSingleton(AppRouter());
 
     addAuth(applicationRouter);
-
-    locator.registerFactory(() => ProfileService(locator<HttpAuthClient>()));
-    locator.registerSingleton(GetNestedProfilesUseCase(
-      locator<ProfileService>(),
-    ));
-
+    addProfile(applicationRouter);
     addCloset(applicationRouter);
-    addCloth(applicationRouter);
+    addRegisterCloth(applicationRouter);
     // router.addRoutes(
     //   [
     //     authRoutes,
@@ -143,9 +137,7 @@ class DependencyInjection {
     // locator.registerFactory(() => ListDetailsViewModel());
     // addProfile();
     // addServiceProviderProfile();
-    // addCloset();
     // addHome();
-    // addCloth();
     // addGroup();
     // addStore();
     // addOrders();

@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
+import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
@@ -6,8 +7,8 @@ class SelectUserViewModel extends ViewModel {
   final INavigationManager _navigationRouter;
   late int _selectionIndex = 0;
   final List<String> _urlScreens = [
-    "/sign_in/${SignUseroptions.personal.label}",
-    "/sign_in/${SignUseroptions.enterprise.label}"
+    SignUseroptions.personal.label,
+    SignUseroptions.enterprise.label
   ];
 
   SelectUserViewModel(
@@ -22,6 +23,10 @@ class SelectUserViewModel extends ViewModel {
   }
 
   handleSignIn() {
-    _navigationRouter.push(_urlScreens[_selectionIndex]);
+    _navigationRouter.push(
+      AuthRoutes.setSignIn(
+        _urlScreens[_selectionIndex],
+      ),
+    );
   }
 }

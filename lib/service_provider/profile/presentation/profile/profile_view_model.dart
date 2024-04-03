@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -19,6 +20,6 @@ class ServiceProviderProfileViewModel extends ViewModel {
   User get user => _user;
 
   void settings() {
-    _navigationRouter.push('/settings');
+    _navigationRouter.push(ProfileRoutes.settings);
   }
 }

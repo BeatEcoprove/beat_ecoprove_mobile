@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 
 class AddWorkerViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
@@ -43,7 +44,7 @@ class AddWorkerViewModel extends FormViewModel {
       // ));
 
       _navigationRouter.pop();
-      _navigationRouter.push("/extension/show_completed",
+      _navigationRouter.push(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
               text: "E-mail enviado!",
               textButton: "Voltar",

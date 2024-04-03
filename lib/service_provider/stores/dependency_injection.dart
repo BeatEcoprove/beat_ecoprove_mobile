@@ -122,6 +122,6 @@ extension StoresDependencyInjection on DependencyInjection {
     _addViewModels(locator);
     _addViews(locator);
 
-    router.addRoute(storeRoutes);
+    router.addRoute(storeRoute);
   }
 }

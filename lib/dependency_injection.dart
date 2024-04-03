@@ -1,13 +1,11 @@
 import 'package:beat_ecoprove/application_router.dart';
+import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
-import 'package:beat_ecoprove/client/clothing/dependency_injection.dart';
-import 'package:beat_ecoprove/client/profile/dependency_injection.dart';
-import 'package:beat_ecoprove/client/register_cloth/dependency_injection.dart';
+import 'package:beat_ecoprove/client/dependency_injection.dart';
 import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/dependency_injection.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
-import 'package:beat_ecoprove/auth/dependency_injection.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -94,9 +92,7 @@ class DependencyInjection {
     registerWebsockets(locator);
 
     addAuth(applicationRouter);
-    addProfile(applicationRouter);
-    addCloset(applicationRouter);
-    addRegisterCloth(applicationRouter);
+    addClient(applicationRouter);
     addGroup(applicationRouter);
     addHome(applicationRouter);
     addStore(applicationRouter);

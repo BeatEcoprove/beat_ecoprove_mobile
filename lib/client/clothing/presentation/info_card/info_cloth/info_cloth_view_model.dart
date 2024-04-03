@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dar
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
-class InfoClothViewModel extends ViewModel {
+class InfoClothViewModel extends ViewModel implements Clone {
   final NotificationProvider _notificationProvider;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
@@ -72,6 +72,15 @@ class InfoClothViewModel extends ViewModel {
     _notificationProvider.showNotification(
       "Estado da/s peça/s alterado!",
       type: NotificationTypes.success,
+    );
+  }
+
+  @override
+  clone() {
+    return InfoClothViewModel(
+      _notificationProvider,
+      _markClothAsDailyUseUseCase,
+      _unMarkClothAsDailyUseUseCase,
     );
   }
 }

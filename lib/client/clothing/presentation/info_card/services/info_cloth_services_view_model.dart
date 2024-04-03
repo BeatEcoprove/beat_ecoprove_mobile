@@ -18,9 +18,9 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dar
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 
-class InfoClothServiceViewModel extends FormViewModel {
+class InfoClothServiceViewModel extends FormViewModel implements Clone {
   final IBucketInfoManager _bucketInfoManager;
   final NotificationProvider _notificationProvider;
   late List<String> _selectedServices = [];
@@ -49,7 +49,16 @@ class InfoClothServiceViewModel extends FormViewModel {
     this._addClothsBucketUseCase,
     this._registerBucketUseCase,
   ) {
-    initializeFields([FormFieldValues.name]);
+    initializeFields([
+      FormFieldValues.name,
+    ]);
+  }
+
+  @override
+  void initSync() async {
+    if (arg != null) {
+      await fetchServices(arg.card.id, false);
+    }
   }
 
   Map<String, String> get getBuckets => _buckets;
@@ -65,17 +74,19 @@ class InfoClothServiceViewModel extends FormViewModel {
 
   bool get haveServicesSelected => _selectedServices.isNotEmpty;
 
-  Future fetchServices(
-      String cardId, bool isBucket, BuildContext context) async {
+  Future fetchServices(String cardId, bool isBucket) async {
     await fetchBuckets();
+
     if (isBucket) {
-      await fetchBucketServices(cardId, context);
+      await fetchBucketServices(cardId);
     } else {
-      await fetchClothServices(cardId, context);
+      await fetchClothServices(cardId);
     }
+
+    notifyListeners();
   }
 
-  Future fetchBucketServices(String bucketId, BuildContext context) async {
+  Future fetchBucketServices(String bucketId) async {
     List<Service<dynamic>> services = [];
 
     try {
@@ -98,11 +109,11 @@ class InfoClothServiceViewModel extends FormViewModel {
               type: NotificationTypes.warning,
             );
           }
-          // } on HttpBadRequestError catch (e) {
-          //   _notificationProvider.showNotification(
-          //     e.getError().title,
-          //     type: NotificationTypes.error,
-          //   );
+        } on HttpBadRequestError catch (e) {
+          _notificationProvider.showNotification(
+            e.getError().title,
+            type: NotificationTypes.error,
+          );
         } catch (e) {
           print(e);
         }
@@ -134,7 +145,7 @@ class InfoClothServiceViewModel extends FormViewModel {
     }
   }
 
-  Future fetchClothServices(String clothId, BuildContext context) async {
+  Future fetchClothServices(String clothId) async {
     List<Service<dynamic>> services = [];
 
     try {
@@ -180,7 +191,9 @@ class InfoClothServiceViewModel extends FormViewModel {
     return _blockedServices;
   }
 
-  List<ServiceTemplate> get getAllServices => _services;
+  List<ServiceTemplate> getAllServices() {
+    return _services;
+  }
 
   Future handleAction(String serviceId, String actionId, String state) async {
     try {
@@ -310,5 +323,21 @@ class InfoClothServiceViewModel extends FormViewModel {
     isLoading = false;
     _navigationRouter.pop();
     notifyListeners();
+  }
+
+  @override
+  clone() {
+    var clone = InfoClothServiceViewModel(
+      _bucketInfoManager,
+      _notificationProvider,
+      _navigationRouter,
+      _actionService,
+      _closetService,
+      _getBucketsUseCase,
+      _addClothsBucketUseCase,
+      _registerBucketUseCase,
+    );
+
+    return clone;
   }
 }

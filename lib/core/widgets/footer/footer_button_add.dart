@@ -1,6 +1,8 @@
+import 'package:beat_ecoprove/client/register_cloth/routes.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class FooterButton extends StatelessWidget {
   static const Radius borderRadius = Radius.circular(5);
@@ -9,10 +11,12 @@ class FooterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final goRouter = GoRouter.of(context);
+    final navigator = DependencyInjection.locator<INavigationManager>();
 
     return InkWell(
-      onTap: () async => await goRouter.push("/register-cloth"),
+      onTap: () async => await navigator.pushAsync(
+        RegisterClothRoutes.registerCloth,
+      ),
       child: Container(
         decoration: const BoxDecoration(
             color: AppColor.darkGreen,

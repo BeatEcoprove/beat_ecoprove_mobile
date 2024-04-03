@@ -2,14 +2,16 @@ import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
-class InfoBucketViewModel extends ViewModel {
+class InfoBucketViewModel extends ViewModel implements Clone {
   final IBucketInfoManager<String> _bucketInfoManager;
   final NotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
@@ -105,11 +107,26 @@ class InfoBucketViewModel extends ViewModel {
   bool isBucketItem(CardItem card) => card.hasChildren;
 
   Future openInfoCard(CardItem card) async {
-    var path = isBucketItem(card)
-        ? "/info/bucket/${card.id}"
-        : "/info/cloth/${card.id}";
+    AppRoute routePath;
 
-    await _navigationRouter.pushAsync(path, extras: card);
+    if (isBucketItem(card)) {
+      routePath = ClothingRoutes.setBucketDetails(card.id);
+    } else {
+      routePath = ClothingRoutes.setClothDetails(card.id);
+    }
+
+    await _navigationRouter.pushAsync(routePath, extras: card);
     notifyListeners();
+  }
+
+  @override
+  clone() {
+    return InfoBucketViewModel(
+      _bucketInfoManager,
+      _notificationProvider,
+      _removeClothFromBucketUseCase,
+      _unMarkClothAsDailyUseUseCase,
+      _navigationRouter,
+    );
   }
 }

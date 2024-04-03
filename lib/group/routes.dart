@@ -1,3 +1,5 @@
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
+import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view.dart';
@@ -7,29 +9,38 @@ import 'package:beat_ecoprove/group/presentation/group_index/group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final GoRoute groupRoutes = GoRoute(
-  name: 'group',
-  path: '/',
-  builder: (BuildContext context, GoRouterState state) => IView.of<GroupView>(),
+extension GroupRoutes on AppRoute {
+  static final group = AppRoute(path: "group");
+
+  static final chat = AppRoute(path: "chat");
+
+  static final members = AppRoute(path: "members");
+
+  static final update = AppRoute(path: "update");
+
+  static final create = AppRoute(path: "create");
+}
+
+final NavigationRoute groupRoute = NavigationRoute(
+  route: GroupRoutes.group,
+  view: (BuildContext context, GoRouterState state) => IView.of<GroupView>(),
   routes: [
-    GoRoute(
-      path: 'chat',
-      builder: (context, state) =>
-          ArgumentedView.of<GroupChatView>(state.extra),
+    NavigationRoute(
+      route: GroupRoutes.chat,
+      view: (context, state) => ArgumentedView.of<GroupChatView>(state.extra),
     ),
-    GoRoute(
-      path: 'members',
-      builder: (context, state) =>
+    NavigationRoute(
+      route: GroupRoutes.members,
+      view: (context, state) =>
           ArgumentedView.of<GroupChatMembersView>(state.extra),
     ),
-    GoRoute(
-      path: 'update',
-      builder: (context, state) =>
-          ArgumentedView.of<EditGroupView>(state.extra),
+    NavigationRoute(
+      route: GroupRoutes.update,
+      view: (context, state) => ArgumentedView.of<EditGroupView>(state.extra),
     ),
-    GoRoute(
-      path: 'create',
-      builder: (context, state) => IView.of<CreateGroupView>(),
+    NavigationRoute(
+      route: GroupRoutes.create,
+      view: (context, state) => IView.of<CreateGroupView>(),
     ),
   ],
 );

@@ -5,40 +5,64 @@ import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
+import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/view.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-GoRoute authRoutes = GoRoute(
-  name: 'home',
-  path: '/',
-  builder: (BuildContext context, GoRouterState state) {
-    return IView.of<LoginView>();
-  },
+extension AuthRoutes on AppRoute {
+  static final AppRoute auth = AppRoute(path: "auth");
+
+  static final AppRoute login = AppRoute(
+    path: "login",
+  );
+
+  static final AppRoute selectUser = AppRoute(
+    path: "select-user",
+  );
+
+  static final AppRoute signIn = AppRoute(
+    path: "sign_in/:userType",
+  );
+
+  static AppRoute setSignIn(String userType) {
+    return AppRoute.withParent(auth, "sign_in/$userType");
+  }
+
+  static final AppRoute resetCode = AppRoute(
+    path: "insert_reset_code",
+  );
+
+  static final AppRoute resetPassword = AppRoute(
+    path: "reset_password",
+  );
+}
+
+final NavigationRoute authRoute = NavigationRoute(
+  route: AuthRoutes.auth,
   routes: [
-    GoRoute(
-      path: 'select-user',
-      builder: (context, state) {
-        return IView.of<SelectUserView>();
-      },
+    NavigationRoute(
+      route: AuthRoutes.login,
+      view: (context, state) => IView.of<LoginView>(),
     ),
-    GoRoute(
-      path: 'sign_in/:userType',
-      builder: (context, state) {
-        return ArgumentedView.of<SignInView>(
-          SignInViewParams(
-            SignUseroptions.getTypeOf(state.pathParameters['userType']),
-          ),
-        );
-      },
+    NavigationRoute(
+      route: AuthRoutes.selectUser,
+      view: (context, state) => IView.of<SelectUserView>(),
     ),
-    GoRoute(
-      path: 'insert_reset_code',
-      builder: (context, state) => IView.of<InsertResetCodeView>(),
+    NavigationRoute(
+      route: AuthRoutes.signIn,
+      view: (context, state) => ArgumentedView.of<SignInView>(
+        SignInViewParams(
+          SignUseroptions.getTypeOf(state.pathParameters['userType']),
+        ),
+      ),
     ),
-    GoRoute(
-      path: 'reset_password',
-      builder: (context, state) => ArgumentedView.of<ResetPasswordView>(
+    NavigationRoute(
+      route: AuthRoutes.resetCode,
+      view: (context, state) => IView.of<InsertResetCodeView>(),
+    ),
+    NavigationRoute(
+      route: AuthRoutes.resetPassword,
+      view: (context, state) => ArgumentedView.of<ResetPasswordView>(
         state.extra as ResetPasswordParams,
       ),
     ),

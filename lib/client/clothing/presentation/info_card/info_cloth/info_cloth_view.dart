@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
@@ -25,6 +26,7 @@ class InfoClothView
   @override
   Widget build(BuildContext context, InfoClothViewModel viewModel) {
     double maxWidth = MediaQuery.of(context).size.width;
+    viewModel.isInUse = args.card.clothState == ClothStates.inUse;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -43,7 +45,10 @@ class InfoClothView
                   height: 257,
                   child: Center(
                     widthFactor: 257,
-                    child: PresentImage(path: ServerImage(args.card.child)),
+                    child: PresentImage(
+                        path: ServerImage(
+                      args.card.child,
+                    )),
                   ),
                 ),
               ),

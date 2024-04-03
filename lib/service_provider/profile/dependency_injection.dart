@@ -40,6 +40,6 @@ extension ServiceProviderProfileDependencyInjection on DependencyInjection {
     _addViewModels(locator);
     _addViews(locator);
 
-    router.addRoute(serviceProviderProfileRoutes);
+    router.addRoute(serviceProviderProfileRoute);
   }
 }

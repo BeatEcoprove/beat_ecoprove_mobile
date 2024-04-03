@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/change_bucket_name_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_buckets_use_case.dart';
@@ -17,7 +16,6 @@ import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_parmas.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_services_view.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_services_view_model.dart';
-import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service_proxy.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
@@ -176,14 +174,12 @@ extension ClothingDependencyInjection on DependencyInjection {
     );
   }
 
-  void addCloset(ApplicationRouter router) {
+  void addCloset() {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
     _addView(locator);
-
-    router.addRoute(clothingRoutes);
   }
 }

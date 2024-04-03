@@ -21,13 +21,12 @@ class InfoClothServiceView
   late final Modal _overlay;
   final String title = "";
 
-  // ignore: prefer_const_constructors_in_immutables
   InfoClothServiceView(
     this.bucketInfoManager, {
     super.key,
     required super.viewModel,
     required super.args,
-  });
+  }) {}
 
   @override
   void init(InfoClothServiceViewModel viewModel) {
@@ -44,6 +43,9 @@ class InfoClothServiceView
       titleModal: "Criar Cesto",
       buttonText: "Criar",
     );
+
+    viewModel.fetchServices(args.card.id, args.card.hasChildren);
+    super.init(viewModel);
   }
 
   Widget createBucketCard() {
@@ -57,6 +59,8 @@ class InfoClothServiceView
 
   @override
   Widget build(BuildContext context, InfoClothServiceViewModel viewModel) {
+    var services = viewModel.getAllServices();
+
     if (args.card.hasChildren) {
       viewModel.clothId = (args.card.child as List<CardItem>)
           .map((element) => element.id)
@@ -86,20 +90,13 @@ class InfoClothServiceView
                       right: 16,
                       left: 16,
                     ),
-                    child: FutureBuilder(
-                      future: viewModel.fetchServices(
-                          args.card.id, args.card.hasChildren, context),
-                      builder: (context, snapshot) => WrapServices(
-                        title: title,
-                        services: formatServices(
-                          args.card.id,
-                          args.card.hasChildren,
-                          context,
-                        ),
-                        blockedServices: viewModel.blockedServices(),
-                        onSelectionChanged: (service) =>
-                            viewModel.changeServiceSelection(service),
-                      ),
+                    child: WrapServices(
+                      title: title,
+                      services: formatServices(args.card.id,
+                          args.card.hasChildren, context, services),
+                      blockedServices: viewModel.blockedServices(),
+                      onSelectionChanged: (service) =>
+                          viewModel.changeServiceSelection(service),
                     ),
                   ),
                 ],
@@ -112,8 +109,8 @@ class InfoClothServiceView
     );
   }
 
-  List<ServiceTemplate> formatServices(
-      String clothId, bool isBucket, BuildContext context) {
+  List<ServiceTemplate> formatServices(String clothId, bool isBucket,
+      BuildContext context, List<ServiceTemplate> services) {
     return [
       if (!isBucket) ...[
         Service(
@@ -164,7 +161,7 @@ class InfoClothServiceView
           },
         ),
       ],
-      ...viewModel.getAllServices,
+      // if (services.isNotEmpty) ...services,
       ServiceItem(
         foregroundColor: AppColor.buttonBackground,
         borderColor: AppColor.widgetBackground,

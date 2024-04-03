@@ -12,6 +12,8 @@ import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart'
 import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
+import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 
 class GroupChatViewModel extends FormViewModel {
@@ -125,7 +127,7 @@ class GroupChatViewModel extends FormViewModel {
       adminsIds.add(groupDetails.creator.id);
 
       await _navigationRouter.pushAsync(
-        "/update",
+        GroupRoutes.update,
         extras: EditGroupParams(
           group: groupDetails,
           adminId: adminsIds,
@@ -148,7 +150,11 @@ class GroupChatViewModel extends FormViewModel {
   }
 
   void goToChatMembers(GroupItem arguments) => _navigationRouter.push(
-        "/members",
-        extras: arguments,
+        GroupRoutes.members,
+        extras: GroupChatParams(
+            groupId: arguments.id,
+            title: arguments.name,
+            state: arguments.isPublic ? "Publico" : "Privado",
+            numberMembers: arguments.membersCount.toString()),
       );
 }

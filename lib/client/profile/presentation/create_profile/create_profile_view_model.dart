@@ -15,6 +15,7 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/register_profile_request.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/register_profile_use_case.dart';
 import 'package:beat_ecoprove/client/profile/domain/value_objects/profile_user_name.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -117,7 +118,7 @@ class CreateProfileViewModel extends FormViewModel {
       ));
 
       _navigationRouter.pop();
-      _navigationRouter.push("/extension/show_completed",
+      _navigationRouter.push(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
               text: "Perfil criado com sucesso",
               textButton: "Confirmar",

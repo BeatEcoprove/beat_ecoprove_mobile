@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_enterprise_use_case.dart';
@@ -9,6 +10,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 
@@ -45,11 +47,11 @@ class SignInViewModel extends ViewModel {
       await strategy.handleSignIn(dataList);
       await DependencyInjection.locator<IWCNotifier>().logIn();
 
-      await _navigationRouter.pushAsync("/extension/show_completed",
+      await _navigationRouter.pushAsync(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
             text: "Conta criada com sucesso",
             textButton: "Entrar",
-            action: () => _navigationRouter.push("/"),
+            action: () => _navigationRouter.push(AppRoute.root),
           ));
     } catch (e) {
       // TODO: Put some sort of way of telling the user that someting went wrong with he's register

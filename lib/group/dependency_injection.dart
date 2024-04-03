@@ -184,6 +184,6 @@ extension GroupDependencyInjection on DependencyInjection {
     _addViewModels(locator);
     _addViews(locator);
 
-    router.addRoute(groupRoutes);
+    router.addRoute(groupRoute);
   }
 }

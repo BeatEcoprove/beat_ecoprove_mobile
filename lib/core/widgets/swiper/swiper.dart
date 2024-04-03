@@ -8,9 +8,9 @@ class Swiper extends StatefulWidget {
 
   const Swiper({
     super.key,
-    required this.views,
     required this.bottomNavigationBarOptions,
     this.hasRegisterCloth = true,
+    required this.views,
   });
 
   @override
@@ -20,7 +20,10 @@ class Swiper extends StatefulWidget {
 class _SwiperState extends State<Swiper> {
   static const _animationDuration = Duration(milliseconds: 750);
   late int selectedIndex = 0;
-  final PageController controller = PageController(initialPage: 0);
+  final PageController controller = PageController(
+    initialPage: 0,
+    keepPage: false,
+  );
 
   Future _animateToPage(int page) {
     return controller.animateToPage(page,
@@ -29,6 +32,8 @@ class _SwiperState extends State<Swiper> {
 
   @override
   Widget build(BuildContext context) {
+    // refreshViews();
+
     return Scaffold(
       body: PageView.builder(
         controller: controller,

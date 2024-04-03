@@ -4,11 +4,13 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
+import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 
@@ -67,7 +69,7 @@ class LoginViewModel extends FormViewModel {
       await _authenticationService
           .sendForgotPassword(ForgotPasswordRequest(emailValue));
 
-      await _navigationRouter.pushAsync("/insert_reset_code");
+      await _navigationRouter.pushAsync(AuthRoutes.resetCode);
     } on HttpInternalError catch (e) {
       setError(FormFieldValues.email, e.getError().title);
     } catch (e) {
@@ -76,7 +78,7 @@ class LoginViewModel extends FormViewModel {
   }
 
   void handleSignUp() {
-    _navigationRouter.push("/select-user");
+    _navigationRouter.push(AuthRoutes.selectUser);
   }
 
   void handleLogin() async {
@@ -88,7 +90,7 @@ class LoginViewModel extends FormViewModel {
     try {
       await _loginUseCase.handle(LoginRequest(email, password));
 
-      _navigationRouter.push("/");
+      _navigationRouter.push(AppRoute.root);
     } catch (e) {
       print("$e");
     }

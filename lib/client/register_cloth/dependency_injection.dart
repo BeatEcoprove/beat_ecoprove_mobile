@@ -1,7 +1,5 @@
-import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/client/register_cloth/presentation/register_cloth_view.dart';
-import 'package:beat_ecoprove/client/register_cloth/routes.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
@@ -45,14 +43,12 @@ extension RegisterClothInjection on DependencyInjection {
     );
   }
 
-  void addRegisterCloth(ApplicationRouter router) {
+  void addRegisterCloth() {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
     _addView(locator);
-
-    router.addRoute(registerClothRoutes);
   }
 }

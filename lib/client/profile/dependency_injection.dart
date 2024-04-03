@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/change_profile_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_page_params.dart';
@@ -9,7 +8,6 @@ import 'package:beat_ecoprove/client/profile/presentation/profile/profile_view.d
 import 'package:beat_ecoprove/client/profile/presentation/settings/send_feedback/send_feedback_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/settings/settings_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/trade_points/trade_points_view.dart';
-import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -189,14 +187,12 @@ extension ProfileDependencyInjection on DependencyInjection {
     );
   }
 
-  void addProfile(ApplicationRouter router) {
+  void addProfile() {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
     _addViews(locator);
-
-    router.addRoute(profileRoutes);
   }
 }

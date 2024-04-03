@@ -1,11 +1,11 @@
 import 'package:beat_ecoprove/client/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
@@ -108,7 +108,7 @@ class ClothingView extends IView<ClothingViewModel> {
                     ),
                     onPressed: () {
                       _navigationManager.push(
-                        "/select_service",
+                        CoreRoutes.selectService,
                         extras: ServiceParams(
                           services: {
                             "Em que cesto pretende inserir esta peça?": [
@@ -269,8 +269,9 @@ class ClothingView extends IView<ClothingViewModel> {
           children: [
             HorizontalSelectorList(
               list: clothes,
-              onSelectionChanged: (ids) =>
-                  {viewModel.changeHorizontalFiltersSelection(ids)},
+              onSelectionChanged: (ids) => {
+                viewModel.changeHorizontalFiltersSelection(ids),
+              },
               isHorizontalFilterSelected: (filter) =>
                   viewModel.haveThisHorizontalFilter(filter),
             ),
@@ -288,29 +289,15 @@ class ClothingView extends IView<ClothingViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            FutureBuilder(
-              future: viewModel.fetchCloset(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting &&
-                    viewModel.getCloset.isEmpty) {
-                  return const CircularProgressIndicator(
-                    color: AppColor.primaryColor,
-                    strokeWidth: 4,
-                  );
-                }
-
-                return CardList(
-                  clothesItems: snapshot.data as List<CardItem>,
-                  selectedCards: viewModel.selectedCards,
-                  onSelectionToDelete: (id) async =>
-                      await viewModel.removeCard(id),
-                  onSelectionChanged: (cards) =>
-                      viewModel.changeCardsSelection(cards),
-                  onElementSelected: (card) async =>
-                      await viewModel.openInfoCard(card),
-                  action: "remove",
-                );
-              },
+            CardList(
+              clothesItems: viewModel.cards,
+              selectedCards: viewModel.selectedCards,
+              onSelectionToDelete: (id) async => await viewModel.removeCard(id),
+              onSelectionChanged: (cards) =>
+                  viewModel.changeCardsSelection(cards),
+              onElementSelected: (card) async =>
+                  await viewModel.openInfoCard(card),
+              action: "remove",
             ),
           ],
         ),

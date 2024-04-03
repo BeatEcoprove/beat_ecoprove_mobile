@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_page_params.dart';
+import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
@@ -11,6 +13,7 @@ import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_para
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/delete_profile_use_case.dart';
@@ -86,8 +89,8 @@ class ChangeProfileViewModel extends ViewModel {
     _authProvider.setProfile();
 
     await _navigationRouter.replaceTopAsync(
-      "/addparams",
-      extras: profileId,
+      ProfileRoutes.addparams,
+      extras: PageParams(profileId),
     );
 
     notifyListeners();
@@ -100,7 +103,7 @@ class ChangeProfileViewModel extends ViewModel {
       // clean profileId
       _authProvider.setProfile();
 
-      _navigationRouter.replaceTop("/extension/show_completed",
+      _navigationRouter.replaceTop(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
               text: "Perfil foi removido.",
               textButton: "Continuar",
@@ -123,7 +126,7 @@ class ChangeProfileViewModel extends ViewModel {
   }
 
   void settings() {
-    _navigationRouter.push('/settings');
+    _navigationRouter.push(ProfileRoutes.settings);
   }
 
   Future refreshTokens() async {
@@ -153,13 +156,13 @@ class ChangeProfileViewModel extends ViewModel {
   }
 
   Future createProfile() async {
-    await _navigationRouter.pushAsync("/createprofile");
+    await _navigationRouter.pushAsync(ProfileRoutes.createprofile);
     notifyListeners();
   }
 
   void goToPromoteProfile(ProfileResult profile) {
     _navigationRouter.push(
-      "/make_profile_action",
+      CoreRoutes.makeProfileAction,
       extras: MakeProfileActionViewParams(
         text: "Tem a certeza que pretende criar uma conta com este perfil?",
         textButton: "Criar",
@@ -171,7 +174,7 @@ class ChangeProfileViewModel extends ViewModel {
 
   void goToDeleteProfile(ProfileResult profile) {
     _navigationRouter.push(
-      "/make_profile_action",
+      CoreRoutes.makeProfileAction,
       extras: MakeProfileActionViewParams(
         text: "Tem a certeza que pretende remover este perfil?",
         textButton: "Remover",

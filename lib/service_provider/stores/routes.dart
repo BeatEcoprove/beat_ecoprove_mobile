@@ -1,4 +1,6 @@
 import 'package:beat_ecoprove/common/info_store/info_store_view.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
+import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/create_store/create_store_view.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_index/store_view.dart';
@@ -8,28 +10,35 @@ import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final GoRoute storeRoutes = GoRoute(
-  name: 'stores',
-  path: '/',
-  builder: (BuildContext context, GoRouterState state) => IView.of<StoreView>(),
+extension StoreRoutes on AppRoute {
+  static final AppRoute store = AppRoute(path: "store");
+
+  static final AppRoute createStore = AppRoute(path: "createStore");
+  static final AppRoute detailsStore = AppRoute(path: "info/store/:id");
+  static final AppRoute workers = AppRoute(path: "store/:id/workers");
+  static final AppRoute addWorkers = AppRoute(path: "store/:id/addWorkers");
+}
+
+final NavigationRoute storeRoute = NavigationRoute(
+  route: StoreRoutes.store,
+  view: (BuildContext context, GoRouterState state) => IView.of<StoreView>(),
   routes: [
-    GoRoute(
-      path: 'createStore',
-      builder: (context, state) => IView.of<CreateStoreView>(),
+    NavigationRoute(
+      route: StoreRoutes.createStore,
+      view: (context, state) => IView.of<CreateStoreView>(),
     ),
-    GoRoute(
-      path: 'info/store/:id',
-      builder: (context, state) =>
-          ArgumentedView.of<InfoStoreView>(state.extra),
+    NavigationRoute(
+      route: StoreRoutes.detailsStore,
+      view: (context, state) => ArgumentedView.of<InfoStoreView>(state.extra),
     ),
-    GoRoute(
-      path: 'store/:id/workers',
-      builder: (context, state) =>
+    NavigationRoute(
+      route: StoreRoutes.workers,
+      view: (context, state) =>
           ArgumentedView.of<StoreWorkersView>(state.extra as StoreParams),
     ),
-    GoRoute(
-      path: 'store/:id/addWorkers',
-      builder: (context, state) => IView.of<AddWorkerView>(),
+    NavigationRoute(
+      route: StoreRoutes.addWorkers,
+      view: (context, state) => IView.of<AddWorkerView>(),
     ),
   ],
 );

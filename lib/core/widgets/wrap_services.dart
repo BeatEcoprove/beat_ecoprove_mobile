@@ -1,9 +1,11 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/widgets/service_button.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class WrapServices extends StatefulWidget {
   final String title;
@@ -51,7 +53,7 @@ class _WrapServicesState extends State<WrapServices> {
 
   @override
   Widget build(BuildContext context) {
-    final GoRouter goRouter = GoRouter.of(context);
+    final navigator = DependencyInjection.locator<INavigationManager>();
 
     return Column(
       children: [
@@ -76,9 +78,9 @@ class _WrapServicesState extends State<WrapServices> {
                   if (!widget.blockedServices.contains(service.idText)) {
                     if (!selectedServices.contains(service.idText)) {
                       if (service is Service) {
-                        goRouter.push(
-                          "/select_service",
-                          extra: ServiceParams(
+                        navigator.push(
+                          CoreRoutes.selectService,
+                          extras: ServiceParams(
                             services: service.services,
                           ),
                         );

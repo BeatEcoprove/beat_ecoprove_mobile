@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
 
@@ -27,6 +28,7 @@ class InfoStoreViewModel extends ViewModel {
   }
 
   void goToWorkersPage(StoreParams params) {
-    _navigationRouter.push("/store/${params.storeId}/workers", extras: params);
+    _navigationRouter.push(AppRoute.from("/store/${params.storeId}/workers"),
+        extras: params);
   }
 }

@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
-class HomeViewModel extends ViewModel {
+class HomeViewModel extends ViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final ClosetService _closetService;
   final ActionService _actionService;
@@ -20,4 +20,13 @@ class HomeViewModel extends ViewModel {
   }
 
   User get user => _user;
+
+  @override
+  HomeViewModel clone() {
+    return HomeViewModel(
+      _authProvider,
+      _closetService,
+      _actionService,
+    );
+  }
 }

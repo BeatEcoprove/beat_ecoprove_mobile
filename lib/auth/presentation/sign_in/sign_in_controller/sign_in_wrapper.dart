@@ -27,7 +27,6 @@ class SignInWrapper extends StatelessWidget {
     return GoBack(
       posTop: 48,
       posLeft: 22,
-      goBackPath: '/select-user',
       changeDefaultBehavior: () => signInController.defualtBehavior(
         () => _handleGoPrevious(signInController),
       ),

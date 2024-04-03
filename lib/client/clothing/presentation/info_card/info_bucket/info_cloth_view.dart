@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -77,7 +78,8 @@ class InfoBucketView
         OptionItem(
           name: 'Mudar Nome',
           action: () => {
-            _navigationManager.push("/info/bucket/${args.card.id}/change_name",
+            _navigationManager.push(
+                AppRoute.from("/info/bucket/${args.card.id}/change_name"),
                 extras: args.card)
           },
         ),

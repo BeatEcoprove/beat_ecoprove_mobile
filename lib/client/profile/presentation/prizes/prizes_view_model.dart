@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -17,5 +18,5 @@ class PrizesViewModel extends ViewModel {
 
   User get user => _user;
 
-  void goTradePoints() => _navigationManager.push("/tradepoints");
+  void goTradePoints() => _navigationManager.push(ProfileRoutes.tradepoints);
 }

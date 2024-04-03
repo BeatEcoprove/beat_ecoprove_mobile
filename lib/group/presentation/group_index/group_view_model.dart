@@ -10,10 +10,13 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
+import 'package:beat_ecoprove/core/routes.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
+import 'package:beat_ecoprove/group/routes.dart';
 import 'package:flutter/material.dart';
 
-class GroupViewModel extends FormViewModel {
+class GroupViewModel extends FormViewModel implements Clone {
   final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final NotificationManager _notificationManager;
@@ -103,13 +106,13 @@ class GroupViewModel extends FormViewModel {
   }
 
   Future createGroup() async {
-    await _navigationRouter.pushAsync('/create');
+    await _navigationRouter.pushAsync(GroupRoutes.create);
     notifyListeners();
   }
 
   void goToMyGroupsList(List<Widget> Function(List<GroupItem>) func) {
     _navigationRouter.push(
-      "/list_details",
+      CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Meus Grupos",
         onSearch: (searchTerm) async {
@@ -123,7 +126,7 @@ class GroupViewModel extends FormViewModel {
 
   void goToPublicList(List<Widget> Function(List<GroupItem>) func) {
     _navigationRouter.push(
-      "/list_details",
+      CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Grupos Globais",
         onSearch: (searchTerm) async {
@@ -136,7 +139,18 @@ class GroupViewModel extends FormViewModel {
   }
 
   void gotToChatGroup(GroupItem item) => _navigationRouter.push(
-        "/chat",
+        GroupRoutes.chat,
         extras: item,
       );
+
+  @override
+  clone() {
+    return GroupViewModel(
+      _notificationProvider,
+      _authProvider,
+      _getGroupsUseCase,
+      _navigationRouter,
+      _notificationManager,
+    );
+  }
 }

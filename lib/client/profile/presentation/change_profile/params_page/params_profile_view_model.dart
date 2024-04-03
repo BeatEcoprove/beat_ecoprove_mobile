@@ -15,6 +15,7 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/contracts/promote_profile_request.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/promote_profile_use_case.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 
 class ParamsProfileViewModel extends FormViewModel {
   final NotificationProvider _notificationProvider;
@@ -118,7 +119,7 @@ class ParamsProfileViewModel extends FormViewModel {
       ));
 
       _navigationRouter.pop();
-      _navigationRouter.push("/extension/show_completed",
+      _navigationRouter.push(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
             text: "Uma conta com este perfil foi criada com sucesso!",
             textButton: "Continuar",

@@ -13,6 +13,7 @@ abstract class IView<TViewModel extends ViewModel> extends StatefulWidget {
   const IView({super.key, required this.viewModel});
 
   void init(TViewModel viewModel) {}
+  void afterClone(TViewModel update) {}
   Widget build(BuildContext context, TViewModel viewModel);
 
   @override
@@ -28,6 +29,11 @@ abstract class ArgumentedView<TViewModel extends ViewModel, TArgument>
     required super.viewModel,
     required this.args,
   });
+
+  @override
+  void afterClone(TViewModel update) {
+    update.setArgument(args);
+  }
 
   static ArgumentedView of<TView extends ArgumentedView>(dynamic arguments) {
     return DependencyInjection.locator<TView>(param1: arguments);
@@ -45,8 +51,17 @@ class _ViewState<TViewModel extends ViewModel>
 
   @override
   Widget build(BuildContext context) {
+    var viewModel = widget.viewModel;
+
+    if (viewModel is Clone) {
+      viewModel = (viewModel as Clone).clone();
+
+      widget.afterClone(viewModel);
+      viewModel.initSync();
+    }
+
     return ChangeNotifierProvider<TViewModel>(
-      create: (context) => widget.viewModel,
+      create: (context) => viewModel,
       child: Consumer<TViewModel>(
         builder: (context, value, _) => widget.build(context, value),
       ),

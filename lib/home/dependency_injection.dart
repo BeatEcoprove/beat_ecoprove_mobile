@@ -7,6 +7,9 @@ import 'package:beat_ecoprove/home/presentation/brand/service_view.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_view_model.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view_model.dart';
+import 'package:beat_ecoprove/home/presentation/main_skeleton/main_skeleton_view.dart';
+import 'package:beat_ecoprove/home/presentation/main_skeleton/main_skeleton_view_model.dart';
+import 'package:beat_ecoprove/home/routes.dart';
 import 'package:get_it/get_it.dart';
 
 extension HomeDependencyInjection on DependencyInjection {
@@ -26,6 +29,10 @@ extension HomeDependencyInjection on DependencyInjection {
         actionService,
       ),
     );
+
+    locator.registerFactory(
+      () => MainSkeletonViewModel(),
+    );
   }
 
   void _addViews(GetIt locator) {
@@ -40,6 +47,12 @@ extension HomeDependencyInjection on DependencyInjection {
         viewModel: locator<HomeViewModel>(),
       ),
     );
+
+    locator.registerFactory(
+      () => MainSkeletonView(
+        viewModel: locator<MainSkeletonViewModel>(),
+      ),
+    );
   }
 
   void addHome(ApplicationRouter router) {
@@ -47,5 +60,7 @@ extension HomeDependencyInjection on DependencyInjection {
 
     _addViewModels(locator);
     _addViews(locator);
+
+    router.addRoute(homeRoutes);
   }
 }

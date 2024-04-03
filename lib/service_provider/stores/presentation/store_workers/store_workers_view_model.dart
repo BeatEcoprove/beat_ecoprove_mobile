@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/worker.dart';
 
@@ -46,7 +47,8 @@ class StoreWorkersViewModel extends FormViewModel {
   }
 
   Future addWorker(String storeId) async {
-    await _navigationRouter.pushAsync("/store/$storeId/addWorkers");
+    await _navigationRouter
+        .pushAsync(AppRoute.from("/store/$storeId/addWorkers"));
     notifyListeners();
   }
 }

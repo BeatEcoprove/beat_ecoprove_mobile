@@ -4,8 +4,10 @@ import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
+import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 
 class StoreViewModel extends FormViewModel {
   final AuthenticationProvider _authProvider;
@@ -70,11 +72,12 @@ class StoreViewModel extends FormViewModel {
   }
 
   Future createStore() async {
-    await _navigationRouter.pushAsync('/createStore');
+    await _navigationRouter.pushAsync(StoreRoutes.createStore);
     notifyListeners();
   }
 
   void goToStore(StoreItem store) {
-    _navigationRouter.push("/info/store/${store.id}", extras: store);
+    _navigationRouter.push(AppRoute.from("/info/store/${store.id}"),
+        extras: store);
   }
 }

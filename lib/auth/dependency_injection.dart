@@ -129,7 +129,6 @@ extension AuthDependencyInjection on DependencyInjection {
     _addViewModels(locator);
     _addViews(locator);
 
-    // Add Routes
-    app.addRoute(authRoutes);
+    app.addRoute(authRoute);
   }
 }

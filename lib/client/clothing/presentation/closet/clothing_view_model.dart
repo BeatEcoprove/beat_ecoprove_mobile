@@ -10,6 +10,7 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_dai
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/value_objects/bucket_name.dart';
+import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
@@ -19,16 +20,18 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:flutter/material.dart';
 
-class ClothingViewModel extends FormViewModel {
+class ClothingViewModel extends FormViewModel implements Clone {
   final GetClosetUseCase _getClosetUseCase;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
@@ -53,6 +56,8 @@ class ClothingViewModel extends FormViewModel {
 
   late bool shouldUpdateData = true;
 
+  List<CardItem> get cards => _cards;
+
   ClothingViewModel(
     this._notificationProvider,
     this._authProvider,
@@ -76,6 +81,11 @@ class ClothingViewModel extends FormViewModel {
     getAllNestedProfiles();
   }
 
+  @override
+  void initSync() async {
+    await fetchCloset();
+  }
+
   User get user => _user;
 
   void setUpdateUpdateData(bool value) {
@@ -91,9 +101,11 @@ class ClothingViewModel extends FormViewModel {
     }
   }
 
-  void setSearch(String search) {
+  void setSearch(String search) async {
     try {
       setValue<String>(FormFieldValues.search, search);
+
+      await fetchCloset();
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
     }
@@ -126,8 +138,10 @@ class ClothingViewModel extends FormViewModel {
   bool haveThisHorizontalFilter(String filter) =>
       _selectedHorizontalFilters.contains(filter);
 
-  void changeHorizontalFiltersSelection(List<String> filters) {
+  void changeHorizontalFiltersSelection(List<String> filters) async {
     _selectedHorizontalFilters = filters;
+
+    await fetchCloset();
     notifyListeners();
   }
 
@@ -135,8 +149,10 @@ class ClothingViewModel extends FormViewModel {
 
   Map<String, dynamic> get allSelectedFilters => _selectedFilters;
 
-  void changeFilterSelection(Map<String, dynamic> filters) {
+  void changeFilterSelection(Map<String, dynamic> filters) async {
     _selectedFilters = filters;
+
+    await fetchCloset();
     notifyListeners();
   }
 
@@ -204,6 +220,7 @@ class ClothingViewModel extends FormViewModel {
       );
     }
 
+    notifyListeners();
     return result;
   }
 
@@ -343,7 +360,7 @@ class ClothingViewModel extends FormViewModel {
     }
 
     _selectedCards.clear();
-    _navigationRouter.push('/');
+    _navigationRouter.push(AppRoute.root);
     notifyListeners();
   }
 
@@ -382,18 +399,22 @@ class ClothingViewModel extends FormViewModel {
     }
 
     _selectedCards.clear();
-    _navigationRouter.push('/');
+    _navigationRouter.push(AppRoute.root);
     notifyListeners();
   }
 
   bool isBucketItem(CardItem card) => card.hasChildren;
 
   Future openInfoCard(CardItem card) async {
-    var path = isBucketItem(card)
-        ? "/info/bucket/${card.id}"
-        : "/info/cloth/${card.id}";
+    AppRoute routePath;
 
-    await _navigationRouter.pushAsync(path, extras: card);
+    if (isBucketItem(card)) {
+      routePath = ClothingRoutes.setBucketDetails(card.id);
+    } else {
+      routePath = ClothingRoutes.setClothDetails(card.id);
+    }
+
+    await _navigationRouter.pushAsync(routePath, extras: card);
     notifyListeners();
   }
 
@@ -500,5 +521,22 @@ class ClothingViewModel extends FormViewModel {
     }
 
     return [FilterRow(title: 'Perfis', options: profileItem)];
+  }
+
+  @override
+  clone() {
+    return ClothingViewModel(
+      _notificationProvider,
+      _authProvider,
+      _getClosetUseCase,
+      _markClothAsDailyUseUseCase,
+      _unMarkClothAsDailyUseUseCase,
+      _deleteCardUseCase,
+      _registerBucketUseCase,
+      _addToBucketUseCase,
+      _getNestedProfilesUseCase,
+      _navigationRouter,
+      _valuesProvider,
+    );
   }
 }

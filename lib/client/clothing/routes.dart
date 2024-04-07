@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/detail_card/detail_card.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/change_name/change_bucket_name_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/change_name/change_bucket_name_view.dart';
@@ -31,7 +30,7 @@ extension ClothingRoutes on AppRoute {
   );
 
   static AppRoute setBucketDetails(String id) {
-    return AppRoute.withParent(closet, "info/cloth/$id");
+    return AppRoute.withParent(closet, "info/bucket/$id");
   }
 
   static final AppRoute changeBucketName = AppRoute(
@@ -61,7 +60,6 @@ NavigationRoute clothingRoute = NavigationRoute(
               state.extra as CardItem,
             ),
           ),
-          IView.of<ClothingView>()
         ],
       ),
     ),

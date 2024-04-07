@@ -3,9 +3,6 @@ import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view_
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
-import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
-import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
@@ -19,32 +16,13 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ClothingView extends IView<ClothingViewModel> {
-  final INavigationManager _navigationManager;
-  late final Modal _overlay;
-
-  // ignore: prefer_const_constructors_in_immutables
-  ClothingView(
-    this._navigationManager, {
+class ClothingView extends IView<ClotingViewModel> {
+  const ClothingView({
     super.key,
     required super.viewModel,
   });
 
-  @override
-  void init(ClothingViewModel viewModel) {
-    _overlay = Modal(
-      top: 72,
-      bottom: 72,
-      left: 36,
-      right: 36,
-      action: () async =>
-          await viewModel.registerBucket(viewModel.selectedCards),
-      titleModal: "Criar Cesto",
-      buttonText: "Criar",
-    );
-  }
-
-  Widget createBucketCard() {
+  Widget createBucketCard(ClotingViewModel viewModel) {
     return DefaultFormattedTextField(
       hintText: "Nome do cesto",
       onChange: (name) => viewModel.setName(name),
@@ -53,14 +31,82 @@ class ClothingView extends IView<ClothingViewModel> {
     );
   }
 
+  List<ServiceTemplate> setUpOptions(
+    BuildContext context,
+    ClotingViewModel viewModel,
+  ) {
+    return [
+      ServiceItem(
+        backgroundColor: AppColor.widgetBackground,
+        borderColor: Colors.transparent,
+        foregroundColor: AppColor.buttonBackground,
+        title: "Novo cesto",
+        idText: "bucket_new_bucket",
+        content: const Icon(
+          Icons.add,
+          size: 50,
+          color: AppColor.buttonBackground,
+        ),
+        action: () {
+          createOverlay(viewModel, context);
+        },
+      ),
+      for (var bucket in viewModel.getBuckets) ...{
+        ServiceItem(
+          backgroundColor: AppColor.widgetBackground,
+          borderColor: Colors.transparent,
+          foregroundColor: AppColor.buttonBackground,
+          title: bucket.title,
+          idText: "bucket",
+          content: const SvgImage(
+            path: "assets/services/bucket.svg",
+            height: 20,
+            width: 20,
+            color: AppColor.buttonBackground,
+          ),
+          action: () async => {
+            await viewModel.addToBucket(
+              bucket.id,
+              viewModel.selectedCloth,
+            ),
+          },
+        )
+      }
+    ];
+  }
+
+  void createOverlay(
+    ClotingViewModel viewModel,
+    BuildContext context,
+  ) {
+    Modal(
+      top: 72,
+      bottom: 72,
+      left: 36,
+      right: 36,
+      action: () async =>
+          await viewModel.registerBucket(viewModel.selectedCloth),
+      titleModal: "Criar Cesto",
+      buttonText: "Criar",
+    ).create(
+      context,
+      createBucketCard(
+        viewModel,
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context, ClothingViewModel viewModel) {
+  Widget build(BuildContext context, ClotingViewModel viewModel) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
-          title: "Vestuário",
-          sustainablePoints: viewModel.user.sustainablePoints),
+        title: "Vestuário",
+        sustainablePoints: viewModel.user.sustainablePoints,
+      ),
       body: AppBackground(
+        type: AppBackgrounds.clothing,
         content: Stack(
           children: [
             CustomScrollView(
@@ -70,7 +116,16 @@ class ClothingView extends IView<ClothingViewModel> {
                 _buildClothsCardsSection(context, viewModel),
               ],
             ),
-            if (viewModel.haveSelectedCards) ...[
+            if (viewModel.selectedCloth.isNotEmpty) ...[
+              const Positioned(
+                bottom: 44,
+                right: 6,
+                child: SvgImage(
+                  path: "assets/others/decoration.svg",
+                  height: 75,
+                  width: 75,
+                ),
+              ),
               Positioned(
                 bottom: 16,
                 right: 26,
@@ -85,15 +140,6 @@ class ClothingView extends IView<ClothingViewModel> {
                   onPressed: () async => await viewModel.setStateFromCloth(),
                 ),
               ),
-              const Positioned(
-                bottom: 44,
-                right: 6,
-                child: SvgImage(
-                  path: "assets/others/decoration.svg",
-                  height: 75,
-                  width: 75,
-                ),
-              ),
               if (viewModel.haveBucketInSelected) ...{
                 Positioned(
                   bottom: 96,
@@ -106,52 +152,9 @@ class ClothingView extends IView<ClothingViewModel> {
                       height: 25,
                       width: 25,
                     ),
-                    onPressed: () {
-                      _navigationManager.push(
-                        CoreRoutes.selectService,
-                        extras: ServiceParams(
-                          services: {
-                            "Em que cesto pretende inserir esta peça?": [
-                              ServiceItem(
-                                backgroundColor: AppColor.widgetBackground,
-                                borderColor: Colors.transparent,
-                                foregroundColor: AppColor.buttonBackground,
-                                title: "Novo cesto",
-                                idText: "bucket_new_bucket",
-                                content: const Icon(
-                                  Icons.add,
-                                  size: 50,
-                                  color: AppColor.buttonBackground,
-                                ),
-                                action: () => _overlay.create(
-                                    context, createBucketCard()),
-                              ),
-                              for (var bucket in viewModel.getBuckets) ...{
-                                ServiceItem(
-                                  backgroundColor: AppColor.widgetBackground,
-                                  borderColor: Colors.transparent,
-                                  foregroundColor: AppColor.buttonBackground,
-                                  title: bucket.title,
-                                  idText: "bucket",
-                                  content: const SvgImage(
-                                    path: "assets/services/bucket.svg",
-                                    height: 20,
-                                    width: 20,
-                                    color: AppColor.buttonBackground,
-                                  ),
-                                  action: () async => {
-                                    await viewModel.addToBucket(
-                                      bucket.id,
-                                      viewModel.selectedCards,
-                                    ),
-                                  },
-                                )
-                              }
-                            ],
-                          },
-                        ),
-                      );
-                    },
+                    onPressed: () => viewModel.createBucket(
+                      setUpOptions(context, viewModel),
+                    ),
                   ),
                 ),
               },
@@ -185,20 +188,20 @@ class ClothingView extends IView<ClothingViewModel> {
             ],
           ],
         ),
-        type: AppBackgrounds.clothing,
       ),
     );
   }
 
-  SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
+  SliverAppBar _buildSearchBarAndFilter(ClotingViewModel viewModel) {
     const Radius borderRadius = Radius.circular(5);
-    final options = viewModel.getFilters;
 
     return SliverAppBar(
       toolbarHeight: 76,
+      automaticallyImplyLeading: false,
       shadowColor: Colors.transparent,
       backgroundColor: AppColor.widgetBackground,
-      pinned: false,
+      pinned: true,
+      snap: true,
       floating: true,
       flexibleSpace: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -243,11 +246,11 @@ class ClothingView extends IView<ClothingViewModel> {
                 overlayPaddingTop: 110,
                 contentPaddingTop: 56,
                 bodyTop: 0,
-                options: options,
+                options: viewModel.getFilters(),
                 onSelectionChanged: (filter) =>
                     viewModel.changeFilterSelection(filter),
                 filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
-                selectedFilters: viewModel.allSelectedFilters,
+                selectedFilters: viewModel.filterSelection,
               ),
             ],
           ),
@@ -256,10 +259,11 @@ class ClothingView extends IView<ClothingViewModel> {
     );
   }
 
-  SliverAppBar _buildFilterSelector(ClothingViewModel viewModel) {
+  SliverAppBar _buildFilterSelector(ClotingViewModel viewModel) {
     return SliverAppBar(
       toolbarHeight: 46,
       pinned: true,
+      automaticallyImplyLeading: false,
       backgroundColor: AppColor.widgetBackground,
       flexibleSpace: SizedBox(
         height: 40,
@@ -269,11 +273,11 @@ class ClothingView extends IView<ClothingViewModel> {
           children: [
             HorizontalSelectorList(
               list: clothes,
-              onSelectionChanged: (ids) => {
-                viewModel.changeHorizontalFiltersSelection(ids),
+              onSelectionChanged: (tags) => {
+                viewModel.selectHorizontalTag(tags),
               },
               isHorizontalFilterSelected: (filter) =>
-                  viewModel.haveThisHorizontalFilter(filter),
+                  viewModel.horizontalSelectedTags.contains(filter),
             ),
           ],
         ),
@@ -282,25 +286,38 @@ class ClothingView extends IView<ClothingViewModel> {
   }
 
   SliverToBoxAdapter _buildClothsCardsSection(
-      BuildContext context, ClothingViewModel viewModel) {
+      BuildContext context, ClotingViewModel viewModel) {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CardList(
-              clothesItems: viewModel.cards,
-              selectedCards: viewModel.selectedCards,
-              onSelectionToDelete: (id) async => await viewModel.removeCard(id),
-              onSelectionChanged: (cards) =>
-                  viewModel.changeCardsSelection(cards),
-              onElementSelected: (card) async =>
-                  await viewModel.openInfoCard(card),
-              action: "remove",
+      child: viewModel.cloths.isNotEmpty
+          ? cardList(viewModel)
+          : Container(
+              margin: const EdgeInsets.only(top: 100),
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: AppColor.darkGreen,
+                ),
+              ),
             ),
-          ],
-        ),
+    );
+  }
+
+  Padding cardList(ClotingViewModel viewModel) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CardList(
+            clothesItems: viewModel.cloths,
+            selectedCards: viewModel.selectedCloth,
+            onSelectionToDelete: (id) async => await viewModel.removeCloth(id),
+            onSelectionChanged: (cards) =>
+                viewModel.changeCardsSelection(cards),
+            onElementSelected: (card) async =>
+                await viewModel.openInfoCard(card),
+            action: "remove",
+          ),
+        ],
       ),
     );
   }

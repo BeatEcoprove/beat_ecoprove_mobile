@@ -41,105 +41,154 @@ extension ClothingDependencyInjection on DependencyInjection {
   void _addServices(GetIt locator) {
     var httpClient = locator<HttpAuthClient>();
 
-    locator.registerFactory(() => ClosetService(httpClient));
-    locator.registerFactory(() => OutfitService(httpClient));
-    locator.registerFactory(() => ActionService(httpClient));
-    locator.registerSingleton<IBucketInfoManager<String>>(BucketInfoManager());
+    locator.registerFactory(
+      () => ClosetService(httpClient),
+    );
+
+    locator.registerFactory(
+      () => OutfitService(httpClient),
+    );
+
+    locator.registerFactory(
+      () => ActionService(httpClient),
+    );
+
+    locator.registerSingleton<IBucketInfoManager<String>>(
+      BucketInfoManager(),
+    );
   }
 
   void _addUseCases(GetIt locator) {
     var clothingService = locator<ClosetService>();
     var outfitService = locator<OutfitService>();
 
-    locator.registerSingleton(ActionServiceProxy(locator<HttpAuthClient>()));
-    locator.registerSingleton(GetClosetUseCase(clothingService));
-    locator.registerSingleton(MarkClothAsDailyUseUseCase(outfitService));
-    locator.registerSingleton(UnMarkClothAsDailyUseUseCase(outfitService));
-    locator.registerSingleton(DeleteCardUseCase(clothingService));
-    locator.registerSingleton(RegisterBucketUseCase(clothingService));
-    locator.registerSingleton(RemoveClothFromBucketUseCase(clothingService));
-    locator.registerSingleton(ChangeBucketNameUseCase(clothingService));
-    locator.registerSingleton(AddClothsBucketUseCase(clothingService));
-    locator.registerSingleton(GetBucketsUseCase(clothingService));
-    locator.registerSingleton(GetColorsUseCase(clothingService));
-    locator.registerSingleton(GetBrandsUseCase(clothingService));
-
-    locator.registerSingleton(StaticValuesProvider(
-      locator<AuthenticationProvider>(),
-      locator<GetColorsUseCase>(),
-      locator<GetBrandsUseCase>(),
+    locator.registerSingleton(ActionServiceProxy(
+      locator<HttpAuthClient>(),
     ));
+    locator.registerSingleton(
+      GetClosetUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      MarkClothAsDailyUseUseCase(outfitService),
+    );
+
+    locator.registerSingleton(
+      UnMarkClothAsDailyUseUseCase(outfitService),
+    );
+
+    locator.registerSingleton(
+      DeleteCardUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      RegisterBucketUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      RemoveClothFromBucketUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      ChangeBucketNameUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      AddClothsBucketUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      GetBucketsUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      GetColorsUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      GetBrandsUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      StaticValuesProvider(
+        locator<AuthenticationProvider>(),
+        locator<GetColorsUseCase>(),
+        locator<GetBrandsUseCase>(),
+      ),
+    );
   }
 
   void _addViewModels(GetIt locator) {
     var bucketInfoManager = locator<IBucketInfoManager<String>>();
     var closetService = locator<ClosetService>();
     var router = locator<INavigationManager>();
-    var authProvider = locator<AuthenticationProvider>();
     var notificationProvider = locator<NotificationProvider>();
-    var getClosetUseCase = locator<GetClosetUseCase>();
     var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
     var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
-    var deleteCardUseCase = locator<DeleteCardUseCase>();
     var registerBucketUseCase = locator<RegisterBucketUseCase>();
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
     var addClothBucketUseCase = locator<AddClothsBucketUseCase>();
     var getBucketsUseCase = locator<GetBucketsUseCase>();
-    locator<GetColorsUseCase>();
     locator<GetBrandsUseCase>();
-    var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();
 
-    locator.registerFactory(() => ClothingViewModel(
-          notificationProvider,
-          authProvider,
-          getClosetUseCase,
-          markClothAsDailyUseUseCase,
-          unMarkClothAsDailyUseUseCase,
-          deleteCardUseCase,
-          registerBucketUseCase,
-          addClothBucketUseCase,
-          getNestedProfilesUseCase,
-          router,
-          locator<StaticValuesProvider>(),
-        ));
-    locator.registerFactory(() => InfoClothServiceViewModel(
-          bucketInfoManager,
-          notificationProvider,
-          router,
-          locator<ActionServiceProxy>(),
-          closetService,
-          getBucketsUseCase,
-          addClothBucketUseCase,
-          registerBucketUseCase,
-        ));
-    locator.registerFactory(() => InfoClothViewModel(
-          notificationProvider,
-          markClothAsDailyUseUseCase,
-          unMarkClothAsDailyUseUseCase,
-        ));
-    locator.registerFactory(() => InfoBucketViewModel(
-          bucketInfoManager,
-          notificationProvider,
-          removeClothFromBucketUseCase,
-          unMarkClothAsDailyUseUseCase,
-          router,
-        ));
-    locator.registerFactory(() => ChangeBucketNameViewModel(
-          notificationProvider,
-          router,
-          changeBucketNameUseCase,
-        ));
-  }
-
-  void _addView(GetIt locator) {
     locator.registerFactory(
-      () => ClothingView(
-        locator<INavigationManager>(),
-        viewModel: locator<ClothingViewModel>(),
+      () => InfoClothServiceViewModel(
+        bucketInfoManager,
+        notificationProvider,
+        router,
+        locator<ActionServiceProxy>(),
+        closetService,
+        getBucketsUseCase,
+        addClothBucketUseCase,
+        registerBucketUseCase,
       ),
     );
 
+    locator.registerFactory(
+      () => InfoClothViewModel(
+        notificationProvider,
+        markClothAsDailyUseUseCase,
+        unMarkClothAsDailyUseUseCase,
+      ),
+    );
+
+    locator.registerFactory(
+      () => InfoBucketViewModel(
+        bucketInfoManager,
+        notificationProvider,
+        removeClothFromBucketUseCase,
+        unMarkClothAsDailyUseUseCase,
+        router,
+      ),
+    );
+
+    locator.registerFactory(
+      () => ChangeBucketNameViewModel(
+        notificationProvider,
+        router,
+        changeBucketNameUseCase,
+      ),
+    );
+
+    locator.registerFactory(
+      () => ClotingViewModel(
+        locator<AuthenticationProvider>(),
+        locator<GetClosetUseCase>(),
+        locator<NotificationProvider>(),
+        locator<GetNestedProfilesUseCase>(),
+        locator<StaticValuesProvider>(),
+        locator<MarkClothAsDailyUseUseCase>(),
+        locator<UnMarkClothAsDailyUseUseCase>(),
+        locator<INavigationManager>(),
+        locator<DeleteCardUseCase>(),
+        locator<RegisterBucketUseCase>(),
+        locator<AddClothsBucketUseCase>(),
+      ),
+    );
+  }
+
+  void _addView(GetIt locator) {
     locator.registerFactoryParam<InfoClothView, InfoClothParams, void>(
       (params, _) => InfoClothView(
         viewModel: locator<InfoClothViewModel>(),
@@ -170,6 +219,12 @@ extension ClothingDependencyInjection on DependencyInjection {
       (params, _) => ChangeBucketNameView(
         viewModel: locator<ChangeBucketNameViewModel>(),
         args: params,
+      ),
+    );
+
+    locator.registerFactory(
+      () => ClothingView(
+        viewModel: locator<ClotingViewModel>(),
       ),
     );
   }

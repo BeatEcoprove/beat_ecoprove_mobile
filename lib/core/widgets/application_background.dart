@@ -228,23 +228,25 @@ class AppBackground extends StatelessWidget {
   }
 
   Widget background9(Widget content) {
-    return Stack(children: [
-      Positioned.fill(
-          bottom: 50,
-          left: -40,
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Transform.rotate(
-              angle: 2.2,
-              child: const SvgImage(
-                path: 'assets/background1/background1.svg',
-                height: backgroundImageHeight,
-                width: backgroundImageHeight,
+    return Stack(
+      children: [
+        Positioned.fill(
+            bottom: 50,
+            left: -40,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Transform.rotate(
+                angle: 2.2,
+                child: const SvgImage(
+                  path: 'assets/background1/background1.svg',
+                  height: backgroundImageHeight,
+                  width: backgroundImageHeight,
+                ),
               ),
-            ),
-          )),
-      content
-    ]);
+            )),
+        content
+      ],
+    );
   }
 
   Widget background10(Widget content) {

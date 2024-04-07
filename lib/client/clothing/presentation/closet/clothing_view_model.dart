@@ -9,203 +9,112 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_closet_use_ca
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
-import 'package:beat_ecoprove/client/clothing/domain/value_objects/bucket_name.dart';
 import 'package:beat_ecoprove/client/clothing/routes.dart';
+import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/color_item.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
+import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
+import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
-import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:flutter/material.dart';
 
-class ClothingViewModel extends FormViewModel implements Clone {
-  final GetClosetUseCase _getClosetUseCase;
+class ClotingViewModel extends FormViewModel implements Clone {
+  final AuthenticationProvider _authenticationProvider;
+  final GetClosetUseCase _closetUseCase;
+  final NotificationProvider _notificationProvider;
+  final GetNestedProfilesUseCase _getNestedProfilesUseCase;
+  final StaticValuesProvider _valuesProvider;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final DeleteCardUseCase _deleteCardUseCase;
   final RegisterBucketUseCase _registerBucketUseCase;
-  final AddClothsBucketUseCase _addToBucketUseCase;
-  final GetNestedProfilesUseCase _getNestedProfilesUseCase;
-  final StaticValuesProvider _valuesProvider;
-  final INavigationManager _navigationRouter;
+  final AddClothsBucketUseCase _addClothsBucketUseCase;
+  final INavigationManager _navigationManager;
 
-  final AuthenticationProvider _authProvider;
-  final NotificationProvider _notificationProvider;
-  late final User _user;
-  late final Map<String, List<String>> _selectedCards = {};
-  late Map<String, dynamic> _selectedFilters = {};
-  late List<String> _selectedHorizontalFilters = [];
-  final List<CardItem> _cards = [];
-  final List<CardItem> _buckets = [];
   late List<FilterRow> _getColors = [];
   late List<FilterRow> _getBrands = [];
   late List<FilterRow> _getNestedProfiles = [];
 
-  late bool shouldUpdateData = true;
+  late User user;
+  final List<CardItem> cloths = [];
+  final List<String> horizontalSelectedTags = [];
+  final Map<String, List<String>> selectedCloth = {};
+  final Map<String, dynamic> filterSelection = {};
 
-  List<CardItem> get cards => _cards;
-
-  ClothingViewModel(
+  ClotingViewModel(
+    this._authenticationProvider,
+    this._closetUseCase,
     this._notificationProvider,
-    this._authProvider,
-    this._getClosetUseCase,
+    this._getNestedProfilesUseCase,
+    this._valuesProvider,
     this._markClothAsDailyUseUseCase,
     this._unMarkClothAsDailyUseUseCase,
+    this._navigationManager,
     this._deleteCardUseCase,
     this._registerBucketUseCase,
-    this._addToBucketUseCase,
-    this._getNestedProfilesUseCase,
-    this._navigationRouter,
-    this._valuesProvider,
+    this._addClothsBucketUseCase,
   ) {
-    _user = _authProvider.appUser;
     initializeFields([
-      FormFieldValues.name,
       FormFieldValues.search,
+      FormFieldValues.name,
     ]);
+
+    user = _authenticationProvider.appUser;
+
     getAllColors();
     getAllBrands();
     getAllNestedProfiles();
   }
 
+  get getBuckets => cloths
+      .where((card) => card.hasChildren && card.title != 'Outfit')
+      .toList();
+
   @override
   void initSync() async {
-    await fetchCloset();
+    await fetchCloths();
   }
 
-  User get user => _user;
-
-  void setUpdateUpdateData(bool value) {
-    shouldUpdateData = value;
-  }
-
-  void setName(String name) {
-    try {
-      setValue<String>(
-          FormFieldValues.name, BucketName.create(name).toString());
-    } on DomainException catch (e) {
-      setError(FormFieldValues.name, e.message);
-    }
-  }
-
-  void setSearch(String search) async {
-    try {
-      setValue<String>(FormFieldValues.search, search);
-
-      await fetchCloset();
-    } on DomainException catch (e) {
-      setError(FormFieldValues.search, e.message);
-    }
-  }
-
-  bool get haveSelectedCards => _selectedCards.isNotEmpty;
-
-  bool get haveBucketInSelected =>
-      _selectedCards.values.every(
-        (cards) => cards.isEmpty,
-      ) &&
-      !_selectedCards.keys.any((element) => element == "outfit");
-
-  void changeCardsSelection(Map<String, List<String>> cards) {
-    if (_selectedCards.containsKey(cards.keys.first)) {
-      _selectedCards.remove(cards.keys.first);
-    } else {
-      _selectedCards.addAll(cards);
-    }
-
+  Future<void> refetch() async {
+    selectedCloth.clear();
     notifyListeners();
+
+    await fetchCloths();
   }
 
-  Map<String, List<String>> get selectedCards => _selectedCards;
-
-  bool get haveHorizontalFilters => _selectedHorizontalFilters.isNotEmpty;
-
-  List<String> get allSelectedHorizontalFilters => _selectedHorizontalFilters;
-
-  bool haveThisHorizontalFilter(String filter) =>
-      _selectedHorizontalFilters.contains(filter);
-
-  void changeHorizontalFiltersSelection(List<String> filters) async {
-    _selectedHorizontalFilters = filters;
-
-    await fetchCloset();
-    notifyListeners();
-  }
-
-  bool haveThisFilter(String filter) => _selectedFilters.containsKey(filter);
-
-  Map<String, dynamic> get allSelectedFilters => _selectedFilters;
-
-  void changeFilterSelection(Map<String, dynamic> filters) async {
-    _selectedFilters = filters;
-
-    await fetchCloset();
-    notifyListeners();
-  }
-
-  Future removeCard(String id) async {
-    var card = _cards.firstWhere((element) => element.id == id);
-    var type = card.hasChildren ? "bucket" : "cloth";
-
-    try {
-      await _deleteCardUseCase
-          .handle(DeleteCardRequest(cardId: card.id, type: type));
-
-      _notificationProvider.showNotification(
-        "Removido com sucesso!",
-        type: NotificationTypes.success,
-      );
-    } on HttpBadRequestError catch (e) {
-      _notificationProvider.showNotification(
-        e.getError().title,
-        type: NotificationTypes.error,
-      );
-    } catch (e) {
-      print("$e");
-    }
-
-    notifyListeners();
-  }
-
-  List<CardItem> get getCloset => _cards;
-
-  List<CardItem> get getBuckets => _buckets;
-
-  Future<List<CardItem>> fetchCloset() async {
-    List<CardItem> result = [];
+  Future fetchCloths() async {
     Map<String, String> param = {};
 
-    for (var (value as Map<String, String>) in _selectedFilters.values) {
-      param.addAll(value);
-    }
-
-    for (var filter in _selectedHorizontalFilters) {
-      param.addAll({filter: 'category'});
-    }
-
-    param.addAll({getValue(FormFieldValues.search).value ?? "": "search"});
-
     try {
-      _buckets.clear();
-      _cards.clear();
-      result = await _getClosetUseCase.handle(param);
-      _cards.addAll(result);
+      for (var (value as Map<String, String>) in filterSelection.values) {
+        param.addAll(value);
+      }
 
-      _buckets.addAll(_cards.where(
-          (element) => element.hasChildren == true && element.id != "outfit"));
+      for (var filter in horizontalSelectedTags) {
+        param.addAll({filter: 'category'});
+      }
+
+      param.addAll({getValue(FormFieldValues.search).value ?? "": "search"});
+
+      var result = await _closetUseCase.handle(param);
+
+      cloths.clear();
+      cloths.addAll(result);
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -221,7 +130,65 @@ class ClothingViewModel extends FormViewModel implements Clone {
     }
 
     notifyListeners();
-    return result;
+  }
+
+  bool get haveBucketInSelected =>
+      selectedCloth.values.every(
+        (cards) => cards.isEmpty,
+      ) &&
+      !selectedCloth.keys.any((element) => element == "outfit");
+
+  bool haveThisFilter(String filter) => filterSelection.containsKey(filter);
+
+  void changeFilterSelection(Map<String, dynamic> filters) async {
+    filterSelection.clear();
+    filterSelection.addAll(filters);
+
+    await fetchCloths();
+  }
+
+  List<FilterRow> getFilters() {
+    return optionsToFilter.map((filter) => filter.toFilterRow()).toList() +
+        _getColors +
+        _getBrands +
+        _getNestedProfiles;
+  }
+
+  void selectHorizontalTag(List<String> tags) async {
+    horizontalSelectedTags.clear();
+    horizontalSelectedTags.addAll(tags);
+
+    await fetchCloths();
+  }
+
+  void changeCardsSelection(Map<String, List<String>> cards) {
+    if (selectedCloth.containsKey(cards.keys.first)) {
+      selectedCloth.remove(cards.keys.first);
+    } else {
+      selectedCloth.addAll(cards);
+    }
+
+    notifyListeners();
+  }
+
+  void setSearch(String search) async {
+    try {
+      setValue<String>(FormFieldValues.search, search);
+
+      await fetchCloths();
+    } on DomainException catch (e) {
+      setError(FormFieldValues.search, e.message);
+    }
+  }
+
+  void setName(String name) async {
+    try {
+      setValue<String>(FormFieldValues.name, name);
+
+      await fetchCloths();
+    } on DomainException catch (e) {
+      setError(FormFieldValues.name, e.message);
+    }
   }
 
   Future setStateFromCloth() async {
@@ -246,7 +213,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       }
     }
 
-    for (var e in getCloset) {
+    for (var e in cloths) {
       if (e.clothState == null) {
         var cards = e.child as List<CardItem>;
 
@@ -260,7 +227,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       }
     }
 
-    for (var elem in selectedCards.entries) {
+    for (var elem in selectedCloth.entries) {
       if (elem.value.isEmpty) {
         selectedElements.add(elem.key);
       } else {
@@ -317,33 +284,28 @@ class ClothingViewModel extends FormViewModel implements Clone {
       );
     }
 
-    listIdsInUse.clear();
-    listIdsIdle.clear();
-    selectedElements.clear();
-    _selectedCards.clear();
-    notifyListeners();
+    refetch();
   }
 
-  Future registerBucket(Map<String, List<String>> selectedCards) async {
-    List<String> listIds = [];
-
-    for (var elem in selectedCards.entries) {
-      if (elem.value.isEmpty) {
-        listIds.add(elem.key);
-      } else {
-        listIds.addAll(elem.value);
-      }
-    }
-
-    var name = getValue(FormFieldValues.name).value ?? "";
+  Future removeCloth(String id) async {
+    var card = cloths.firstWhere((element) => element.id == id);
+    var type = card.hasChildren ? "bucket" : "cloth";
 
     try {
-      await _registerBucketUseCase.handle(RegisterBucketRequest(
-        name,
-        listIds,
-      ));
+      await _deleteCardUseCase.handle(
+        DeleteCardRequest(cardId: card.id, type: type),
+      );
+
+      cloths.removeWhere((card) {
+        if (card.id == id) {
+          return true;
+        }
+
+        return false;
+      });
+
       _notificationProvider.showNotification(
-        "Cesto criado!",
+        "Removido com sucesso!",
         type: NotificationTypes.success,
       );
     } on HttpBadRequestError catch (e) {
@@ -353,53 +315,8 @@ class ClothingViewModel extends FormViewModel implements Clone {
       );
     } catch (e) {
       print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
     }
 
-    _selectedCards.clear();
-    _navigationRouter.push(AppRoute.root);
-    notifyListeners();
-  }
-
-  Future addToBucket(
-      String bucketId, Map<String, List<String>> selectedCards) async {
-    List<String> listIds = [];
-
-    for (var elem in selectedCards.entries) {
-      if (elem.value.isEmpty) {
-        listIds.add(elem.key);
-      } else {
-        listIds.addAll(elem.value);
-      }
-    }
-
-    try {
-      await _addToBucketUseCase.handle(AddClothsBucketRequest(
-        bucketId,
-        listIds,
-      ));
-      _notificationProvider.showNotification(
-        "Peça/s adicionada/s ao cesto com sucesso!",
-        type: NotificationTypes.success,
-      );
-    } on HttpBadRequestError catch (e) {
-      _notificationProvider.showNotification(
-        e.getError().title,
-        type: NotificationTypes.error,
-      );
-    } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
-    }
-
-    _selectedCards.clear();
-    _navigationRouter.push(AppRoute.root);
     notifyListeners();
   }
 
@@ -414,15 +331,11 @@ class ClothingViewModel extends FormViewModel implements Clone {
       routePath = ClothingRoutes.setClothDetails(card.id);
     }
 
-    await _navigationRouter.pushAsync(routePath, extras: card);
-    notifyListeners();
+    await _navigationManager.pushAsync(
+      routePath,
+      extras: card,
+    );
   }
-
-  List<FilterRow> get getFilters =>
-      optionsToFilter.map((filter) => filter.toFilterRow()).toList() +
-      _getColors +
-      _getBrands +
-      _getNestedProfiles;
 
   Future<List<FilterRow>> getAllColors() async {
     List<ColorItem> colors = [];
@@ -456,7 +369,10 @@ class ClothingViewModel extends FormViewModel implements Clone {
         isCircular: true,
       )
     ];
-    return [FilterRow(options: colorItems, isCircular: true)];
+
+    return [
+      FilterRow(options: colorItems, isCircular: true),
+    ];
   }
 
   Future<List<FilterRow>> getAllBrands() async {
@@ -497,7 +413,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       var profiles = await _getNestedProfilesUseCase.handle();
       nestedProfiles = profiles.nestedProfiles;
 
-      if (_user.name == profiles.mainProfile.username) {
+      if (user.name == profiles.mainProfile.username) {
         for (var profile in nestedProfiles) {
           profileItem.add(FilterButtonItem(
             text: profile.username,
@@ -523,20 +439,119 @@ class ClothingViewModel extends FormViewModel implements Clone {
     return [FilterRow(title: 'Perfis', options: profileItem)];
   }
 
+  Future registerBucket(Map<String, List<String>> selectedCloth) async {
+    List<String> listIds = [];
+
+    for (var elem in selectedCloth.entries) {
+      if (elem.value.isEmpty) {
+        listIds.add(elem.key);
+      } else {
+        listIds.addAll(elem.value);
+      }
+    }
+
+    var name = getValue(FormFieldValues.name).value ?? "";
+
+    try {
+      await _registerBucketUseCase.handle(
+        RegisterBucketRequest(
+          name,
+          listIds,
+        ),
+      );
+
+      _notificationProvider.showNotification(
+        "Cesto criado!",
+        type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+
+    _navigationManager.pop();
+
+    setValue(FormFieldValues.name, "");
+    await refetch();
+  }
+
+  void createBucket(List<ServiceTemplate> items) {
+    _navigationManager.push(
+      CoreRoutes.selectService,
+      extras: ServiceParams(
+        services: {
+          "Em que cesto pretende inserir esta peça?": items,
+        },
+      ),
+    );
+  }
+
+  Future addToBucket(
+    String bucketId,
+    Map<String, List<String>> selectedCloth,
+  ) async {
+    List<String> listIds = [];
+
+    for (var elem in selectedCloth.entries) {
+      if (elem.value.isEmpty) {
+        listIds.add(elem.key);
+      } else {
+        listIds.addAll(elem.value);
+      }
+    }
+
+    try {
+      await _addClothsBucketUseCase.handle(
+        AddClothsBucketRequest(
+          bucketId,
+          listIds,
+        ),
+      );
+
+      _notificationProvider.showNotification(
+        "Peça/s adicionada/s ao cesto com sucesso!",
+        type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+
+    _navigationManager.pop();
+
+    refetch();
+  }
+
   @override
   clone() {
-    return ClothingViewModel(
+    return ClotingViewModel(
+      _authenticationProvider,
+      _closetUseCase,
       _notificationProvider,
-      _authProvider,
-      _getClosetUseCase,
+      _getNestedProfilesUseCase,
+      _valuesProvider,
       _markClothAsDailyUseUseCase,
       _unMarkClothAsDailyUseUseCase,
+      _navigationManager,
       _deleteCardUseCase,
       _registerBucketUseCase,
-      _addToBucketUseCase,
-      _getNestedProfilesUseCase,
-      _navigationRouter,
-      _valuesProvider,
+      _addClothsBucketUseCase,
     );
   }
 }

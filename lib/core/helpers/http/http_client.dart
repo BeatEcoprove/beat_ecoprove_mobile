@@ -25,29 +25,29 @@ class HttpClient {
 
     try {
       stream = await request.send();
+
+      statusCode = stream.statusCode;
+      jsonResponse = await stream.stream.bytesToString();
+
+      var response = convert.jsonDecode(jsonResponse);
+
+      if (statusCode != expectedCode) {
+        switch (statusCode) {
+          case HttpStatusCodes.badRequest:
+            throw HttpBadRequestError(response);
+          case HttpStatusCodes.conflictRequest:
+            throw HttpConflictRequestError(response);
+          case HttpStatusCodes.unAuthorized:
+            throw HttpUnAuthorizedError(response);
+          default:
+            throw HttpInternalError(response);
+        }
+      }
+
+      return response;
     } catch (e) {
       throw HttpInternalError.empty();
     }
-
-    statusCode = stream.statusCode;
-    jsonResponse = await stream.stream.bytesToString();
-
-    var response = convert.jsonDecode(jsonResponse);
-
-    if (statusCode != expectedCode) {
-      switch (statusCode) {
-        case HttpStatusCodes.badRequest:
-          throw HttpBadRequestError(response);
-        case HttpStatusCodes.conflictRequest:
-          throw HttpConflictRequestError(response);
-        case HttpStatusCodes.unAuthorized:
-          throw HttpUnAuthorizedError(response);
-        default:
-          throw HttpInternalError(response);
-      }
-    }
-
-    return response;
   }
 
   Future<U> makeRequestMultiPart<U>(

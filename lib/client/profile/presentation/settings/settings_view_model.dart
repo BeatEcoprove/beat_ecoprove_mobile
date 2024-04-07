@@ -1,7 +1,7 @@
+import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
-import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
@@ -17,8 +17,8 @@ class SettingsViewModel extends ViewModel {
   User get user => _user;
 
   Future logout() async {
+    _navigationRouter.push(AuthRoutes.login);
     await _authProvider.logout();
-    _navigationRouter.push(AppRoute.root);
   }
 
   void sendFeedback() {

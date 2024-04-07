@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -38,6 +37,8 @@ class GroupChatMembersView
       titleModal: "Convidar para o grupo",
       buttonText: "Convidar",
     );
+
+    super.init(viewModel);
   }
 
   Widget createInviteCard() {
@@ -51,8 +52,6 @@ class GroupChatMembersView
 
   @override
   Widget build(BuildContext context, GroupChatMembersViewModel viewModel) {
-    final memo = AsyncMemoizer();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: GroupHeader(
@@ -71,260 +70,233 @@ class GroupChatMembersView
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
               ),
-              child: FutureBuilder(
-                future: memo.runOnce(
-                    () async => await viewModel.getDetails(args.groupId)),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.primaryColor,
-                        ),
-                      );
-                    default:
-                      return SizedBox(
-                        height: double.infinity,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+              child: SizedBox(
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 26,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              viewModel.details.description,
+                              textAlign: TextAlign.center,
+                              style: AppText.subHeader,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 26,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
-                              const SizedBox(
-                                height: 26,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      viewModel.details.description,
-                                      textAlign: TextAlign.center,
-                                      style: AppText.subHeader,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 10,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 26,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Membros",
-                                        style: AppText.titleToScrollSection,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(
-                                        width: 6,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Text(
-                                          "${args.numberMembers} membros",
-                                          style: AppText.subHeader,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: viewModel.details.members
-                                    .map(
-                                      (member) => Container(
-                                        margin: const EdgeInsets.symmetric(
-                                          vertical: 8,
-                                        ),
-                                        child: (!viewModel.isCreator &&
-                                                !viewModel.isAdmin &&
-                                                viewModel.user.id != member.id)
-                                            ? CompactListItemRoot(
-                                                height: HeightCard.height88,
-                                                padding: PaddingCard.padding0,
-                                                items: [
-                                                  ProfileHeader(
-                                                    title: member.username,
-                                                    userLevel: member.level,
-                                                    sustainablePoints: member
-                                                        .sustainabilityPoints,
-                                                    ecoScorePoints:
-                                                        member.ecoScorePoints,
-                                                  ),
-                                                  const WithoutOptionsFooter()
-                                                ],
-                                              )
-                                            : CompactListItemRoot(
-                                                height: HeightCard.height88,
-                                                padding: PaddingCard.padding0,
-                                                items: [
-                                                  ProfileHeader(
-                                                    title: member.username,
-                                                    userLevel: member.level,
-                                                    sustainablePoints: member
-                                                        .sustainabilityPoints,
-                                                    ecoScorePoints:
-                                                        member.ecoScorePoints,
-                                                  ),
-                                                  (member.id !=
-                                                          viewModel.details
-                                                              .creator.id)
-                                                      ? WithOptionsFooter(
-                                                          options: [
-                                                            if (viewModel
-                                                                    .user.id !=
-                                                                member.id)
-                                                              OptionItem(
-                                                                  name: viewModel
-                                                                          .details
-                                                                          .admins
-                                                                          .any((e) =>
-                                                                              e.id ==
-                                                                              member
-                                                                                  .id)
-                                                                      ? 'Despromover'
-                                                                      : 'Promover',
-                                                                  action:
-                                                                      () async =>
-                                                                          {
-                                                                            viewModel.details.admins.any((e) => e.id == member.id)
-                                                                                ? await viewModel.despromoveMember(
-                                                                                    member.id,
-                                                                                    args.groupId,
-                                                                                  )
-                                                                                : await viewModel.promoteMember(
-                                                                                    member.id,
-                                                                                    args.groupId,
-                                                                                  )
-                                                                          }),
-                                                            OptionItem(
-                                                                name: viewModel
-                                                                            .user
-                                                                            .id !=
-                                                                        member
-                                                                            .id
-                                                                    ? 'Remover do Grupo'
-                                                                    : 'Sair do Grupo',
-                                                                action:
-                                                                    () async =>
-                                                                        {
-                                                                          await viewModel
-                                                                              .leaveGroup(
-                                                                            member.id,
-                                                                            args.groupId,
-                                                                          )
-                                                                        }),
-                                                          ],
-                                                        )
-                                                      : const WithoutOptionsFooter(),
-                                                ],
-                                              ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                              const SizedBox(
-                                height: 26,
-                              ),
                               const Text(
-                                "Administradores",
+                                "Membros",
                                 style: AppText.titleToScrollSection,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              Column(
-                                children: viewModel.details.admins
-                                    .map(
-                                      (admin) => Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 8),
-                                        child: (!viewModel.isCreator &&
-                                                !viewModel.isAdmin &&
-                                                viewModel.user.id != admin.id)
-                                            ? CompactListItemRoot(
-                                                height: HeightCard.height88,
-                                                padding: PaddingCard.padding0,
-                                                items: [
-                                                  ProfileHeader(
-                                                    title: admin.username,
-                                                    userLevel: admin.level,
-                                                    sustainablePoints: admin
-                                                        .sustainabilityPoints,
-                                                    ecoScorePoints:
-                                                        admin.ecoScorePoints,
-                                                  ),
-                                                  const WithoutOptionsFooter(),
-                                                ],
-                                              )
-                                            : CompactListItemRoot(
-                                                height: HeightCard.height88,
-                                                padding: PaddingCard.padding0,
-                                                items: [
-                                                  ProfileHeader(
-                                                    title: admin.username,
-                                                    userLevel: admin.level,
-                                                    sustainablePoints: admin
-                                                        .sustainabilityPoints,
-                                                    ecoScorePoints:
-                                                        admin.ecoScorePoints,
-                                                  ),
-                                                  (viewModel.details.creator
-                                                              .id !=
-                                                          admin.id)
-                                                      ? WithOptionsFooter(
-                                                          options: [
-                                                            if (viewModel
-                                                                    .user.id !=
-                                                                admin.id)
-                                                              OptionItem(
-                                                                name:
-                                                                    'Despromover',
-                                                                action:
-                                                                    () async =>
-                                                                        {
-                                                                  await viewModel
-                                                                      .despromoveMember(
-                                                                    admin.id,
-                                                                    args.groupId,
-                                                                  ),
-                                                                },
-                                                              ),
-                                                            OptionItem(
-                                                              name: viewModel
-                                                                          .user
-                                                                          .id !=
-                                                                      admin.id
-                                                                  ? 'Remover do Grupo'
-                                                                  : 'Sair do Grupo',
-                                                              action:
-                                                                  () async => {
-                                                                await viewModel
-                                                                    .leaveGroup(
-                                                                  admin.id,
-                                                                  args.groupId,
-                                                                ),
-                                                              },
-                                                            ),
-                                                          ],
-                                                        )
-                                                      : const WithoutOptionsFooter(),
-                                                ],
-                                              ),
-                                      ),
-                                    )
-                                    .toList(),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Text(
+                                  "${args.numberMembers} membros",
+                                  style: AppText.subHeader,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      );
-                  }
-                },
+                        ],
+                      ),
+                      Column(
+                        children: viewModel.details.members
+                            .map(
+                              (member) => Container(
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                ),
+                                child:
+                                    (!viewModel.isCreator &&
+                                            !viewModel.isAdmin &&
+                                            viewModel.user.id != member.id)
+                                        ? CompactListItemRoot(
+                                            height: HeightCard.height88,
+                                            padding: PaddingCard.padding0,
+                                            items: [
+                                              ProfileHeader(
+                                                title: member.username,
+                                                userLevel: member.level,
+                                                sustainablePoints:
+                                                    member.sustainabilityPoints,
+                                                ecoScorePoints:
+                                                    member.ecoScorePoints,
+                                              ),
+                                              const WithoutOptionsFooter()
+                                            ],
+                                          )
+                                        : CompactListItemRoot(
+                                            height: HeightCard.height88,
+                                            padding: PaddingCard.padding0,
+                                            items: [
+                                              ProfileHeader(
+                                                title: member.username,
+                                                userLevel: member.level,
+                                                sustainablePoints:
+                                                    member.sustainabilityPoints,
+                                                ecoScorePoints:
+                                                    member.ecoScorePoints,
+                                              ),
+                                              (member.id !=
+                                                      viewModel
+                                                          .details.creator.id)
+                                                  ? WithOptionsFooter(
+                                                      options: [
+                                                        if (viewModel.user.id !=
+                                                            member.id)
+                                                          OptionItem(
+                                                              name: viewModel
+                                                                      .details
+                                                                      .admins
+                                                                      .any((e) =>
+                                                                          e.id ==
+                                                                          member
+                                                                              .id)
+                                                                  ? 'Despromover'
+                                                                  : 'Promover',
+                                                              action:
+                                                                  () async => {
+                                                                        viewModel.details.admins.any((e) =>
+                                                                                e.id ==
+                                                                                member.id)
+                                                                            ? await viewModel.despromoveMember(
+                                                                                member.id,
+                                                                                args.groupId,
+                                                                              )
+                                                                            : await viewModel.promoteMember(
+                                                                                member.id,
+                                                                                args.groupId,
+                                                                              )
+                                                                      }),
+                                                        OptionItem(
+                                                            name: viewModel.user
+                                                                        .id !=
+                                                                    member.id
+                                                                ? 'Remover do Grupo'
+                                                                : 'Sair do Grupo',
+                                                            action: () async =>
+                                                                {
+                                                                  await viewModel
+                                                                      .leaveGroup(
+                                                                    member.id,
+                                                                    args.groupId,
+                                                                  )
+                                                                }),
+                                                      ],
+                                                    )
+                                                  : const WithoutOptionsFooter(),
+                                            ],
+                                          ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      const SizedBox(
+                        height: 26,
+                      ),
+                      const Text(
+                        "Administradores",
+                        style: AppText.titleToScrollSection,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Column(
+                        children: viewModel.details.admins
+                            .map(
+                              (admin) => Container(
+                                margin: const EdgeInsets.symmetric(vertical: 8),
+                                child: (!viewModel.isCreator &&
+                                        !viewModel.isAdmin &&
+                                        viewModel.user.id != admin.id)
+                                    ? CompactListItemRoot(
+                                        height: HeightCard.height88,
+                                        padding: PaddingCard.padding0,
+                                        items: [
+                                          ProfileHeader(
+                                            title: admin.username,
+                                            userLevel: admin.level,
+                                            sustainablePoints:
+                                                admin.sustainabilityPoints,
+                                            ecoScorePoints:
+                                                admin.ecoScorePoints,
+                                          ),
+                                          const WithoutOptionsFooter(),
+                                        ],
+                                      )
+                                    : CompactListItemRoot(
+                                        height: HeightCard.height88,
+                                        padding: PaddingCard.padding0,
+                                        items: [
+                                          ProfileHeader(
+                                            title: admin.username,
+                                            userLevel: admin.level,
+                                            sustainablePoints:
+                                                admin.sustainabilityPoints,
+                                            ecoScorePoints:
+                                                admin.ecoScorePoints,
+                                          ),
+                                          (viewModel.details.creator.id !=
+                                                  admin.id)
+                                              ? WithOptionsFooter(
+                                                  options: [
+                                                    if (viewModel.user.id !=
+                                                        admin.id)
+                                                      OptionItem(
+                                                        name: 'Despromover',
+                                                        action: () async => {
+                                                          await viewModel
+                                                              .despromoveMember(
+                                                            admin.id,
+                                                            args.groupId,
+                                                          ),
+                                                        },
+                                                      ),
+                                                    OptionItem(
+                                                      name: viewModel.user.id !=
+                                                              admin.id
+                                                          ? 'Remover do Grupo'
+                                                          : 'Sair do Grupo',
+                                                      action: () async => {
+                                                        await viewModel
+                                                            .leaveGroup(
+                                                          admin.id,
+                                                          args.groupId,
+                                                        ),
+                                                      },
+                                                    ),
+                                                  ],
+                                                )
+                                              : const WithoutOptionsFooter(),
+                                        ],
+                                      ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
             //TODO: ADD LATER

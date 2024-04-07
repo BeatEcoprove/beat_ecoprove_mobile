@@ -15,8 +15,9 @@ import 'package:beat_ecoprove/group/domain/use-cases/invite_member_to_group_use_
 import 'package:beat_ecoprove/group/domain/use-cases/leave_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/promote_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/user_name.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 
-class GroupChatMembersViewModel extends FormViewModel {
+class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final NotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final GetDetailsUseCase _getDetailsUseCase;
@@ -42,9 +43,17 @@ class GroupChatMembersViewModel extends FormViewModel {
   ) {
     _user = _authProvider.appUser;
     _groupDetailsResult = GroupDetailsResult.empty();
+
     initializeFields([
       FormFieldValues.userName,
     ]);
+  }
+
+  @override
+  void initSync() async {
+    if (arg != null) {
+      await getDetails(arg!.groupId);
+    }
   }
 
   User get user => _user;
@@ -90,6 +99,8 @@ class GroupChatMembersViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+
+    notifyListeners();
   }
 
   Future<void> leaveGroup(String memberId, String groupId) async {
@@ -114,6 +125,7 @@ class GroupChatMembersViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+
     notifyListeners();
   }
 
@@ -139,6 +151,7 @@ class GroupChatMembersViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+
     notifyListeners();
   }
 
@@ -164,6 +177,7 @@ class GroupChatMembersViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+
     notifyListeners();
   }
 

@@ -22,7 +22,9 @@ class GroupViewModel extends FormViewModel implements Clone {
   final NotificationManager _notificationManager;
   final GetGroupsUseCase _getGroupsUseCase;
   final INavigationManager _navigationRouter;
+
   late final User _user;
+  late bool isFetching = false;
 
   final List<GroupItem> _publicGroups = [];
   final List<GroupItem> _privateGroups = [];
@@ -52,6 +54,11 @@ class GroupViewModel extends FormViewModel implements Clone {
   }
 
   @override
+  void initSync() async {
+    await getGroups(3, "");
+  }
+
+  @override
   void dispose() {
     _notificationManager.removeListener(onNotificationChanged);
     super.dispose();
@@ -59,9 +66,10 @@ class GroupViewModel extends FormViewModel implements Clone {
 
   User get user => _user;
 
-  void setSearch(String search) {
+  void setSearch(String search) async {
     try {
       setValue<String>(FormFieldValues.search, search);
+      await getGroups(3, search);
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
     }
@@ -81,6 +89,9 @@ class GroupViewModel extends FormViewModel implements Clone {
     param.addAll({searchParam: "search"});
 
     try {
+      isFetching = true;
+      notifyListeners();
+
       _privateGroups.clear();
       _publicGroups.clear();
 
@@ -102,7 +113,8 @@ class GroupViewModel extends FormViewModel implements Clone {
       );
     }
 
-    return;
+    isFetching = false;
+    notifyListeners();
   }
 
   Future createGroup() async {

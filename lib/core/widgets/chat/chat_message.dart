@@ -2,10 +2,13 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:flutter/material.dart';
 
 abstract class ChatMessage extends StatelessWidget {
+  final DateTime createdAt;
+
   Widget body(BuildContext context);
 
   const ChatMessage({
     super.key,
+    required this.createdAt,
   });
 
   @override

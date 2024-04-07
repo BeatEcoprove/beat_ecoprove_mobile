@@ -9,14 +9,16 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/widgets/chat/chat_message.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
+import 'package:flutter/material.dart';
 
-class GroupChatViewModel extends FormViewModel {
+class GroupChatViewModel extends FormViewModel<GroupItem> {
   final NotificationProvider _notificationProvider;
   final IWCNotifier _sessionWsNotifier;
   final GroupService _groupService;
@@ -25,10 +27,12 @@ class GroupChatViewModel extends FormViewModel {
   final GetDetailsUseCase _getDetailsUseCase;
   final INavigationManager _navigationRouter;
   final GroupManager _groupManager;
-  final List<ChatMessageText> messages = [];
+  final List<ChatMessage> messages = [];
   late bool isLoading = false;
   late bool hasConnectionActive = false;
   late final User _user;
+
+  late final TextEditingController chatTextController;
 
   GroupChatViewModel(
     this._notificationProvider,
@@ -44,22 +48,30 @@ class GroupChatViewModel extends FormViewModel {
       FormFieldValues.search,
     ]);
 
+    chatTextController = TextEditingController(
+      text: getValue(FormFieldValues.search).value ?? "",
+    );
+  }
+
+  @override
+  void initSync() async {
     _groupManager.addListener(handleGroupMessage);
+
+    if (arg != null) {
+      _sessionWsNotifier.enterGroup(arg!.id);
+      await initGroupConnection(arg!.id);
+    }
   }
 
   void handleGroupMessage() {
-    messages.clear();
-    var mapMessages = _groupManager.messages.map((message) {
-      return ChatMessageText(
-        userName: message.username,
-        avatarUrl: message.avatarPicture,
-        messageText: message.message,
-        createdAt: DateTime.now(),
-      );
-    });
+    var recentMessage = _groupManager.getMessage();
 
-    messages.addAll(mapMessages);
-    notifyListeners();
+    addMessage(ChatMessageText(
+      userName: recentMessage.username,
+      avatarUrl: recentMessage.avatarPicture,
+      messageText: recentMessage.message,
+      createdAt: DateTime.now(),
+    ));
   }
 
   @override
@@ -69,6 +81,20 @@ class GroupChatViewModel extends FormViewModel {
   }
 
   User get user => _user;
+
+  ChatMessageText createChatMessage(String content) {
+    return ChatMessageText(
+      userName: user.name,
+      avatarUrl: user.avatarUrl,
+      messageText: content,
+      createdAt: DateTime.now(),
+    );
+  }
+
+  void addMessage(ChatMessage message) {
+    messages.add(message);
+    notifyListeners();
+  }
 
   Future initGroupConnection(String groupId) async {
     var fetchChatMessages = await _groupService.getMessages(groupId);
@@ -115,6 +141,13 @@ class GroupChatViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     }
+
+    clearChatText();
+  }
+
+  void clearChatText() {
+    setValue(FormFieldValues.search, "");
+    chatTextController.clear();
   }
 
   Future updateGroup(String groupId) async {
@@ -152,9 +185,10 @@ class GroupChatViewModel extends FormViewModel {
   void goToChatMembers(GroupItem arguments) => _navigationRouter.push(
         GroupRoutes.members,
         extras: GroupChatParams(
-            groupId: arguments.id,
-            title: arguments.name,
-            state: arguments.isPublic ? "Publico" : "Privado",
-            numberMembers: arguments.membersCount.toString()),
+          groupId: arguments.id,
+          title: arguments.name,
+          state: arguments.isPublic ? "Publico" : "Privado",
+          numberMembers: arguments.membersCount.toString(),
+        ),
       );
 }

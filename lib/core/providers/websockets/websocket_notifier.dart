@@ -30,7 +30,11 @@ class SingleSessionManager implements IWebSocketManager {
 
   @override
   void sendMessage(WebSocketMessage message, String jwtToken) {
-    session.sink.add(convert.jsonEncode(message.toJson()));
+    try {
+      session.sink.add(convert.jsonEncode(message.toJson()));
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

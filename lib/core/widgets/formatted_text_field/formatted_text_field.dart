@@ -13,6 +13,7 @@ abstract class FormattedTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatter;
   final void Function(String)? onChange;
   final String? initialValue;
+  final TextEditingController? controller;
 
   const FormattedTextField({
     this.maxLength,
@@ -25,6 +26,7 @@ abstract class FormattedTextField extends StatefulWidget {
     this.onChange,
     this.initialValue,
     Key? key,
+    this.controller,
   }) : super(key: key);
 }
 
@@ -52,7 +54,8 @@ mixin BaseFormattedTextField<Page extends FormattedTextField>
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: widget.initialValue);
+    controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
   }
 
   @override

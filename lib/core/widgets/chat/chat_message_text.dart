@@ -8,14 +8,13 @@ class ChatMessageText extends ChatMessage {
   final String userName;
   final String avatarUrl;
   final String messageText;
-  final DateTime createdAt;
 
   const ChatMessageText({
     super.key,
     required this.userName,
     required this.avatarUrl,
     required this.messageText,
-    required this.createdAt,
+    required super.createdAt,
   });
 
   @override

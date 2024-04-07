@@ -36,109 +36,89 @@ class GroupChatView extends ArgumentedView<GroupChatViewModel, GroupItem> {
         state: params.state,
         numberMembers: params.numberMembers,
       ),
-      body: FutureBuilder(
-        future: viewModel.initGroupConnection(args.id),
-        builder: (context, snapshot) => Stack(
-          children: [
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 16,
-                  bottom: 84,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: 84,
+              ),
+              child: SingleChildScrollView(
+                reverse: true,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: viewModel.messages,
                 ),
-                child: SingleChildScrollView(
-                  reverse: true,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: viewModel.messages,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 12,
+            right: 20,
+            child: CircularButton(
+              height: 46,
+              icon: const Icon(
+                Icons.people_alt_rounded,
+                color: AppColor.bottomNavigationBar,
+              ),
+              onPress: () => viewModel.goToChatMembers(args),
+            ),
+          ),
+          // Positioned(
+          //   top: 70,
+          //   right: 20,
+          //   child: CircularButton(
+          //     height: 46,
+          //     icon: const Icon(
+          //       Icons.mode_edit_outline_outlined,
+          //       color: AppColor.bottomNavigationBar,
+          //     ),
+          //     onPress: () async => viewModel.isLoading
+          //         ? {}
+          //         : await viewModel.updateGroup(args.id),
+          //   ),
+          // ),
+          // const Positioned(
+          //   top: 70,
+          //   right: 20,
+          //   child: CircularButton(
+          //     height: 46,
+          //     icon: Icon(
+          //       Icons.military_tech_rounded,
+          //       color: AppColor.bottomNavigationBar,
+          //     ),
+          //   ),
+          // ),
+          Positioned(
+            bottom: 20,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: maxWidth - 100,
+                    child: DefaultFormattedTextField(
+                      controller: viewModel.chatTextController,
+                      hintText: "Escreva a mensagem ...",
+                      leftIcon: const Icon(Icons.mode_edit_outline_outlined),
+                      initialValue:
+                          viewModel.getValue(FormFieldValues.search).value,
+                      errorMessage:
+                          viewModel.getValue(FormFieldValues.search).error,
+                      onChange: (value) => viewModel.setTextMessage(value),
+                    ),
                   ),
-                ),
-              ),
-            ),
-
-            Positioned(
-              top: 12,
-              right: 20,
-              child: CircularButton(
-                height: 46,
-                icon: const Icon(
-                  Icons.people_alt_rounded,
-                  color: AppColor.bottomNavigationBar,
-                ),
-                onPress: () => viewModel.goToChatMembers(args),
-              ),
-            ),
-            // Positioned(
-            //   top: 70,
-            //   right: 20,
-            //   child: CircularButton(
-            //     height: 46,
-            //     icon: const Icon(
-            //       Icons.mode_edit_outline_outlined,
-            //       color: AppColor.bottomNavigationBar,
-            //     ),
-            //     onPress: () async => viewModel.isLoading
-            //         ? {}
-            //         : await viewModel.updateGroup(args.id),
-            //   ),
-            // ),
-            // const Positioned(
-            //   top: 70,
-            //   right: 20,
-            //   child: CircularButton(
-            //     height: 46,
-            //     icon: Icon(
-            //       Icons.military_tech_rounded,
-            //       color: AppColor.bottomNavigationBar,
-            //     ),
-            //   ),
-            // ),
-            Positioned(
-              bottom: 20,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: maxWidth - 100,
-                      child: DefaultFormattedTextField(
-                        hintText: "Escreva a mensagem ...",
-                        leftIcon: const Icon(Icons.mode_edit_outline_outlined),
-                        initialValue:
-                            viewModel.getValue(FormFieldValues.search).value,
-                        errorMessage:
-                            viewModel.getValue(FormFieldValues.search).error,
-                        onChange: (value) => viewModel.setTextMessage(value),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    GestureDetector(
-                      onTap: () => viewModel.thereAreErrors
-                          ? {}
-                          : viewModel.sendMessage(args.id),
-                      child: Container(
-                        width: 52,
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          color: AppColor.widgetBackground,
-                          borderRadius: BorderRadius.all(borderRadius),
-                          boxShadow: [AppColor.defaultShadow],
-                        ),
-                        child: const Icon(
-                          Icons.send_rounded,
-                          size: 24,
-                          color: AppColor.darkGrey,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Container(
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  GestureDetector(
+                    onTap: () => viewModel.thereAreErrors
+                        ? {}
+                        : viewModel.sendMessage(args.id),
+                    child: Container(
                       width: 52,
                       height: 50,
                       decoration: const BoxDecoration(
@@ -147,17 +127,34 @@ class GroupChatView extends ArgumentedView<GroupChatViewModel, GroupItem> {
                         boxShadow: [AppColor.defaultShadow],
                       ),
                       child: const Icon(
-                        Icons.add_rounded,
+                        Icons.send_rounded,
                         size: 24,
-                        color: AppColor.widgetSecondary,
+                        color: AppColor.darkGrey,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Container(
+                    width: 52,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      color: AppColor.widgetBackground,
+                      borderRadius: BorderRadius.all(borderRadius),
+                      boxShadow: [AppColor.defaultShadow],
+                    ),
+                    child: const Icon(
+                      Icons.add_rounded,
+                      size: 24,
+                      color: AppColor.widgetSecondary,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

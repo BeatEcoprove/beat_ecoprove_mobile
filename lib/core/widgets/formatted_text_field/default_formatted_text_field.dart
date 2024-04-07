@@ -13,6 +13,7 @@ class DefaultFormattedTextField extends FormattedTextField {
     super.leftIcon,
     super.onChange,
     super.initialValue,
+    super.controller,
     Key? key,
   }) : super(key: key);
 

@@ -31,6 +31,12 @@ abstract class ArgumentedView<TViewModel extends ViewModel, TArgument>
   });
 
   @override
+  void init(TViewModel viewModel) {
+    viewModel.setArgument(args);
+    super.init(viewModel);
+  }
+
+  @override
   void afterClone(TViewModel update) {
     update.setArgument(args);
   }
@@ -44,8 +50,8 @@ class _ViewState<TViewModel extends ViewModel>
     extends State<IView<TViewModel>> {
   @override
   void initState() {
-    widget.viewModel.initSync();
     widget.init(widget.viewModel);
+    widget.viewModel.initSync();
     super.initState();
   }
 

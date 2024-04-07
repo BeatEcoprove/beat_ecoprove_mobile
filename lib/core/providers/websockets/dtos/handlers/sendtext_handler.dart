@@ -13,7 +13,7 @@ class SendTextHandler extends Handler<WebsocketGroupMessage> {
 
   @override
   void handle() {
-    groupManager.addMessage(GroupChatMessage(
+    groupManager.pushMessage(GroupChatMessage(
       message.groupId,
       message.message,
       message.username,

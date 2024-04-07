@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -23,8 +22,6 @@ class GroupView extends IView<GroupViewModel> {
 
   @override
   Widget build(BuildContext context, GroupViewModel viewModel) {
-    final memo = AsyncMemoizer();
-
     return Scaffold(
       appBar: StandardHeader.searchBar(
         title: "Grupos",
@@ -41,110 +38,105 @@ class GroupView extends IView<GroupViewModel> {
             SizedBox(
               width: double.infinity,
               height: double.infinity,
-              child: FutureBuilder(
-                future: memo
-                    .runOnce(() async => await viewModel.getGroups(3, null)),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.primaryColor,
-                        ),
-                      );
-                    default:
-                      return SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 18,
-                                vertical: 26,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 26,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Meus Grupos",
+                                style: AppText.titleToScrollSection,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Meus Grupos",
-                                        style: AppText.titleToScrollSection,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 12),
-                                        child: GestureDetector(
-                                          child: const Text(
-                                            "Ver Mais",
-                                            textAlign: TextAlign.center,
-                                            style: AppText.underlineStyle,
-                                          ),
-                                          onTap: () => viewModel
-                                              .goToMyGroupsList(_renderCards),
-                                        ),
-                                      )
-                                    ],
+                              Container(
+                                margin: const EdgeInsets.only(right: 12),
+                                child: GestureDetector(
+                                  child: const Text(
+                                    "Ver Mais",
+                                    textAlign: TextAlign.center,
+                                    style: AppText.underlineStyle,
                                   ),
-                                  const SizedBox(
-                                    height: 12,
+                                  onTap: () =>
+                                      viewModel.goToMyGroupsList(_renderCards),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          viewModel.getAllAuthenticatedUserGroups.isEmpty &&
+                                  viewModel.isFetching
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColor.darkGreen,
                                   ),
-                                  Column(
-                                    children: _renderCards(
-                                      viewModel.getAllAuthenticatedUserGroups,
-                                    ),
+                                )
+                              : Column(
+                                  children: _renderCards(
+                                    viewModel.getAllAuthenticatedUserGroups,
                                   ),
-                                  const SizedBox(
-                                    height: 26,
-                                  ),
-                                  const Line(
-                                    width: 200,
-                                    color: AppColor.separatedLine,
-                                  ),
-                                  const SizedBox(
-                                    height: 26,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Grupos Globais",
-                                        style: AppText.titleToScrollSection,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 12),
-                                        child: GestureDetector(
-                                          child: const Text(
-                                            "Ver Mais",
-                                            textAlign: TextAlign.center,
-                                            style: AppText.underlineStyle,
-                                          ),
-                                          onTap: () => viewModel
-                                              .goToPublicList(_renderCards),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Column(
-                                    children: _renderCards(
-                                      viewModel.getAllPublicGroups,
-                                    ),
-                                  )
-                                ],
+                                ),
+                          const SizedBox(
+                            height: 26,
+                          ),
+                          const Line(
+                            width: 200,
+                            color: AppColor.separatedLine,
+                          ),
+                          const SizedBox(
+                            height: 26,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Grupos Globais",
+                                style: AppText.titleToScrollSection,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                  }
-                },
+                              Container(
+                                margin: const EdgeInsets.only(right: 12),
+                                child: GestureDetector(
+                                  child: const Text(
+                                    "Ver Mais",
+                                    textAlign: TextAlign.center,
+                                    style: AppText.underlineStyle,
+                                  ),
+                                  onTap: () =>
+                                      viewModel.goToPublicList(_renderCards),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          viewModel.getAllPublicGroups.isEmpty &&
+                                  viewModel.isFetching
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColor.darkGreen,
+                                  ),
+                                )
+                              : Column(
+                                  children: _renderCards(
+                                    viewModel.getAllPublicGroups,
+                                  ),
+                                ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(

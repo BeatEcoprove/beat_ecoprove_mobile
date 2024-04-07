@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/finish_maintenance_on_cloth_request.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/get_current_maintenance_action_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/make_maintenance_on_cloth_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/register_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/models/service_state.dart';
@@ -128,12 +129,14 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
 
   Future fetchBucketServices(String bucketId) async {
     List<Service<dynamic>> result = [];
-    Map<String, ClothResult> clothStates = {};
+    Map<String, GetCurrentMaintenanceActionRequest> clothStates = {};
 
     try {
       var availableServices = await _actionService.getAllServices();
+
       result.addAll(
-          availableServices.map((e) => e.toService(handleAction)).toList());
+        availableServices.map((e) => e.toService(handleAction)).toList(),
+      );
 
       var bucket = await _closetService.getBucket(bucketId);
       var clothOfBucket = bucket.associatedCloth
@@ -149,29 +152,44 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
         return;
       }
 
-      for (var cloth in clothOfBucket) {
-        try {
-          var result = await _actionService.getCurrentServiceActivity(cloth.id);
+      try {
+        var clothServicesAsync = clothOfBucket
+            .map((cloth) => _actionService.getCurrentServiceActivity(cloth.id))
+            .toList();
 
-          if (result.status == 'Running') {
-            clothStates[result.service.id] = result.cloth;
+        var currentService = await Future.wait(clothServicesAsync);
+
+        for (var currentService in currentService) {
+          if (currentService.status == 'Running') {
+            clothStates[currentService.service.id] = currentService;
           }
-        } on HttpBadRequestError catch (e) {
-          _notificationProvider.showNotification(
-            e.getError().title,
-            type: NotificationTypes.error,
-          );
-        } catch (e) {
-          print(e);
         }
+      } on HttpBadRequestError catch (e) {
+        _notificationProvider.showNotification(
+          e.getError().title,
+          type: NotificationTypes.error,
+        );
+      } catch (e) {
+        print(e);
       }
 
-      if (clothStates.length == 1 && result.length > clothStates.length) {
-        _notificationProvider.showNotification(
-          "Uma ou mais roupas estão em manutênção",
-          type: NotificationTypes.warning,
+      if (clothStates.isNotEmpty && result.length > clothStates.length) {
+        if (clothStates.length != 1) {
+          _notificationProvider.showNotification(
+            "Uma ou mais roupas estão em manutênção",
+            type: NotificationTypes.warning,
+          );
+
+          return;
+        }
+
+        result.clear();
+
+        var currentService = clothStates.entries.first.value;
+        activityId = currentService.maintenanceActivityId;
+        result.add(
+          currentService.service.toService(handleAction),
         );
-        return;
       }
 
       services.clear();
@@ -193,14 +211,18 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
   }
 
   Future handleAction(String serviceId, String actionId, String state) async {
+    List<Future> processes = [];
+
     try {
       switch (state) {
         case ServiceState.available:
           for (var cloth in clothIds) {
-            await _actionService.makeMaintenanceOnCloth(
+            processes.add(_actionService.makeMaintenanceOnCloth(
               MakeMaintenanceOnClothRequest(cloth, serviceId, actionId),
-            );
+            ));
           }
+
+          await Future.wait(processes);
 
           _notificationProvider.showNotification(
             "Ação registada!",
@@ -211,15 +233,18 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
           if (activityId.isEmpty) throw Exception("Activity id is empty");
 
           for (var cloth in clothIds) {
-            await _actionService.finishMaintenanceOnCLoth(
+            processes.add(_actionService.finishMaintenanceOnCLoth(
               FinishMaintenanceOnClothRequest(cloth, activityId),
-            );
+            ));
           }
+
+          await Future.wait(processes);
 
           _notificationProvider.showNotification(
             "Ação desmarcada!",
             type: NotificationTypes.success,
           );
+
           break;
       }
     } on HttpBadRequestError catch (e) {

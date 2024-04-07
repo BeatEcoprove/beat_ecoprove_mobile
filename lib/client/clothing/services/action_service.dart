@@ -47,12 +47,15 @@ class ActionService {
 
   Future finishMaintenanceOnCLoth(
       FinishMaintenanceOnClothRequest request) async {
-    return await _httpClient.makeRequestJson(
+    print("Ideio-te");
+    var result = await _httpClient.makeRequestJson(
       method: HttpMethods.post,
       path:
           "profiles/closet/cloth/${request.serviceId}/services/${request.actionId}/finish",
       expectedCode: 200,
     );
+
+    return result;
   }
 
   Future<GetCurrentMaintenanceActionRequest> getCurrentServiceActivity(

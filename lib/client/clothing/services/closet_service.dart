@@ -15,10 +15,14 @@ class ClosetService {
 
   ClosetService(this._httpClient);
 
-  Future<ClosetResult> getCloset(String filters) async {
+  Future<ClosetResult> getCloset(
+    String filters, {
+    int page = 1,
+    int pageSize = 10,
+  }) async {
     return ClosetResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/closet?page=1&pageSize=10$filters",
+      path: "profiles/closet?page=$page&pageSize=$pageSize$filters",
       expectedCode: 200,
     ));
   }

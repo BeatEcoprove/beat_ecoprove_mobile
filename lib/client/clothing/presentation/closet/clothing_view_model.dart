@@ -51,10 +51,15 @@ class ClotingViewModel extends FormViewModel implements Clone {
   late List<FilterRow> _getNestedProfiles = [];
 
   late User user;
+  late int currentPage = 1;
+  final int pageSize = 5;
+
   final List<CardItem> cloths = [];
   final List<String> horizontalSelectedTags = [];
   final Map<String, List<String>> selectedCloth = {};
   final Map<String, dynamic> filterSelection = {};
+
+  final ScrollController scrollController = ScrollController();
 
   ClotingViewModel(
     this._authenticationProvider,
@@ -79,6 +84,15 @@ class ClotingViewModel extends FormViewModel implements Clone {
     getAllColors();
     getAllBrands();
     getAllNestedProfiles();
+
+    scrollController.addListener(handlePagination);
+  }
+
+  void handlePagination() async {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      await fetchCloths();
+    }
   }
 
   get getBuckets => cloths
@@ -111,7 +125,13 @@ class ClotingViewModel extends FormViewModel implements Clone {
 
       param.addAll({getValue(FormFieldValues.search).value ?? "": "search"});
 
-      var result = await _closetUseCase.handle(param);
+      var result = await _closetUseCase.handle(
+        GetClosetUseCaseRequest(
+          param,
+          page: currentPage,
+          pageSize: pageSize,
+        ),
+      );
 
       cloths.clear();
       cloths.addAll(result);

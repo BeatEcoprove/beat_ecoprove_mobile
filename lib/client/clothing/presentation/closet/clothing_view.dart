@@ -110,6 +110,7 @@ class ClothingView extends IView<ClotingViewModel> {
         content: Stack(
           children: [
             CustomScrollView(
+              controller: viewModel.scrollController,
               slivers: [
                 _buildSearchBarAndFilter(viewModel),
                 _buildFilterSelector(viewModel),

@@ -7,27 +7,43 @@ import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
+class GetClosetUseCaseRequest {
+  final Map<String, String> params;
+  final int page;
+  final int pageSize;
+
+  GetClosetUseCaseRequest(
+    this.params, {
+    this.page = 1,
+    this.pageSize = 10,
+  });
+}
+
 class GetClosetUseCase
-    implements UseCase<Map<String, String>, Future<List<CardItem>>> {
+    implements UseCase<GetClosetUseCaseRequest, Future<List<CardItem>>> {
   final ClosetService _clothingService;
 
   GetClosetUseCase(this._clothingService);
 
   @override
-  Future<List<CardItem>> handle(params) async {
+  Future<List<CardItem>> handle(request) async {
     ClosetResult closetResult;
     BucketResult outfitBucketResult;
     List<CardItem> closet = [];
     String filters = '';
 
-    if (params.isNotEmpty) {
-      filters = _prepareRequest(params);
+    if (request.params.isNotEmpty) {
+      filters = _prepareRequest(request.params);
     }
 
     try {
       outfitBucketResult = await _clothingService.getOutfit();
       outfitBucketResult.id = "outfit";
-      closetResult = await _clothingService.getCloset(filters);
+      closetResult = await _clothingService.getCloset(
+        filters,
+        page: request.page,
+        pageSize: request.pageSize,
+      );
 
       closetResult.buckets.add(outfitBucketResult);
     } on HttpConflictRequestError catch (e) {

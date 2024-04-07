@@ -5,8 +5,8 @@ import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_cloth_view.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view.dart';
-import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_parmas.dart';
-import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_services_view.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_view.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_params.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
@@ -38,7 +38,7 @@ extension ClothingRoutes on AppRoute {
   );
 
   static AppRoute setChangeBucketName(String id) {
-    return AppRoute.withParent(closet, "info/bucket/$id");
+    return setBucketDetails("$id/change_name");
   }
 }
 
@@ -55,7 +55,7 @@ NavigationRoute clothingRoute = NavigationRoute(
               state.extra as CardItem,
             ),
           ),
-          ArgumentedView.of<InfoClothServiceView>(
+          ArgumentedView.of<InfoClothServiceViewAlt>(
             InfoClothServiceParms(
               state.extra as CardItem,
             ),
@@ -73,7 +73,7 @@ NavigationRoute clothingRoute = NavigationRoute(
               state.extra as CardItem,
             ),
           ),
-          ArgumentedView.of<InfoClothServiceView>(
+          ArgumentedView.of<InfoClothServiceViewAlt>(
             InfoClothServiceParms(
               state.extra as CardItem,
             ),

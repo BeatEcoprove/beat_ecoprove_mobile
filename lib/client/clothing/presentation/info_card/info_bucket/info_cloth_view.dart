@@ -1,11 +1,11 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_params.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_view_model.dart';
+import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
-import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -79,8 +79,9 @@ class InfoBucketView
           name: 'Mudar Nome',
           action: () => {
             _navigationManager.push(
-                AppRoute.from("/info/bucket/${args.card.id}/change_name"),
-                extras: args.card)
+              ClothingRoutes.setChangeBucketName(args.card.id),
+              extras: args.card,
+            )
           },
         ),
         OptionItem(

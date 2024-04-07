@@ -184,8 +184,6 @@ class ClotingViewModel extends FormViewModel implements Clone {
   void setName(String name) async {
     try {
       setValue<String>(FormFieldValues.name, name);
-
-      await fetchCloths();
     } on DomainException catch (e) {
       setError(FormFieldValues.name, e.message);
     }
@@ -335,6 +333,8 @@ class ClotingViewModel extends FormViewModel implements Clone {
       routePath,
       extras: card,
     );
+
+    refetch();
   }
 
   Future<List<FilterRow>> getAllColors() async {

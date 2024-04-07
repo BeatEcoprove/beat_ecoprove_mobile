@@ -78,7 +78,8 @@ class InfoClothView
                 right: 28,
                 top: 185,
                 child: RoundedButton(
-                  text: "Utilizar",
+                  disabled: viewModel.disableButton,
+                  text: viewModel.disableButton ? "Bloqueado" : "Utilizar",
                   textWhenSelected: "Cancelar",
                   isSelect: viewModel.isInUse,
                   onAction: () async =>

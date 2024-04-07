@@ -16,6 +16,7 @@ class RoundedButton extends StatelessWidget {
   final Color firstPartButtonColorWhenSelected;
   final Color secondPartButtonColorWhenSelected;
   final bool isSelect;
+  final bool disabled;
 
   const RoundedButton({
     super.key,
@@ -27,13 +28,14 @@ class RoundedButton extends StatelessWidget {
       color: AppColor.widgetBackground,
     ),
     this.height = 42,
-    this.width = 80,
+    this.width = 100,
     this.widthRightPart = 50,
     this.firstPartButtonColor = AppColor.buttonBackground,
     this.secondPartButtonColor = AppColor.bucketButton,
     this.firstPartButtonColorWhenSelected = AppColor.widgetSecondary,
     this.secondPartButtonColorWhenSelected = AppColor.bucketButton,
     this.isSelect = false,
+    this.disabled = false,
   });
 
   Container _firstPartButton(Color color, String textSelection) {
@@ -75,12 +77,16 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onAction,
+      onTap: disabled ? () => {} : onAction,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _firstPartButton(
-            isSelect ? firstPartButtonColorWhenSelected : firstPartButtonColor,
+            disabled
+                ? AppColor.darkGrey
+                : isSelect
+                    ? firstPartButtonColorWhenSelected
+                    : firstPartButtonColor,
             isSelect ? textWhenSelected : text,
           ),
           _secondPartButton(

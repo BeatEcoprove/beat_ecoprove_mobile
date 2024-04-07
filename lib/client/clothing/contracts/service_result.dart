@@ -68,9 +68,3 @@ class ServiceResult {
     );
   }
 }
-// const SvgImage(
-//         path: "",
-//         height: 30,
-//         width: 30,
-//         color: AppColor.buttonBackground,
-//       ),

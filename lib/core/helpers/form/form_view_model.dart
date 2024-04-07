@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
-abstract class FormViewModel extends ViewModel {
+abstract class FormViewModel<TArgument> extends ViewModel<TArgument> {
   final Map<FormFieldValues, FormFieldModel> _fields = {};
 
   Map<FormFieldValues, FormFieldModel> get fields => _fields;

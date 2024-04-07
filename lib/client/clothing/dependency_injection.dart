@@ -13,9 +13,9 @@ import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
-import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_parmas.dart';
-import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_services_view.dart';
-import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_services_view_model.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_view.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_view_model.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_params.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service_proxy.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
@@ -120,28 +120,37 @@ extension ClothingDependencyInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var bucketInfoManager = locator<IBucketInfoManager<String>>();
-    var closetService = locator<ClosetService>();
     var router = locator<INavigationManager>();
     var notificationProvider = locator<NotificationProvider>();
     var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
     var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
-    var registerBucketUseCase = locator<RegisterBucketUseCase>();
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
-    var addClothBucketUseCase = locator<AddClothsBucketUseCase>();
-    var getBucketsUseCase = locator<GetBucketsUseCase>();
     locator<GetBrandsUseCase>();
 
+    // locator.registerFactory(
+    //   () => InfoClothServiceViewModel(
+    //     bucketInfoManager,
+    //     notificationProvider,
+    //     router,
+    //     locator<ActionServiceProxy>(),
+    //     closetService,
+    //     getBucketsUseCase,
+    //     addClothBucketUseCase,
+    //     registerBucketUseCase,
+    //   ),
+    // );
+
     locator.registerFactory(
-      () => InfoClothServiceViewModel(
+      () => InfoClothServiceViewModelAlt(
         bucketInfoManager,
         notificationProvider,
         router,
-        locator<ActionServiceProxy>(),
-        closetService,
-        getBucketsUseCase,
-        addClothBucketUseCase,
-        registerBucketUseCase,
+        locator<RegisterBucketUseCase>(),
+        locator<AddClothsBucketUseCase>(),
+        locator<GetBucketsUseCase>(),
+        locator<ActionService>(),
+        locator<ClosetService>(),
       ),
     );
 
@@ -150,6 +159,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         notificationProvider,
         markClothAsDailyUseUseCase,
         unMarkClothAsDailyUseUseCase,
+        locator<ActionService>(),
       ),
     );
 
@@ -196,11 +206,10 @@ extension ClothingDependencyInjection on DependencyInjection {
       ),
     );
 
-    locator.registerFactoryParam<InfoClothServiceView, InfoClothServiceParms,
+    locator.registerFactoryParam<InfoClothServiceViewAlt, InfoClothServiceParms,
         void>(
-      (params, _) => InfoClothServiceView(
-        DependencyInjection.locator<IBucketInfoManager<String>>(),
-        viewModel: locator<InfoClothServiceViewModel>(),
+      (params, _) => InfoClothServiceViewAlt(
+        viewModel: locator<InfoClothServiceViewModelAlt>(),
         args: params,
       ),
     );

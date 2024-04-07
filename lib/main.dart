@@ -19,27 +19,30 @@ void main() async {
   var app = DependencyInjection().setupDIContainer();
   app.build();
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (context) =>
-            DependencyInjection.locator<AuthenticationProvider>(),
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) =>
+              DependencyInjection.locator<AuthenticationProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              DependencyInjection.locator<NotificationProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              DependencyInjection.locator<NotificationManager>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DependencyInjection.locator<LevelUpProvider>(),
+        )
+      ],
+      child: MainApp(
+        appRouter: app.navigationManager.router,
       ),
-      ChangeNotifierProvider(
-        create: (context) =>
-            DependencyInjection.locator<NotificationProvider>(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => DependencyInjection.locator<NotificationManager>(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => DependencyInjection.locator<LevelUpProvider>(),
-      )
-    ],
-    child: MainApp(
-      appRouter: app.navigationManager.router,
     ),
-  ));
+  );
 }
 
 class MainApp extends StatelessWidget {

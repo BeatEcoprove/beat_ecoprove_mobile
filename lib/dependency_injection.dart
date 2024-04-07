@@ -100,6 +100,8 @@ class DependencyInjection {
     addOrders(applicationRouter);
     addCore(applicationRouter);
 
+    locator<AuthenticationProvider>().checkAuth();
+
     return applicationRouter;
   }
 }

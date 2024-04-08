@@ -32,9 +32,8 @@ class _SwiperState extends State<Swiper> {
 
   @override
   Widget build(BuildContext context) {
-    // refreshViews();
-
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: PageView.builder(
         controller: controller,
         itemCount: widget.views.length,

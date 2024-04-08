@@ -149,7 +149,7 @@ class ChangeProfileView extends IView<ChangeProfileViewModel> {
       child: CompactListItemRoot(
         height: HeightCard.height88,
         padding: PaddingCard.padding0,
-        click: () => viewModel.selectProfile(profile.id),
+        click: () async => viewModel.selectProfile(profile.id),
         items: [
           ProfileHeader(
             hasBorder: viewModel.selectedProfile(profile.id, isMain),

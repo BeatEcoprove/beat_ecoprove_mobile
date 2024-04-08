@@ -11,12 +11,22 @@ class ProfileService {
 
   ProfileService(this._httpClient);
 
-  Future<ProfilesResult> getNestedProfiles() async {
-    return ProfilesResult.fromJson(await _httpClient.makeRequestJson(
+  Future<NestedProfilesResult> getNestedProfiles() async {
+    return NestedProfilesResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path: "profiles",
       expectedCode: 200,
     ));
+  }
+
+  Future<ProfilesResult> getAllProfiles() async {
+    var result = await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "profiles",
+      expectedCode: 200,
+    );
+
+    return ProfilesResult.fromJson(result);
   }
 
   Future removeNestedProfile(String profileId) async {

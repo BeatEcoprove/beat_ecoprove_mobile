@@ -10,36 +10,17 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_r
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/group_header.dart';
-import 'package:beat_ecoprove/core/widgets/overlay_widget_with_button.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class GroupChatMembersView
     extends ArgumentedView<GroupChatMembersViewModel, GroupChatParams> {
-  late Modal _overlay;
-
-  GroupChatMembersView({
+  const GroupChatMembersView({
     super.key,
     required super.viewModel,
     required super.args,
   });
-
-  @override
-  void init(GroupChatMembersViewModel viewModel) {
-    _overlay = Modal(
-      top: 76,
-      bottom: 72,
-      left: 36,
-      right: 36,
-      action: () async => await viewModel.inviteToGroup(args.groupId),
-      titleModal: "Convidar para o grupo",
-      buttonText: "Convidar",
-    );
-
-    super.init(viewModel);
-  }
 
   Widget createInviteCard() {
     return DefaultFormattedTextField(
@@ -305,16 +286,16 @@ class GroupChatMembersView
               bottom: 36,
               right: 26,
               child: FloatingButton(
-                color: AppColor.darkGreen,
-                dimension: 64,
-                icon: const Icon(
-                  size: 34,
-                  Icons.add_circle_outline_rounded,
-                  color: AppColor.widgetBackground,
-                ),
-                onPressed: () async =>
-                    await _overlay.create(context, createInviteCard()),
-              ),
+                  color: AppColor.darkGreen,
+                  dimension: 64,
+                  icon: const Icon(
+                    size: 34,
+                    Icons.add_circle_outline_rounded,
+                    color: AppColor.widgetBackground,
+                  ),
+                  onPressed: () async => viewModel.navigateSearchUsers()
+                  // await _overlay.create(context, createInviteCard()),
+                  ),
             ),
           ],
         ),

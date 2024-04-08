@@ -335,7 +335,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
       print("$e");
     }
 
-    notifyListeners();
+    await refetch();
   }
 
   bool isBucketItem(CardItem card) => card.hasChildren;

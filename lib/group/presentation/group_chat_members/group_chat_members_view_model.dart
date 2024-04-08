@@ -1,10 +1,14 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/invite_member_request.dart';
@@ -16,6 +20,7 @@ import 'package:beat_ecoprove/group/domain/use-cases/leave_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/promote_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/user_name.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
+import 'package:flutter/material.dart';
 
 class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final NotificationProvider _notificationProvider;
@@ -26,6 +31,9 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final DespromoveMemberUseCase _despromoveMemberUseCase;
   final InviteMemberToGroupUseCase _inviteMemberToGroupUseCase;
   final GetByUserNameUseCase _getByUserNamesUseCase;
+  final INavigationManager _navigationManager;
+  final ProfileService _profileService;
+
   late final User _user;
   late GroupDetailsResult _groupDetailsResult;
   late bool _isAdmin;
@@ -40,6 +48,8 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     this._despromoveMemberUseCase,
     this._inviteMemberToGroupUseCase,
     this._getByUserNamesUseCase,
+    this._navigationManager,
+    this._profileService,
   ) {
     _user = _authProvider.appUser;
     _groupDetailsResult = GroupDetailsResult.empty();
@@ -223,5 +233,23 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
         type: NotificationTypes.error,
       );
     }
+  }
+
+  void navigateSearchUsers() {
+    // _profileService
+
+    _navigationManager.push(
+      CoreRoutes.listDetails,
+      extras: ListDetailsViewParams(
+        title: "Convide um Utilizador",
+        onSearch: (searchTerm) async {
+          var profiles = await _profileService.getAllProfiles();
+
+          return profiles.profiles.map((profile) {
+            return Text(profile.username);
+          }).toList();
+        },
+      ),
+    );
   }
 }

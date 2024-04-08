@@ -25,6 +25,7 @@ class GroupViewModel extends FormViewModel implements Clone {
 
   late final User _user;
   late bool isFetching = false;
+  static const int numGroupsToShow = 3;
 
   final List<GroupItem> _publicGroups = [];
   final List<GroupItem> _privateGroups = [];
@@ -55,7 +56,11 @@ class GroupViewModel extends FormViewModel implements Clone {
 
   @override
   void initSync() async {
-    await getGroups(3, "");
+    await refetch();
+  }
+
+  Future refetch() async {
+    await getGroups(numGroupsToShow, "");
   }
 
   @override
@@ -69,6 +74,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   void setSearch(String search) async {
     try {
       setValue<String>(FormFieldValues.search, search);
+
       await getGroups(3, search);
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
@@ -119,7 +125,8 @@ class GroupViewModel extends FormViewModel implements Clone {
 
   Future createGroup() async {
     await _navigationRouter.pushAsync(GroupRoutes.create);
-    notifyListeners();
+
+    await refetch();
   }
 
   void goToMyGroupsList(List<Widget> Function(List<GroupItem>) func) {

@@ -27,7 +27,7 @@ class ChangeProfileViewModel extends ViewModel {
   final DeleteProfileUseCase _deleteProfileUseCase;
   final INavigationManager _navigationRouter;
   late final User _user;
-  late ProfilesResult _profilesResult;
+  late NestedProfilesResult _profilesResult;
 
   ChangeProfileViewModel(
     this._notificationProvider,
@@ -38,11 +38,11 @@ class ChangeProfileViewModel extends ViewModel {
     this._authService,
   ) {
     _user = _authProvider.appUser;
-    _profilesResult = ProfilesResult.empty();
+    _profilesResult = NestedProfilesResult.empty();
   }
 
   User get user => _user;
-  ProfilesResult get profilesResult => _profilesResult;
+  NestedProfilesResult get profilesResult => _profilesResult;
 
   Future<void> getNestedProfiles() async {
     try {
@@ -67,15 +67,14 @@ class ChangeProfileViewModel extends ViewModel {
     return false;
   }
 
-  void selectProfile(String profileId, {isMain = false}) {
-    refreshTokens();
-
+  Future selectProfile(String profileId, {isMain = false}) async {
     if (isMain) {
       _authProvider.setProfile();
     } else {
       _authProvider.setProfile(profileId: profileId);
     }
 
+    await refreshTokens();
     _notificationProvider.showNotification(
       "Perfil alterado!",
       type: NotificationTypes.success,
@@ -85,7 +84,6 @@ class ChangeProfileViewModel extends ViewModel {
   }
 
   Future promoteProfile(String profileId) async {
-    // clean profileId
     _authProvider.setProfile();
 
     await _navigationRouter.replaceTopAsync(
@@ -100,7 +98,6 @@ class ChangeProfileViewModel extends ViewModel {
     try {
       await _deleteProfileUseCase.handle(profileId);
 
-      // clean profileId
       _authProvider.setProfile();
 
       _navigationRouter.replaceTop(CoreRoutes.showCompleted,
@@ -132,27 +129,33 @@ class ChangeProfileViewModel extends ViewModel {
   Future refreshTokens() async {
     String refreshToken = _authProvider.refreshToken;
 
-    var tokens = await _authService.refreshTokens(RefreshTokensRequest(
-        refreshToken: refreshToken, profileId: _authProvider.profile));
+    var tokens = await _authService.refreshTokens(
+      RefreshTokensRequest(
+        refreshToken: refreshToken,
+        profileId: _authProvider.profile,
+      ),
+    );
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);
 
-    _authProvider.authenticate(Authentication(
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
-      user: User(
-        id: decodedToken[Tokens.id],
-        name: decodedToken[Tokens.name],
-        avatarUrl: decodedToken[Tokens.avatarUrl],
-        level: decodedToken[Tokens.level],
-        levelPercent: decodedToken[Tokens.levelPercent],
-        sustainablePoints: decodedToken[Tokens.sustainablePoints],
-        ecoScore: decodedToken[Tokens.ecoScore],
-        ecoCoins: decodedToken[Tokens.ecoCoins],
-        xp: decodedToken[Tokens.xp],
-        nextLevelXp: decodedToken[Tokens.nextLevelXp],
+    _authProvider.authenticate(
+      Authentication(
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        user: User(
+          id: decodedToken[Tokens.id],
+          name: decodedToken[Tokens.name],
+          avatarUrl: decodedToken[Tokens.avatarUrl],
+          level: decodedToken[Tokens.level],
+          levelPercent: decodedToken[Tokens.levelPercent],
+          sustainablePoints: decodedToken[Tokens.sustainablePoints],
+          ecoScore: decodedToken[Tokens.ecoScore],
+          ecoCoins: decodedToken[Tokens.ecoCoins],
+          xp: decodedToken[Tokens.xp],
+          nextLevelXp: decodedToken[Tokens.nextLevelXp],
+        ),
       ),
-    ));
+    );
   }
 
   Future createProfile() async {

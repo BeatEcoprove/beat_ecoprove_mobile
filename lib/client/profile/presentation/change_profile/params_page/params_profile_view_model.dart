@@ -24,7 +24,7 @@ class ParamsProfileViewModel extends FormViewModel {
   final PromoteProfileUseCase _promoteProfileUseCase;
   final INavigationManager _navigationRouter;
   late final User _user;
-  late ProfilesResult _profilesResult;
+  late NestedProfilesResult _profilesResult;
 
   ParamsProfileViewModel(
     this._notificationProvider,
@@ -34,7 +34,7 @@ class ParamsProfileViewModel extends FormViewModel {
     this._promoteProfileUseCase,
   ) {
     _user = _authProvider.appUser;
-    _profilesResult = ProfilesResult.empty();
+    _profilesResult = NestedProfilesResult.empty();
     initializeFields([
       FormFieldValues.email,
       FormFieldValues.password,
@@ -105,7 +105,7 @@ class ParamsProfileViewModel extends FormViewModel {
   }
 
   User get user => _user;
-  ProfilesResult get profilesResult => _profilesResult;
+  NestedProfilesResult get profilesResult => _profilesResult;
 
   Future<void> promoteProfile(String profileId) async {
     try {

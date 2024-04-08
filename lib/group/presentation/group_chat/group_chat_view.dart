@@ -117,7 +117,10 @@ class GroupChatView extends ArgumentedView<GroupChatViewModel, GroupItem> {
                   GestureDetector(
                     onTap: () => viewModel.thereAreErrors
                         ? {}
-                        : viewModel.sendMessage(args.id),
+                        : {
+                            viewModel.sendMessage(args.id),
+                            FocusScope.of(context).requestFocus(FocusNode())
+                          },
                     child: Container(
                       width: 52,
                       height: 50,

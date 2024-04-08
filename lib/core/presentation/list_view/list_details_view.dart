@@ -19,6 +19,7 @@ class ListDetailsView
   @override
   Widget build(BuildContext context, ListDetailsViewModel viewModel) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: AppBackground(
         type: AppBackgrounds.registerClothBackground1,
         content: GoBack(

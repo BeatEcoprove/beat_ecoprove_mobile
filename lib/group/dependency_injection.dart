@@ -122,6 +122,8 @@ extension GroupDependencyInjection on DependencyInjection {
         despromoveGroupMemberUseCase,
         inviteMemberToGroupUseCase,
         getByUserName,
+        locator<INavigationManager>(),
+        locator<ProfileService>(),
       ),
     );
 

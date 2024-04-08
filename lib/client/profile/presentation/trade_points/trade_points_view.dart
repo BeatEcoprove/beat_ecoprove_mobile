@@ -2,7 +2,6 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view.dart';
-import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
@@ -26,47 +25,44 @@ class TradePointsView extends IView<TradePointsViewModel> {
         hasSustainablePoints: true,
         sustainablePoints: viewModel.user.sustainablePoints,
       ),
-      body: AppBackground(
-        content: GoBack(
-          posTop: 18,
-          posLeft: 18,
-          child: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 84),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _tradeTable(viewModel),
-                          const SizedBox(
-                            height: 36,
-                          ),
-                          _tradeEcoCoinsToSustainablePoints(viewModel),
-                          const SizedBox(
-                            height: 36,
-                          ),
-                          _tradeSustainablePointsToEcoCoins(viewModel),
-                          const SizedBox(
-                            height: 64,
-                          ),
-                          FormattedButton(
-                            content: "Confirmar",
-                            textColor: Colors.white,
-                            onPress: () => viewModel.tradePoints(),
-                          ),
-                        ]),
-                  ),
-                ],
-              ),
+      body: GoBack(
+        posTop: 18,
+        posLeft: 18,
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 84),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _tradeTable(viewModel),
+                        const SizedBox(
+                          height: 36,
+                        ),
+                        _tradeEcoCoinsToSustainablePoints(viewModel),
+                        const SizedBox(
+                          height: 36,
+                        ),
+                        _tradeSustainablePointsToEcoCoins(viewModel),
+                        const SizedBox(
+                          height: 64,
+                        ),
+                        FormattedButton(
+                          content: "Confirmar",
+                          textColor: Colors.white,
+                          onPress: () => viewModel.tradePoints(),
+                        ),
+                      ]),
+                ),
+              ],
             ),
           ),
         ),
-        type: AppBackgrounds.trade,
       ),
     );
   }

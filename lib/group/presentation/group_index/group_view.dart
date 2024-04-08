@@ -23,6 +23,7 @@ class GroupView extends IView<GroupViewModel> {
   @override
   Widget build(BuildContext context, GroupViewModel viewModel) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: StandardHeader.searchBar(
         title: "Grupos",
         sustainablePoints: viewModel.user.sustainablePoints,
@@ -48,50 +49,9 @@ class GroupView extends IView<GroupViewModel> {
                       ),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Meus Grupos",
-                                style: AppText.titleToScrollSection,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 12),
-                                child: GestureDetector(
-                                  child: const Text(
-                                    "Ver Mais",
-                                    textAlign: TextAlign.center,
-                                    style: AppText.underlineStyle,
-                                  ),
-                                  onTap: () =>
-                                      viewModel.goToMyGroupsList(_renderCards),
-                                ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          viewModel.getAllAuthenticatedUserGroups.isEmpty &&
-                                  viewModel.isFetching
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColor.darkGreen,
-                                  ),
-                                )
-                              : Column(
-                                  children: _renderCards(
-                                    viewModel.getAllAuthenticatedUserGroups,
-                                  ),
-                                ),
-                          const SizedBox(
-                            height: 26,
-                          ),
-                          const Line(
-                            width: 200,
-                            color: AppColor.separatedLine,
-                          ),
+                          if (viewModel
+                              .getAllAuthenticatedUserGroups.isNotEmpty)
+                            ...renderPrivateGroups(),
                           const SizedBox(
                             height: 26,
                           ),
@@ -197,5 +157,52 @@ class GroupView extends IView<GroupViewModel> {
           ),
         )
         .toList();
+  }
+
+  renderPrivateGroups() {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            "Meus Grupos",
+            style: AppText.titleToScrollSection,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            child: GestureDetector(
+              child: const Text(
+                "Ver Mais",
+                textAlign: TextAlign.center,
+                style: AppText.underlineStyle,
+              ),
+              onTap: () => viewModel.goToMyGroupsList(_renderCards),
+            ),
+          )
+        ],
+      ),
+      const SizedBox(
+        height: 12,
+      ),
+      viewModel.getAllAuthenticatedUserGroups.isEmpty && viewModel.isFetching
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: AppColor.darkGreen,
+              ),
+            )
+          : Column(
+              children: _renderCards(
+                viewModel.getAllAuthenticatedUserGroups,
+              ),
+            ),
+      const SizedBox(
+        height: 26,
+      ),
+      const Line(
+        width: 200,
+        color: AppColor.separatedLine,
+      ),
+    ];
   }
 }

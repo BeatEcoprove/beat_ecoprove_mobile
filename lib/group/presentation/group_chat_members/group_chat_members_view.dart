@@ -282,10 +282,11 @@ class GroupChatMembersView
             ),
             //TODO: ADD LATER
             //if (viewModel.isAdmin || viewModel.isCreator)
-            Positioned(
-              bottom: 36,
-              right: 26,
-              child: FloatingButton(
+            if (viewModel.isMember)
+              Positioned(
+                bottom: 36,
+                right: 26,
+                child: FloatingButton(
                   color: AppColor.darkGreen,
                   dimension: 64,
                   icon: const Icon(
@@ -293,10 +294,9 @@ class GroupChatMembersView
                     Icons.add_circle_outline_rounded,
                     color: AppColor.widgetBackground,
                   ),
-                  onPressed: () async => viewModel.navigateSearchUsers()
-                  // await _overlay.create(context, createInviteCard()),
-                  ),
-            ),
+                  onPressed: () async => viewModel.navigateSearchUsers(),
+                ),
+              ),
           ],
         ),
         type: AppBackgrounds.members,

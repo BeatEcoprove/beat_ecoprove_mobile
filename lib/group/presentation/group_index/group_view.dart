@@ -49,9 +49,8 @@ class GroupView extends IView<GroupViewModel> {
                       ),
                       child: Column(
                         children: [
-                          if (viewModel
-                              .getAllAuthenticatedUserGroups.isNotEmpty)
-                            ...renderPrivateGroups(),
+                          if (viewModel.privateGroups.isNotEmpty)
+                            ...renderPrivateGroups(viewModel),
                           const SizedBox(
                             height: 26,
                           ),
@@ -80,8 +79,7 @@ class GroupView extends IView<GroupViewModel> {
                           const SizedBox(
                             height: 12,
                           ),
-                          viewModel.getAllPublicGroups.isEmpty &&
-                                  viewModel.isFetching
+                          viewModel.publicGroups.isEmpty && viewModel.isFetching
                               ? const Center(
                                   child: CircularProgressIndicator(
                                     color: AppColor.darkGreen,
@@ -89,7 +87,7 @@ class GroupView extends IView<GroupViewModel> {
                                 )
                               : Column(
                                   children: _renderCards(
-                                    viewModel.getAllPublicGroups,
+                                    viewModel.publicGroups,
                                   ),
                                 ),
                         ],
@@ -159,7 +157,7 @@ class GroupView extends IView<GroupViewModel> {
         .toList();
   }
 
-  renderPrivateGroups() {
+  renderPrivateGroups(GroupViewModel viewModel) {
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,17 +183,11 @@ class GroupView extends IView<GroupViewModel> {
       const SizedBox(
         height: 12,
       ),
-      viewModel.getAllAuthenticatedUserGroups.isEmpty && viewModel.isFetching
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: AppColor.darkGreen,
-              ),
-            )
-          : Column(
-              children: _renderCards(
-                viewModel.getAllAuthenticatedUserGroups,
-              ),
-            ),
+      Column(
+        children: _renderCards(
+          viewModel.privateGroups,
+        ),
+      ),
       const SizedBox(
         height: 26,
       ),

@@ -9,18 +9,20 @@ import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.da
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/invite_member_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/despromove_group_member_use_case.dart';
-import 'package:beat_ecoprove/group/domain/use-cases/get_by_user_name_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/invite_member_to_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/leave_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/promote_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/user_name.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
-import 'package:flutter/material.dart';
 
 class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final NotificationProvider _notificationProvider;
@@ -30,7 +32,6 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final PromoteMemberUseCase _promoteMemberUseCase;
   final DespromoveMemberUseCase _despromoveMemberUseCase;
   final InviteMemberToGroupUseCase _inviteMemberToGroupUseCase;
-  final GetByUserNameUseCase _getByUserNamesUseCase;
   final INavigationManager _navigationManager;
   final ProfileService _profileService;
 
@@ -47,7 +48,6 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     this._promoteMemberUseCase,
     this._despromoveMemberUseCase,
     this._inviteMemberToGroupUseCase,
-    this._getByUserNamesUseCase,
     this._navigationManager,
     this._profileService,
   ) {
@@ -67,6 +67,10 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   }
 
   User get user => _user;
+
+  bool get isMember => _groupDetailsResult.members.any(
+        (member) => member.id == _user.id,
+      );
 
   bool get isAdmin => _isAdmin;
 
@@ -191,17 +195,15 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     notifyListeners();
   }
 
-  Future<void> inviteToGroup(String groupId) async {
-    String userName = getValue(FormFieldValues.userName).value ?? '';
-
+  Future<void> inviteToGroup(String groupId, String userId) async {
     try {
-      var user = await _getByUserNamesUseCase.handle(userName);
-
       try {
-        await _inviteMemberToGroupUseCase.handle(InviteMemberRequest(
-          user.id,
-          groupId,
-        ));
+        await _inviteMemberToGroupUseCase.handle(
+          InviteMemberRequest(
+            userId,
+            groupId,
+          ),
+        );
 
         _notificationProvider.showNotification(
           "Utilizador foi convidado!",
@@ -233,11 +235,12 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
         type: NotificationTypes.error,
       );
     }
+
+    _navigationManager.pop();
+    notifyListeners();
   }
 
   void navigateSearchUsers() {
-    // _profileService
-
     _navigationManager.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
@@ -245,9 +248,23 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
         onSearch: (searchTerm) async {
           var profiles = await _profileService.getAllProfiles();
 
-          return profiles.profiles.map((profile) {
-            return Text(profile.username);
-          }).toList();
+          return profiles.profiles.map(
+            (profile) {
+              return CompactListItemRoot(
+                click: () async =>
+                    await inviteToGroup(arg!.groupId, profile.id),
+                items: [
+                  ImageTitleSubtitleHeader(
+                    widget: PresentImage(
+                      path: ServerImage(profile.avatarUrl),
+                    ),
+                    title: profile.username,
+                    subTitle: "Level ${profile.level.toString()}",
+                  ),
+                ],
+              );
+            },
+          ).toList();
         },
       ),
     );

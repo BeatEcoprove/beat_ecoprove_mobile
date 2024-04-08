@@ -86,7 +86,6 @@ extension GroupDependencyInjection on DependencyInjection {
     var leaveGroupUseCase = locator<LeaveGroupUseCase>();
     var promoteGroupMemberUseCase = locator<PromoteMemberUseCase>();
     var inviteMemberToGroupUseCase = locator<InviteMemberToGroupUseCase>();
-    var getByUserName = locator<GetByUserNameUseCase>();
     var despromoveGroupMemberUseCase = locator<DespromoveMemberUseCase>();
     var notificationManager = locator<NotificationManager>();
 
@@ -121,7 +120,6 @@ extension GroupDependencyInjection on DependencyInjection {
         promoteGroupMemberUseCase,
         despromoveGroupMemberUseCase,
         inviteMemberToGroupUseCase,
-        getByUserName,
         locator<INavigationManager>(),
         locator<ProfileService>(),
       ),

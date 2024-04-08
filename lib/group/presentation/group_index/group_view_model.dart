@@ -27,8 +27,8 @@ class GroupViewModel extends FormViewModel implements Clone {
   late bool isFetching = false;
   static const int numGroupsToShow = 3;
 
-  final List<GroupItem> _publicGroups = [];
-  final List<GroupItem> _privateGroups = [];
+  final List<GroupItem> publicGroups = [];
+  final List<GroupItem> privateGroups = [];
   final List<GroupNotification> notifications = [];
 
   GroupViewModel(
@@ -60,7 +60,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   }
 
   Future refetch() async {
-    await getGroups(numGroupsToShow, "");
+    await getGroups(numGroupsToShow, null);
   }
 
   @override
@@ -75,18 +75,15 @@ class GroupViewModel extends FormViewModel implements Clone {
     try {
       setValue<String>(FormFieldValues.search, search);
 
-      await getGroups(3, search);
+      await getGroups(3, null);
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
     }
   }
 
-  List<GroupItem> get getAllAuthenticatedUserGroups => _privateGroups;
-  List<GroupItem> get getAllPublicGroups => _publicGroups;
-
   Future<void> getGroups(int limit, String? search) async {
     Map<String, String> param = {};
-    var searchParam = search ?? getValue(FormFieldValues.search).value ?? "";
+    var searchParam = getValue(FormFieldValues.search).value ?? "";
 
     param.addAll({limit.toString(): "pageSize"});
 
@@ -98,13 +95,13 @@ class GroupViewModel extends FormViewModel implements Clone {
       isFetching = true;
       notifyListeners();
 
-      _privateGroups.clear();
-      _publicGroups.clear();
+      privateGroups.clear();
+      publicGroups.clear();
 
       var result = await _getGroupsUseCase.handle(param);
 
-      _privateGroups.addAll(result.mine);
-      _publicGroups.addAll(result.globals);
+      privateGroups.addAll(result.mine);
+      publicGroups.addAll(result.globals);
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -137,7 +134,7 @@ class GroupViewModel extends FormViewModel implements Clone {
         onSearch: (searchTerm) async {
           await getGroups(100, searchTerm);
 
-          return func(getAllAuthenticatedUserGroups);
+          return func(privateGroups);
         },
       ),
     );
@@ -151,7 +148,7 @@ class GroupViewModel extends FormViewModel implements Clone {
         onSearch: (searchTerm) async {
           await getGroups(100, searchTerm);
 
-          return func(getAllPublicGroups);
+          return func(publicGroups);
         },
       ),
     );

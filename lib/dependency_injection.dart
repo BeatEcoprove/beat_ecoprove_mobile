@@ -66,9 +66,11 @@ class DependencyInjection {
   }
 
   void registerWebsockets(GetIt locator) {
-    var ws = locator.registerSingleton<IWebSocketManager>(SingleSessionManager(
-      ServerConfig.websocketUrl,
-    ));
+    var ws = locator.registerSingleton<IWebSocketManager>(
+      SingleSessionManager(
+        ServerConfig.websocketUrl,
+      ),
+    );
 
     locator.registerFactory(
       () => GroupService(locator<HttpAuthClient>()),

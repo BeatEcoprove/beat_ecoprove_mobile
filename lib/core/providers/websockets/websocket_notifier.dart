@@ -12,17 +12,21 @@ abstract class IWebSocketManager {
 
 class SingleSessionManager implements IWebSocketManager {
   final Uri url;
+  late String authorizationToken = "";
   late bool isConnectionAlive = false;
-  late IOWebSocketChannel session;
+  static late IOWebSocketChannel session;
 
   SingleSessionManager(String url) : url = Uri.parse(url);
 
   @override
   Future<IOWebSocketChannel> createChannel(String jwtToken) async {
     var url = Uri.parse(ServerConfig.websocketUrl);
+    authorizationToken = jwtToken;
 
-    session = IOWebSocketChannel.connect(url,
-        headers: {"Authorization": "Bearer $jwtToken"});
+    session = IOWebSocketChannel.connect(
+      url,
+      headers: {"Authorization": "Bearer $authorizationToken"},
+    );
 
     await session.ready;
     return session;
@@ -30,11 +34,10 @@ class SingleSessionManager implements IWebSocketManager {
 
   @override
   void sendMessage(WebSocketMessage message, String jwtToken) {
-    try {
-      session.sink.add(convert.jsonEncode(message.toJson()));
-    } catch (e) {
-      print(e);
-    }
+    var jsonContent = message.toJson();
+    var convertion = convert.jsonEncode(jsonContent);
+
+    session.sink.add(convertion);
   }
 
   @override

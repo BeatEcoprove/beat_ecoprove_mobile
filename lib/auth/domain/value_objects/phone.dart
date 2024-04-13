@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class Phone {
   final String countryCode;
@@ -11,14 +12,14 @@ class Phone {
 
     // must have 9 characters long
     if (phone.length != 9) {
-      throw DomainException("O telefone deve ter 9 números");
+      throw DomainException(LocaleContext.get().auth_phone_must_9_numbers);
     }
 
     // must be numbers
     try {
       int.parse(phone);
     } catch (e) {
-      throw DomainException("O telefone deve ter 9 números");
+      throw DomainException(LocaleContext.get().auth_phone_must_9_numbers);
     }
 
     return Phone._(countryCode: code, value: formatPhoneNumber(phone));

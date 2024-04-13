@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class Email {
   static final RegExp emailRegex = RegExp(
@@ -11,11 +12,11 @@ class Email {
   Email._(this.value);
   factory Email.create(String email) {
     if (email.isEmpty) {
-      throw DomainException("Por favor introduza o email");
+      throw DomainException(LocaleContext.get().auth_email_insert_pls);
     }
 
     if (!emailRegex.hasMatch(email)) {
-      throw DomainException("O email não é valido");
+      throw DomainException(LocaleContext.get().auth_email_not_valid);
     }
 
     return Email._(email);

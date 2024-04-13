@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class Password {
   final String value;
@@ -7,25 +8,29 @@ class Password {
 
   factory Password.create(String password) {
     if (password.isEmpty) {
-      throw DomainException("Por favor introduza a palavra-chave");
+      throw DomainException(LocaleContext.get().auth_password_must_insert);
     }
 
     if (!isLengthValid(password)) {
-      throw DomainException("A palavra-chave deve ter entre 6 a 16 caracteres");
+      throw DomainException(LocaleContext.get().auth_password_btw_6_16);
     }
 
     if (!containsNumber(password)) {
-      throw DomainException("A palavra-chave deve conter pelo menos 1 número");
+      throw DomainException(
+        LocaleContext.get().auth_password_at_least_one_number,
+      );
     }
 
     if (!containsCapitalLetter(password)) {
       throw DomainException(
-          "A palavra-chave deve conter pelo menos um letra maiúscula");
+        LocaleContext.get().auth_password_should_have_at_lest_one_letter,
+      );
     }
 
     if (!containsNonCapitalLetter(password)) {
       throw DomainException(
-          "A palavra-chave deve conter pelo menos um letra minúscula");
+        LocaleContext.get().auth_password_at_lest_one_caps,
+      );
     }
 
     return Password._(password);

@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class PostalCode {
   final String value;
@@ -8,7 +9,7 @@ class PostalCode {
 
   factory PostalCode.create(String postalCode) {
     if (!regex.hasMatch(postalCode)) {
-      throw DomainException("O código postal deve ter 7 números");
+      throw DomainException(LocaleContext.get().auth_zip_code_must_7_numbers);
     }
 
     return PostalCode._(value: postalCode);

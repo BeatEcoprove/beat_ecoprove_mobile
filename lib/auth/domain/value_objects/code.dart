@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class Code {
   final int length = 6;
@@ -8,11 +9,11 @@ class Code {
 
   factory Code.create(String code) {
     if (code.isEmpty) {
-      throw DomainException("Introduza o código");
+      throw DomainException(LocaleContext.get().auth_code_is_empty);
     }
 
     if (code.length != 6) {
-      throw DomainException("O código deve ter 6 digitos");
+      throw DomainException(LocaleContext.get().auth_code_should_have_6_digits);
     }
 
     return Code._(code);

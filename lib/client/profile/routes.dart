@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/client/profile/presentation/profile/profile_view.d
 import 'package:beat_ecoprove/client/profile/presentation/settings/send_feedback/send_feedback_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/settings/settings_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/trade_points/trade_points_view.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/view.dart';
@@ -32,35 +33,36 @@ extension ProfileRoutes on AppRoute {
 
 final NavigationRoute profileRoute = NavigationRoute(
   route: ProfileRoutes.profile,
-  view: (BuildContext context, GoRouterState state) => IView.of<ProfileView>(),
+  view: (BuildContext context, GoRouterState state) =>
+      LinearView.of<ProfileView>(),
   routes: [
     NavigationRoute(
       route: ProfileRoutes.settings,
-      view: (context, state) => IView.of<SettingsView>(),
+      view: (context, state) => LinearView.of<SettingsView>(),
     ),
     NavigationRoute(
       route: ProfileRoutes.feedback,
-      view: (context, state) => IView.of<SendFeedbackView>(),
+      view: (context, state) => LinearView.of<SendFeedbackView>(),
     ),
     NavigationRoute(
       route: ProfileRoutes.prizes,
-      view: (context, state) => IView.of<PrizesView>(),
+      view: (context, state) => LinearView.of<PrizesView>(),
     ),
     NavigationRoute(
       route: ProfileRoutes.tradepoints,
-      view: (context, state) => IView.of<TradePointsView>(),
+      view: (context, state) => LinearView.of<TradePointsView>(),
     ),
     NavigationRoute(
       route: ProfileRoutes.changeProfile,
-      view: (context, state) => IView.of<ChangeProfileView>(),
+      view: (context, state) => LinearView.of<ChangeProfileView>(),
     ),
     NavigationRoute(
       route: ProfileRoutes.createprofile,
-      view: (context, state) => IView.of<CreateProfileView>(),
+      view: (context, state) => LinearView.of<CreateProfileView>(),
     ),
     NavigationRoute(
       route: ProfileRoutes.addparams,
-      view: (context, state) => ArgumentedView.of<ParamsProfileView>(
+      view: (context, state) => ArgumentView.of<ParamsProfileView>(
         state.extra,
       ),
     ),

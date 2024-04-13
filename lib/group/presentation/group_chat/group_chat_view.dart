@@ -1,7 +1,7 @@
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/group_header.dart';
@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_mode
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:flutter/material.dart';
 
-class GroupChatView extends ArgumentedView<GroupChatViewModel, GroupItem> {
+class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
   const GroupChatView({
     super.key,
     required super.viewModel,

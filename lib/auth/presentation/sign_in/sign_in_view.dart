@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_view_controller.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
-import 'package:beat_ecoprove/core/view.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewParams {
@@ -11,7 +11,7 @@ class SignInViewParams {
   SignInViewParams(this.userType);
 }
 
-class SignInView extends ArgumentedView<SignInViewModel, SignInViewParams> {
+class SignInView extends ArgumentView<SignInViewModel, SignInViewParams> {
   static const double headerGap = 36;
 
   const SignInView({

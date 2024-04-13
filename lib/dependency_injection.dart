@@ -29,7 +29,7 @@ class DependencyInjection {
 
   static GetIt get locator => DependencyInjection._locator;
 
-  ApplicationRouter createApplicationRouter<TView extends IView>() {
+  ApplicationRouter createApplicationRouter<TView extends LinearView>() {
     var applicationRouter = locator.registerSingleton(
       ApplicationRouter<TView>(),
     );

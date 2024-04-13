@@ -8,7 +8,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatte
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/add_worker/add_worker_view_model.dart';
 import 'package:flutter/material.dart';
 
-class AddWorkerView extends IView<AddWorkerViewModel> {
+class AddWorkerView extends LinearView<AddWorkerViewModel> {
   const AddWorkerView({
     super.key,
     required super.viewModel,

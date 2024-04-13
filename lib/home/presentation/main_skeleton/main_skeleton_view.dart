@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
 import 'package:beat_ecoprove/home/presentation/main_skeleton/main_skeleton_view_model.dart';
 import 'package:flutter/material.dart';
 
-class MainSkeletonView extends IView<MainSkeletonViewModel> {
+class MainSkeletonView extends LinearView<MainSkeletonViewModel> {
   const MainSkeletonView({
     super.key,
     required super.viewModel,

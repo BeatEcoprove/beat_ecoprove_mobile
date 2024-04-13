@@ -1,10 +1,10 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_view_model.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_params.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/overlay_widget_with_button.dart';
@@ -12,8 +12,8 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/core/widgets/wrap_services.dart';
 import 'package:flutter/material.dart';
 
-class InfoClothServiceViewAlt extends ArgumentedView<
-    InfoClothServiceViewModelAlt, InfoClothServiceParms> {
+class InfoClothServiceViewAlt
+    extends ArgumentView<InfoClothServiceViewModelAlt, InfoClothServiceParms> {
   const InfoClothServiceViewAlt({
     super.key,
     required super.viewModel,

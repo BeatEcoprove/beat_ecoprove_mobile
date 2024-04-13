@@ -71,7 +71,7 @@ List<ServiceData> services = [
   ServiceData(
     title: "Arranjos Express",
     subtitle: "Arranjo",
-    widget: SvgImage(
+    widget: const SvgImage(
       path: 'assets/services/repair.svg',
       width: 30,
       height: 30,
@@ -81,7 +81,7 @@ List<ServiceData> services = [
   ServiceData(
     title: "Seco & Leve",
     subtitle: "Secagem",
-    widget: SvgImage(
+    widget: const SvgImage(
       path: 'assets/services/dry.svg',
       width: 30,
       height: 30,

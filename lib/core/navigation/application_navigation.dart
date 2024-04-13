@@ -10,7 +10,7 @@ abstract class ApplicationNavigation {
     this.routes = const [],
   });
 
-  GoRoute build(AppRoute? parentRoute);
+  RouteBase build(AppRoute? parentRoute);
 
   List<RouteBase> getRoutes() {
     return routes.map((route) {

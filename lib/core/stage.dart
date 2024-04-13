@@ -5,7 +5,7 @@ import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 import 'package:beat_ecoprove/core/view.dart';
 
 abstract class Stage<TStageViewModel extends StageViewModel>
-    extends IView<TStageViewModel> {
+    extends LinearView<TStageViewModel> {
   final SignInController controller;
 
   const Stage({

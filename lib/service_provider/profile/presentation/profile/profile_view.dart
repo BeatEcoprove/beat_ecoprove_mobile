@@ -10,7 +10,7 @@ import 'package:beat_ecoprove/service_provider/profile/presentation/profile/prof
 import 'package:flutter/material.dart';
 
 class ServiceProviderProfileView
-    extends IView<ServiceProviderProfileViewModel> {
+    extends LinearView<ServiceProviderProfileViewModel> {
   const ServiceProviderProfileView({
     super.key,
     required super.viewModel,

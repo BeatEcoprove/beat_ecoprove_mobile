@@ -12,5 +12,5 @@ extension RegisterClothRoutes on AppRoute {
 final NavigationRoute registerClothRoute = NavigationRoute(
   route: RegisterClothRoutes.registerCloth,
   view: (BuildContext context, GoRouterState state) =>
-      IView.of<RegisterClothView>(),
+      LinearView.of<RegisterClothView>(),
 );

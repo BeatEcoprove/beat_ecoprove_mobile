@@ -71,8 +71,8 @@ class ButtonWithIcon extends StatelessWidget {
                 width: dimension,
                 decoration: BoxDecoration(
                   color: colorSecondary,
-                  borderRadius: BorderRadius.all(borderRadius),
-                  boxShadow: [AppColor.defaultShadow],
+                  borderRadius: const BorderRadius.all(borderRadius),
+                  boxShadow: const [AppColor.defaultShadow],
                 ),
                 child: icon ?? svg),
           )

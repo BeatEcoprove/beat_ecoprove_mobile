@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -12,8 +12,7 @@ import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class EditGroupView
-    extends ArgumentedView<EditGroupViewModel, EditGroupParams> {
+class EditGroupView extends ArgumentView<EditGroupViewModel, EditGroupParams> {
   const EditGroupView({
     super.key,
     required super.viewModel,

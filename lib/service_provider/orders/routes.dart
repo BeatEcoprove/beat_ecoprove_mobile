@@ -11,5 +11,6 @@ extension OrderRoutes on AppRoute {
 
 final NavigationRoute orderRoutes = NavigationRoute(
   route: OrderRoutes.order,
-  view: (BuildContext context, GoRouterState state) => IView.of<OrdersView>(),
+  view: (BuildContext context, GoRouterState state) =>
+      LinearView.of<OrdersView>(),
 );

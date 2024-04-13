@@ -7,10 +7,11 @@ import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_view.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_params.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
+import 'package:beat_ecoprove/core/navigation/application_navigation.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
-import 'package:beat_ecoprove/core/view.dart';
 
 extension ClothingRoutes on AppRoute {
   static final AppRoute closet = AppRoute(
@@ -42,20 +43,20 @@ extension ClothingRoutes on AppRoute {
   }
 }
 
-NavigationRoute clothingRoute = NavigationRoute(
+ApplicationNavigation clothingRoute = NavigationRoute(
   route: ClothingRoutes.closet,
   routes: [
     NavigationRoute(
       route: ClothingRoutes.clothDetails,
       view: (context, state) => DetailSwiper(
         views: [
-          ArgumentedView.of<InfoClothView>(
+          ArgumentView.of<InfoClothView>(
             InfoClothParams(
               state.pathParameters['id'] ?? '0',
               state.extra as CardItem,
             ),
           ),
-          ArgumentedView.of<InfoClothServiceViewAlt>(
+          ArgumentView.of<InfoClothServiceViewAlt>(
             InfoClothServiceParms(
               state.extra as CardItem,
             ),
@@ -67,13 +68,13 @@ NavigationRoute clothingRoute = NavigationRoute(
       route: ClothingRoutes.bucketDetails,
       view: (context, state) => DetailSwiper(
         views: [
-          ArgumentedView.of<InfoBucketView>(
+          ArgumentView.of<InfoBucketView>(
             InfoBucketParams(
               state.pathParameters['id'] ?? '0',
               state.extra as CardItem,
             ),
           ),
-          ArgumentedView.of<InfoClothServiceViewAlt>(
+          ArgumentView.of<InfoClothServiceViewAlt>(
             InfoClothServiceParms(
               state.extra as CardItem,
             ),
@@ -83,7 +84,7 @@ NavigationRoute clothingRoute = NavigationRoute(
       routes: [
         NavigationRoute(
           route: ClothingRoutes.changeBucketName,
-          view: (context, state) => ArgumentedView.of<ChangeBucketNameView>(
+          view: (context, state) => ArgumentView.of<ChangeBucketNameView>(
             ChangeBucketNameParams(
               state.extra as CardItem,
             ),

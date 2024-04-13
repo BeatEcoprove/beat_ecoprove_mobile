@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/client/profile/presentation/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
 
-class ProfileView extends IView<ProfileViewModel> {
+class ProfileView extends LinearView<ProfileViewModel> {
   const ProfileView({
     super.key,
     required super.viewModel,

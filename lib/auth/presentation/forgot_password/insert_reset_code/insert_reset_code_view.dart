@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatte
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class InsertResetCodeView extends IView<InsertResetCodeViewModel> {
+class InsertResetCodeView extends LinearView<InsertResetCodeViewModel> {
   const InsertResetCodeView({
     super.key,
     required super.viewModel,

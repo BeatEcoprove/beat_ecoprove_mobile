@@ -2,8 +2,8 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/place_to_place.dart';
@@ -13,8 +13,7 @@ import 'package:beat_ecoprove/core/widgets/rounded_button.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
-class InfoClothView
-    extends ArgumentedView<InfoClothViewModel, InfoClothParams> {
+class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
   final Radius borderRadius = const Radius.circular(25);
 
   const InfoClothView({

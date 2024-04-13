@@ -16,7 +16,7 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ClothingView extends IView<ClotingViewModel> {
+class ClothingView extends LinearView<ClotingViewModel> {
   const ClothingView({
     super.key,
     required super.viewModel,
@@ -290,7 +290,7 @@ class ClothingView extends IView<ClotingViewModel> {
       BuildContext context, ClotingViewModel viewModel) {
     return SliverToBoxAdapter(
       child: viewModel.cloths.isNotEmpty
-          ? cardList(viewModel)
+          ? cardList(viewModel, context)
           : Container(
               margin: const EdgeInsets.only(top: 100),
               child: const Center(
@@ -302,7 +302,7 @@ class ClothingView extends IView<ClotingViewModel> {
     );
   }
 
-  Padding cardList(ClotingViewModel viewModel) {
+  Padding cardList(ClotingViewModel viewModel, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -315,7 +315,7 @@ class ClothingView extends IView<ClotingViewModel> {
             onSelectionChanged: (cards) =>
                 viewModel.changeCardsSelection(cards),
             onElementSelected: (card) async =>
-                await viewModel.openInfoCard(card),
+                await viewModel.openInfoCard(card, context),
             action: "remove",
           ),
         ],

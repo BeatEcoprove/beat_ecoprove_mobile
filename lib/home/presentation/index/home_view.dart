@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/home/presentation/index/home_view_model.dart';
 import 'package:beat_ecoprove/home/widgets/welcome_card.dart';
 import 'package:flutter/material.dart';
 
-class HomeView extends IView<HomeViewModel> {
+class HomeView extends LinearView<HomeViewModel> {
   const HomeView({
     super.key,
     required super.viewModel,

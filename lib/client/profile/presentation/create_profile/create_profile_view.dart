@@ -11,7 +11,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatte
 import 'package:beat_ecoprove/client/profile/presentation/create_profile/create_profile_view_model.dart';
 import 'package:flutter/material.dart';
 
-class CreateProfileView extends IView<CreateProfileViewModel> {
+class CreateProfileView extends LinearView<CreateProfileViewModel> {
   const CreateProfileView({
     super.key,
     required super.viewModel,

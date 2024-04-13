@@ -7,7 +7,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart
 import 'package:beat_ecoprove/core/widgets/selector_button/selector_button.dart';
 import 'package:flutter/material.dart';
 
-class SelectUserView extends IView<SelectUserViewModel> {
+class SelectUserView extends LinearView<SelectUserViewModel> {
   static const double _topPadding = 200;
   static const double _bottomPadding = 100;
   static const double _horizontalPadding = 24;

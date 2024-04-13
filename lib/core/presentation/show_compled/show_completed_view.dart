@@ -1,14 +1,14 @@
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view_model.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
 import 'package:flutter/material.dart';
 
 class ShowCompletedView
-    extends ArgumentedView<ShowCompltedViewModel, ShowCompletedViewParams> {
+    extends ArgumentView<ShowCompltedViewModel, ShowCompletedViewParams> {
   const ShowCompletedView({
     super.key,
     required super.viewModel,

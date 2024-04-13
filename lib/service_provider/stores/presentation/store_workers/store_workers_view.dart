@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/worker_header/worker_with_type_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
@@ -11,7 +11,7 @@ import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers
 import 'package:flutter/material.dart';
 
 class StoreWorkersView
-    extends ArgumentedView<StoreWorkersViewModel, StoreParams> {
+    extends ArgumentView<StoreWorkersViewModel, StoreParams> {
   const StoreWorkersView({
     super.key,
     required super.viewModel,

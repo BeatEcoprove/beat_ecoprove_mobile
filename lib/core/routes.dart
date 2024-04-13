@@ -4,7 +4,8 @@ import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view.dart';
-import 'package:beat_ecoprove/core/view.dart';
+
+import 'argument_view.dart';
 
 extension CoreRoutes on AppRoute {
   static final AppRoute core = AppRoute(
@@ -33,22 +34,20 @@ NavigationRoute coreRoutes = NavigationRoute(
   routes: [
     NavigationRoute(
       route: CoreRoutes.showCompleted,
-      view: (context, state) =>
-          ArgumentedView.of<ShowCompletedView>(state.extra),
+      view: (context, state) => ArgumentView.of<ShowCompletedView>(state.extra),
     ),
     NavigationRoute(
       route: CoreRoutes.makeProfileAction,
       view: (context, state) =>
-          ArgumentedView.of<MakeProfileActionView>(state.extra),
+          ArgumentView.of<MakeProfileActionView>(state.extra),
     ),
     NavigationRoute(
       route: CoreRoutes.listDetails,
-      view: (context, state) => ArgumentedView.of<ListDetailsView>(state.extra),
+      view: (context, state) => ArgumentView.of<ListDetailsView>(state.extra),
     ),
     NavigationRoute(
       route: CoreRoutes.selectService,
-      view: (context, state) =>
-          ArgumentedView.of<SelectServiceView>(state.extra),
+      view: (context, state) => ArgumentView.of<SelectServiceView>(state.extra),
     ),
   ],
 );

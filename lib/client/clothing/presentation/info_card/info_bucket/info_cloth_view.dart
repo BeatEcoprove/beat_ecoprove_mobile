@@ -2,12 +2,12 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_params.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_view_model.dart';
 import 'package:beat_ecoprove/client/clothing/routes.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class InfoBucketView
-    extends ArgumentedView<InfoBucketViewModel, InfoBucketParams> {
+    extends ArgumentView<InfoBucketViewModel, InfoBucketParams> {
   final INavigationManager _navigationManager;
   final IBucketInfoManager bucketInfoManager;
   final GlobalKey _buttonKey = GlobalKey();

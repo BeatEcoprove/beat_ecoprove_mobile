@@ -101,10 +101,11 @@ class ClosetService {
 
   Future removeClothFromBucket(RemoveClothFromBucketRequest request) async {
     await _httpClient.makeRequestJson(
-        method: HttpMethods.put,
-        path: "profiles/closet/bucket/${request.bucketId}/remove",
-        body: request,
-        expectedCode: 201);
+      method: HttpMethods.put,
+      path: "profiles/closet/bucket/${request.bucketId}/remove",
+      body: request,
+      expectedCode: 201,
+    );
   }
 
   Future<List<ColorResult>> getAllColors() async {

@@ -17,7 +17,7 @@ import 'package:beat_ecoprove/service_provider/stores/presentation/store_index/s
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class StoreView extends IView<StoreViewModel> {
+class StoreView extends LinearView<StoreViewModel> {
   const StoreView({
     super.key,
     required super.viewModel,

@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatte
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class LoginView extends IView<LoginViewModel> {
+class LoginView extends LinearView<LoginViewModel> {
   static const double _topPadding = 172;
   static const double _bottomPadding = 44;
   static const double _horizontalPadding = 38;

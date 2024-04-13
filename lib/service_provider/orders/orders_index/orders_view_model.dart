@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';

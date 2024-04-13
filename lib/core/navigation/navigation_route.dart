@@ -13,14 +13,13 @@ class NavigationRoute<TView> extends ApplicationNavigation {
   });
 
   @override
-  GoRoute build(AppRoute? parentRoute) {
+  RouteBase build(AppRoute? parentRoute) {
     route.parent = parentRoute;
 
     return GoRoute(
+      parentNavigatorKey: parentRoute?.key ?? AppRoute.root.key,
       path: route.path,
-      builder: view != null
-          ? (context, state) => view!(context, state)
-          : (context, state) => const Text("Not Found"),
+      builder: view ?? (context, state) => const Text("Not Found"),
       routes: getRoutes(),
     );
   }

@@ -13,5 +13,5 @@ extension ServiceProviderProfileRoutes on AppRoute {
 final NavigationRoute serviceProviderProfileRoute = NavigationRoute(
   route: ServiceProviderProfileRoutes.serviceProfile,
   view: (BuildContext context, GoRouterState state) =>
-      IView.of<ServiceProviderProfileView>(),
+      LinearView.of<ServiceProviderProfileView>(),
 );

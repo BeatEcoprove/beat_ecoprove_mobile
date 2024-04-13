@@ -25,12 +25,12 @@ class MainSkeletonViewModel extends ViewModel {
     leverUpProvider.setContext(context);
   }
 
-  List<IView> getViews() {
+  List<LinearView> getViews() {
     return [
-      IView.of<HomeView>(),
-      IView.of<ClothingView>(),
-      IView.of<GroupView>(),
-      IView.of<ProfileView>(),
+      LinearView.of<HomeView>(),
+      LinearView.of<ClothingView>(),
+      LinearView.of<GroupView>(),
+      LinearView.of<ProfileView>(),
     ];
   }
 }

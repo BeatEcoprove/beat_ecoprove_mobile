@@ -10,7 +10,7 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_r
 import 'package:beat_ecoprove/home/presentation/brand/service_view_model.dart';
 import 'package:flutter/material.dart';
 
-class ServiceView extends IView<ServiceViewModel> {
+class ServiceView extends LinearView<ServiceViewModel> {
   const ServiceView({
     super.key,
     required super.viewModel,

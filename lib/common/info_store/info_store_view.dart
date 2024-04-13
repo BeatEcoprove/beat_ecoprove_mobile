@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/store_header.dart';
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list.dart';
@@ -11,8 +10,9 @@ import 'package:beat_ecoprove/core/widgets/rating_bar.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
 import 'package:flutter/material.dart';
 
-class InfoStoreView
-    extends ArgumentedView<InfoStoreViewModel, InfoStoreParams> {
+import '../../core/argument_view.dart';
+
+class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
   const InfoStoreView({
     super.key,
     required super.viewModel,

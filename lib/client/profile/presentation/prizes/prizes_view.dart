@@ -11,7 +11,7 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/client/profile/presentation/prizes/prizes_view_model.dart';
 import 'package:flutter/material.dart';
 
-class PrizesView extends IView<PrizesViewModel> {
+class PrizesView extends LinearView<PrizesViewModel> {
   const PrizesView({
     super.key,
     required super.viewModel,

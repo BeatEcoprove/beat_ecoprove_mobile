@@ -1,7 +1,7 @@
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_view_model.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/profile_header.dart';
@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_r
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:flutter/material.dart';
 
-class MakeProfileActionView extends ArgumentedView<MakeProfileActionViewModel,
+class MakeProfileActionView extends ArgumentView<MakeProfileActionViewModel,
     MakeProfileActionViewParams> {
   const MakeProfileActionView({
     super.key,

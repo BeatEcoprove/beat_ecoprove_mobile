@@ -9,5 +9,5 @@ extension HomeRoutes on AppRoute {
 
 final NavigationRoute homeRoutes = NavigationRoute(
   route: HomeRoutes.home,
-  view: (context, state) => IView.of<MainSkeletonView>(),
+  view: (context, state) => LinearView.of<MainSkeletonView>(),
 );

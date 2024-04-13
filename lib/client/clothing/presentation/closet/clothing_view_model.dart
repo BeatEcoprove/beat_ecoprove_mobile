@@ -340,7 +340,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
 
   bool isBucketItem(CardItem card) => card.hasChildren;
 
-  Future openInfoCard(CardItem card) async {
+  Future openInfoCard(CardItem card, BuildContext context) async {
     AppRoute routePath;
 
     if (isBucketItem(card)) {

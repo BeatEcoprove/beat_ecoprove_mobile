@@ -259,7 +259,6 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
               _showOptionsMenu(context);
               break;
           }
-          ;
         },
       ),
     );

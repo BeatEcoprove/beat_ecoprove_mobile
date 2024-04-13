@@ -43,8 +43,8 @@ class LevelUpProvider extends ViewModel {
       children: [
         Stack(
           children: [
-            Positioned(
-              child: Container(
+            const Positioned(
+              child: SizedBox(
                 height: heightStack,
                 width: widthStack,
               ),

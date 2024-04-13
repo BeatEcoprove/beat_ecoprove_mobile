@@ -9,10 +9,10 @@ import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/routes.dart';
 import 'package:go_router/go_router.dart';
 
-class ApplicationRouter<TView extends IView> {
+class ApplicationRouter<TView extends LinearView> {
   final ApplicationNavigation router = NavigationGuard(
     route: AppRoute.root,
-    view: (context, state) => IView.of<TView>(),
+    view: (context, state) => LinearView.of<TView>(),
     routes: [],
     redirectPages: (context, state) {
       var authProvider = DependencyInjection.locator<AuthenticationProvider>();
@@ -52,10 +52,14 @@ class ApplicationRouter<TView extends IView> {
   }
 
   void build() {
-    _navigationManager.setRouter(GoRouter(
-      routes: [
-        router.build(null),
-      ],
-    ));
+    _navigationManager.setRouter(
+      GoRouter(
+        debugLogDiagnostics: true,
+        navigatorKey: AppRoute.root.key,
+        routes: [
+          router.build(null),
+        ],
+      ),
+    );
   }
 }

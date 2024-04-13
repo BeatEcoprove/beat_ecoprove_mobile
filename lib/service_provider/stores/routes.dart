@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/common/info_store/info_store_view.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/view.dart';
@@ -21,24 +22,25 @@ extension StoreRoutes on AppRoute {
 
 final NavigationRoute storeRoute = NavigationRoute(
   route: StoreRoutes.store,
-  view: (BuildContext context, GoRouterState state) => IView.of<StoreView>(),
+  view: (BuildContext context, GoRouterState state) =>
+      LinearView.of<StoreView>(),
   routes: [
     NavigationRoute(
       route: StoreRoutes.createStore,
-      view: (context, state) => IView.of<CreateStoreView>(),
+      view: (context, state) => LinearView.of<CreateStoreView>(),
     ),
     NavigationRoute(
       route: StoreRoutes.detailsStore,
-      view: (context, state) => ArgumentedView.of<InfoStoreView>(state.extra),
+      view: (context, state) => ArgumentView.of<InfoStoreView>(state.extra),
     ),
     NavigationRoute(
       route: StoreRoutes.workers,
       view: (context, state) =>
-          ArgumentedView.of<StoreWorkersView>(state.extra as StoreParams),
+          ArgumentView.of<StoreWorkersView>(state.extra as StoreParams),
     ),
     NavigationRoute(
       route: StoreRoutes.addWorkers,
-      view: (context, state) => IView.of<AddWorkerView>(),
+      view: (context, state) => LinearView.of<AddWorkerView>(),
     ),
   ],
 );

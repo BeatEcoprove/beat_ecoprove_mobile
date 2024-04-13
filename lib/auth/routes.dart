@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/view.dart';
@@ -42,15 +43,15 @@ final NavigationRoute authRoute = NavigationRoute(
   routes: [
     NavigationRoute(
       route: AuthRoutes.login,
-      view: (context, state) => IView.of<LoginView>(),
+      view: (context, state) => LinearView.of<LoginView>(),
     ),
     NavigationRoute(
       route: AuthRoutes.selectUser,
-      view: (context, state) => IView.of<SelectUserView>(),
+      view: (context, state) => LinearView.of<SelectUserView>(),
     ),
     NavigationRoute(
       route: AuthRoutes.signIn,
-      view: (context, state) => ArgumentedView.of<SignInView>(
+      view: (context, state) => ArgumentView.of<SignInView>(
         SignInViewParams(
           SignUseroptions.getTypeOf(state.pathParameters['userType']),
         ),
@@ -58,11 +59,11 @@ final NavigationRoute authRoute = NavigationRoute(
     ),
     NavigationRoute(
       route: AuthRoutes.resetCode,
-      view: (context, state) => IView.of<InsertResetCodeView>(),
+      view: (context, state) => LinearView.of<InsertResetCodeView>(),
     ),
     NavigationRoute(
       route: AuthRoutes.resetPassword,
-      view: (context, state) => ArgumentedView.of<ResetPasswordView>(
+      view: (context, state) => ArgumentView.of<ResetPasswordView>(
         state.extra as ResetPasswordParams,
       ),
     ),

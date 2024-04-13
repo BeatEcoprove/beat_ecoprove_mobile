@@ -1,15 +1,15 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_page_params.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_profile_view_model.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 
 class ParamsProfileView
-    extends ArgumentedView<ParamsProfileViewModel, PageParams> {
+    extends ArgumentView<ParamsProfileViewModel, PageParams> {
   static const double textFieldsGap = 26;
 
   const ParamsProfileView({

@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
-class ChangeProfileView extends IView<ChangeProfileViewModel> {
+class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
   const ChangeProfileView({
     super.key,
     required super.viewModel,

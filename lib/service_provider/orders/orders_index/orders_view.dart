@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view_m
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class OrdersView extends IView<OrdersViewModel> {
+class OrdersView extends LinearView<OrdersViewModel> {
   const OrdersView({
     super.key,
     required super.viewModel,

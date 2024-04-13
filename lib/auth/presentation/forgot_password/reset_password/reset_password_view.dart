@@ -1,16 +1,16 @@
 import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_params.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_password/reset_password_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordView
-    extends ArgumentedView<ResetPasswordViewModel, ResetPasswordParams> {
+    extends ArgumentView<ResetPasswordViewModel, ResetPasswordParams> {
   const ResetPasswordView({
     super.key,
     required super.viewModel,

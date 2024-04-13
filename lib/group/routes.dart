@@ -9,6 +9,8 @@ import 'package:beat_ecoprove/group/presentation/group_index/group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/argument_view.dart';
+
 extension GroupRoutes on AppRoute {
   static final group = AppRoute(path: "group");
 
@@ -23,24 +25,25 @@ extension GroupRoutes on AppRoute {
 
 final NavigationRoute groupRoute = NavigationRoute(
   route: GroupRoutes.group,
-  view: (BuildContext context, GoRouterState state) => IView.of<GroupView>(),
+  view: (BuildContext context, GoRouterState state) =>
+      LinearView.of<GroupView>(),
   routes: [
     NavigationRoute(
       route: GroupRoutes.chat,
-      view: (context, state) => ArgumentedView.of<GroupChatView>(state.extra),
+      view: (context, state) => ArgumentView.of<GroupChatView>(state.extra),
     ),
     NavigationRoute(
       route: GroupRoutes.members,
       view: (context, state) =>
-          ArgumentedView.of<GroupChatMembersView>(state.extra),
+          ArgumentView.of<GroupChatMembersView>(state.extra),
     ),
     NavigationRoute(
       route: GroupRoutes.update,
-      view: (context, state) => ArgumentedView.of<EditGroupView>(state.extra),
+      view: (context, state) => ArgumentView.of<EditGroupView>(state.extra),
     ),
     NavigationRoute(
       route: GroupRoutes.create,
-      view: (context, state) => IView.of<CreateGroupView>(),
+      view: (context, state) => LinearView.of<CreateGroupView>(),
     ),
   ],
 );

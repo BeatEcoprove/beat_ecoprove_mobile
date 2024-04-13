@@ -10,7 +10,7 @@ import 'package:beat_ecoprove/client/profile/presentation/trade_points/trade_poi
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TradePointsView extends IView<TradePointsViewModel> {
+class TradePointsView extends LinearView<TradePointsViewModel> {
   const TradePointsView({
     super.key,
     required super.viewModel,

@@ -1,13 +1,13 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view_model.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/wrap_services.dart';
 import 'package:flutter/material.dart';
 
 class SelectServiceView
-    extends ArgumentedView<SelectServiceViewModel, ServiceParams> {
+    extends ArgumentView<SelectServiceViewModel, ServiceParams> {
   const SelectServiceView({
     super.key,
     required super.viewModel,

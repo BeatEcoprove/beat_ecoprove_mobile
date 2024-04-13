@@ -5,7 +5,7 @@ import 'package:beat_ecoprove/core/widgets/swiper/swiper.dart';
 import 'package:flutter/material.dart';
 
 class DetailSwiper extends StatelessWidget {
-  final List<IView> views;
+  final List<LinearView> views;
 
   const DetailSwiper({
     super.key,

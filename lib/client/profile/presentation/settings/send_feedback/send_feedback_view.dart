@@ -8,7 +8,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 
-class SendFeedbackView extends IView<SendFeedbackViewModel> {
+class SendFeedbackView extends LinearView<SendFeedbackViewModel> {
   const SendFeedbackView({
     super.key,
     required super.viewModel,

@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/service_provider/stores/presentation/create_store/
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CreateStoreView extends IView<CreateStoreViewModel> {
+class CreateStoreView extends LinearView<CreateStoreViewModel> {
   const CreateStoreView({
     super.key,
     required super.viewModel,

@@ -14,7 +14,7 @@ import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
 import 'package:flutter/material.dart';
 
-class GroupView extends IView<GroupViewModel> {
+class GroupView extends LinearView<GroupViewModel> {
   const GroupView({
     super.key,
     required super.viewModel,

@@ -16,10 +16,11 @@ class NavigationGuard extends ApplicationNavigation {
   });
 
   @override
-  GoRoute build(AppRoute? parentRoute) {
+  RouteBase build(AppRoute? parentRoute) {
     route.parent = parentRoute;
 
     return GoRoute(
+      parentNavigatorKey: AppRoute.root.key,
       path: route.path,
       builder: view != null
           ? (context, state) => view!(context, state)

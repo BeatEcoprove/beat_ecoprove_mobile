@@ -1,7 +1,7 @@
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
@@ -15,7 +15,7 @@ import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_p
 import 'package:flutter/material.dart';
 
 class GroupChatMembersView
-    extends ArgumentedView<GroupChatMembersViewModel, GroupChatParams> {
+    extends ArgumentView<GroupChatMembersViewModel, GroupChatParams> {
   const GroupChatMembersView({
     super.key,
     required super.viewModel,

@@ -15,7 +15,7 @@ import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class RegisterClothView extends IView<RegisterClothViewModel> {
+class RegisterClothView extends LinearView<RegisterClothViewModel> {
   final double firstSectionHeightPercent = 65;
 
   const RegisterClothView({

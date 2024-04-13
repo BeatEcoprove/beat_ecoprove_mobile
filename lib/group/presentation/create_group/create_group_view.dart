@@ -11,7 +11,7 @@ import 'package:beat_ecoprove/group/presentation/create_group/create_group_view_
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CreateGroupView extends IView<CreateGroupViewModel> {
+class CreateGroupView extends LinearView<CreateGroupViewModel> {
   const CreateGroupView({
     super.key,
     required super.viewModel,

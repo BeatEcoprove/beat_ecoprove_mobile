@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/client/profile/presentation/settings/settings_view_model.dart';
 import 'package:flutter/material.dart';
 
-class SettingsView extends IView<SettingsViewModel> {
+class SettingsView extends LinearView<SettingsViewModel> {
   const SettingsView({
     super.key,
     required super.viewModel,

@@ -109,5 +109,19 @@
   "auth_zip_code_must_7_numbers": "O código postal deve ter 7 números",
   "@auth_zip_code_must_7_numbers": {},
   "auth_username_insert_it": "Por favor introduza um nome de utilizador",
-  "@auth_username_insert_it": {}
+  "@auth_username_insert_it": {},
+  "client_register_cloth_created": "Peça criada!",
+  "@client_register_cloth_created": {},
+  "client_register_register_cloth": "Registar Peça",
+  "@client_register_register_cloth": {},
+  "client_register_imagem": "Imagem",
+  "@client_register_imagem": {},
+  "client_register_name": "Nome",
+  "@client_register_name": {},
+  "client_register_color": "Cor",
+  "@client_register_color": {},
+  "client_register_register": "Registar",
+  "@client_register_register": {},
+  "client_register_qr_code": "QR Code",
+  "@client_register_qr_code": {}
 }

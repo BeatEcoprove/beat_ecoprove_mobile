@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
@@ -163,7 +164,7 @@ class RegisterClothViewModel extends FormViewModel {
       ));
 
       _notificationProvider.showNotification(
-        "Peça criada!",
+        LocaleContext.get().client_register_cloth_created,
         type: NotificationTypes.success,
       );
     } on HttpBadRequestError catch (e) {

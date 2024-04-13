@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_t
 import 'package:beat_ecoprove/client/register_cloth/presentation/register_cloth_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
@@ -28,7 +29,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
-          title: "Registar Peça",
+          title: LocaleContext.get().client_register_register_cloth,
           sustainablePoints: viewModel.user.sustainablePoints,
           hasSustainablePoints: false),
       body: Column(
@@ -76,8 +77,8 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Imagem",
+                Text(
+                  LocaleContext.get().client_register_imagem,
                   style: AppText.subHeader,
                 ),
                 const SizedBox(
@@ -95,7 +96,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
               height: textBoxGap,
             ),
             DefaultFormattedTextField(
-              hintText: "Nome",
+              hintText: LocaleContext.get().client_register_name,
               inputFormatter: [
                 LengthLimitingTextInputFormatter(18),
               ],
@@ -141,8 +142,8 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Cor",
+                Text(
+                  LocaleContext.get().client_register_color,
                   style: AppText.subHeader,
                 ),
                 const SizedBox(
@@ -192,7 +193,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
               height: textBoxGap,
             ),
             FormattedButton(
-              content: "Registar",
+              content: LocaleContext.get().client_register_register,
               textColor: Colors.white,
               disabled: viewModel.thereAreErrors,
               onPress: () async => await viewModel.registerCloth(),

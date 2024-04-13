@@ -57,6 +57,7 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
                   DefaultFormattedTextField(
                     hintText: LocaleContext.get().auth_enterprise_street,
                     onChange: (street) => viewModel.setStreet(street),
+                    keyboardType: TextInputType.number,
                     initialValue:
                         viewModel.getValue(FormFieldValues.street).value,
                     errorMessage:
@@ -77,6 +78,7 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
                             LengthLimitingTextInputFormatter(7),
                             PostalCodeFormatter(),
                           ],
+                          keyboardType: TextInputType.number,
                           initialValue:
                               viewModel.getDefault(FormFieldValues.postalCode),
                           onChange: (postalCode) =>
@@ -92,6 +94,11 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
                           hintText: LocaleContext.get().auth_enterprise_port,
                           initialValue:
                               viewModel.getDefault(FormFieldValues.port),
+                          inputFormatter: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(5),
+                          ],
+                          keyboardType: TextInputType.number,
                           onChange: (port) => viewModel.setPort(port),
                           errorMessage:
                               viewModel.getValue(FormFieldValues.port).error,

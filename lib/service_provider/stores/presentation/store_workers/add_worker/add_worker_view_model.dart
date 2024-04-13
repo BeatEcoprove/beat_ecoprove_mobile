@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 
 class AddWorkerViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final INavigationManager _navigationRouter;
 
   final List<String> _types = ["Regular", "Gerente"];

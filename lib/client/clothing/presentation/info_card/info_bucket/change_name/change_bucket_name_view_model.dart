@@ -10,7 +10,7 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 
 class ChangeBucketNameViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final ChangeBucketNameUseCase _changeBucketNameUseCase;
   final INavigationManager _navigationRouter;
 

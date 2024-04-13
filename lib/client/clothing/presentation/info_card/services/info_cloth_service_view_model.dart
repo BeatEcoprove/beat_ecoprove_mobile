@@ -25,7 +25,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
     implements Clone {
   final IBucketInfoManager bucketInfoManager;
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final INavigationManager _navigationManager;
   final RegisterBucketUseCase _registerBucketUseCase;
   final AddClothsBucketUseCase _addClothsBucketUseCase;

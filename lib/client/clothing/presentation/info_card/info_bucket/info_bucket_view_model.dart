@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 
 class InfoBucketViewModel extends ViewModel implements Clone {
   final IBucketInfoManager<String> _bucketInfoManager;
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final INavigationManager _navigationRouter;

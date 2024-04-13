@@ -15,7 +15,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateGroupViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
 
   static const defaultImage = "assets/default_avatar.png";
   final RegisterGroupUseCase _registerGroupUseCase;

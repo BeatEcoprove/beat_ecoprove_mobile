@@ -20,7 +20,7 @@ import 'package:beat_ecoprove/client/profile/domain/use-cases/delete_profile_use
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 
 class ChangeProfileViewModel extends ViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final AuthenticationService _authService;
   final AuthenticationProvider _authProvider;
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;

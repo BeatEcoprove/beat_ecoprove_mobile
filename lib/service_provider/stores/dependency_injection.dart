@@ -41,7 +41,7 @@ extension StoresDependencyInjection on DependencyInjection {
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
     var router = locator<INavigationManager>();
-    var notificationProvider = locator<NotificationProvider>();
+    var notificationProvider = locator<INotificationProvider>();
     var registerStoreUseCase = locator<RegisterStoreUseCase>();
 
     locator.registerFactory(

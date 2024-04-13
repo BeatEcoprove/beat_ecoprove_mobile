@@ -36,7 +36,7 @@ import 'package:flutter/material.dart';
 class ClotingViewModel extends FormViewModel implements Clone {
   final AuthenticationProvider _authenticationProvider;
   final GetClosetUseCase _closetUseCase;
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
   final StaticValuesProvider _valuesProvider;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;

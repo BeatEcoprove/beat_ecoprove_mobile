@@ -7,7 +7,7 @@ import 'package:beat_ecoprove/group/contracts/accept_member_request.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 
 class InviteToGroupHandler extends Handler<WebsocketInviteToGroup> {
-  final NotificationProvider notificationProvider;
+  final INotificationProvider notificationProvider;
   final NotificationManager notificationManager;
   final GroupService groupService;
 

@@ -19,7 +19,7 @@ import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:flutter/material.dart';
 
 class GroupChatViewModel extends FormViewModel<GroupItem> {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final IWCNotifier _sessionWsNotifier;
   final GroupService _groupService;
 

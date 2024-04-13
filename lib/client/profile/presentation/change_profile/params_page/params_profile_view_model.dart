@@ -18,7 +18,7 @@ import 'package:beat_ecoprove/client/profile/domain/use-cases/promote_profile_us
 import 'package:beat_ecoprove/core/routes.dart';
 
 class ParamsProfileViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final AuthenticationService _authenticationService;
   final PromoteProfileUseCase _promoteProfileUseCase;

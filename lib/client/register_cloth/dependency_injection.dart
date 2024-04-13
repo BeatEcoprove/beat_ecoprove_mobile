@@ -20,7 +20,7 @@ extension RegisterClothInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
-    var notificationProvider = locator<NotificationProvider>();
+    var notificationProvider = locator<INotificationProvider>();
     var registerClothUseCase = locator<RegisterClothUseCase>();
     var nagivator = locator<INavigationManager>();
 

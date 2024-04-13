@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 class ApplicationRouter<TView extends LinearView> {
   static void loadContextEnviroment(BuildContext context) {
     var notificationProvider =
-        DependencyInjection.locator<NotificationProvider>();
+        DependencyInjection.locator<INotificationProvider>();
     notificationProvider.setContext(context);
     var leverUpProvider = DependencyInjection.locator<LevelUpProvider>();
     leverUpProvider.setContext(context);

@@ -19,7 +19,7 @@ import 'package:beat_ecoprove/group/services/group_service.dart';
 
 abstract class Notifier {
   final LevelUpProvider levelUpProvider;
-  final NotificationProvider notificationProvider;
+  final INotificationProvider notificationProvider;
   final NotificationManager notificationManager;
   final GroupManager groupManager;
   final GroupService groupService;

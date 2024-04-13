@@ -11,7 +11,7 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final ActionService _actionService;

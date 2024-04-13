@@ -58,7 +58,7 @@ extension AuthDependencyInjection on DependencyInjection {
         locator<LoginUseCase>(),
         locator<INavigationManager>(),
         authService,
-        locator<NotificationProvider>(),
+        locator<INotificationProvider>(),
       ),
     );
 
@@ -67,7 +67,7 @@ extension AuthDependencyInjection on DependencyInjection {
         locator<INavigationManager>(),
         singInPersonalUseCase,
         singInEnterpriseUseCase,
-        locator<NotificationProvider>(),
+        locator<INotificationProvider>(),
       ),
     );
 

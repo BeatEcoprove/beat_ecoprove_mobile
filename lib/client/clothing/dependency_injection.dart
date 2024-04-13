@@ -121,7 +121,7 @@ extension ClothingDependencyInjection on DependencyInjection {
   void _addViewModels(GetIt locator) {
     var bucketInfoManager = locator<IBucketInfoManager<String>>();
     var router = locator<INavigationManager>();
-    var notificationProvider = locator<NotificationProvider>();
+    var notificationProvider = locator<INotificationProvider>();
     var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
     var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
@@ -185,7 +185,7 @@ extension ClothingDependencyInjection on DependencyInjection {
       () => ClotingViewModel(
         locator<AuthenticationProvider>(),
         locator<GetClosetUseCase>(),
-        locator<NotificationProvider>(),
+        locator<INotificationProvider>(),
         locator<GetNestedProfilesUseCase>(),
         locator<StaticValuesProvider>(),
         locator<MarkClothAsDailyUseUseCase>(),

@@ -17,7 +17,7 @@ import 'package:beat_ecoprove/group/routes.dart';
 import 'package:flutter/material.dart';
 
 class GroupViewModel extends FormViewModel implements Clone {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final NotificationManager _notificationManager;
   final GetGroupsUseCase _getGroupsUseCase;

@@ -20,7 +20,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateProfileViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final AuthenticationService _authenticationService;
   static const defaultImage = "assets/default_avatar.png";
   final RegisterProfileUseCase _registerProfileUseCase;

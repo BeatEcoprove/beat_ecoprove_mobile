@@ -56,7 +56,7 @@ extension ProfileDependencyInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var authenticationService = locator<AuthenticationService>();
-    var notificationProvider = locator<NotificationProvider>();
+    var notificationProvider = locator<INotificationProvider>();
     var authProvider = locator<AuthenticationProvider>();
     var router = locator<INavigationManager>();
     var getNestedProfilesUseCase = locator<GetNestedProfilesUseCase>();

@@ -18,7 +18,7 @@ import 'package:beat_ecoprove/dependency_injection.dart';
 class LoginViewModel extends FormViewModel {
   final LoginUseCase _loginUseCase;
   final AuthenticationService _authenticationService;
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final INavigationManager _navigationRouter;
 
   LoginViewModel(
@@ -99,9 +99,6 @@ class LoginViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-
-      setError(FormFieldValues.email, e.toString());
-      setError(FormFieldValues.password, e.toString());
     }
 
     setLoading(false);

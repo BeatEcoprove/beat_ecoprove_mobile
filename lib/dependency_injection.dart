@@ -59,7 +59,7 @@ class DependencyInjection {
   }
 
   void registerProviders(GetIt locator) {
-    locator.registerSingleton(NotificationProvider());
+    locator.registerSingleton<INotificationProvider>(NotificationProvider());
     locator.registerSingleton(LevelUpProvider());
     locator.registerSingleton(NotificationManager());
     locator.registerSingleton(GroupManager());
@@ -80,7 +80,7 @@ class DependencyInjection {
       ws,
       locator<AuthenticationProvider>(),
       locator<LevelUpProvider>(),
-      locator<NotificationProvider>(),
+      locator<INotificationProvider>(),
       locator<NotificationManager>(),
       locator<GroupManager>(),
       locator<GroupService>(),

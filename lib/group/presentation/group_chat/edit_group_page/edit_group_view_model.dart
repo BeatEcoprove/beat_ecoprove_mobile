@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditGroupViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final UpdateGroupUseCase _updateGroupUseCase;
   final INavigationManager _navigationRouter;
   static const defaultImage = "assets/default_avatar.png";

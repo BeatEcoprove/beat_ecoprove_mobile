@@ -77,7 +77,7 @@ extension GroupDependencyInjection on DependencyInjection {
 
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
-    var notificationProvider = locator<NotificationProvider>();
+    var notificationProvider = locator<INotificationProvider>();
     var router = locator<INavigationManager>();
     var registerGroupUseCase = locator<RegisterGroupUseCase>();
     var updateGroupUseCase = locator<UpdateGroupUseCase>();

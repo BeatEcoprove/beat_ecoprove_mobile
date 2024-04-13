@@ -25,7 +25,7 @@ import 'package:beat_ecoprove/group/domain/value_objects/user_name.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 
 class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final GetDetailsUseCase _getDetailsUseCase;
   final LeaveGroupUseCase _leaveGroupUseCase;

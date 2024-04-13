@@ -10,7 +10,7 @@ import 'package:beat_ecoprove/client/profile/contracts/trade_points_request.dart
 import 'package:beat_ecoprove/client/profile/domain/use-cases/trade_points_use_case.dart';
 
 class TradePointsViewModel extends FormViewModel {
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final TradePointsUseCase _tradePointsUseCase;
   final INavigationManager _navigationRouter;

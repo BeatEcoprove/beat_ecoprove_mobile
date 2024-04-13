@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/core/errors/error_handler.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -29,7 +28,8 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) =>
-              DependencyInjection.locator<NotificationProvider>(),
+              DependencyInjection.locator<INotificationProvider>()
+                  as NotificationProvider,
         ),
         ChangeNotifierProvider(
           create: (context) =>
@@ -65,11 +65,6 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Lato'),
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
-      builder: (context, child) {
-        return ErrorHandler(
-          child: child!,
-        );
-      },
     );
   }
 }

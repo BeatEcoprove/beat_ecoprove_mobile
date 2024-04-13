@@ -19,7 +19,7 @@ class SignInViewModel extends ViewModel {
   final SignInPersonalUseCase _signInPersonalUseCase;
   final SignInEnterpriseUseCase _signInEnterpriseUseCase;
   final INavigationManager _navigationRouter;
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
 
   final Map<FormFieldValues, FormFieldModel> dataList = {};
 

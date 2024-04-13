@@ -2,49 +2,80 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/notification.dart';
 import 'package:flutter/material.dart';
 
-class NotificationProvider extends ViewModel {
+abstract class INotificationProvider {
+  setContext(BuildContext context);
+
+  void showNotification(
+    String message, {
+    NotificationTypes type = NotificationTypes.info,
+    Duration activeDuration = const Duration(seconds: 3),
+  });
+}
+
+class NotificationProvider extends ViewModel implements INotificationProvider {
   late BuildContext context;
 
+  @override
   setContext(BuildContext context) {
     this.context = context;
     notifyListeners();
   }
 
-  void showNotification(String message,
-      {NotificationTypes type = NotificationTypes.info}) {
+  @override
+  void showNotification(
+    String message, {
+    NotificationTypes type = NotificationTypes.info,
+    Duration activeDuration = const Duration(seconds: 3),
+  }) {
     final overlay = Overlay.of(context);
     final overlayKey = GlobalKey();
-    NotificationWidget notification;
+    const animationDelay = Duration(milliseconds: 250);
+
+    NotificationBanner notification;
 
     switch (type) {
       case NotificationTypes.info:
-        notification = NotificationWidget.info(
+        notification = NotificationBanner.info(
           key: overlayKey,
           message: message,
+          activeDuration: activeDuration,
+          animationDelay: animationDelay,
         );
+
         break;
       case NotificationTypes.error:
-        notification = NotificationWidget.error(
+        notification = NotificationBanner.error(
           key: overlayKey,
           message: message,
+          activeDuration: activeDuration,
+          animationDelay: animationDelay,
         );
+
         break;
       case NotificationTypes.warning:
-        notification = NotificationWidget.warning(
+        notification = NotificationBanner.warning(
           key: overlayKey,
           message: message,
+          activeDuration: activeDuration,
+          animationDelay: animationDelay,
         );
+
         break;
       case NotificationTypes.success:
-        notification = NotificationWidget.success(
+        notification = NotificationBanner.success(
           key: overlayKey,
           message: message,
+          activeDuration: activeDuration,
+          animationDelay: animationDelay,
         );
+
         break;
       default:
-        notification = NotificationWidget.info(
+        notification = NotificationBanner.info(
           key: overlayKey,
           message: message,
+          activeDuration: activeDuration,
+          animationDelay: animationDelay,
         );
     }
 
@@ -58,8 +89,8 @@ class NotificationProvider extends ViewModel {
     );
 
     overlay.insert(overlayEntry);
-
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(activeDuration + (animationDelay * 2) + Durations.short1,
+        () {
       overlayEntry.remove();
     });
   }

@@ -27,7 +27,7 @@ class RegisterClothViewModel extends FormViewModel {
 
   late final User _user;
   final AuthenticationProvider _authProvider;
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final INavigationManager _navigationRouter;
 
   late Map<String, dynamic> _selectedFilter = {};

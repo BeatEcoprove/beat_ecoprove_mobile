@@ -14,7 +14,7 @@ import 'package:beat_ecoprove/client/profile/domain/value_objects/feedback_name.
 class SendFeedbackViewModel extends FormViewModel {
   late final User _user;
   final AuthenticationProvider _authProvider;
-  final NotificationProvider _notificationProvider;
+  final INotificationProvider _notificationProvider;
   final SendFeedbackUseCase _sendFeedbackUseCase;
   final INavigationManager _navigationRouter;
 

@@ -17,6 +17,7 @@ import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
 
@@ -57,6 +58,7 @@ extension AuthDependencyInjection on DependencyInjection {
         locator<LoginUseCase>(),
         locator<INavigationManager>(),
         authService,
+        locator<NotificationProvider>(),
       ),
     );
 
@@ -65,6 +67,7 @@ extension AuthDependencyInjection on DependencyInjection {
         locator<INavigationManager>(),
         singInPersonalUseCase,
         singInEnterpriseUseCase,
+        locator<NotificationProvider>(),
       ),
     );
 

@@ -11,18 +11,21 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 
 class LoginViewModel extends FormViewModel {
   final LoginUseCase _loginUseCase;
   final AuthenticationService _authenticationService;
+  final NotificationProvider _notificationProvider;
   final INavigationManager _navigationRouter;
 
   LoginViewModel(
     this._loginUseCase,
     this._navigationRouter,
     this._authenticationService,
+    this._notificationProvider,
   ) {
     initializeFields([
       FormFieldValues.email,
@@ -92,7 +95,13 @@ class LoginViewModel extends FormViewModel {
 
       _navigationRouter.push(AppRoute.root);
     } catch (e) {
-      print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+
+      setError(FormFieldValues.email, e.toString());
+      setError(FormFieldValues.password, e.toString());
     }
 
     setLoading(false);

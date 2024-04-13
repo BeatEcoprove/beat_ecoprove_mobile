@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
+import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_in_controller.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
@@ -9,6 +10,8 @@ import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class FinalStageViewModel extends StageViewModel {
   final AuthenticationService _authenticationService;
+
+  late bool isLoading = false;
 
   FinalStageViewModel(super.signInViewModel, this._authenticationService) {
     initializeFields([
@@ -30,9 +33,8 @@ class FinalStageViewModel extends StageViewModel {
             FormFieldValues.email, "O e-mail já é utilizado por um utilizador");
         return;
       }
-    } on HttpError {
-      print("no connected to the server");
-    }
+      // ignore: empty_catches
+    } on HttpError {}
 
     try {
       setValue<String>(FormFieldValues.email, Email.create(email).toString());
@@ -65,9 +67,15 @@ class FinalStageViewModel extends StageViewModel {
     var password = getValue(FormFieldValues.password).value ?? "";
 
     if (password != confirmPassword) {
-      setError(FormFieldValues.password, "As palavras-chaves devem ser iguais");
-      setError(FormFieldValues.confirmPassword,
-          "As palavras-chaves devem ser iguais");
+      setError(
+        FormFieldValues.password,
+        "As palavras-chaves devem ser iguais",
+      );
+
+      setError(
+        FormFieldValues.confirmPassword,
+        "As palavras-chaves devem ser iguais",
+      );
     }
 
     try {
@@ -78,5 +86,15 @@ class FinalStageViewModel extends StageViewModel {
     } on DomainException catch (e) {
       setError(FormFieldValues.confirmPassword, e.message);
     }
+  }
+
+  Future handleSignIn(SignInController controller) async {
+    isLoading = true;
+    notifyListeners();
+
+    await controller.nextPage(fields);
+
+    isLoading = false;
+    notifyListeners();
   }
 }

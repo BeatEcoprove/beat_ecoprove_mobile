@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/persona
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in_strategy.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
@@ -18,12 +19,15 @@ class SignInViewModel extends ViewModel {
   final SignInPersonalUseCase _signInPersonalUseCase;
   final SignInEnterpriseUseCase _signInEnterpriseUseCase;
   final INavigationManager _navigationRouter;
+  final NotificationProvider _notificationProvider;
+
   final Map<FormFieldValues, FormFieldModel> dataList = {};
 
   SignInViewModel(
     this._navigationRouter,
     this._signInPersonalUseCase,
     this._signInEnterpriseUseCase,
+    this._notificationProvider,
   );
 
   void persist(Map<FormFieldValues, FormFieldModel> data) {
@@ -34,7 +38,7 @@ class SignInViewModel extends ViewModel {
     persist(data);
   }
 
-  void handleSignIn(SignUseroptions signType) async {
+  Future handleSignIn(SignUseroptions signType) async {
     SignInStratagy strategy;
 
     if (signType.label == SignUseroptions.personal.label) {
@@ -54,8 +58,10 @@ class SignInViewModel extends ViewModel {
             action: () => _navigationRouter.push(AppRoute.root),
           ));
     } catch (e) {
-      // TODO: Put some sort of way of telling the user that someting went wrong with he's register
-      return;
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
     }
   }
 }

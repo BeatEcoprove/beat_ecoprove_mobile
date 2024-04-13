@@ -56,8 +56,11 @@ class HttpClient {
       required BaseMultiPartRequest body,
       Map<String, String>? headers,
       int expectedCode = HttpStatusCodes.ok}) async {
-    var request =
-        http.MultipartRequest(method, Uri.parse("$_baseAddress/$path"));
+    var request = http.MultipartRequest(
+        method,
+        Uri.parse(
+          "$_baseAddress/$path",
+        ));
 
     if (headers != null) {
       request.headers.addAll(headers);

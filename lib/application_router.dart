@@ -4,15 +4,30 @@ import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/application_navigation.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_guard.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/routes.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ApplicationRouter<TView extends LinearView> {
+  static void loadContextEnviroment(BuildContext context) {
+    var notificationProvider =
+        DependencyInjection.locator<NotificationProvider>();
+    notificationProvider.setContext(context);
+    var leverUpProvider = DependencyInjection.locator<LevelUpProvider>();
+    leverUpProvider.setContext(context);
+  }
+
   final ApplicationNavigation router = NavigationGuard(
     route: AppRoute.root,
-    view: (context, state) => LinearView.of<TView>(),
+    view: (context, state) {
+      loadContextEnviroment(context);
+
+      return LinearView.of<TView>();
+    },
     routes: [],
     redirectPages: (context, state) {
       var authProvider = DependencyInjection.locator<AuthenticationProvider>();

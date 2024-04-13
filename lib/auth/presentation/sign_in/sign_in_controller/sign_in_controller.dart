@@ -40,14 +40,14 @@ class SignInController extends ViewModel {
     );
   }
 
-  void nextPage(Map<FormFieldValues, FormFieldModel> data) async {
+  Future nextPage(Map<FormFieldValues, FormFieldModel> data) async {
     signInViewModel.handleNext(data);
 
     if (_currentPage < sections.length - 1) {
       _currentPage++;
       await _animateToPage(_currentPage);
     } else {
-      signInViewModel.handleSignIn(_choosenType);
+      await signInViewModel.handleSignIn(_choosenType);
     }
 
     notifyListeners();

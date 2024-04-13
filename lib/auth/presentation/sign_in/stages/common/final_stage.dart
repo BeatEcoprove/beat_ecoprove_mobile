@@ -74,7 +74,8 @@ class FinalStage extends Stage<FinalStageViewModel> {
           content: "Concluir",
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
-          onPress: () => controller.nextPage(viewModel.fields),
+          loading: viewModel.isLoading,
+          onPress: () async => viewModel.handleSignIn(controller),
         )
       ],
     );

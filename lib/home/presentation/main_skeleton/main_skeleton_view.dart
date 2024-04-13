@@ -12,8 +12,6 @@ class MainSkeletonView extends LinearView<MainSkeletonViewModel> {
 
   @override
   Widget build(BuildContext context, MainSkeletonViewModel viewModel) {
-    viewModel.loadContextEnviroment(context);
-
     return SafeArea(
       child: Swiper(
         views: viewModel.getViews(),

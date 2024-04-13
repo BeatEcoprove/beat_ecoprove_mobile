@@ -141,8 +141,6 @@ class ClotingViewModel extends FormViewModel implements Clone {
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-
       _notificationProvider.showNotification(
         e.toString(),
         type: NotificationTypes.error,

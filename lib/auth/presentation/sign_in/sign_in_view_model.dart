@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
@@ -53,8 +54,8 @@ class SignInViewModel extends ViewModel {
 
       await _navigationRouter.pushAsync(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
-            text: "Conta criada com sucesso",
-            textButton: "Entrar",
+            text: LocaleContext.get().auth_sign_in_sucess,
+            textButton: LocaleContext.get().auth_sign_in_enter,
             action: () => _navigationRouter.push(AppRoute.root),
           ));
     } catch (e) {

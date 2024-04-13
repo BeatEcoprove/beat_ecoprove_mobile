@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_controller/sign_
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class FinalStageViewModel extends StageViewModel {
@@ -30,7 +31,10 @@ class FinalStageViewModel extends StageViewModel {
 
       if (!isValid) {
         setError(
-            FormFieldValues.email, "O e-mail já é utilizado por um utilizador");
+          FormFieldValues.email,
+          LocaleContext.get().auth_final_stage_email_already_used,
+        );
+
         return;
       }
       // ignore: empty_catches
@@ -47,9 +51,15 @@ class FinalStageViewModel extends StageViewModel {
     var confirmPassword = getValue(FormFieldValues.confirmPassword).value ?? "";
 
     if (password != confirmPassword) {
-      setError(FormFieldValues.password, "As palavras-chaves devem ser iguais");
-      setError(FormFieldValues.confirmPassword,
-          "As palavras-chaves devem ser iguais");
+      setError(
+        FormFieldValues.password,
+        LocaleContext.get().auth_final_stage_password_must_be_the_same,
+      );
+
+      setError(
+        FormFieldValues.confirmPassword,
+        LocaleContext.get().auth_final_stage_password_must_be_the_same,
+      );
     }
 
     try {
@@ -69,12 +79,12 @@ class FinalStageViewModel extends StageViewModel {
     if (password != confirmPassword) {
       setError(
         FormFieldValues.password,
-        "As palavras-chaves devem ser iguais",
+        LocaleContext.get().auth_final_stage_password_must_be_the_same,
       );
 
       setError(
         FormFieldValues.confirmPassword,
-        "As palavras-chaves devem ser iguais",
+        LocaleContext.get().auth_final_stage_password_must_be_the_same,
       );
     }
 

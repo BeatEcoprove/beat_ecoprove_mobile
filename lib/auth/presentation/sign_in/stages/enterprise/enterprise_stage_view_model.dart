@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/name.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class EnterpriseStageViewModel extends StageViewModel {
@@ -16,8 +17,8 @@ class EnterpriseStageViewModel extends StageViewModel {
     ]);
 
     _typeOptions.addAll([
-      "Lavandaria",
-      "Reparação",
+      LocaleContext.get().auth_enterprise_service_provider_laundry,
+      LocaleContext.get().auth_enterprise_service_provider_repair,
     ]);
 
     setValue(FormFieldValues.typeOption, _typeOptions.first);

@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -41,12 +42,14 @@ class AvatarStageViewModel extends StageViewModel {
           .validateFields(ValidateFieldRequest("username", userName));
 
       if (!isValid) {
-        setError(FormFieldValues.userName, "O nome de utilizador já existe");
+        setError(
+          FormFieldValues.userName,
+          LocaleContext.get().auth_avatar_user_already_exists,
+        );
+
         return;
       }
-    } on HttpError {
-      print("no conection to the server");
-    }
+    } on HttpError {}
 
     try {
       setValue<String>(

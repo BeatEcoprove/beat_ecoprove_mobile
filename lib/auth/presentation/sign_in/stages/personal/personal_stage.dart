@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/date_picker.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -26,8 +27,8 @@ class PersonalStage extends Stage<PersonalViewModel> {
       children: [
         Column(
           children: [
-            const Text(
-              "Informações Pessoais",
+            Text(
+              LocaleContext.get().auth_personal_info,
               style: AppText.header,
               textAlign: TextAlign.center,
             ),
@@ -36,7 +37,7 @@ class PersonalStage extends Stage<PersonalViewModel> {
               child: Column(
                 children: [
                   DefaultFormattedTextField(
-                    hintText: 'Nome',
+                    hintText: LocaleContext.get().auth_personal_name,
                     errorMessage:
                         viewModel.getValue(FormFieldValues.name).error,
                     onChange: (value) => viewModel.setName(value),
@@ -49,10 +50,10 @@ class PersonalStage extends Stage<PersonalViewModel> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Text(
-                        "Data de Nascimento",
+                      Text(
+                        LocaleContext.get().auth_personal_birth_date,
                         softWrap: true,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: AppText.title5,
                           color: AppColor.widgetSecondary,
                           fontWeight: FontWeight.bold,
@@ -98,7 +99,7 @@ class PersonalStage extends Stage<PersonalViewModel> {
                         ?.countryCode,
                     onChangeCountryCode: (countryCode, phone) =>
                         viewModel.setPhone(countryCode, phone),
-                    hintText: "Telemóvel",
+                    hintText: LocaleContext.get().auth_personal_phone,
                     keyboardType: TextInputType.number,
                     initialValue:
                         viewModel.getDefault<String>(FormFieldValues.phone),
@@ -111,7 +112,7 @@ class PersonalStage extends Stage<PersonalViewModel> {
           ],
         ),
         FormattedButton(
-          content: "Concluir",
+          content: LocaleContext.get().auth_personal_finish,
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => handleNext(),

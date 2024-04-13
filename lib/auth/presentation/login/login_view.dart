@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/presentation/login/login_view_model.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -42,7 +43,7 @@ class LoginView extends LinearView<LoginViewModel> {
                 Column(
                   children: [
                     DefaultFormattedTextField(
-                      hintText: "E-mail",
+                      hintText: LocaleContext.get().auth_login_email,
                       leftIcon: const Icon(
                         Icons.email_outlined,
                       ),
@@ -55,7 +56,7 @@ class LoginView extends LinearView<LoginViewModel> {
                     const SizedBox(height: 16),
                     DefaultFormattedTextField(
                       isPassword: true,
-                      hintText: "Palavra-chave",
+                      hintText: LocaleContext.get().auth_login_password,
                       leftIcon: const Icon(
                         Icons.lock_outline,
                         color: AppColor.widgetSecondary,
@@ -74,8 +75,8 @@ class LoginView extends LinearView<LoginViewModel> {
                         child: GestureDetector(
                           onTap: () async =>
                               await viewModel.handleForgotPassword(),
-                          child: const Text(
-                            "Esqueceu-se da Palavra-chave?",
+                          child: Text(
+                            LocaleContext.get().auth_login_forgot_password,
                             style: AppText.underlineStyle,
                           ),
                         ),
@@ -84,7 +85,7 @@ class LoginView extends LinearView<LoginViewModel> {
                   ],
                 ),
                 FormattedButton(
-                  content: "Entrar",
+                  content: LocaleContext.get().auth_login_sign_in,
                   textColor: Colors.white,
                   onPress: () async {
                     viewModel.handleLogin();
@@ -97,14 +98,15 @@ class LoginView extends LinearView<LoginViewModel> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Não tem Conta?", style: AppText.strongStyle),
+                      Text(LocaleContext.get().auth_login_got_no_account,
+                          style: AppText.strongStyle),
                       const SizedBox(
                         width: 8,
                       ),
                       GestureDetector(
                         onTap: () => viewModel.handleSignUp(),
-                        child: const Text(
-                          "Registar",
+                        child: Text(
+                          LocaleContext.get().auth_login_sign_up,
                           style: AppText.underlineStyle,
                         ),
                       )

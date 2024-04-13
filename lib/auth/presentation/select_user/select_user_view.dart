@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/presentation/select_user/select_user_view_mod
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/auth/widgets/scroll_handler.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/selector_button/selector_button.dart';
@@ -32,21 +33,24 @@ class SelectUserView extends LinearView<SelectUserViewModel> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // title
-              const Align(
+              Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Selecione o Tipo de Utilizador",
+                  LocaleContext.get().auth_select_user_type,
                   textAlign: TextAlign.center,
                   style: AppText.header,
                 ),
               ),
               SelectorButton(
-                selectors: const ["Pessoal", "Empresa"],
+                selectors: [
+                  LocaleContext.get().auth_select_user_personal_type,
+                  LocaleContext.get().auth_select_user_enterprise_type
+                ],
                 onIndexChanged: (selectedIndex) =>
                     viewModel.setSelectionIndex(selectedIndex),
               ),
               FormattedButton(
-                content: "Continuar",
+                content: LocaleContext.get().auth_select_user_finish,
                 textColor: Colors.white,
                 onPress: () {
                   viewModel.handleSignIn();

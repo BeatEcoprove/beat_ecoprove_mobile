@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/final_stage_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
@@ -22,8 +23,8 @@ class FinalStage extends Stage<FinalStageViewModel> {
       children: [
         Column(
           children: [
-            const Text(
-              "Conta",
+            Text(
+              LocaleContext.get().auth_final_stage_account,
               style: AppText.header,
             ),
             Padding(
@@ -31,7 +32,7 @@ class FinalStage extends Stage<FinalStageViewModel> {
               child: Column(
                 children: [
                   DefaultFormattedTextField(
-                    hintText: "E-mail",
+                    hintText: LocaleContext.get().auth_final_stage_email,
                     onChange: (email) => viewModel.setEmail(email),
                     initialValue:
                         viewModel.getValue(FormFieldValues.email).value,
@@ -42,7 +43,7 @@ class FinalStage extends Stage<FinalStageViewModel> {
                     height: textFieldsGap,
                   ),
                   DefaultFormattedTextField(
-                    hintText: "Palavra-chave",
+                    hintText: LocaleContext.get().auth_final_stage_password,
                     onChange: (password) => viewModel.setPassword(password),
                     initialValue:
                         viewModel.getValue(FormFieldValues.password).value,
@@ -54,7 +55,8 @@ class FinalStage extends Stage<FinalStageViewModel> {
                     height: textFieldsGap,
                   ),
                   DefaultFormattedTextField(
-                    hintText: "Confirmar palavra-chave",
+                    hintText:
+                        LocaleContext.get().auth_final_stage_confirm_password,
                     onChange: (confirmPassword) =>
                         viewModel.setConfirmPassword(confirmPassword),
                     initialValue: viewModel
@@ -71,7 +73,7 @@ class FinalStage extends Stage<FinalStageViewModel> {
           ],
         ),
         FormattedButton(
-          content: "Concluir",
+          content: LocaleContext.get().auth_final_stage_finish,
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           loading: viewModel.isLoading,

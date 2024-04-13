@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/name.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class PersonalViewModel extends StageViewModel {
@@ -45,7 +46,7 @@ class PersonalViewModel extends StageViewModel {
 
       if (spaceCount == 0 || spaceCount > 1) {
         throw DomainException(
-          "Insira o seu primeiro e segundo nome separado por um espaço.",
+          LocaleContext.get().auth_personal_insert_first_name_after_the_second,
         );
       }
 

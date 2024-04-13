@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterp
 import 'package:beat_ecoprove/core/formatters/postal_code_formatter.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
@@ -26,8 +27,8 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
       children: [
         Column(
           children: [
-            const Text(
-              "Morada",
+            Text(
+              LocaleContext.get().auth_enterprise_address,
               style: AppText.header,
               textAlign: TextAlign.center,
             ),
@@ -54,7 +55,7 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
                     height: _textBoxGap,
                   ),
                   DefaultFormattedTextField(
-                    hintText: "Rua",
+                    hintText: LocaleContext.get().auth_enterprise_street,
                     onChange: (street) => viewModel.setStreet(street),
                     initialValue:
                         viewModel.getValue(FormFieldValues.street).value,
@@ -69,7 +70,8 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
                     children: [
                       Expanded(
                         child: DefaultFormattedTextField(
-                          hintText: "Código Postal",
+                          hintText:
+                              LocaleContext.get().auth_enterprise_zip_code,
                           inputFormatter: [
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(7),
@@ -87,7 +89,7 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
                       const SizedBox(width: 24),
                       Expanded(
                         child: DefaultFormattedTextField(
-                          hintText: "Porta",
+                          hintText: LocaleContext.get().auth_enterprise_port,
                           initialValue:
                               viewModel.getDefault(FormFieldValues.port),
                           onChange: (port) => viewModel.setPort(port),
@@ -103,7 +105,7 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
           ],
         ),
         FormattedButton(
-          content: "Continuar",
+          content: LocaleContext.get().auth_personal_finish,
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => handleNext(),

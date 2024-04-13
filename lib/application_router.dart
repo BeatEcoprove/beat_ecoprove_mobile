@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/application_navigation.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_guard.dart';
@@ -24,6 +25,7 @@ class ApplicationRouter<TView extends LinearView> {
   final ApplicationNavigation router = NavigationGuard(
     route: AppRoute.root,
     view: (context, state) {
+      LocaleContext.setContext(context);
       loadContextEnviroment(context);
 
       return LinearView.of<TView>();

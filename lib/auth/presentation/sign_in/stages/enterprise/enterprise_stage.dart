@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterprise_stage_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
@@ -24,8 +25,8 @@ class EnterpriseStage extends Stage<EnterpriseStageViewModel> {
       children: [
         Column(
           children: [
-            const Text(
-              "Informações Do Prestador de Serviço",
+            Text(
+              LocaleContext.get().auth_enterprise_service_provider_info,
               style: AppText.header,
               textAlign: TextAlign.center,
             ),
@@ -34,7 +35,7 @@ class EnterpriseStage extends Stage<EnterpriseStageViewModel> {
               child: Column(
                 children: [
                   DefaultFormattedTextField(
-                    hintText: 'Nome',
+                    hintText: LocaleContext.get().auth_personal_name,
                     onChange: (value) => viewModel.setName(value),
                     initialValue:
                         viewModel.getValue(FormFieldValues.name).value,
@@ -69,7 +70,7 @@ class EnterpriseStage extends Stage<EnterpriseStageViewModel> {
                         ?.countryCode,
                     onChangeCountryCode: (countryCode, phone) =>
                         viewModel.setPhone(countryCode, phone),
-                    hintText: "Telemóvel",
+                    hintText: LocaleContext.get().auth_personal_phone,
                     keyboardType: TextInputType.number,
                     initialValue: viewModel.getDefault(FormFieldValues.phone),
                     errorMessage:
@@ -81,7 +82,7 @@ class EnterpriseStage extends Stage<EnterpriseStageViewModel> {
           ],
         ),
         FormattedButton(
-          content: "Continuar",
+          content: LocaleContext.get().auth_personal_finish,
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => handleNext(),

@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/postal_code.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class EnterpriseAddressStageViewModel extends StageViewModel {
@@ -45,8 +46,8 @@ class EnterpriseAddressStageViewModel extends StageViewModel {
 
   void setStreet(String street) {
     if (street.isEmpty) {
-      return setError(
-          FormFieldValues.street, "Por favor introduza a rua da sua sede");
+      return setError(FormFieldValues.street,
+          LocaleContext.get().auth_enterprise_insert_street);
     }
 
     setValue(FormFieldValues.street, street);
@@ -55,7 +56,9 @@ class EnterpriseAddressStageViewModel extends StageViewModel {
   void setPostalCode(String postalCode) {
     try {
       if (postalCode.isEmpty) {
-        throw DomainException("Introduza um codigo postal");
+        throw DomainException(
+          LocaleContext.get().auth_enterprise_insert_zip_code,
+        );
       }
 
       setValue(FormFieldValues.postalCode, PostalCode.create(postalCode));
@@ -67,14 +70,17 @@ class EnterpriseAddressStageViewModel extends StageViewModel {
   void setPort(String rawPort) {
     try {
       if (rawPort.isEmpty) {
-        throw DomainException("Introduza uma porta");
+        throw DomainException(LocaleContext.get().auth_enterprise_insert_port);
       }
 
       int port = int.parse(rawPort);
 
       setValue<int>(FormFieldValues.port, port);
     } catch (e) {
-      setError(FormFieldValues.port, "Introduza um porta válida");
+      setError(
+        FormFieldValues.port,
+        LocaleContext.get().auth_enterprise_insert_an_valid_port,
+      );
     }
   }
 }

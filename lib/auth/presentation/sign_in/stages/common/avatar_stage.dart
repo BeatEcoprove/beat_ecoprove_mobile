@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/common/avatar_stage_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -22,8 +23,8 @@ class AvatarStage extends Stage<AvatarStageViewModel> {
       children: [
         Column(
           children: [
-            const Text(
-              "Avatar",
+            Text(
+              LocaleContext.get().auth_avatar_avatar,
               style: AppText.header,
             ),
             Padding(
@@ -31,7 +32,7 @@ class AvatarStage extends Stage<AvatarStageViewModel> {
               child: Column(
                 children: [
                   DefaultFormattedTextField(
-                    hintText: "Nome de exibição",
+                    hintText: LocaleContext.get().auth_avatar_username,
                     inputFormatter: [
                       LengthLimitingTextInputFormatter(18),
                     ],
@@ -57,7 +58,7 @@ class AvatarStage extends Stage<AvatarStageViewModel> {
           ],
         ),
         FormattedButton(
-          content: "Continuar",
+          content: LocaleContext.get().auth_avatar_finish,
           textColor: Colors.white,
           disabled: viewModel.thereAreErrors,
           onPress: () => handleNext(),

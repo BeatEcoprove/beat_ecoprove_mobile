@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_check_box.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -67,16 +68,10 @@ class ResetPasswordView
                       ),
                       Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Checkbox(
-                              value: viewModel.isPassword,
-                              activeColor: AppColor.darkGreen,
-                              onChanged: (value) =>
-                                  viewModel.setPasswordVisibitlity(value),
-                            ),
-                            const Text("Mostrar palavra-chave"),
-                          ],
+                        child: FormattedCheckBox(
+                          value: viewModel.isPassword,
+                          onChanged: viewModel.setPasswordVisibitlity,
+                          title: "Mostrar palavra-chave",
                         ),
                       ),
                       const SizedBox(

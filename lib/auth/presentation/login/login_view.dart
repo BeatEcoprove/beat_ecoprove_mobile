@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
+import 'package:beat_ecoprove/core/widgets/formatted_check_box.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
@@ -70,16 +71,10 @@ class LoginView extends LinearView<LoginViewModel> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: viewModel.isPassword,
-                            activeColor: AppColor.darkGreen,
-                            onChanged: (value) =>
-                                viewModel.setPasswordVisibitlity(value),
-                          ),
-                          const Text("Mostrar palavra-chave"),
-                        ],
+                      child: FormattedCheckBox(
+                        value: viewModel.isPassword,
+                        onChanged: viewModel.setPasswordVisibitlity,
+                        title: "Mostrar palavra-chave",
                       ),
                     ),
                     Align(

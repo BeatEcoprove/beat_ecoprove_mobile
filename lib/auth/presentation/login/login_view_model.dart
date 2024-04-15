@@ -33,12 +33,16 @@ class LoginViewModel extends FormViewModel {
     ]);
   }
 
-  late bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
+  late bool isLoading = false;
+  late bool isPassword = false;
 
   void setLoading(bool value) {
-    _isLoading = value;
+    isLoading = value;
+    notifyListeners();
+  }
+
+  void setPasswordVisibitlity(bool? value) {
+    isPassword = value ?? value != null;
     notifyListeners();
   }
 

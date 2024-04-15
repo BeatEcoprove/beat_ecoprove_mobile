@@ -13,6 +13,7 @@ class FinalStageViewModel extends StageViewModel {
   final AuthenticationService _authenticationService;
 
   late bool isLoading = false;
+  late bool isPassword = false;
 
   FinalStageViewModel(super.signInViewModel, this._authenticationService) {
     initializeFields([
@@ -20,6 +21,11 @@ class FinalStageViewModel extends StageViewModel {
       FormFieldValues.password,
       FormFieldValues.confirmPassword
     ]);
+  }
+
+  void setPasswordVisibitlity(bool? value) {
+    isPassword = value ?? value != null;
+    notifyListeners();
   }
 
   Future<void> setEmail(String email) async {

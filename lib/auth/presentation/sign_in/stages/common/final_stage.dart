@@ -49,7 +49,7 @@ class FinalStage extends Stage<FinalStageViewModel> {
                         viewModel.getValue(FormFieldValues.password).value,
                     errorMessage:
                         viewModel.getValue(FormFieldValues.password).error,
-                    isPassword: true,
+                    isPassword: !viewModel.isPassword,
                   ),
                   const SizedBox(
                     height: textFieldsGap,
@@ -65,8 +65,22 @@ class FinalStage extends Stage<FinalStageViewModel> {
                     errorMessage: viewModel
                         .getValue(FormFieldValues.confirmPassword)
                         .error,
-                    isPassword: true,
+                    isPassword: !viewModel.isPassword,
                   ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: viewModel.isPassword,
+                    activeColor: AppColor.darkGreen,
+                    onChanged: (value) =>
+                        viewModel.setPasswordVisibitlity(value),
+                  ),
+                  const Text("Mostrar palavra-chave"),
                 ],
               ),
             ),

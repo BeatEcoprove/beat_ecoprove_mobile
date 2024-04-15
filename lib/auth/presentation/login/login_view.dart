@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LoginView extends LinearView<LoginViewModel> {
   static const double _topPadding = 172;
@@ -55,7 +56,7 @@ class LoginView extends LinearView<LoginViewModel> {
                     ),
                     const SizedBox(height: 16),
                     DefaultFormattedTextField(
-                      isPassword: true,
+                      isPassword: !viewModel.isPassword,
                       hintText: LocaleContext.get().auth_login_password,
                       leftIcon: const Icon(
                         Icons.lock_outline,
@@ -66,6 +67,20 @@ class LoginView extends LinearView<LoginViewModel> {
                       errorMessage:
                           viewModel.getValue(FormFieldValues.password).error,
                       onChange: (value) => viewModel.setPassword(value),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: viewModel.isPassword,
+                            activeColor: AppColor.darkGreen,
+                            onChanged: (value) =>
+                                viewModel.setPasswordVisibitlity(value),
+                          ),
+                          const Text("Mostrar palavra-chave"),
+                        ],
+                      ),
                     ),
                     Align(
                       alignment: Alignment.centerRight,

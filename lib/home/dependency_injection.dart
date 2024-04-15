@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service_proxy.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_view.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_view_model.dart';
@@ -31,7 +32,9 @@ extension HomeDependencyInjection on DependencyInjection {
     );
 
     locator.registerFactory(
-      () => MainSkeletonViewModel(),
+      () => MainSkeletonViewModel(
+        locator<StaticValuesProvider>(),
+      ),
     );
   }
 

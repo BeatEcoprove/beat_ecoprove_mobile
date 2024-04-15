@@ -84,15 +84,7 @@ class PersonalStage extends Stage<PersonalViewModel> {
                     height: _textBoxGap,
                   ),
                   PhoneFormattedTextField(
-                    countryCodes: const {
-                      "us": "+1",
-                      "pt": "+351",
-                      "br": "+55",
-                      "es": "+34",
-                      "fr": "+33",
-                      "it": "+32",
-                      "gb": "+31",
-                    },
+                    countryCodes: viewModel.countryCodes,
                     initialCountryCode: viewModel
                         .getValue(FormFieldValues.phone)
                         .value

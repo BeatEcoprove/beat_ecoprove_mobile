@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/stages/enterprise/enterp
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_stage.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/stages/personal/personal_view_model.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/stage.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 
@@ -28,7 +29,10 @@ class SignUseroptions {
         return [
           PersonalStage(
             controller: controller,
-            viewModel: PersonalViewModel(viewModel),
+            viewModel: PersonalViewModel(
+              viewModel,
+              DependencyInjection.locator<StaticValuesProvider>(),
+            ),
           ),
           AvatarStage(
             viewModel: AvatarStageViewModel(
@@ -50,6 +54,7 @@ class SignUseroptions {
           EnterpriseStage(
             viewModel: EnterpriseStageViewModel(
               viewModel,
+              DependencyInjection.locator<StaticValuesProvider>(),
             ),
             controller: controller,
           ),

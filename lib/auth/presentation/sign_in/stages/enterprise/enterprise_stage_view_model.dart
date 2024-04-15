@@ -4,12 +4,19 @@ import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class EnterpriseStageViewModel extends StageViewModel {
-  final List<String> _typeOptions = [];
+  final StaticValuesProvider _staticValuesProvider;
 
-  EnterpriseStageViewModel(super.signInViewModel) {
+  final List<String> _typeOptions = [];
+  late final Map<String, String> countryCodes;
+
+  EnterpriseStageViewModel(
+    super.signInViewModel,
+    this._staticValuesProvider,
+  ) {
     initializeFields([
       FormFieldValues.name,
       FormFieldValues.phone,
@@ -22,6 +29,7 @@ class EnterpriseStageViewModel extends StageViewModel {
     ]);
 
     setValue(FormFieldValues.typeOption, _typeOptions.first);
+    countryCodes = _staticValuesProvider.countryCodes;
   }
 
   List<String> get typeOptions => _typeOptions;

@@ -5,10 +5,18 @@ import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class PersonalViewModel extends StageViewModel {
-  PersonalViewModel(super.signInViewModel) {
+  final StaticValuesProvider _staticValuesProvider;
+
+  late final Map<String, String> countryCodes;
+
+  PersonalViewModel(
+    super.signInViewModel,
+    this._staticValuesProvider,
+  ) {
     initializeFields([
       FormFieldValues.name,
       FormFieldValues.bornDate,
@@ -22,6 +30,7 @@ class PersonalViewModel extends StageViewModel {
     );
 
     setValue(FormFieldValues.bornDate, DateTime.now());
+    countryCodes = _staticValuesProvider.countryCodes;
   }
 
   @override

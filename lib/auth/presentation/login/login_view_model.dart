@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/contracts/forgotpassword_request.dart';
 import 'package:beat_ecoprove/auth/contracts/login_request.dart';
+import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
@@ -8,7 +9,6 @@ import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -67,21 +67,42 @@ class LoginViewModel extends FormViewModel {
     var emailValue = email.value ?? "";
 
     if (email.error.isNotEmpty || emailValue.isEmpty) {
-      setError(FormFieldValues.email, email.error);
+      setError(FormFieldValues.email, "Por favor, introduza um email válido");
       notifyListeners();
       return;
     }
 
-    try {
-      await _authenticationService
-          .sendForgotPassword(ForgotPasswordRequest(emailValue));
+    var checkIfEmailExists = await _authenticationService
+        .validateFields(ValidateFieldRequest("email", emailValue));
 
-      await _navigationRouter.pushAsync(AuthRoutes.resetCode);
-    } on HttpInternalError catch (e) {
-      setError(FormFieldValues.email, e.getError().title);
-    } catch (e) {
-      return;
+    if (checkIfEmailExists) {
+      return _notificationProvider.showNotification(
+        "O utilizador com o email ${email.value} não existe",
+        type: NotificationTypes.error,
+      );
     }
+
+    _authenticationService
+        .sendForgotPassword(ForgotPasswordRequest(emailValue))
+        .catchError(
+      (e) {
+        _notificationProvider.showNotification(
+          e.toString(),
+          type: NotificationTypes.error,
+        );
+
+        _navigationRouter.pop();
+      },
+    );
+
+    _navigationRouter.pushAsync(
+      AuthRoutes.resetCode,
+    );
+
+    _notificationProvider.showNotification(
+      "O pedido foi enviado!",
+      type: NotificationTypes.success,
+    );
   }
 
   void handleSignUp() {

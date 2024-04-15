@@ -81,6 +81,7 @@ extension AuthDependencyInjection on DependencyInjection {
       () => ResetPasswordViewModel(
         locator<INavigationManager>(),
         authService,
+        locator<INotificationProvider>(),
       ),
     );
 

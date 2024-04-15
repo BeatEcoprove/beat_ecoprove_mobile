@@ -61,6 +61,7 @@ class SignUseroptions {
           EnterpriseAddressStage(
             viewModel: EnterpriseAddressStageViewModel(
               viewModel,
+              DependencyInjection.locator<StaticValuesProvider>(),
             ),
             controller: controller,
           ),

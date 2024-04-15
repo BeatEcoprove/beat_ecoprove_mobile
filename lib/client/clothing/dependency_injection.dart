@@ -32,6 +32,7 @@ import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/services/country_codes_service.dart';
+import 'package:beat_ecoprove/core/services/geo_api_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_brands_use_case.dart';
@@ -116,6 +117,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<GetColorsUseCase>(),
         locator<GetBrandsUseCase>(),
         locator<CountryCodesService>(),
+        locator<GeoApiService>(),
       ),
     );
   }
@@ -129,19 +131,6 @@ extension ClothingDependencyInjection on DependencyInjection {
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
     locator<GetBrandsUseCase>();
-
-    // locator.registerFactory(
-    //   () => InfoClothServiceViewModel(
-    //     bucketInfoManager,
-    //     notificationProvider,
-    //     router,
-    //     locator<ActionServiceProxy>(),
-    //     closetService,
-    //     getBucketsUseCase,
-    //     addClothBucketUseCase,
-    //     registerBucketUseCase,
-    //   ),
-    // );
 
     locator.registerFactory(
       () => InfoClothServiceViewModelAlt(

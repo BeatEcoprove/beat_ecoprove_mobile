@@ -2,7 +2,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:flutter/material.dart';
 
 class SelectorItem extends StatelessWidget {
-  static const double heigth = 46;
+  static const double heigth = 60;
   static const BoxConstraints selectorContrains = BoxConstraints(maxWidth: 400);
   static const double verticalPadding = 15;
   static const double horizontalPadding = 0;

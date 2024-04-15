@@ -16,6 +16,7 @@ import 'package:beat_ecoprove/core/providers/notifications/notification_manager.
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 import 'package:beat_ecoprove/core/services/country_codes_service.dart';
+import 'package:beat_ecoprove/core/services/geo_api_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
@@ -44,6 +45,7 @@ class DependencyInjection {
 
     var httpClient = locator<HttpClient>();
     locator.registerFactory(() => CountryCodesService());
+    locator.registerFactory(() => GeoApiService());
 
     var authService = locator.registerSingleton(
       AuthenticationService(httpClient),

@@ -2,24 +2,18 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/postal_code.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/stage_viewmodel.dart';
 
 class EnterpriseAddressStageViewModel extends StageViewModel {
-  final Map<String, List<String>> _countries = {
-    "Portugal": [
-      "Póvoa de Varzim",
-      "Vila do Conde",
-    ],
-    "Inglaterra": [
-      "Manchester",
-      "York",
-    ],
-    "França": [
-      "Paris",
-    ],
-  };
+  final StaticValuesProvider _staticValuesProvider;
 
-  EnterpriseAddressStageViewModel(super.signInViewModel) {
+  final Map<String, List<String>> _countries = {};
+
+  EnterpriseAddressStageViewModel(
+    super.signInViewModel,
+    this._staticValuesProvider,
+  ) {
     initializeFields([
       FormFieldValues.country,
       FormFieldValues.locality,
@@ -28,6 +22,7 @@ class EnterpriseAddressStageViewModel extends StageViewModel {
       FormFieldValues.postalCode,
     ]);
 
+    _countries.addAll(_staticValuesProvider.countryParishes);
     setValue(FormFieldValues.country, _countries.keys.first);
     setValue(FormFieldValues.locality, getLocalities().first);
   }

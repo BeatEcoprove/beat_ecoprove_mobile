@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -10,10 +11,13 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
+import 'package:beat_ecoprove/core/providers/notifications/types/invite_group_notification.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/group/contracts/accept_member_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
 import 'package:beat_ecoprove/group/routes.dart';
+import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:flutter/material.dart';
 
 class GroupViewModel extends FormViewModel implements Clone {
@@ -22,6 +26,8 @@ class GroupViewModel extends FormViewModel implements Clone {
   final NotificationManager _notificationManager;
   final GetGroupsUseCase _getGroupsUseCase;
   final INavigationManager _navigationRouter;
+  final ProfileService _profileService;
+  final GroupService _groupService;
 
   late final User _user;
   late bool isFetching = false;
@@ -37,6 +43,8 @@ class GroupViewModel extends FormViewModel implements Clone {
     this._getGroupsUseCase,
     this._navigationRouter,
     this._notificationManager,
+    this._profileService,
+    this._groupService,
   ) {
     initializeFields([
       FormFieldValues.search,
@@ -57,6 +65,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   @override
   void initSync() async {
     await refetch();
+    await getInviteNotifications();
   }
 
   Future refetch() async {
@@ -79,6 +88,87 @@ class GroupViewModel extends FormViewModel implements Clone {
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
     }
+  }
+
+  Future<void> getInviteNotifications() async {
+    try {
+      var result = await _profileService.getInvitesToGroups(
+        _handleAccept,
+        _handleDenied,
+      );
+
+      notifications.clear();
+      notifications.addAll(result);
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+
+    notifyListeners();
+  }
+
+  Future _handleAccept(InviteToGroupNotification notification) async {
+    try {
+      await _groupService.acceptMember(AcceptMemberOnGroupRequest(
+        notification.groupId,
+        notification.code,
+      ));
+
+      notifications.remove(notification);
+
+      _notificationProvider.showNotification(
+        "Entrou no grupo!",
+        type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+
+    await refetch();
+  }
+
+  Future _handleDenied(InviteToGroupNotification notification) async {
+    try {
+      //TODO: CREATE SERVICE
+
+      notifications.remove(notification);
+
+      _notificationProvider.showNotification(
+        "Cancelou o convite!",
+        type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print("$e");
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+
+    await refetch();
   }
 
   Future<void> getGroups(int limit, String? search) async {
@@ -154,19 +244,29 @@ class GroupViewModel extends FormViewModel implements Clone {
     );
   }
 
-  void gotToChatGroup(GroupItem item) => _navigationRouter.push(
-        GroupRoutes.chat,
-        extras: item,
-      );
+  Future gotToChatGroup(GroupItem item) async {
+    await _navigationRouter.pushAsync(
+      GroupRoutes.chat,
+      extras: item,
+    );
+    await refetch();
+  }
 
   @override
   clone() {
-    return GroupViewModel(
+    var clone = GroupViewModel(
       _notificationProvider,
       _authProvider,
       _getGroupsUseCase,
       _navigationRouter,
       _notificationManager,
+      _profileService,
+      _groupService,
     );
+
+    clone.publicGroups.addAll(publicGroups);
+    clone.privateGroups.addAll(privateGroups);
+
+    return clone;
   }
 }

@@ -9,11 +9,11 @@ class InviteGroupNotificationResult {
     this.code,
   );
 
-  factory InviteGroupNotificationResult.fromJson(Map<String, dynamic> json) {
+  factory InviteGroupNotificationResult.fromJson(Map<String, String> json) {
     return InviteGroupNotificationResult(
-      json['groupId'],
-      json['invitorId'],
-      json['code'],
+      json['groupId'] ?? "",
+      json['invitorId'] ?? "",
+      json['code'] ?? "",
     );
   }
 }

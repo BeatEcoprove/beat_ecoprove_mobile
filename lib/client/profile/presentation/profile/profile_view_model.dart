@@ -1,5 +1,4 @@
 import 'package:beat_ecoprove/client/profile/routes.dart';
-import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
@@ -8,41 +7,13 @@ import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/medal_item.dart';
 import 'package:beat_ecoprove/client/profile/domain/models/medal.dart';
-import 'package:flutter/material.dart';
 
 class ProfileViewModel extends ViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
 
-  final List<Medal> medals = [
-    Medal(
-      const Icon(
-        Icons.military_tech_rounded,
-        color: Colors.amber,
-        size: 54,
-      ),
-      "Campeão I",
-      "Ser o primeiro 1 vez no grupo de amigos",
-    ),
-    Medal(
-      const Icon(
-        Icons.military_tech_rounded,
-        color: Colors.blue,
-        size: 54,
-      ),
-      "Socializador I",
-      "Convidou 1 amigo",
-    ),
-    Medal(
-      const Icon(
-        Icons.military_tech_rounded,
-        color: AppColor.darkGreen,
-        size: 54,
-      ),
-      "Sustentável",
-      "Ter 5+ peças com eco-Score acima de 30",
-    )
-  ];
+//TODO: REMOVE AND CREATE A USE CASE AND A SERVICE TO GET USER MEDALS
+  final List<Medal> medals = [];
   late final User _user;
 
   ProfileViewModel(

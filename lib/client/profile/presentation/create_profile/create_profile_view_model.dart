@@ -134,7 +134,6 @@ class CreateProfileViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
     notifyListeners();

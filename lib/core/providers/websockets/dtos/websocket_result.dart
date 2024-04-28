@@ -11,4 +11,10 @@ class WebsocketResult {
         ownerId = json['Owner'],
         createdAt = DateTime.parse(json['CreatedAt']),
         deletedAt = DateTime.parse(json['DeletedAt']);
+
+  WebsocketResult.refactor({
+    this.type = WebsocketMessageType.inviteToGroup,
+    this.ownerId = '',
+  })  : createdAt = DateTime.now(),
+        deletedAt = DateTime.now();
 }

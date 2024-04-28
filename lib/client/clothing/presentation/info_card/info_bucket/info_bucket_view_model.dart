@@ -50,6 +50,11 @@ class InfoBucketViewModel extends ViewModel implements Clone {
           idBucket));
 
       card.child.removeWhere((element) => idCloth.contains(element.id));
+
+      _notificationProvider.showNotification(
+        "Peça/s removida/s com sucesso!",
+        type: NotificationTypes.success,
+      );
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -62,11 +67,6 @@ class InfoBucketViewModel extends ViewModel implements Clone {
         type: NotificationTypes.error,
       );
     }
-
-    _notificationProvider.showNotification(
-      "Peça/s removida/s com sucesso!",
-      type: NotificationTypes.success,
-    );
 
     notifyListeners();
   }
@@ -83,6 +83,11 @@ class InfoBucketViewModel extends ViewModel implements Clone {
           .forEach((element) {
         element.clothState = ClothStates.idle;
       });
+
+      _notificationProvider.showNotification(
+        "Estado da/s peça/s atualizado!",
+        type: NotificationTypes.success,
+      );
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -95,11 +100,6 @@ class InfoBucketViewModel extends ViewModel implements Clone {
         type: NotificationTypes.error,
       );
     }
-
-    _notificationProvider.showNotification(
-      "Estado da/s peça/s atualizado!",
-      type: NotificationTypes.success,
-    );
 
     notifyListeners();
   }

@@ -78,6 +78,11 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
   Future _markClothAsDailyUse(List<String> idsCloth) async {
     try {
       await _markClothAsDailyUseUseCase.handle(idsCloth);
+
+      _notificationProvider.showNotification(
+        "Estado da/s peça/s alterado!",
+        type: NotificationTypes.success,
+      );
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -89,18 +94,17 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
-
-    _notificationProvider.showNotification(
-      "Estado da/s peça/s alterado!",
-      type: NotificationTypes.success,
-    );
   }
 
   Future _unMarkClothAsDailyUse(List<String> idsCloth) async {
     try {
       await _unMarkClothAsDailyUseUseCase.handle(idsCloth);
+
+      _notificationProvider.showNotification(
+        "Estado da/s peça/s alterado!",
+        type: NotificationTypes.success,
+      );
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -112,13 +116,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
-
-    _notificationProvider.showNotification(
-      "Estado da/s peça/s alterado!",
-      type: NotificationTypes.success,
-    );
   }
 
   @override

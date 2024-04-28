@@ -280,8 +280,6 @@ class GroupChatMembersView
                 ),
               ),
             ),
-            //TODO: ADD LATER
-            //if (viewModel.isAdmin || viewModel.isCreator)
             if (viewModel.isMember)
               Positioned(
                 bottom: 36,

@@ -136,7 +136,6 @@ class ParamsProfileViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
   }
 }

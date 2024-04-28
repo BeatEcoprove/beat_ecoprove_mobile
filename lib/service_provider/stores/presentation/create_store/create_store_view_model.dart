@@ -100,6 +100,11 @@ class CreateStoreViewModel extends FormViewModel {
       ));
 
       _navigationRouter.pop();
+
+      _notificationProvider.showNotification(
+        "Loja criado com sucesso!",
+        type: NotificationTypes.success,
+      );
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -112,12 +117,6 @@ class CreateStoreViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
-
-    _notificationProvider.showNotification(
-      "Loja criado com sucesso!",
-      type: NotificationTypes.success,
-    );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header.dart/compact_list_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/compact_list_item_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 
 abstract class WorkerHeader extends CompactListItemHeader {

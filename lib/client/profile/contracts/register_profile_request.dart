@@ -22,7 +22,7 @@ class RegisterProfileRequest implements BaseMultiPartRequest {
   Map<String, dynamic> toMultiPart() {
     return {
       'name': profileName,
-      'bornDate': DateFormat('MM/dd/yyyy').format(profileBornDate),
+      'bornDate': DateFormat('yyyy-MM-dd').format(profileBornDate),
       'gender': profileGender.value,
       'avatar': profilePicture,
       'userName': profileUserName,

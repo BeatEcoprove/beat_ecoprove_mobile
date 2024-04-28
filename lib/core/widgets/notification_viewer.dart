@@ -1,11 +1,17 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/buttonItem.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
+import 'package:beat_ecoprove/core/providers/notifications/notification.dart';
+import 'package:beat_ecoprove/core/routes.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_buttons_footer/with_buttons_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/text_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
-import 'package:beat_ecoprove/core/providers/notifications/notification.dart'
-    as custom_notification;
+import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
-
-typedef CustomNotification = custom_notification.GroupNotification;
+import 'package:go_router/go_router.dart';
 
 class NotificationModal extends StatelessWidget {
   const NotificationModal({super.key});
@@ -17,7 +23,7 @@ class NotificationModal extends StatelessWidget {
 }
 
 class NotificationView extends StatefulWidget {
-  final List<CustomNotification> notifications;
+  final List<GroupNotification> notifications;
   final String notificationCount;
 
   NotificationView({super.key, required this.notifications})
@@ -28,45 +34,62 @@ class NotificationView extends StatefulWidget {
 }
 
 class _NotificationViewState extends State<NotificationView> {
-  // List<Widget> _renderCards(GoRouter goRouter, List<GroupItem> notifications) {
-  //   return notifications
-  //       .map(
-  //         (e) => Container(
-  //           margin: const EdgeInsets.symmetric(
-  //             vertical: 4,
-  //           ),
-  //           child: CompactListItem.withoutOptions(
-  //             widget: Container(),
-  //             title: e.name,
-  //             subTitle: "",
-  //           ),
-  //         ),
-  //       )
-  //       .toList();
-  // }
+  List<Widget> _renderCards(
+      GoRouter goRouter, List<GroupNotification> notifications) {
+    return notifications
+        .map(
+          (e) => Container(
+            margin: const EdgeInsets.symmetric(
+              vertical: 4,
+            ),
+            child: CompactListItemRoot(
+              items: [
+                TextHeader(title: e.title, subTitle: e.message),
+                WithButtonsFooter(options: [
+                  ButtonItem(
+                    icon: const Icon(
+                      Icons.check,
+                      color: AppColor.darkGreen,
+                    ),
+                    action: () async => await e.handleAccept(e),
+                  ),
+                  ButtonItem(
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: AppColor.endSession,
+                    ),
+                    action: () async => await e.handleDenied(e),
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        )
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final GoRouter goRouter = GoRouter.of(context);
+
     return Stack(
       children: [
         FloatingButton(
           onPressed: () {
-            // goRouter.push(
-            //   "/list_details",
-            //   extra: ListDetailsViewParams(
-            //       title: "Convites",
-            //       onSearch: (searchTerm) async {
-            //         // await viewModel.getGroups(100, searchTerm);
+            DependencyInjection.locator<INavigationManager>().push(
+              CoreRoutes.listDetails,
+              extras: ListDetailsViewParams(
+                title: "Convites",
+                onSearch: (searchTerm) async {
+                  // await viewModel.getGroups(100, searchTerm);
 
-            //         return _renderCards(
-            //           goRouter,
-            //           widget.notifications,
-            //         );
-            //       }),
-            // );
-            var notification = widget.notifications.first;
-            print(notification);
-            notification.handle(notification);
+                  return _renderCards(
+                    goRouter,
+                    widget.notifications,
+                  );
+                },
+              ),
+            );
           },
           color: AppColor.buttonBackground,
           dimension: 49,

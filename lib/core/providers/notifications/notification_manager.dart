@@ -4,6 +4,11 @@ import 'package:beat_ecoprove/core/view_model.dart';
 class NotificationManager extends ViewModel {
   final List<GroupNotification> notifications = [];
 
+  void addNotifications(List<GroupNotification> notification) {
+    notifications.addAll(notification);
+    notifyListeners();
+  }
+
   void addNotification(GroupNotification notification) {
     notifications.add(notification);
     notifyListeners();

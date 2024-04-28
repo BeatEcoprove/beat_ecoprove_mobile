@@ -96,6 +96,8 @@ extension GroupDependencyInjection on DependencyInjection {
         getGroupsUseCase,
         router,
         notificationManager,
+        locator<ProfileService>(),
+        locator<GroupService>(),
       ),
     );
 

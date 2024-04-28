@@ -281,7 +281,17 @@ class ProfileView extends LinearView<ProfileViewModel> {
             )
           ],
         ),
-        ...viewModel.medalItems,
+        if (viewModel.medalItems.isNotEmpty)
+          ...viewModel.medalItems
+        else
+          Container(
+            margin: const EdgeInsetsDirectional.all(16),
+            child: const Text(
+              "Não tem nenhuma medalha!",
+              textAlign: TextAlign.center,
+              style: AppText.subHeader,
+            ),
+          ),
       ],
     );
   }

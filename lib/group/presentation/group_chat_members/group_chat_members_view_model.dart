@@ -23,6 +23,7 @@ import 'package:beat_ecoprove/group/domain/use-cases/leave_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/promote_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/user_name.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
+import 'package:flutter/material.dart';
 
 class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final INotificationProvider _notificationProvider;
@@ -61,6 +62,10 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
 
   @override
   void initSync() async {
+    await refetch();
+  }
+
+  Future refetch() async {
     if (arg != null) {
       await getDetails(arg!.groupId);
     }
@@ -140,7 +145,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       );
     }
 
-    notifyListeners();
+    await refetch();
   }
 
   Future<void> promoteMember(String memberId, String groupId) async {
@@ -166,7 +171,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       );
     }
 
-    notifyListeners();
+    await refetch();
   }
 
   Future<void> despromoveMember(String memberId, String groupId) async {
@@ -192,7 +197,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       );
     }
 
-    notifyListeners();
+    await refetch();
   }
 
   Future<void> inviteToGroup(String groupId, String userId) async {
@@ -250,18 +255,21 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
 
           return profiles.profiles.map(
             (profile) {
-              return CompactListItemRoot(
-                click: () async =>
-                    await inviteToGroup(arg!.groupId, profile.id),
-                items: [
-                  ImageTitleSubtitleHeader(
-                    widget: PresentImage(
-                      path: ServerImage(profile.avatarUrl),
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 4),
+                child: CompactListItemRoot(
+                  click: () async =>
+                      await inviteToGroup(arg!.groupId, profile.id),
+                  items: [
+                    ImageTitleSubtitleHeader(
+                      widget: PresentImage(
+                        path: ServerImage(profile.avatarUrl),
+                      ),
+                      title: profile.username,
+                      subTitle: "Level ${profile.level.toString()}",
                     ),
-                    title: profile.username,
-                    subTitle: "Level ${profile.level.toString()}",
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ).toList();

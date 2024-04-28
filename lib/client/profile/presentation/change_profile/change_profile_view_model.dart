@@ -116,7 +116,6 @@ class ChangeProfileViewModel extends ViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
 
     notifyListeners();

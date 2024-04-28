@@ -30,6 +30,7 @@ import 'package:beat_ecoprove/client/profile/presentation/trade_points/trade_poi
 import 'package:beat_ecoprove/client/profile/services/exchange_service.dart';
 import 'package:beat_ecoprove/client/profile/services/feedback_service.dart';
 import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
+import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:get_it/get_it.dart';
 
 extension ProfileDependencyInjection on DependencyInjection {

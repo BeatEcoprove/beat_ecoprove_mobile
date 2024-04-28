@@ -1,6 +1,6 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
-import 'package:beat_ecoprove/group/contracts/invite_group_notification_result.dart';
+import 'package:beat_ecoprove/core/providers/notifications/types/invite_group_notification.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/contracts/promote_profile_request.dart';
@@ -9,7 +9,9 @@ import 'package:beat_ecoprove/client/profile/contracts/register_profile_request.
 class ProfileService {
   final HttpAuthClient _httpClient;
 
-  ProfileService(this._httpClient);
+  ProfileService(
+    this._httpClient,
+  );
 
   Future<NestedProfilesResult> getNestedProfiles() async {
     return NestedProfilesResult.fromJson(await _httpClient.makeRequestJson(
@@ -63,12 +65,37 @@ class ProfileService {
     ));
   }
 
-  Future<InviteGroupNotificationResult> getInvitesToGroups() async {
-    return InviteGroupNotificationResult.fromJson(
-        await _httpClient.makeRequestJson(
+  Future<List<InviteToGroupNotification>> getInvitesToGroups(
+    Future Function(InviteToGroupNotification) handleAcceptNotification,
+    Future Function(InviteToGroupNotification) handleDeniedNotification,
+  ) async {
+    var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path: "profiles/notifications",
       expectedCode: 200,
-    ));
+    );
+
+    var notifications = result.map((json) {
+      var {
+        "title": title,
+        "groupId": groupId,
+        "invitorId": senderId,
+        "code": code,
+      } = json;
+
+      return InviteToGroupNotification(
+        title,
+        title,
+        (notification) async => await handleAcceptNotification(
+            notification as InviteToGroupNotification),
+        (notification) async => await handleDeniedNotification(
+            notification as InviteToGroupNotification),
+        code,
+        groupId,
+        senderId,
+      );
+    }).toList();
+
+    return List<InviteToGroupNotification>.from(notifications);
   }
 }

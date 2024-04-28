@@ -84,6 +84,11 @@ class CreateGroupViewModel extends FormViewModel {
         getValue(FormFieldValues.groupPicture).value ?? "",
       ));
 
+      _notificationProvider.showNotification(
+        "Grupo criado com sucesso!",
+        type: NotificationTypes.success,
+      );
+
       _navigationRouter.pop();
     } on HttpBadRequestError catch (e) {
       _notificationProvider.showNotification(
@@ -97,12 +102,6 @@ class CreateGroupViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
-      return;
     }
-
-    _notificationProvider.showNotification(
-      "Grupo criado com sucesso!",
-      type: NotificationTypes.success,
-    );
   }
 }

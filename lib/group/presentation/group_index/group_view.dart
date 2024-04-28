@@ -132,25 +132,23 @@ class GroupView extends LinearView<GroupViewModel> {
             margin: const EdgeInsets.symmetric(
               vertical: 4,
             ),
-            child: InkWell(
-              onTap: () => viewModel.gotToChatGroup(e),
-              child: CompactListItemRoot(
-                items: [
-                  ImageTitleSubtitleHeader(
-                    isCircular: true,
-                    widget: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image(
-                        image: ServerImage(e.avatarPicture),
-                        fit: BoxFit.cover,
-                      ),
+            child: CompactListItemRoot(
+              click: () async => await viewModel.gotToChatGroup(e),
+              items: [
+                ImageTitleSubtitleHeader(
+                  isCircular: true,
+                  widget: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image(
+                      image: ServerImage(e.avatarPicture),
+                      fit: BoxFit.cover,
                     ),
-                    title: e.name,
-                    subTitle: "${e.membersCount} membros",
                   ),
-                  WithTextFooter(text: e.isPublic ? "Público" : "Privado"),
-                ],
-              ),
+                  title: e.name,
+                  subTitle: "${e.membersCount} membros",
+                ),
+                WithTextFooter(text: e.isPublic ? "Público" : "Privado"),
+              ],
             ),
           ),
         )

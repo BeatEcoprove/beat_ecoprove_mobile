@@ -5,6 +5,13 @@ class InviteToGroupNotification extends GroupNotification {
   final String groupId;
   final String invitorId;
 
-  InviteToGroupNotification(super.title, super.message, super.handle, this.code,
-      this.groupId, this.invitorId);
+  InviteToGroupNotification(
+    super.title,
+    super.message,
+    super.handleAccept,
+    super.handleDenied,
+    this.code,
+    this.groupId,
+    this.invitorId,
+  );
 }

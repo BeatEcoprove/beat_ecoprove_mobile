@@ -1,4 +1,3 @@
-
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
@@ -8,11 +7,12 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
-class OrdersViewModel extends FormViewModel {
+class OrdersViewModel extends FormViewModel implements Clone {
   final StaticValuesProvider _valuesProvider;
 
   final AuthenticationProvider _authProvider;
@@ -31,6 +31,7 @@ class OrdersViewModel extends FormViewModel {
     this._valuesProvider,
   ) {
     _user = _authProvider.appUser;
+
     initializeFields([
       FormFieldValues.search,
     ]);
@@ -144,5 +145,13 @@ class OrdersViewModel extends FormViewModel {
 
   Future<void> getOrders() async {
     return;
+  }
+
+  @override
+  OrdersViewModel clone() {
+    return OrdersViewModel(
+      _authProvider,
+      _valuesProvider,
+    );
   }
 }

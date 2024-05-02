@@ -6,10 +6,11 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
 import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 
-class StoreViewModel extends FormViewModel {
+class StoreViewModel extends FormViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
   late final User _user;
@@ -79,5 +80,13 @@ class StoreViewModel extends FormViewModel {
   void goToStore(StoreItem store) {
     _navigationRouter.push(AppRoute.from("/info/store/${store.id}"),
         extras: store);
+  }
+
+  @override
+  StoreViewModel clone() {
+    return StoreViewModel(
+      _authProvider,
+      _navigationRouter,
+    );
   }
 }

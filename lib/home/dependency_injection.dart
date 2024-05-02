@@ -10,6 +10,8 @@ import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view_model.dart';
 import 'package:beat_ecoprove/home/presentation/main_skeleton/main_skeleton_view.dart';
 import 'package:beat_ecoprove/home/presentation/main_skeleton/main_skeleton_view_model.dart';
+import 'package:beat_ecoprove/home/presentation/main_skeleton_service_provider/main_skeleton_service_provider_view.dart';
+import 'package:beat_ecoprove/home/presentation/main_skeleton_service_provider/main_skeleton_service_provider_view_model.dart';
 import 'package:beat_ecoprove/home/routes.dart';
 import 'package:get_it/get_it.dart';
 
@@ -36,6 +38,12 @@ extension HomeDependencyInjection on DependencyInjection {
         locator<StaticValuesProvider>(),
       ),
     );
+
+    locator.registerFactory(
+      () => MainSkeletonServiceProviderViewModel(
+        locator<StaticValuesProvider>(),
+      ),
+    );
   }
 
   void _addViews(GetIt locator) {
@@ -56,6 +64,12 @@ extension HomeDependencyInjection on DependencyInjection {
         viewModel: locator<MainSkeletonViewModel>(),
       ),
     );
+
+    locator.registerFactory(
+      () => MainSkeletonServiceProviderView(
+        viewModel: locator<MainSkeletonServiceProviderViewModel>(),
+      ),
+    );
   }
 
   void addHome(ApplicationRouter router) {
@@ -65,5 +79,6 @@ extension HomeDependencyInjection on DependencyInjection {
     _addViews(locator);
 
     router.addRoute(homeRoutes);
+    router.addRoute(serviceProviderRoutes);
   }
 }

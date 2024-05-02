@@ -46,6 +46,11 @@ class ApplicationRouter<TView extends LinearView> {
         return HomeRoutes.home;
       }
 
+      //TODO: IF SERVICE PROVIDER
+      // if (state.fullPath == AppRoute.root.navigationPath) {
+      //   return ServiceProviderRoutes.serviceProvider;
+      // }
+
       return null;
     },
   );

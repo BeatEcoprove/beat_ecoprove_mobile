@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
-class ServiceProviderProfileViewModel extends ViewModel {
+class ServiceProviderProfileViewModel extends ViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
 
@@ -21,5 +21,13 @@ class ServiceProviderProfileViewModel extends ViewModel {
 
   void settings() {
     _navigationRouter.push(ProfileRoutes.settings);
+  }
+
+  @override
+  ServiceProviderProfileViewModel clone() {
+    return ServiceProviderProfileViewModel(
+      _authProvider,
+      _navigationRouter,
+    );
   }
 }

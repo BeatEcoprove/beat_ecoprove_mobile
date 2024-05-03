@@ -60,10 +60,13 @@ class ListDetailsView
                           height: 26,
                         ),
                         FutureBuilder(
-                            future: args.onSearch(viewModel
-                                    .getValue(FormFieldValues.search)
-                                    .value ??
-                                ''),
+                            future: args.onSearch(
+                              viewModel
+                                      .getValue(FormFieldValues.search)
+                                      .value ??
+                                  '',
+                              viewModel,
+                            ),
                             builder: (context, snapshot) {
                               switch (snapshot.connectionState) {
                                 case ConnectionState.waiting:

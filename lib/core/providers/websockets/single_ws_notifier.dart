@@ -46,7 +46,7 @@ abstract class IWCNotifier extends Notifier {
         websocketNotifier.close();
 
         if (!isGraceFullExit) {
-          return await reconnect();
+          return -await reconnect();
         }
 
         isGraceFullExit = !isGraceFullExit;

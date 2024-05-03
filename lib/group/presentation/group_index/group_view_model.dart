@@ -183,7 +183,6 @@ class GroupViewModel extends FormViewModel implements Clone {
 
     try {
       isFetching = true;
-      notifyListeners();
 
       privateGroups.clear();
       publicGroups.clear();
@@ -221,7 +220,7 @@ class GroupViewModel extends FormViewModel implements Clone {
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Meus Grupos",
-        onSearch: (searchTerm) async {
+        onSearch: (searchTerm, vm) async {
           await getGroups(100, searchTerm);
 
           return func(privateGroups);
@@ -235,7 +234,7 @@ class GroupViewModel extends FormViewModel implements Clone {
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Grupos Globais",
-        onSearch: (searchTerm) async {
+        onSearch: (searchTerm, vm) async {
           await getGroups(100, searchTerm);
 
           return func(publicGroups);

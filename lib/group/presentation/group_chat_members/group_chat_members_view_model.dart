@@ -250,7 +250,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Convide um Utilizador",
-        onSearch: (searchTerm) async {
+        onSearch: (searchTerm, vm) async {
           var profiles = await _profileService.getAllProfiles();
 
           return profiles.profiles.map(

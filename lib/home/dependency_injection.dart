@@ -79,6 +79,5 @@ extension HomeDependencyInjection on DependencyInjection {
     _addViews(locator);
 
     router.addRoute(homeRoutes);
-    router.addRoute(serviceProviderRoutes);
   }
 }

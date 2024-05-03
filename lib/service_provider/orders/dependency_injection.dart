@@ -1,10 +1,8 @@
-import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view.dart';
 import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view_model.dart';
-import 'package:beat_ecoprove/service_provider/orders/routes.dart';
 import 'package:get_it/get_it.dart';
 
 extension OrdersDependencyInjection on DependencyInjection {
@@ -29,14 +27,12 @@ extension OrdersDependencyInjection on DependencyInjection {
     );
   }
 
-  void addOrders(ApplicationRouter router) {
+  void addOrders() {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
     _addViews(locator);
-
-    router.addRoute(orderRoutes);
   }
 }

@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
 import 'package:beat_ecoprove/core/providers/notifications/types/invite_group_notification.dart';
@@ -36,49 +35,13 @@ class InviteToGroupHandler extends Handler<WebsocketInviteToGroup> {
   }
 
   Future _handleAccept(InviteToGroupNotification notification) async {
-    try {
-      await groupService.acceptMember(
-          AcceptMemberOnGroupRequest(message.groupId, message.code));
-    } on HttpBadRequestError catch (e) {
-      notificationProvider.showNotification(
-        e.getError().title,
-        type: NotificationTypes.error,
-      );
-    } catch (e) {
-      print("$e");
-      notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
-    }
-
+    await groupService.acceptMember(
+        AcceptMemberOnGroupRequest(message.groupId, message.code));
     notificationManager.removeNotification(notification);
-    notificationProvider.showNotification(
-      "Entrou no grupo!",
-      type: NotificationTypes.success,
-    );
   }
 
   Future _handleDenied(InviteToGroupNotification notification) async {
-    try {
-      //TODO: CREATE SERVICE
-    } on HttpBadRequestError catch (e) {
-      notificationProvider.showNotification(
-        e.getError().title,
-        type: NotificationTypes.error,
-      );
-    } catch (e) {
-      print("$e");
-      notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
-    }
-
+    //TODO: CREATE SERVICE
     notificationManager.removeNotification(notification);
-    notificationProvider.showNotification(
-      "Cancelou o convite!",
-      type: NotificationTypes.success,
-    );
   }
 }

@@ -16,4 +16,8 @@ class ListDetailsViewModel extends FormViewModel {
       setError(FormFieldValues.search, e.message);
     }
   }
+
+  void refresh() {
+    notifyListeners();
+  }
 }

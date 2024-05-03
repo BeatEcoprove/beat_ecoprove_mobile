@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_view.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_view_model.dart';
@@ -17,7 +16,6 @@ import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_workers_view.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_workers_view_model.dart';
-import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 import 'package:beat_ecoprove/service_provider/stores/services/store_service.dart';
 import 'package:get_it/get_it.dart';
 
@@ -114,14 +112,12 @@ extension StoresDependencyInjection on DependencyInjection {
     );
   }
 
-  void addStore(ApplicationRouter router) {
+  void addStore() {
     GetIt locator = DependencyInjection.locator;
 
     _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
     _addViews(locator);
-
-    router.addRoute(storeRoute);
   }
 }

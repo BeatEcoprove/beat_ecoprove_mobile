@@ -47,7 +47,7 @@ class ProfileViewModel extends ViewModel implements Clone {
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Minhas Medalhas",
-        onSearch: (searchTerm) async {
+        onSearch: (searchTerm, vm) async {
           return medalItems
               .where((medal) =>
                   medal.title.toLowerCase().contains(searchTerm.toLowerCase()))

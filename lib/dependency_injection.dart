@@ -21,9 +21,7 @@ import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:beat_ecoprove/home/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/orders/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/profile/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/stores/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjection {
@@ -101,9 +99,7 @@ class DependencyInjection {
     addClient(applicationRouter);
     addGroup(applicationRouter);
     addHome(applicationRouter);
-    addStore(applicationRouter);
-    addServiceProviderProfile(applicationRouter);
-    addOrders(applicationRouter);
+    addServiceProvider(applicationRouter);
     addCore(applicationRouter);
 
     locator<AuthenticationProvider>().checkAuth();

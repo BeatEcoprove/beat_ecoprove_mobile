@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/buttonItem.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_buttons_footer/with_buttons_footer.dart';
@@ -35,7 +36,10 @@ class NotificationView extends StatefulWidget {
 
 class _NotificationViewState extends State<NotificationView> {
   List<Widget> _renderCards(
-      GoRouter goRouter, List<GroupNotification> notifications) {
+    GoRouter goRouter,
+    List<GroupNotification> notifications,
+    ListDetailsViewModel viewModel,
+  ) {
     return notifications
         .map(
           (e) => Container(
@@ -51,14 +55,23 @@ class _NotificationViewState extends State<NotificationView> {
                       Icons.check,
                       color: AppColor.darkGreen,
                     ),
-                    action: () async => await e.handleAccept(e),
+                    action: () async {
+                      await e.handleAccept(e);
+                      widget.notifications.remove(e);
+                      viewModel.refresh();
+                      print("Oi");
+                    },
                   ),
                   ButtonItem(
                     icon: const Icon(
                       Icons.close_rounded,
                       color: AppColor.endSession,
                     ),
-                    action: () async => await e.handleDenied(e),
+                    action: () async {
+                      await e.handleDenied(e);
+                      widget.notifications.remove(e);
+                      viewModel.refresh();
+                    },
                   ),
                 ]),
               ],
@@ -80,12 +93,11 @@ class _NotificationViewState extends State<NotificationView> {
               CoreRoutes.listDetails,
               extras: ListDetailsViewParams(
                 title: "Convites",
-                onSearch: (searchTerm) async {
-                  // await viewModel.getGroups(100, searchTerm);
-
+                onSearch: (searchTerm, vm) async {
                   return _renderCards(
                     goRouter,
                     widget.notifications,
+                    vm,
                   );
                 },
               ),

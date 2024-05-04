@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
@@ -33,6 +34,17 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   late final User _user;
 
   late final TextEditingController chatTextController;
+
+  final List<OptionItem> messageOptions = [
+    OptionItem(
+      name: "Denunciar Utilizador",
+      action: () => {},
+    ),
+    OptionItem(
+      name: "Denunciar Mensagem",
+      action: () => {},
+    ),
+  ];
 
   GroupChatViewModel(
     this._notificationProvider,
@@ -71,6 +83,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
         userIsSender: recentMessage.senderId == _user.id,
         avatarUrl: recentMessage.avatarPicture,
         createdAt: DateTime.now(),
+        options: messageOptions,
         items: [
           ChatMessageItem(
             userName: recentMessage.username,
@@ -104,6 +117,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
         userIsSender: message.senderId == _user.id,
         avatarUrl: message.avatarPicture,
         createdAt: message.createdAt,
+        options: messageOptions,
         items: [
           ChatMessageItem(
             userName: message.username,

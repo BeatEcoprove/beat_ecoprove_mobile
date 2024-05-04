@@ -1,6 +1,7 @@
 class ChatMessageResult {
   final String groupId;
   final String content;
+  final String senderId;
   final String username;
   final String avatarPicture;
   final DateTime createdAt;
@@ -8,6 +9,7 @@ class ChatMessageResult {
   ChatMessageResult(
     this.groupId,
     this.content,
+    this.senderId,
     this.username,
     this.avatarPicture,
     this.createdAt,
@@ -17,6 +19,7 @@ class ChatMessageResult {
     return ChatMessageResult(
       json['groupId'],
       json['content'],
+      json['sender']['id'],
       json['sender']['username'],
       json['sender']['avatarUrl'],
       DateTime.parse(json['createdAt']),

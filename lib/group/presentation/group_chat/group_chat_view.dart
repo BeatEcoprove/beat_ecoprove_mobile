@@ -49,9 +49,8 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
               child: SingleChildScrollView(
                 reverse: true,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: viewModel.messages,
-                ),
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: viewModel.messages),
               ),
             ),
           ),

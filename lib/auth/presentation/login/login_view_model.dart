@@ -14,12 +14,15 @@ import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:flutter/material.dart';
 
 class LoginViewModel extends FormViewModel {
   final LoginUseCase _loginUseCase;
   final AuthenticationService _authenticationService;
   final INotificationProvider _notificationProvider;
   final INavigationManager _navigationRouter;
+
+  late final TextEditingController passwordTextController;
 
   LoginViewModel(
     this._loginUseCase,
@@ -31,6 +34,10 @@ class LoginViewModel extends FormViewModel {
       FormFieldValues.email,
       FormFieldValues.password,
     ]);
+
+    passwordTextController = TextEditingController(
+      text: getValue(FormFieldValues.password).value ?? "",
+    );
   }
 
   late bool isLoading = false;
@@ -124,6 +131,9 @@ class LoginViewModel extends FormViewModel {
         e.toString(),
         type: NotificationTypes.error,
       );
+
+      setValue(FormFieldValues.password, "");
+      passwordTextController.clear();
     }
 
     setLoading(false);

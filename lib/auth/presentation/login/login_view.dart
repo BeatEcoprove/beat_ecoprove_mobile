@@ -10,7 +10,6 @@ import 'package:beat_ecoprove/core/widgets/formatted_check_box.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginView extends LinearView<LoginViewModel> {
   static const double _topPadding = 172;
@@ -63,6 +62,7 @@ class LoginView extends LinearView<LoginViewModel> {
                         Icons.lock_outline,
                         color: AppColor.widgetSecondary,
                       ),
+                      controller: viewModel.passwordTextController,
                       initialValue:
                           viewModel.getValue(FormFieldValues.password).value,
                       errorMessage:

@@ -118,7 +118,9 @@ class ChatItemRoot extends StatelessWidget {
       return InkWell(
         key: buttonKey,
         onTap: click,
-        onLongPress: options == null ? () => {} : () => _options(context),
+        onLongPress: options != null && options!.isNotEmpty
+            ? () => _options(context)
+            : () => {},
         child: body(context),
       );
     }

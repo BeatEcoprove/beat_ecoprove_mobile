@@ -16,6 +16,7 @@ class SendTextHandler extends Handler<WebsocketGroupMessage> {
     groupManager.pushMessage(GroupChatMessage(
       message.groupId,
       message.message,
+      message.ownerId,
       message.username,
       message.avatarPicture,
       message.type.toString(),

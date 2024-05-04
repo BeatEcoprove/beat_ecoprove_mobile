@@ -10,8 +10,8 @@ class WebsocketGroupMessage extends WebsocketResult {
   WebsocketGroupMessage(Map<String, dynamic> json)
       : groupId = json['Content']['Group'],
         message = json['Content']['Message'],
-        memberId = '', //json['Content']['Member']['Id']
-        username = '', //json['Content']['Member']['Username'],
-        avatarPicture = '', //json['Content']['Member']['AvatarPicture'],
+        memberId = json['Content']['Member']['Id'],
+        username = json['Content']['Member']['Username'],
+        avatarPicture = json['Content']['Member']['AvatarPicture'],
         super.fromJson(json);
 }

@@ -9,8 +9,8 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
-import 'package:beat_ecoprove/core/widgets/chat/chat_message.dart';
-import 'package:beat_ecoprove/core/widgets/chat/chat_message_text.dart';
+import 'package:beat_ecoprove/core/widgets/chat/chat_item_root.dart';
+import 'package:beat_ecoprove/core/widgets/chat/content/chat_message_item.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
@@ -27,7 +27,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   final GetDetailsUseCase _getDetailsUseCase;
   final INavigationManager _navigationRouter;
   final GroupManager _groupManager;
-  final List<ChatMessage> messages = [];
+  final List<ChatItemRoot> messages = [];
   late bool isLoading = false;
   late bool hasConnectionActive = false;
   late final User _user;
@@ -66,12 +66,20 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   void handleGroupMessage() {
     var recentMessage = _groupManager.getMessage();
 
-    addMessage(ChatMessageText(
-      userName: recentMessage.username,
-      avatarUrl: recentMessage.avatarPicture,
-      messageText: recentMessage.message,
-      createdAt: DateTime.now(),
-    ));
+    addMessage(
+      ChatItemRoot(
+        userIsSender: recentMessage.senderId == _user.id,
+        avatarUrl: recentMessage.avatarPicture,
+        createdAt: DateTime.now(),
+        items: [
+          ChatMessageItem(
+            userName: recentMessage.username,
+            messageText: recentMessage.message,
+            sendAt: DateTime.now(),
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -82,16 +90,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
 
   User get user => _user;
 
-  ChatMessageText createChatMessage(String content) {
-    return ChatMessageText(
-      userName: user.name,
-      avatarUrl: user.avatarUrl,
-      messageText: content,
-      createdAt: DateTime.now(),
-    );
-  }
-
-  void addMessage(ChatMessage message) {
+  void addMessage(ChatItemRoot message) {
     messages.add(message);
     notifyListeners();
   }
@@ -101,11 +100,17 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
 
     messages.clear();
     var mapMessages = fetchChatMessages.messages.map((message) {
-      return ChatMessageText(
-        userName: message.username,
+      return ChatItemRoot(
+        userIsSender: message.senderId == _user.id,
         avatarUrl: message.avatarPicture,
-        messageText: message.content,
         createdAt: message.createdAt,
+        items: [
+          ChatMessageItem(
+            userName: message.username,
+            messageText: message.content,
+            sendAt: message.createdAt,
+          )
+        ],
       );
     });
 

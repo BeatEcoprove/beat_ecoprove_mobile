@@ -12,10 +12,12 @@ class WithTextFooter extends IWithoutOptionsFooter {
 
   @override
   Widget build(BuildContext context) {
+    final double maxWidth = MediaQuery.of(context).size.width * (1 / 3) - 64;
+
     return Stack(
       children: [
         Container(
-          width: 60,
+          width: maxWidth,
         ),
         Positioned(
           bottom: 6,

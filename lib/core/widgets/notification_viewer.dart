@@ -85,49 +85,51 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     final GoRouter goRouter = GoRouter.of(context);
 
-    return Stack(
-      children: [
-        FloatingButton(
-          onPressed: () {
-            DependencyInjection.locator<INavigationManager>().push(
-              CoreRoutes.listDetails,
-              extras: ListDetailsViewParams(
-                title: "Convites",
-                onSearch: (searchTerm, vm) async {
-                  return _renderCards(
-                    goRouter,
-                    widget.notifications,
-                    vm,
-                  );
-                },
-              ),
-            );
-          },
-          color: AppColor.buttonBackground,
-          dimension: 49,
-          icon: const Icon(
-            size: 29,
-            Icons.notifications_none_rounded,
-            color: AppColor.widgetBackground,
+    return InkWell(
+      onTap: () {
+        DependencyInjection.locator<INavigationManager>().push(
+          CoreRoutes.listDetails,
+          extras: ListDetailsViewParams(
+            title: "Convites",
+            onSearch: (searchTerm, vm) async {
+              return _renderCards(
+                goRouter,
+                widget.notifications,
+                vm,
+              );
+            },
           ),
-        ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Circle(
-            height: 25,
-            isFull: true,
-            child: Text(
-              widget.notificationCount,
-              style: const TextStyle(
-                color: AppColor.widgetBackground,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+        );
+      },
+      child: Stack(
+        children: [
+          const FloatingButton(
+            color: AppColor.buttonBackground,
+            dimension: 49,
+            icon: Icon(
+              size: 29,
+              Icons.notifications_none_rounded,
+              color: AppColor.widgetBackground,
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Circle(
+              height: 25,
+              isFull: true,
+              child: Text(
+                widget.notificationCount,
+                style: const TextStyle(
+                  color: AppColor.widgetBackground,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

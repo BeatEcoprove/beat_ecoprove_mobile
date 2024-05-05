@@ -26,6 +26,9 @@ class ClothingView extends LinearView<ClotingViewModel> {
     return DefaultFormattedTextField(
       hintText: "Nome do cesto",
       onChange: (name) => viewModel.setName(name),
+      inputFormatter: [
+        LengthLimitingTextInputFormatter(50),
+      ],
       initialValue: viewModel.getValue(FormFieldValues.name).value,
       errorMessage: viewModel.getValue(FormFieldValues.name).error,
     );

@@ -20,6 +20,8 @@ class ImageTitleSubtitleHeader extends CompactListItemHeader {
 
   @override
   Widget build(BuildContext context) {
+    final double maxWidth = MediaQuery.of(context).size.width * (2 / 3) - 60;
+
     return Row(
       children: [
         IconButtonRectangular(
@@ -35,15 +37,21 @@ class ImageTitleSubtitleHeader extends CompactListItemHeader {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              title,
-              style: AppText.headerBlack,
-              overflow: TextOverflow.ellipsis,
+            SizedBox(
+              width: maxWidth,
+              child: Text(
+                title,
+                style: AppText.headerBlack,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            Text(
-              subTitle,
-              style: AppText.subHeader,
-              overflow: TextOverflow.ellipsis,
+            SizedBox(
+              width: maxWidth,
+              child: Text(
+                subTitle,
+                style: AppText.subHeader,
+                overflow: TextOverflow.ellipsis,
+              ),
             )
           ],
         ),

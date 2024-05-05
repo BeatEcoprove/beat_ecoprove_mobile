@@ -25,7 +25,8 @@ class ProfileHeader extends CompactListItemHeader {
   @override
   Widget build(BuildContext context) {
     const Radius borderRadius = Radius.circular(10);
-    double width = (MediaQuery.of(context).size.width);
+    double width = (MediaQuery.of(context).size.width) - 42;
+    double textWidth = MediaQuery.of(context).size.width / 2;
 
     return Row(
       children: [
@@ -65,10 +66,13 @@ class ProfileHeader extends CompactListItemHeader {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              title,
-              style: AppText.headerBlack,
-              overflow: TextOverflow.ellipsis,
+            SizedBox(
+              width: textWidth,
+              child: Text(
+                title,
+                style: AppText.headerBlack,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             Row(
               children: [

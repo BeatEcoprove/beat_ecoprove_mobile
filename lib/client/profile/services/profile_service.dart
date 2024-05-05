@@ -75,27 +75,32 @@ class ProfileService {
       expectedCode: 200,
     );
 
-    var notifications = result.map((json) {
-      var {
-        "title": title,
-        "groupId": groupId,
-        "invitorId": senderId,
-        "code": code,
-      } = json;
+    try {
+      var notifications = result.map((json) {
+        var {
+          "title": title,
+          "groupId": groupId,
+          "invitorId": senderId,
+          "code": code,
+        } = json;
 
-      return InviteToGroupNotification(
-        title,
-        title,
-        (notification) async => await handleAcceptNotification(
-            notification as InviteToGroupNotification),
-        (notification) async => await handleDeniedNotification(
-            notification as InviteToGroupNotification),
-        code,
-        groupId,
-        senderId,
-      );
-    }).toList();
+        return InviteToGroupNotification(
+          title,
+          title,
+          (notification) async => await handleAcceptNotification(
+              notification as InviteToGroupNotification),
+          (notification) async => await handleDeniedNotification(
+              notification as InviteToGroupNotification),
+          code,
+          groupId,
+          senderId,
+        );
+      }).toList();
 
-    return List<InviteToGroupNotification>.from(notifications);
+      return List<InviteToGroupNotification>.from(notifications);
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 }

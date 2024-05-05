@@ -98,7 +98,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
             DefaultFormattedTextField(
               hintText: LocaleContext.get().client_register_name,
               inputFormatter: [
-                LengthLimitingTextInputFormatter(18),
+                LengthLimitingTextInputFormatter(50),
               ],
               onChange: (clothName) async => viewModel.setClothName(clothName),
               initialValue: viewModel.getValue(FormFieldValues.clothName).value,

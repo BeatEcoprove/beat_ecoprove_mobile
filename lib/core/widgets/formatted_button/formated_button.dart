@@ -69,7 +69,7 @@ class _FormattedButtonState extends State<FormattedButton> {
                   ),
                 ),
               Text(
-                widget.loading ? "Loading" : widget.content,
+                widget.loading ? "Carregando" : widget.content,
                 style: TextStyle(
                   fontSize: AppText.title3,
                   color: widget.textColor,

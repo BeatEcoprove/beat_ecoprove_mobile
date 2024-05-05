@@ -66,6 +66,8 @@ class Modal {
                         titleModal,
                         style: AppText.titleToScrollSection,
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(
                         height: 8,

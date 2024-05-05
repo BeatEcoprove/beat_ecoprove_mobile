@@ -10,6 +10,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/client/profile/presentation/create_profile/create_profile_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CreateProfileView extends LinearView<CreateProfileViewModel> {
   const CreateProfileView({
@@ -20,6 +21,7 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
   @override
   Widget build(BuildContext context, CreateProfileViewModel viewModel) {
     double textBoxGap = 16;
+    double halfWidth = (MediaQuery.of(context).size.width / 2) - 50;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -44,6 +46,9 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                       children: [
                         DefaultFormattedTextField(
                           hintText: 'Nome',
+                          inputFormatter: [
+                            LengthLimitingTextInputFormatter(50),
+                          ],
                           errorMessage: viewModel
                               .getValue(FormFieldValues.profileName)
                               .error,
@@ -58,13 +63,17 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            const Text(
-                              "Data de Nascimento",
-                              softWrap: true,
-                              style: TextStyle(
-                                fontSize: AppText.title5,
-                                color: AppColor.widgetSecondary,
-                                fontWeight: FontWeight.bold,
+                            SizedBox(
+                              width: halfWidth,
+                              child: const Text(
+                                "Data de Nascimento",
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: AppText.title5,
+                                  color: AppColor.widgetSecondary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             DatePicker(
@@ -93,6 +102,9 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                         ),
                         DefaultFormattedTextField(
                           hintText: 'Nome de exibição',
+                          inputFormatter: [
+                            LengthLimitingTextInputFormatter(18),
+                          ],
                           errorMessage: viewModel
                               .getValue(FormFieldValues.profileUserName)
                               .error,

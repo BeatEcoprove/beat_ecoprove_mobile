@@ -10,6 +10,7 @@ import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/phone_formatted_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PersonalStage extends Stage<PersonalViewModel> {
   static const double _textBoxGap = 26;
@@ -38,6 +39,9 @@ class PersonalStage extends Stage<PersonalViewModel> {
                 children: [
                   DefaultFormattedTextField(
                     hintText: LocaleContext.get().auth_personal_name,
+                    inputFormatter: [
+                      LengthLimitingTextInputFormatter(50),
+                    ],
                     errorMessage:
                         viewModel.getValue(FormFieldValues.name).error,
                     onChange: (value) => viewModel.setName(value),

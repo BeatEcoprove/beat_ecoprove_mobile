@@ -66,12 +66,15 @@ class ProfileView extends LinearView<ProfileViewModel> {
     return Column(children: [
       Stack(children: [
         Center(
-          child: LevelProgress(
-            height: heightProfileImage,
-            percent: viewModel.user.levelPercent,
-            level: viewModel.user.level,
-            color: AppColor.primaryColor,
-            url: viewModel.user.avatarUrl,
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            child: LevelProgress(
+              height: heightProfileImage,
+              percent: viewModel.user.levelPercent,
+              level: viewModel.user.level,
+              color: AppColor.primaryColor,
+              url: viewModel.user.avatarUrl,
+            ),
           ),
         ),
         Positioned(

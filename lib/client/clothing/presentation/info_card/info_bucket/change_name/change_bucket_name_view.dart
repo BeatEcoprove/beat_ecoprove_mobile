@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ChangeBucketNameView
     extends ArgumentView<ChangeBucketNameViewModel, ChangeBucketNameParams> {
@@ -49,6 +50,9 @@ class ChangeBucketNameView
                           DefaultFormattedTextField(
                             hintText: "Nome do cesto",
                             onChange: (name) => viewModel.setName(name),
+                            inputFormatter: [
+                              LengthLimitingTextInputFormatter(50),
+                            ],
                             initialValue:
                                 viewModel.getValue(FormFieldValues.name).value,
                             errorMessage:

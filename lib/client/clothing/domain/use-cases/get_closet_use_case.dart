@@ -45,7 +45,9 @@ class GetClosetUseCase
         pageSize: request.pageSize,
       );
 
-      closetResult.buckets.add(outfitBucketResult);
+      if (outfitBucketResult.associatedCloth.isNotEmpty) {
+        closetResult.buckets.add(outfitBucketResult);
+      }
     } on HttpConflictRequestError catch (e) {
       print(e);
       throw Exception(e.getError().title);

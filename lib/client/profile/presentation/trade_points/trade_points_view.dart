@@ -142,6 +142,8 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
       children: [
         const Text(
           "Eco-Coins para Pontos Sustentáveis",
+          maxLines: 2,
+          textAlign: TextAlign.center,
           style: AppText.titleToScrollSection,
           overflow: TextOverflow.ellipsis,
         ),
@@ -226,6 +228,8 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
       children: [
         const Text(
           "Pontos Sustentáveis para Eco-Coins",
+          maxLines: 2,
+          textAlign: TextAlign.center,
           style: AppText.titleToScrollSection,
           overflow: TextOverflow.ellipsis,
         ),

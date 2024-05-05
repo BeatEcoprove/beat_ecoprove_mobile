@@ -30,6 +30,26 @@ dependencies:
   flutter_rating_bar: any
   flutter_localizations:
     sdk: flutter
+
+  flutter_native_splash: ^2.3.7
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_native_splash:
+  android: true
+  ios: true
+  image: assets/icon.png
+  color: "#72AA45"
+  android_12:
+    color: "#72AA45"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon.png"
+  adaptive_icon_background: "#72AA45"
+  adaptive_icon_foreground: "assets/icon.png"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -125,3 +145,4 @@ flutter:
     - assets/filter/time_asc.svg
     - assets/filter/time_desc.svg
     - assets/filter/settings.svg
+    - assets/icon.png

@@ -39,8 +39,11 @@ class _NotificationViewState extends State<NotificationView> {
     GoRouter goRouter,
     List<GroupNotification> notifications,
     ListDetailsViewModel viewModel,
+    String searchTerm,
   ) {
     return notifications
+        .where((invite) =>
+            invite.title.toLowerCase().contains(searchTerm.toLowerCase()))
         .map(
           (e) => Container(
             margin: const EdgeInsets.symmetric(
@@ -96,6 +99,7 @@ class _NotificationViewState extends State<NotificationView> {
                 goRouter,
                 widget.notifications,
                 vm,
+                searchTerm,
               );
             },
           ),

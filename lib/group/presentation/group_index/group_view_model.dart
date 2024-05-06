@@ -147,7 +147,10 @@ class GroupViewModel extends FormViewModel implements Clone {
 
   Future _handleDenied(InviteToGroupNotification notification) async {
     try {
-      //TODO: CREATE SERVICE
+      await _groupService.deniedMember(AcceptMemberOnGroupRequest(
+        notification.groupId,
+        notification.code,
+      ));
 
       notifications.remove(notification);
 

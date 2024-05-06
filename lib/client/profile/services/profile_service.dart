@@ -85,7 +85,7 @@ class ProfileService {
         } = json;
 
         return InviteToGroupNotification(
-          title,
+          '',
           title,
           (notification) async => await handleAcceptNotification(
               notification as InviteToGroupNotification),

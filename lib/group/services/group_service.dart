@@ -84,6 +84,15 @@ class GroupService {
     );
   }
 
+  Future deniedMember(AcceptMemberOnGroupRequest request) async {
+    await _httpClient.makeRequestJson(
+      method: HttpMethods.patch,
+      path: "groups/${request.groupId}/invite/${request.code}/decline",
+      body: request,
+      expectedCode: 200,
+    );
+  }
+
   Future inviteMember(InviteMemberRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,

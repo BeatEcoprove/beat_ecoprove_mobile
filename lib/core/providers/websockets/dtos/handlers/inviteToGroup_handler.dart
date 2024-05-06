@@ -22,7 +22,7 @@ class InviteToGroupHandler extends Handler<WebsocketInviteToGroup> {
   void handle() {
     notificationProvider.showNotification(message.message);
     notificationManager.addNotification(InviteToGroupNotification(
-      "Novo Convite para um Grupo",
+      '',
       message.message,
       (notification) async =>
           await _handleAccept(notification as InviteToGroupNotification),
@@ -41,7 +41,8 @@ class InviteToGroupHandler extends Handler<WebsocketInviteToGroup> {
   }
 
   Future _handleDenied(InviteToGroupNotification notification) async {
-    //TODO: CREATE SERVICE
+    await groupService.deniedMember(
+        AcceptMemberOnGroupRequest(message.groupId, message.code));
     notificationManager.removeNotification(notification);
   }
 }

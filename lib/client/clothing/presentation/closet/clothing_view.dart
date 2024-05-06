@@ -292,17 +292,17 @@ class ClothingView extends LinearView<ClotingViewModel> {
   SliverToBoxAdapter _buildClothsCardsSection(
       BuildContext context, ClotingViewModel viewModel) {
     return SliverToBoxAdapter(
-      child: viewModel.cloths.isNotEmpty
-          ? cardList(viewModel, context)
-          : Container(
-              margin: const EdgeInsets.only(top: 100),
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: AppColor.darkGreen,
+        child: viewModel.cloths.isNotEmpty
+            ? cardList(viewModel, context)
+            : Container(
+                margin: const EdgeInsets.symmetric(vertical: 36),
+                child: const Text(
+                  "Não existe nenhuma peça de roupa!",
+                  style: AppText.subHeader,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ),
-    );
+              ));
   }
 
   Padding cardList(ClotingViewModel viewModel, BuildContext context) {

@@ -12,7 +12,7 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends LinearView<LoginViewModel> {
-  static const double _topPadding = 172;
+  static const double _topPadding = 116;
   static const double _bottomPadding = 44;
   static const double _horizontalPadding = 38;
 
@@ -34,7 +34,7 @@ class LoginView extends LinearView<LoginViewModel> {
           rightPadding: _horizontalPadding,
           child: Form(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const SvgImage(
                   path: "assets/applicationTitle.svg",

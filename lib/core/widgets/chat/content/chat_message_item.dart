@@ -4,15 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ChatMessageItem extends ChatListItem {
-  final String userName;
-  final String messageText;
-  final DateTime sendAt;
-
   const ChatMessageItem({
     super.key,
-    required this.userName,
-    required this.messageText,
-    required this.sendAt,
+    required super.userName,
+    required super.messageText,
+    required super.sendAt,
   });
 
   @override

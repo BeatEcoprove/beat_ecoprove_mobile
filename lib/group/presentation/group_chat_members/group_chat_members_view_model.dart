@@ -253,10 +253,16 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
         onSearch: (searchTerm, vm) async {
           var profiles = await _profileService.getAllProfiles();
 
-          return profiles.profiles.map(
+          return profiles.profiles
+              .where((element) => !_groupDetailsResult.members
+                  .any((member) => member.id == element.id))
+              .where((profile) => profile.username
+                  .toLowerCase()
+                  .contains(searchTerm.toLowerCase()))
+              .map(
             (profile) {
               return Container(
-                margin: EdgeInsets.symmetric(vertical: 4),
+                margin: const EdgeInsets.symmetric(vertical: 4),
                 child: CompactListItemRoot(
                   click: () async =>
                       await inviteToGroup(arg!.groupId, profile.id),

@@ -12,16 +12,14 @@ class MainSkeletonView extends LinearView<MainSkeletonViewModel> {
 
   @override
   Widget build(BuildContext context, MainSkeletonViewModel viewModel) {
-    return SafeArea(
-      child: Swiper(
-        views: viewModel.getViews(),
-        bottomNavigationBarOptions: const [
-          Icon(Icons.home_rounded),
-          SvgImage(path: "assets/shirt.svg"),
-          Icon(Icons.public_rounded),
-          Icon(Icons.person),
-        ],
-      ),
+    return Swiper(
+      views: viewModel.getViews(),
+      bottomNavigationBarOptions: const [
+        Icon(Icons.home_rounded),
+        SvgImage(path: "assets/shirt.svg"),
+        Icon(Icons.public_rounded),
+        Icon(Icons.person),
+      ],
     );
   }
 }

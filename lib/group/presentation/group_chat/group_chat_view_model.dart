@@ -9,6 +9,8 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dar
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/groups/group_borrowchat_message.dart';
+import 'package:beat_ecoprove/core/providers/groups/group_chat_message.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
@@ -90,21 +92,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   void handleGroupMessage() {
     var recentMessage = _groupManager.getMessage();
 
-    addMessage(
-      ChatItemRoot(
-        userIsSender: recentMessage.senderId == _user.id,
-        avatarUrl: recentMessage.avatarPicture,
-        createdAt: DateTime.now(),
-        options: messageOptions,
-        items: [
-          ChatMessageItem(
-            userName: recentMessage.username,
-            messageText: recentMessage.message,
-            sendAt: DateTime.now(),
-          )
-        ],
-      ),
-    );
+    addMessage(_messageBody(recentMessage));
   }
 
   @override
@@ -120,67 +108,73 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     notifyListeners();
   }
 
+  ChatItemRoot _messageBody(dynamic message) {
+    switch (message.runtimeType) {
+      case GroupChatMessage:
+      case ChatMessageResult:
+        return ChatItemRoot(
+          userIsSender: message.senderId == _user.id,
+          avatarUrl: message.avatarPicture,
+          createdAt: message.createdAt,
+          options: messageOptions,
+          items: [
+            ChatMessageItem(
+              userName: message.username,
+              messageText: message.content,
+              sendAt: message.createdAt,
+            )
+          ],
+        );
+
+      case GroupBorrowChatMessage:
+      case ChatBorrowResult:
+        return ChatItemRoot(
+          userIsSender: message.senderId == _user.id,
+          avatarUrl: message.avatarPicture,
+          createdAt: message.createdAt,
+          options: messageOptions,
+          items: [
+            ChatTradeItem(
+              userName: message.username,
+              messageText: message.content,
+              sendAt: message.createdAt,
+              clothImage: message.clothAvatar,
+              clothName: message.clothTitle,
+              clothBrand: message.clothBrand,
+              clothColor: message.clothColor,
+              clothSize: message.clothSize,
+              clothEcoScore: message.clothEcoScore,
+              //TODO: isBlocked: message.isBlocked,
+              isBlocked: false,
+            ),
+          ],
+          //TODO: SEND REQUEST TO THE TRADE
+          click: () async => await {},
+        );
+      default:
+        return ChatItemRoot(
+          userIsSender: message.senderId == _user.id,
+          avatarUrl: message.avatarPicture,
+          createdAt: message.createdAt,
+          options: messageOptions,
+          items: [
+            ChatMessageItem(
+              userName: message.username,
+              messageText: message.content,
+              sendAt: message.createdAt,
+            )
+          ],
+        );
+    }
+  }
+
   Future initGroupConnection(String groupId) async {
     var fetchChatMessages = await _groupService.getMessages(groupId);
 
     messages.clear();
     var mapMessages = fetchChatMessages.messages.map(
       (message) {
-        switch (message.runtimeType) {
-          case ChatMessageResult:
-            return ChatItemRoot(
-              userIsSender: message.senderId == _user.id,
-              avatarUrl: message.avatarPicture,
-              createdAt: message.createdAt,
-              options: messageOptions,
-              items: [
-                ChatMessageItem(
-                  userName: message.username,
-                  messageText: message.content,
-                  sendAt: message.createdAt,
-                )
-              ],
-            );
-
-          case ChatBorrowResult:
-            return ChatItemRoot(
-              userIsSender: message.senderId == _user.id,
-              avatarUrl: message.avatarPicture,
-              createdAt: message.createdAt,
-              options: messageOptions,
-              items: [
-                ChatTradeItem(
-                  userName: message.username,
-                  messageText: message.content,
-                  sendAt: message.createdAt,
-                  clothImage: (message as ChatBorrowResult).clothAvatar,
-                  clothName: message.clothTitle,
-                  clothBrand: message.clothBrand,
-                  clothColor: message.clothColor,
-                  clothSize: message.clothSize,
-                  clothEcoScore: message.clothEcoScore,
-                  //TODO: isBlocked: message.isBlocked,
-                  isBlocked: false,
-                ),
-              ],
-              //TODO: SEND REQUEST TO THE TRADE
-              click: () async => await {},
-            );
-          default:
-            return ChatItemRoot(
-              userIsSender: message.senderId == _user.id,
-              avatarUrl: message.avatarPicture,
-              createdAt: message.createdAt,
-              options: messageOptions,
-              items: [
-                ChatMessageItem(
-                  userName: message.username,
-                  messageText: message.content,
-                  sendAt: message.createdAt,
-                )
-              ],
-            );
-        }
+        return _messageBody(message);
       },
     );
 

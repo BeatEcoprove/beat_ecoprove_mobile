@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
 import 'package:beat_ecoprove/group/contracts/invite_member_request.dart';
 import 'package:beat_ecoprove/group/contracts/register_group_request.dart';
+import 'package:beat_ecoprove/group/contracts/register_trade_request.dart';
 import 'package:beat_ecoprove/group/contracts/update_group_request.dart';
 
 class GroupService {
@@ -109,5 +110,16 @@ class GroupService {
     );
 
     return ChatMessages.fromJson(response);
+  }
+
+  Future makeTrade(RegisterTradeRequest request) async {
+    var response = await _httpClient.makeRequestJson(
+      method: HttpMethods.post,
+      path: "groups/${request.groupId}/messages/${request.messageId}",
+      body: request,
+      expectedCode: 200,
+    );
+
+    return response;
   }
 }

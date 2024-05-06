@@ -24,6 +24,7 @@ import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
 import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
+import 'package:beat_ecoprove/group/contracts/register_trade_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
@@ -148,8 +149,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
               isBlocked: false,
             ),
           ],
-          //TODO: SEND REQUEST TO THE TRADE
-          click: () async => await {},
+          click: () async => await handleTradeOffer(message),
         );
       default:
         return ChatItemRoot(
@@ -168,6 +168,35 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     }
   }
 
+  Future handleTradeOffer(dynamic message) async {
+    try {
+      await _groupService.makeTrade(
+        RegisterTradeRequest(
+          message.groupId,
+          message.messageId,
+          _user.id,
+        ),
+      );
+
+      _notificationProvider.showNotification(
+        "Troca realizada com sucesso!",
+        type: NotificationTypes.success,
+      );
+    } on HttpBadRequestError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print("$e");
+
+      _notificationProvider.showNotification(
+        e.toString(),
+        type: NotificationTypes.error,
+      );
+    }
+  }
+
   Future initGroupConnection(String groupId) async {
     var fetchChatMessages = await _groupService.getMessages(groupId);
 
@@ -179,7 +208,6 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     );
 
     messages.addAll(mapMessages);
-    messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
     notifyListeners();
   }
 
@@ -257,7 +285,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     try {
       _sessionWsNotifier.sendTradeOfferOnGroup(
         groupId,
-        "Alguém quer trocar esta camisola?",
+        "Alguém quer trocar esta peça de roupa?",
         clothId,
       );
     } on DomainException catch (e) {

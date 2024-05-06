@@ -7,6 +7,7 @@ class ChatBorrowResult extends ChatMessageResult {
   final String clothColor;
   final String clothSize;
   final int clothEcoScore;
+  final String messageId;
 
   ChatBorrowResult(
     super.groupId,
@@ -21,6 +22,7 @@ class ChatBorrowResult extends ChatMessageResult {
     super.username,
     super.avatarPicture,
     super.createdAt,
+    this.messageId,
   );
 
   factory ChatBorrowResult.fromJson(Map<String, dynamic> json) {
@@ -37,6 +39,7 @@ class ChatBorrowResult extends ChatMessageResult {
       json['sender']['username'],
       json['sender']['avatarUrl'],
       DateTime.parse(json['createdAt']),
+      json['id'],
     );
   }
 }

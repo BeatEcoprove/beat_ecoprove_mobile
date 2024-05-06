@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/application_router.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -87,6 +88,7 @@ extension GroupDependencyInjection on DependencyInjection {
     var promoteGroupMemberUseCase = locator<PromoteMemberUseCase>();
     var inviteMemberToGroupUseCase = locator<InviteMemberToGroupUseCase>();
     var despromoveGroupMemberUseCase = locator<DespromoveMemberUseCase>();
+    var getClothesUseCase = locator<GetClothesUseCase>();
     var notificationManager = locator<NotificationManager>();
 
     locator.registerFactory(
@@ -106,6 +108,7 @@ extension GroupDependencyInjection on DependencyInjection {
         notificationProvider,
         authProvider,
         getDetailsUseCase,
+        getClothesUseCase,
         router,
         locator<IWCNotifier>(),
         locator<GroupManager>(),

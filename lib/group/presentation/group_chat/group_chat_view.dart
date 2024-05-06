@@ -138,18 +138,21 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                   const SizedBox(
                     width: 4,
                   ),
-                  Container(
-                    width: 52,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      color: AppColor.widgetBackground,
-                      borderRadius: BorderRadius.all(borderRadius),
-                      boxShadow: [AppColor.defaultShadow],
-                    ),
-                    child: const Icon(
-                      Icons.add_rounded,
-                      size: 24,
-                      color: AppColor.widgetSecondary,
+                  InkWell(
+                    onTap: () => viewModel.sendTradeOffer(args.id),
+                    child: Container(
+                      width: 52,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        color: AppColor.widgetBackground,
+                        borderRadius: BorderRadius.all(borderRadius),
+                        boxShadow: [AppColor.defaultShadow],
+                      ),
+                      child: const Icon(
+                        Icons.add_rounded,
+                        size: 24,
+                        color: AppColor.widgetSecondary,
+                      ),
                     ),
                   ),
                 ],

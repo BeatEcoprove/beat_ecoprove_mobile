@@ -1,17 +1,28 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/chat/content/chat_message_item.dart';
+import 'package:beat_ecoprove/core/widgets/chat/content/chat_trade_item.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
+import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
+import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
@@ -26,6 +37,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
 
   final AuthenticationProvider _authProvider;
   final GetDetailsUseCase _getDetailsUseCase;
+  final GetClothesUseCase _getClothesUseCase;
   final INavigationManager _navigationRouter;
   final GroupManager _groupManager;
   final List<ChatItemRoot> messages = [];
@@ -50,6 +62,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     this._notificationProvider,
     this._authProvider,
     this._getDetailsUseCase,
+    this._getClothesUseCase,
     this._navigationRouter,
     this._sessionWsNotifier,
     this._groupManager,
@@ -112,21 +125,65 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     var fetchChatMessages = await _groupService.getMessages(groupId);
 
     messages.clear();
-    var mapMessages = fetchChatMessages.messages.map((message) {
-      return ChatItemRoot(
-        userIsSender: message.senderId == _user.id,
-        avatarUrl: message.avatarPicture,
-        createdAt: message.createdAt,
-        options: messageOptions,
-        items: [
-          ChatMessageItem(
-            userName: message.username,
-            messageText: message.content,
-            sendAt: message.createdAt,
-          )
-        ],
-      );
-    });
+    var mapMessages = fetchChatMessages.messages.map(
+      (message) {
+        switch (message.runtimeType) {
+          case ChatMessageResult:
+            return ChatItemRoot(
+              userIsSender: message.senderId == _user.id,
+              avatarUrl: message.avatarPicture,
+              createdAt: message.createdAt,
+              options: messageOptions,
+              items: [
+                ChatMessageItem(
+                  userName: message.username,
+                  messageText: message.content,
+                  sendAt: message.createdAt,
+                )
+              ],
+            );
+
+          case ChatBorrowResult:
+            return ChatItemRoot(
+              userIsSender: message.senderId == _user.id,
+              avatarUrl: message.avatarPicture,
+              createdAt: message.createdAt,
+              options: messageOptions,
+              items: [
+                ChatTradeItem(
+                  userName: message.username,
+                  messageText: message.content,
+                  sendAt: message.createdAt,
+                  clothImage: (message as ChatBorrowResult).clothAvatar,
+                  clothName: message.clothTitle,
+                  clothBrand: message.clothBrand,
+                  clothColor: message.clothColor,
+                  clothSize: message.clothSize,
+                  clothEcoScore: message.clothEcoScore,
+                  //TODO: isBlocked: message.isBlocked,
+                  isBlocked: false,
+                ),
+              ],
+              //TODO: SEND REQUEST TO THE TRADE
+              click: () async => await {},
+            );
+          default:
+            return ChatItemRoot(
+              userIsSender: message.senderId == _user.id,
+              avatarUrl: message.avatarPicture,
+              createdAt: message.createdAt,
+              options: messageOptions,
+              items: [
+                ChatMessageItem(
+                  userName: message.username,
+                  messageText: message.content,
+                  sendAt: message.createdAt,
+                )
+              ],
+            );
+        }
+      },
+    );
 
     messages.addAll(mapMessages);
     messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
@@ -162,6 +219,60 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     }
 
     clearChatText();
+  }
+
+  void sendTradeOffer(String groupId) {
+    _navigationRouter.push(
+      CoreRoutes.listDetails,
+      extras: ListDetailsViewParams(
+        title: "Selecione uma Roupa para trocar",
+        onSearch: (searchTerm, vm) async {
+          var clothes =
+              await _getClothesUseCase.handle(GetClothesUseCaseRequest());
+
+          return clothes
+              .where((cloth) =>
+                  cloth.title.toLowerCase().contains(searchTerm.toLowerCase()))
+              .map(
+            (cloth) {
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 4),
+                child: CompactListItemRoot(
+                  click: () => {
+                    _prepareTradeOffer(cloth.id, groupId),
+                    _navigationRouter.pop(),
+                  },
+                  items: [
+                    ImageTitleSubtitleHeader(
+                      widget: PresentImage(
+                        path: ServerImage(cloth.child),
+                      ),
+                      title: cloth.title,
+                      subTitle: cloth.brand!,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ).toList();
+        },
+      ),
+    );
+  }
+
+  void _prepareTradeOffer(String clothId, String groupId) {
+    try {
+      _sessionWsNotifier.sendTradeOfferOnGroup(
+        groupId,
+        "Alguém quer trocar esta camisola?",
+        clothId,
+      );
+    } on DomainException catch (e) {
+      _notificationProvider.showNotification(
+        e.message,
+        type: NotificationTypes.error,
+      );
+    }
   }
 
   void clearChatText() {

@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/requests/websocket_group_message.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/requests/websocket_sendtext_message.dart';
+import 'package:beat_ecoprove/core/providers/websockets/dtos/requests/websocket_sendtradeoffer_message.dart';
 import 'package:beat_ecoprove/core/providers/websockets/notifier.dart';
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 
@@ -71,6 +72,7 @@ abstract class IWCNotifier extends Notifier {
 
   void enterGroup(String id);
   void sendMessageOnGroup(String id, String message);
+  void sendTradeOfferOnGroup(String id, String message, String clothId);
   void exitGroup(String id);
 }
 
@@ -115,6 +117,22 @@ class SingleConnectionWsNotifier extends IWCNotifier {
       SendTextWebSocketMessage(
         id,
         message,
+      ),
+      accessToken,
+    );
+  }
+
+  @override
+  void sendTradeOfferOnGroup(String id, String message, String clothId) {
+    if (!isOnActiveGroup) {
+      return;
+    }
+
+    websocketNotifier.sendMessage(
+      SendTradeOfferWebSocketMessage(
+        id,
+        message,
+        clothId,
       ),
       accessToken,
     );

@@ -26,13 +26,13 @@ class ChatBorrowResult extends ChatMessageResult {
   factory ChatBorrowResult.fromJson(Map<String, dynamic> json) {
     return ChatBorrowResult(
       json['groupId'],
-      json['message'],
-      json['borrow']['avatar'],
-      json['borrow']['title'],
+      json['content'],
+      json['borrow']['clothAvatar'],
+      json['borrow']['name'],
       json['borrow']['brand'],
       json['borrow']['color'],
       json['borrow']['size'],
-      json['borrow']['ecoScore'],
+      int.parse(json['borrow']['ecoScore']),
       json['sender']['id'],
       json['sender']['username'],
       json['sender']['avatarUrl'],

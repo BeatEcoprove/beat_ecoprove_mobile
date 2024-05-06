@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
 import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
 
 class ChatMessages {
@@ -16,7 +17,16 @@ class ChatMessages {
   static List<ChatMessageResult> _convertJsonToChatMessageResult(
       List<dynamic> groups) {
     var group = groups.map((item) {
-      return ChatMessageResult.fromJson(item);
+      var {"type": type} = item;
+      switch (type) {
+        case "MessageResult":
+          return ChatMessageResult.fromJson(item);
+
+        case "BorrowMessageResult":
+          return ChatBorrowResult.fromJson(item);
+        default:
+          return ChatMessageResult.fromJson(item);
+      }
     }).toList();
     return group;
   }

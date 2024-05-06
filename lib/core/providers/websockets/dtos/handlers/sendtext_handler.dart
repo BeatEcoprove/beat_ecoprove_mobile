@@ -1,25 +1,33 @@
-import 'package:beat_ecoprove/core/providers/groups/group_chat_message.dart';
+import 'package:beat_ecoprove/core/providers/groups/group_borrowchat_message.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/handler.dart';
-import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket_group_message_message.dart';
+import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket_group_borrow_message.dart';
 
-class SendTextHandler extends Handler<WebsocketGroupMessage> {
+class SendBorrowHandler extends Handler<WebsocketGroupBorrow> {
   final GroupManager groupManager;
 
-  SendTextHandler(
+  SendBorrowHandler(
     super.message,
     this.groupManager,
   );
 
   @override
   void handle() {
-    groupManager.pushMessage(GroupChatMessage(
-      message.groupId,
-      message.message,
-      message.ownerId,
-      message.username,
-      message.avatarPicture,
-      message.type.toString(),
-    ));
+    groupManager.pushMessage(
+      GroupBorrowChatMessage(
+        message.groupId,
+        message.message,
+        message.ownerId,
+        message.username,
+        message.avatarPicture,
+        message.type.toString(),
+        message.clothAvatar,
+        message.clothTitle,
+        message.clothBrand,
+        message.clothColor,
+        message.clothSize,
+        message.clothEcoScore,
+      ),
+    );
   }
 }

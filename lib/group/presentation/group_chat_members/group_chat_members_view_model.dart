@@ -23,6 +23,7 @@ import 'package:beat_ecoprove/group/domain/use-cases/leave_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/promote_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/user_name.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
+import 'package:beat_ecoprove/home/routes.dart';
 import 'package:flutter/material.dart';
 
 class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
@@ -126,6 +127,10 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     try {
       await _leaveGroupUseCase
           .handle(ActionToMemberOfGroupRequest(memberId, groupId));
+
+      if (memberId == _user.id) {
+        await _navigationManager.pushAsync(HomeRoutes.home);
+      }
 
       _notificationProvider.showNotification(
         "Foi removido do grupo!",

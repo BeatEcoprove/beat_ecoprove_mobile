@@ -34,6 +34,14 @@ extension ClothingRoutes on AppRoute {
     return AppRoute.withParent(closet, "info/bucket/$id");
   }
 
+  static final AppRoute outfitDetails = AppRoute(
+    path: "info/bucket/:id",
+  );
+
+  static AppRoute setOutfitDetails(String id) {
+    return AppRoute.withParent(closet, "info/bucket/$id");
+  }
+
   static final AppRoute changeBucketName = AppRoute(
     path: "change_name",
   );
@@ -62,6 +70,15 @@ ApplicationNavigation clothingRoute = NavigationRoute(
             ),
           ),
         ],
+      ),
+    ),
+    NavigationRoute(
+      route: ClothingRoutes.outfitDetails,
+      view: (context, state) => ArgumentView.of<InfoBucketView>(
+        InfoBucketParams(
+          state.pathParameters['id'] ?? '0',
+          state.extra as CardItem,
+        ),
       ),
     ),
     NavigationRoute(

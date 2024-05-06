@@ -342,7 +342,11 @@ class ClotingViewModel extends FormViewModel implements Clone {
     AppRoute routePath;
 
     if (isBucketItem(card)) {
-      routePath = ClothingRoutes.setBucketDetails(card.id);
+      if (card.id == "outfit") {
+        routePath = ClothingRoutes.setOutfitDetails(card.id);
+      } else {
+        routePath = ClothingRoutes.setBucketDetails(card.id);
+      }
     } else {
       routePath = ClothingRoutes.setClothDetails(card.id);
     }

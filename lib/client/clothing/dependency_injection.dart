@@ -145,7 +145,6 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<RegisterBucketUseCase>(),
         locator<AddClothsBucketUseCase>(),
         locator<GetBucketsUseCase>(),
-        locator<GetClothesUseCase>(),
         locator<DeleteCardUseCase>(),
         locator<ActionService>(),
         locator<ClosetService>(),

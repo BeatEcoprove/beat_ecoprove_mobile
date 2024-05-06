@@ -206,15 +206,6 @@ class ChatTradeItem extends ChatListItem {
                       const SizedBox(
                         height: 6,
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          DateFormat('yyyy-MM-dd HH:mm').format(sendAt),
-                          style: AppText.smallSubHeader,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 10,
-                        ),
-                      )
                     ],
                   ),
                 ),

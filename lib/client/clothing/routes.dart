@@ -35,11 +35,11 @@ extension ClothingRoutes on AppRoute {
   }
 
   static final AppRoute outfitDetails = AppRoute(
-    path: "info/bucket/:id",
+    path: "info/outfit/:id",
   );
 
   static AppRoute setOutfitDetails(String id) {
-    return AppRoute.withParent(closet, "info/bucket/$id");
+    return AppRoute.withParent(closet, "info/outfit/$id");
   }
 
   static final AppRoute changeBucketName = AppRoute(

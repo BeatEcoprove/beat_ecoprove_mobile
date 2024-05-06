@@ -104,7 +104,8 @@ class InfoClothServiceViewAlt
           width: 30,
           color: AppColor.buttonBackground,
         ),
-        action: () {},
+        //TODO: IMPLEMENT WITH SERVICE PROVIDER
+        action: () async => await {},
       ),
       ServiceItem(
         foregroundColor: AppColor.buttonBackground,
@@ -118,7 +119,7 @@ class InfoClothServiceViewAlt
           width: 30,
           color: AppColor.buttonBackground,
         ),
-        action: () {},
+        action: () async => await viewModel.remove(clothId),
       )
     ];
   }

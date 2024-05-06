@@ -14,18 +14,16 @@ class MainSkeletonServiceProviderView
   @override
   Widget build(
       BuildContext context, MainSkeletonServiceProviderViewModel viewModel) {
-    return SafeArea(
-      child: Swiper(
-        hasRegisterCloth: false,
-        views: viewModel.getViews(),
-        bottomNavigationBarOptions: const [
-          Icon(Icons.home_rounded),
-          SvgImage(path: "assets/shirt.svg"),
-          Icon(Icons.store_mall_directory),
-          Icon(Icons.public_rounded),
-          Icon(Icons.person),
-        ],
-      ),
+    return Swiper(
+      hasRegisterCloth: false,
+      views: viewModel.getViews(),
+      bottomNavigationBarOptions: const [
+        Icon(Icons.home_rounded),
+        SvgImage(path: "assets/shirt.svg"),
+        Icon(Icons.store_mall_directory),
+        Icon(Icons.public_rounded),
+        Icon(Icons.person),
+      ],
     );
   }
 }

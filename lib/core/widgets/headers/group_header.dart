@@ -21,7 +21,7 @@ class GroupHeader extends Header {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => const Size.fromHeight(116);
+  Size get preferredSize => const Size.fromHeight(90);
 
   @override
   Widget body(BuildContext context) {

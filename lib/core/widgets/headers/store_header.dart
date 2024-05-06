@@ -22,7 +22,7 @@ class StoreHeader extends Header {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => const Size.fromHeight(96);
+  Size get preferredSize => const Size.fromHeight(54.857);
 
   @override
   Widget body(BuildContext context) {

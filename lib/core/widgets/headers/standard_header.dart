@@ -46,8 +46,9 @@ class StandardHeader extends Header {
   }) : super(key: key);
 
   @override
-  Size get preferredSize =>
-      hasSearchBar ? const Size.fromHeight(96 + 58) : const Size.fromHeight(96);
+  Size get preferredSize => hasSearchBar
+      ? const Size.fromHeight(54.857 + 58)
+      : const Size.fromHeight(54.857);
 
   @override
   Widget body(BuildContext context) {

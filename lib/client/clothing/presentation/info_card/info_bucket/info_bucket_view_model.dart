@@ -49,7 +49,7 @@ class InfoBucketViewModel extends ViewModel implements Clone {
               .toList(),
           idBucket));
 
-      card.child.removeWhere((element) => idCloth.contains(element.id));
+      _navigationRouter.pop();
 
       _notificationProvider.showNotification(
         "Peça/s removida/s com sucesso!",

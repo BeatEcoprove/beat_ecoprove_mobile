@@ -7,7 +7,9 @@ import 'package:beat_ecoprove/client/clothing/contracts/make_maintenance_on_clot
 import 'package:beat_ecoprove/client/clothing/contracts/register_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/models/service_state.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/delete_card_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_buckets_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_params.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
@@ -30,6 +32,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
   final RegisterBucketUseCase _registerBucketUseCase;
   final AddClothsBucketUseCase _addClothsBucketUseCase;
   final GetBucketsUseCase _getBucketsUseCase;
+  final GetClothesUseCase _getClothesUseCase;
+  final DeleteCardUseCase _deleteCardUseCase;
   final ActionService _actionService;
   final ClosetService _closetService;
 
@@ -48,6 +52,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
     this._registerBucketUseCase,
     this._addClothsBucketUseCase,
     this._getBucketsUseCase,
+    this._getClothesUseCase,
+    this._deleteCardUseCase,
     this._actionService,
     this._closetService,
   ) {
@@ -176,7 +182,7 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
       if (clothStates.isNotEmpty && result.length > clothStates.length) {
         if (clothStates.length != 1) {
           _notificationProvider.showNotification(
-            "Uma ou mais roupas estão em manutênção",
+            "Uma ou mais roupas estão em manutenção",
             type: NotificationTypes.warning,
           );
 
@@ -361,6 +367,34 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
     notifyListeners();
   }
 
+  Future remove(String id) async {
+    // var clothes = await _getClothesUseCase.handle(GetClothesUseCaseRequest());
+
+    // var card = clothes.firstWhere((element) => element.id == id);
+    // var type = card.hasChildren ? "bucket" : "cloth";
+
+    // try {
+    //   await _deleteCardUseCase.handle(
+    //     DeleteCardRequest(cardId: card.id, type: type),
+    //   );
+
+    //   _notificationProvider.showNotification(
+    //     "Removido com sucesso!",
+    //     type: NotificationTypes.success,
+    //   );
+    // } on HttpBadRequestError catch (e) {
+    //   _notificationProvider.showNotification(
+    //     e.getError().title,
+    //     type: NotificationTypes.error,
+    //   );
+    // } catch (e) {
+    //   print("$e");
+    // }
+
+    // _navigationManager.pop();
+    // notifyListeners();
+  }
+
   @override
   clone() {
     return InfoClothServiceViewModelAlt(
@@ -370,6 +404,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
       _registerBucketUseCase,
       _addClothsBucketUseCase,
       _getBucketsUseCase,
+      _getClothesUseCase,
+      _deleteCardUseCase,
       _actionService,
       _closetService,
     );

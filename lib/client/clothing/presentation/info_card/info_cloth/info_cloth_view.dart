@@ -26,6 +26,7 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
   Widget build(BuildContext context, InfoClothViewModel viewModel) {
     double maxWidth = MediaQuery.of(context).size.width;
     viewModel.isInUse = args.card.clothState == ClothStates.inUse;
+    viewModel.disableButton = args.card.clothState == ClothStates.blocked;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

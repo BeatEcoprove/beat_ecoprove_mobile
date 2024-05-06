@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_params.dart';
 import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
@@ -11,7 +12,7 @@ import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
-class InfoBucketViewModel extends ViewModel implements Clone {
+class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
   final IBucketInfoManager<String> _bucketInfoManager;
   final INotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
@@ -25,6 +26,17 @@ class InfoBucketViewModel extends ViewModel implements Clone {
     this._unMarkClothAsDailyUseUseCase,
     this._navigationRouter,
   );
+
+  @override
+  void initSync() {
+    if (arg == null) return;
+
+    for (var card in arg!.card.child as List<CardItem>) {
+      if (card.clothState == ClothStates.blocked) {
+        _bucketInfoManager.addCloth(card.id);
+      }
+    }
+  }
 
   void changeCardsSelection(Map<String, List<String>> cards) {
     if (_bucketInfoManager.getAllClothes().contains(cards.keys.first)) {

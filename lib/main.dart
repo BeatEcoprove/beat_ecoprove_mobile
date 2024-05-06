@@ -19,7 +19,7 @@ void main() async {
   await dotenv.load(fileName: '.env');
   await StorageService.initStorage();
 
-  var app = DependencyInjection().setupDIContainer();
+  var app = await DependencyInjection().setupDIContainer();
   app.build();
 
   var provider = DependencyInjection.locator<StaticValuesProvider>();

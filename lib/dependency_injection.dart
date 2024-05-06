@@ -89,7 +89,7 @@ class DependencyInjection {
     ));
   }
 
-  ApplicationRouter setupDIContainer() {
+  Future<ApplicationRouter> setupDIContainer() async {
     var applicationRouter = createApplicationRouter<LoginView>();
 
     registerProviders(locator);
@@ -102,7 +102,7 @@ class DependencyInjection {
     addServiceProvider(applicationRouter);
     addCore(applicationRouter);
 
-    locator<AuthenticationProvider>().checkAuth();
+    await locator<AuthenticationProvider>().checkAuth();
 
     return applicationRouter;
   }

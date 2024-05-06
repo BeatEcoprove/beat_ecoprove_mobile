@@ -17,6 +17,10 @@ class HttpAuthClient implements HttpClient {
       this._authenticationService);
 
   Future refreshTokens() async {
+    if (!_authenticationProvider.isAuthenticated) {
+      return;
+    }
+
     String refreshToken = _authenticationProvider.refreshToken;
 
     var tokens = await _authenticationService.refreshTokens(

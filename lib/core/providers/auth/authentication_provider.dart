@@ -1,4 +1,6 @@
+import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
@@ -9,6 +11,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 
 class AuthenticationProvider extends ViewModel {
+  late bool _isAuthenticated = false;
   late String profileId = '';
   late User? _appUser;
   late String? _accessToken;
@@ -19,16 +22,15 @@ class AuthenticationProvider extends ViewModel {
     _accessToken = null;
   }
 
-  void checkAuth() async {
+  Future checkAuth() async {
     String refreshToken =
         await StorageService.getValue(Store.refreshToken) ?? '';
 
     _refreshToken = refreshToken;
-    notifyListeners();
-
-    DependencyInjection.locator<IWCNotifier>().logIn();
 
     if (refreshToken.isEmpty || !validateToken(refreshToken)) return;
+
+    DependencyInjection.locator<IWCNotifier>().logIn();
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
 
@@ -65,6 +67,7 @@ class AuthenticationProvider extends ViewModel {
     _appUser = authentication.user;
     _accessToken = authentication.accessToken;
     _refreshToken = authentication.refreshToken;
+    _isAuthenticated = true;
 
     notifyListeners();
   }
@@ -73,13 +76,28 @@ class AuthenticationProvider extends ViewModel {
     DependencyInjection.locator<IWCNotifier>().logOut();
     await StorageService.clearValue(Store.refreshToken);
     _appUser = null;
-    notifyListeners();
+    _isAuthenticated = false;
+    await DependencyInjection.locator<INavigationManager>()
+        .pushAsync(AuthRoutes.login);
   }
 
   String get profile => profileId;
   String get refreshToken => _refreshToken;
   String get accessToken => _accessToken!;
-  User get appUser => _appUser!;
+  User get appUser =>
+      _appUser ??
+      User(
+        id: "asdad",
+        name: "asdasd",
+        avatarUrl: "https://github.com/DiogoCC7.png",
+        level: "1",
+        levelPercent: "1",
+        sustainablePoints: "100",
+        ecoScore: "100",
+        ecoCoins: "100",
+        xp: "25",
+        nextLevelXp: "50",
+      );
 
   void setProfile({String profileId = ""}) {
     this.profileId = profileId;
@@ -98,5 +116,5 @@ class AuthenticationProvider extends ViewModel {
     return true;
   }
 
-  bool get isAuthenticated => _appUser != null;
+  bool get isAuthenticated => _isAuthenticated;
 }

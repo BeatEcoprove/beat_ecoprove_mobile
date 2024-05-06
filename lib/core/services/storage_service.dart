@@ -16,7 +16,7 @@ class StorageService {
   }
 
   static Future clearValue(String key) async {
-    return _store.remove(key);
+    return await _store.remove(key);
   }
 
   static Future setValue<T>(String key, T value) async {

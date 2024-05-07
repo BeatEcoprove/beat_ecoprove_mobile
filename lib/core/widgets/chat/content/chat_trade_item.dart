@@ -5,7 +5,6 @@ import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ChatTradeItem extends ChatListItem {
   final String clothImage;

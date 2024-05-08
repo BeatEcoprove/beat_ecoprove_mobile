@@ -13,11 +13,13 @@ import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_para
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/delete_profile_use_case.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 
 class ChangeProfileViewModel extends ViewModel {
   final INotificationProvider _notificationProvider;
@@ -80,6 +82,9 @@ class ChangeProfileViewModel extends ViewModel {
     }
 
     await refreshTokens();
+    DependencyInjection.locator<IWCNotifier>().logOut();
+    await DependencyInjection.locator<IWCNotifier>().logIn();
+
     _notificationProvider.showNotification(
       "Perfil alterado!",
       type: NotificationTypes.success,

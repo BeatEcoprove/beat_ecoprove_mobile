@@ -47,7 +47,6 @@ class ActionService {
 
   Future finishMaintenanceOnCLoth(
       FinishMaintenanceOnClothRequest request) async {
-    print("Ideio-te");
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.post,
       path:

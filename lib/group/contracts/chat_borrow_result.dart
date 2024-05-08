@@ -8,6 +8,7 @@ class ChatBorrowResult extends ChatMessageResult {
   final String clothSize;
   final int clothEcoScore;
   final String messageId;
+  final bool isAccepted;
 
   ChatBorrowResult(
     super.groupId,
@@ -23,23 +24,24 @@ class ChatBorrowResult extends ChatMessageResult {
     super.avatarPicture,
     super.createdAt,
     this.messageId,
+    this.isAccepted,
   );
 
   factory ChatBorrowResult.fromJson(Map<String, dynamic> json) {
     return ChatBorrowResult(
-      json['groupId'],
-      json['content'],
-      json['borrow']['clothAvatar'],
-      json['borrow']['name'],
-      json['borrow']['brand'],
-      json['borrow']['color'],
-      json['borrow']['size'],
-      int.parse(json['borrow']['ecoScore']),
-      json['sender']['id'],
-      json['sender']['username'],
-      json['sender']['avatarUrl'],
-      DateTime.parse(json['createdAt']),
-      json['id'],
-    );
+        json['groupId'],
+        json['content'],
+        json['borrow']['clothAvatar'],
+        json['borrow']['name'],
+        json['borrow']['brand'],
+        json['borrow']['color'],
+        json['borrow']['size'],
+        int.parse(json['borrow']['ecoScore']),
+        json['sender']['id'],
+        json['sender']['username'],
+        json['sender']['avatarUrl'],
+        DateTime.parse(json['createdAt']),
+        json['id'],
+        json['isAccepted']);
   }
 }

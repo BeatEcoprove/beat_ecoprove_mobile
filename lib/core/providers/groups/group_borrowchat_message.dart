@@ -7,6 +7,7 @@ class GroupBorrowChatMessage extends GroupChatMessage {
   final String clothColor;
   final String clothSize;
   final int clothEcoScore;
+  final bool isAccepted;
 
   GroupBorrowChatMessage(
     super.groupId,
@@ -21,5 +22,6 @@ class GroupBorrowChatMessage extends GroupChatMessage {
     this.clothColor,
     this.clothSize,
     this.clothEcoScore,
+    this.isAccepted,
   );
 }

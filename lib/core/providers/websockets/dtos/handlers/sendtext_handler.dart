@@ -27,6 +27,7 @@ class SendBorrowHandler extends Handler<WebsocketGroupBorrow> {
         message.clothColor,
         message.clothSize,
         message.clothEcoScore,
+        message.isAccepted,
       ),
     );
   }

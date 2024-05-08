@@ -118,7 +118,8 @@ class ChatTradeItem extends ChatListItem {
               const SizedBox(
                 height: 6,
               ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     "Eco-Score",
@@ -126,7 +127,7 @@ class ChatTradeItem extends ChatListItem {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
-                    width: 6,
+                    height: 2,
                   ),
                   Points.ecoScore(points: clothEcoScore),
                 ],

@@ -436,12 +436,14 @@ class ClotingViewModel extends FormViewModel implements Clone {
           ));
         }
 
-        _getNestedProfiles = [
-          FilterRow(
-            title: 'Perfis',
-            options: profileItem,
-          )
-        ];
+        if (nestedProfiles.isNotEmpty) {
+          _getNestedProfiles = [
+            FilterRow(
+              title: 'Perfis',
+              options: profileItem,
+            )
+          ];
+        }
       }
     } catch (e) {
       print(e.toString());

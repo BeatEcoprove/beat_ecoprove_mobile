@@ -62,7 +62,6 @@ class _NotificationViewState extends State<NotificationView> {
                       await e.handleAccept(e);
                       widget.notifications.remove(e);
                       viewModel.refresh();
-                      print("Oi");
                     },
                   ),
                   ButtonItem(

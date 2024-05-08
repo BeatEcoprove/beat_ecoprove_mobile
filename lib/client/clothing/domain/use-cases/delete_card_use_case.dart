@@ -1,5 +1,4 @@
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 
 class DeleteCardRequest {
@@ -26,12 +25,8 @@ class DeleteCardUseCase implements UseCase<DeleteCardRequest, Future> {
         default:
           break;
       }
-    } on HttpConflictRequestError catch (e) {
-      print(e);
-      throw Exception(e.getError().title);
     } catch (e) {
-      print(e);
-      throw Exception("Algo correu mal!");
+      rethrow;
     }
   }
 }

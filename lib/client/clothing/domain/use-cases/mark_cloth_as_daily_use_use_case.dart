@@ -1,5 +1,4 @@
 import 'package:beat_ecoprove/client/clothing/services/outfit_service.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 
 class MarkClothAsDailyUseUseCase implements UseCase<List<String>, Future> {
@@ -11,12 +10,8 @@ class MarkClothAsDailyUseUseCase implements UseCase<List<String>, Future> {
   Future handle(List<String> request) async {
     try {
       await _outfitService.markClothAsInUse(request);
-    } on HttpConflictRequestError catch (e) {
-      print(e);
-      throw Exception(e.getError().title);
     } catch (e) {
-      print(e);
-      throw Exception("Algo correu mal!");
+      rethrow;
     }
   }
 }

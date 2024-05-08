@@ -24,6 +24,7 @@ class HttpClient {
     StreamedResponse stream;
 
     try {
+      request.headers.addAll({"Accept-Language": "pt-PT"});
       stream = await request.send();
 
       statusCode = stream.statusCode;
@@ -46,7 +47,7 @@ class HttpClient {
 
       return response;
     } catch (e) {
-      throw HttpInternalError.empty();
+      rethrow;
     }
   }
 

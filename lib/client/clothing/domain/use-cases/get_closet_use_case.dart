@@ -2,7 +2,6 @@ import 'package:beat_ecoprove/client/clothing/contracts/bucket_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/closet_result.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
@@ -48,12 +47,8 @@ class GetClosetUseCase
       if (outfitBucketResult.associatedCloth.isNotEmpty) {
         closetResult.buckets.add(outfitBucketResult);
       }
-    } on HttpConflictRequestError catch (e) {
-      print(e);
-      throw Exception(e.getError().title);
     } catch (e) {
-      print(e);
-      throw Exception("Algo correu mal!");
+      rethrow;
     }
 
     for (var cloth in closetResult.cloths) {

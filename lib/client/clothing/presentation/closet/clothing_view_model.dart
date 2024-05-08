@@ -20,7 +20,7 @@ import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
@@ -135,16 +135,13 @@ class ClotingViewModel extends FormViewModel implements Clone {
 
       cloths.clear();
       cloths.addAll(result);
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     notifyListeners();
@@ -262,17 +259,13 @@ class ClotingViewModel extends FormViewModel implements Clone {
           "Estado/s atualizado/s!",
           type: NotificationTypes.success,
         );
-      } on HttpBadRequestError catch (e) {
+      } on HttpError catch (e) {
         _notificationProvider.showNotification(
           e.getError().title,
           type: NotificationTypes.error,
         );
       } catch (e) {
-        print("$e");
-        _notificationProvider.showNotification(
-          e.toString(),
-          type: NotificationTypes.error,
-        );
+        print(e.toString());
       }
     }
 
@@ -287,17 +280,13 @@ class ClotingViewModel extends FormViewModel implements Clone {
         "Estado/s atualizado/s!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     refetch();
@@ -324,13 +313,13 @@ class ClotingViewModel extends FormViewModel implements Clone {
         "Removido com sucesso!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     await refetch();
@@ -366,7 +355,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
     try {
       colors = _valuesProvider.colors;
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     for (var color in colors) {
@@ -404,7 +393,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
     try {
       brands = _valuesProvider.brands;
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     for (var brand in brands) {
@@ -455,7 +444,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
         ];
       }
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     return [FilterRow(title: 'Perfis', options: profileItem)];
@@ -486,17 +475,13 @@ class ClotingViewModel extends FormViewModel implements Clone {
         "Cesto criado!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     _navigationManager.pop();
@@ -542,17 +527,13 @@ class ClotingViewModel extends FormViewModel implements Clone {
         "Peça/s adicionada/s ao cesto com sucesso!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     _navigationManager.pop();

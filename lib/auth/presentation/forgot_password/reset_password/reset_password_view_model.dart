@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 
@@ -101,11 +102,13 @@ class ResetPasswordViewModel extends FormViewModel {
       );
 
       _navigationRouter.pop();
-    } catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
-        e.toString(),
+        e.getError().title,
         type: NotificationTypes.error,
       );
+    } catch (e) {
+      print(e.toString());
     }
 
     isLoading = false;

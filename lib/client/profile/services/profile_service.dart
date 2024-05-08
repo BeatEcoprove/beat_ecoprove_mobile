@@ -99,7 +99,7 @@ class ProfileService {
 
       return List<InviteToGroupNotification>.from(notifications);
     } catch (e) {
-      print(e);
+      print(e.toString());
       return [];
     }
   }

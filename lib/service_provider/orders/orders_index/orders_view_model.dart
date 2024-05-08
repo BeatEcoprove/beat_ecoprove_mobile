@@ -85,7 +85,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
     try {
       colors = _valuesProvider.colors;
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     for (var color in colors) {
@@ -120,7 +120,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
     try {
       brands = _valuesProvider.brands;
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     for (var brand in brands) {

@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/domain/models/group_list.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
@@ -24,12 +23,8 @@ class GetGroupsUseCase
 
     try {
       groupsResult = await _groupService.getGroups(searchParam);
-    } on HttpConflictRequestError catch (e) {
-      print(e);
-      throw Exception(e.getError().title);
     } catch (e) {
-      print(e);
-      throw Exception("Algo correu mal!");
+      rethrow;
     }
 
     for (var privateGroup in groupsResult.privateGroups) {

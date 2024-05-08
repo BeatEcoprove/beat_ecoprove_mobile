@@ -4,7 +4,7 @@ import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_page_params.dart';
 import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/helpers/tokens.dart';
@@ -47,8 +47,13 @@ class ChangeProfileViewModel extends ViewModel {
   Future<void> getNestedProfiles() async {
     try {
       _profilesResult = await _getNestedProfilesUseCase.handle();
+    } on HttpError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
   }
 
@@ -105,17 +110,13 @@ class ChangeProfileViewModel extends ViewModel {
               text: "Perfil foi removido.",
               textButton: "Continuar",
               action: () => _navigationRouter.pop()));
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     notifyListeners();

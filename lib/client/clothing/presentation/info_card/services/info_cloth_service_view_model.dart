@@ -17,7 +17,7 @@ import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -116,17 +116,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
       services.addAll(
         result,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print(e);
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
   }
 
@@ -174,13 +170,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
             clothStates[currentService.service.id] = currentService;
           }
         }
-      } on HttpBadRequestError catch (e) {
+      } on HttpError catch (e) {
         _notificationProvider.showNotification(
           e.getError().title,
           type: NotificationTypes.error,
         );
       } catch (e) {
-        print(e);
+        print(e.toString());
       }
 
       if (clothStates.isNotEmpty && result.length > clothStates.length) {
@@ -206,17 +202,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
       services.addAll(
         result,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print(e);
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
   }
 
@@ -257,17 +249,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
 
           break;
       }
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print(e);
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     _navigationManager.pop();
@@ -288,17 +276,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
 
       buckets.clear();
       buckets.addAll(result);
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print(e);
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     notifyListeners();
@@ -319,17 +303,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
         "Cesto criado!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     _navigationManager.pop();
@@ -347,17 +327,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
         "Peça/s adicionada/s ao cesto com sucesso!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     _navigationManager.pop();
@@ -403,13 +379,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
         "Removido com sucesso!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     _navigationManager.pop();

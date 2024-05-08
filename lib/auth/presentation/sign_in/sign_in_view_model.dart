@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
@@ -58,11 +59,13 @@ class SignInViewModel extends ViewModel {
             textButton: LocaleContext.get().auth_sign_in_enter,
             action: () => _navigationRouter.push(AppRoute.root),
           ));
-    } catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
-        e.toString(),
+        e.getError().title,
         type: NotificationTypes.error,
       );
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

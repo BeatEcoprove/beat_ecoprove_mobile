@@ -55,11 +55,7 @@ class AddWorkerViewModel extends FormViewModel {
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     notifyListeners();

@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/contracts/brand_result.dart';
 
@@ -16,9 +15,8 @@ class GetBrandsUseCase implements UseCaseAction<Future> {
 
     try {
       brandResult = await _closetService.getAllBrands();
-    } on HttpError catch (e) {
-      print(e);
-      throw Exception(e.getError().title);
+    } catch (e) {
+      rethrow;
     }
 
     for (var brand in brandResult) {

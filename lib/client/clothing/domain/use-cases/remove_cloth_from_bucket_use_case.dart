@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/client/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_error.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 
 class RemoveClothFromBucketUseCase
@@ -13,12 +12,8 @@ class RemoveClothFromBucketUseCase
   Future handle(RemoveClothFromBucketRequest request) async {
     try {
       await _closetService.removeClothFromBucket(request);
-    } on HttpConflictRequestError catch (e) {
-      print(e);
-      throw Exception(e.getError().title);
     } catch (e) {
-      print(e);
-      throw Exception("Algo correu mal!");
+      rethrow;
     }
   }
 }

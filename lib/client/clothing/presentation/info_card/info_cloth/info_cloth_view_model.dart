@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_d
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
@@ -50,16 +50,13 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         disableButton = false;
         return;
       }
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     disableButton = true;
@@ -83,17 +80,13 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         "Estado da/s peça/s alterado!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
   }
 
@@ -105,17 +98,13 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         "Estado da/s peça/s alterado!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
   }
 

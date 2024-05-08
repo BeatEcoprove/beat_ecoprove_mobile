@@ -5,7 +5,7 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_d
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_params.dart';
 import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
@@ -67,17 +67,13 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
         "Peça/s removida/s com sucesso!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     notifyListeners();
@@ -100,17 +96,13 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
         "Estado da/s peça/s atualizado!",
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     notifyListeners();

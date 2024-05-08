@@ -7,7 +7,7 @@ import 'package:beat_ecoprove/core/domain/models/color_item.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
-import 'package:beat_ecoprove/core/helpers/http/errors/http_badrequest_error.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -97,7 +97,7 @@ class RegisterClothViewModel extends FormViewModel {
     try {
       brandResult = _staticValuesProvider.brands;
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     for (var brand in brandResult) {
@@ -114,7 +114,7 @@ class RegisterClothViewModel extends FormViewModel {
     try {
       colors = _staticValuesProvider.colors;
     } catch (e) {
-      print("$e");
+      print(e.toString());
     }
 
     for (var color in colors) {
@@ -167,18 +167,13 @@ class RegisterClothViewModel extends FormViewModel {
         LocaleContext.get().client_register_cloth_created,
         type: NotificationTypes.success,
       );
-    } on HttpBadRequestError catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
         type: NotificationTypes.error,
       );
     } catch (e) {
-      print("$e");
-
-      _notificationProvider.showNotification(
-        e.toString(),
-        type: NotificationTypes.error,
-      );
+      print(e.toString());
     }
 
     _navigationRouter.pop();

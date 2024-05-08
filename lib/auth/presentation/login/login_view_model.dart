@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -94,7 +95,7 @@ class LoginViewModel extends FormViewModel {
         .catchError(
       (e) {
         _notificationProvider.showNotification(
-          e.toString(),
+          e.getError().title,
           type: NotificationTypes.error,
         );
 
@@ -124,21 +125,28 @@ class LoginViewModel extends FormViewModel {
 
     try {
       await _loginUseCase.handle(LoginRequest(email, password));
+      await DependencyInjection.locator<IWCNotifier>().logIn();
 
       _navigationRouter.push(AppRoute.root);
-    } catch (e) {
+    } on HttpError catch (e) {
       _notificationProvider.showNotification(
-        e.toString(),
+        e.getError().title,
         type: NotificationTypes.error,
       );
 
-      setValue(FormFieldValues.password, "");
-      passwordTextController.clear();
+      clearPasswordText();
+    } catch (e) {
+      print(e.toString());
+      clearPasswordText();
     }
 
     setLoading(false);
 
-    await DependencyInjection.locator<IWCNotifier>().logIn();
     notifyListeners();
+  }
+
+  void clearPasswordText() {
+    setValue(FormFieldValues.password, "");
+    passwordTextController.clear();
   }
 }

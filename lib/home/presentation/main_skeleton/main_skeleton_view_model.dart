@@ -12,7 +12,7 @@ class MainSkeletonViewModel extends ViewModel {
   MainSkeletonViewModel(this._staticValuesProvider);
 
   @override
-  Future initAsync() async {
+  void initSync() async {
     await _staticValuesProvider.fetchAuthorizedValues();
   }
 

@@ -29,6 +29,13 @@ class StaticValuesProvider extends ViewModel {
     this._apiService,
   );
 
+  bool get hasElements =>
+      brands.length +
+          colors.length +
+          countryCodes.length +
+          countryParishes.length >
+      0;
+
   Future _fetchValues() async {
     List<Future> values = [
       _countryCodesService.getCountryCodes(),
@@ -41,6 +48,10 @@ class StaticValuesProvider extends ViewModel {
   }
 
   Future fetchAuthorizedValues() async {
+    if (hasElements) {
+      return;
+    }
+
     if (!_authenticationProvider.isAuthenticated) {
       return;
     }

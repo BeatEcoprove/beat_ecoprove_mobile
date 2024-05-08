@@ -16,8 +16,8 @@ class StaticValuesProvider extends ViewModel {
   final CountryCodesService _countryCodesService;
   final GeoApiService _apiService;
 
-  final List<ColorItem> colors = [];
-  final List<BrandItem> brands = [];
+  final Map<String, ColorItem> colorsMap = {};
+  final Map<String, BrandItem> brandsMap = {};
   final Map<String, String> countryCodes = {};
   final Map<String, List<String>> countryParishes = {};
 
@@ -29,12 +29,8 @@ class StaticValuesProvider extends ViewModel {
     this._apiService,
   );
 
-  bool get hasElements =>
-      brands.length +
-          colors.length +
-          countryCodes.length +
-          countryParishes.length >
-      0;
+  List<ColorItem> get colors => colorsMap.values.toList();
+  List<BrandItem> get brands => brandsMap.values.toList();
 
   Future _fetchValues() async {
     List<Future> values = [
@@ -48,10 +44,6 @@ class StaticValuesProvider extends ViewModel {
   }
 
   Future fetchAuthorizedValues() async {
-    if (hasElements) {
-      return;
-    }
-
     if (!_authenticationProvider.isAuthenticated) {
       return;
     }
@@ -62,8 +54,14 @@ class StaticValuesProvider extends ViewModel {
     ];
 
     var result = await Future.wait(values);
-    colors.addAll(result[0]);
-    brands.addAll(result[1]);
+    var colors = Map.castFrom<dynamic, dynamic, String, ColorItem>(
+        {for (var color in result[0]) color.hex: color});
+
+    var brands = Map.castFrom<dynamic, dynamic, String, BrandItem>(
+        {for (var brand in result[1]) brand.name: brand});
+
+    colorsMap.addAll(colors);
+    brands.addAll(brands);
   }
 
   Future fetchStaticValues() async {

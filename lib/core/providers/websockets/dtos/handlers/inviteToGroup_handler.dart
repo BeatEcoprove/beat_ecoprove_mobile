@@ -22,7 +22,7 @@ class InviteToGroupHandler extends Handler<WebsocketInviteToGroup> {
   void handle() {
     notificationProvider.showNotification(message.message);
     notificationManager.addNotification(InviteToGroupNotification(
-      '',
+      message.groupName,
       message.message,
       (notification) async =>
           await _handleAccept(notification as InviteToGroupNotification),

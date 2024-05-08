@@ -79,13 +79,14 @@ class ProfileService {
       var notifications = result.map((json) {
         var {
           "title": title,
+          "groupName": groupName,
           "groupId": groupId,
           "invitorId": senderId,
           "code": code,
         } = json;
 
         return InviteToGroupNotification(
-          '',
+          groupName,
           title,
           (notification) async => await handleAcceptNotification(
               notification as InviteToGroupNotification),

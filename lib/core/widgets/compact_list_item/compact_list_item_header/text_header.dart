@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 
 class TextHeader extends CompactListItemHeader {
   final String subTitle;
+  final double widthFooter;
 
   const TextHeader({
     super.key,
     required super.title,
     required this.subTitle,
+    this.widthFooter = 25,
   });
 
   @override
   Widget build(BuildContext context) {
-    double width = ((MediaQuery.of(context).size.width) * (2 / 3)) - 25;
+    double width =
+        ((MediaQuery.of(context).size.width) * (2 / 3)) - widthFooter;
 
     return Row(
       children: [

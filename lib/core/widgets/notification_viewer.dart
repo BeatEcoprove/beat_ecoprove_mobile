@@ -51,7 +51,11 @@ class _NotificationViewState extends State<NotificationView> {
             ),
             child: CompactListItemRoot(
               items: [
-                TextHeader(title: e.title, subTitle: e.message),
+                TextHeader(
+                  title: e.title,
+                  subTitle: e.message,
+                  widthFooter: 40,
+                ),
                 WithButtonsFooter(options: [
                   ButtonItem(
                     icon: const Icon(

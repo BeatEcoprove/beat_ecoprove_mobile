@@ -61,7 +61,7 @@ class StaticValuesProvider extends ViewModel {
         {for (var brand in result[1]) brand.name: brand});
 
     colorsMap.addAll(colors);
-    brands.addAll(brands);
+    brandsMap.addAll(brands);
   }
 
   Future fetchStaticValues() async {

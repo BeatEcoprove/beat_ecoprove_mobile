@@ -16,6 +16,19 @@ class ListDetailsView
     required super.args,
   });
 
+  Widget search() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 26),
+      child: DefaultFormattedTextField(
+        hintText: "Pesquisar",
+        leftIcon: const Icon(Icons.search_rounded),
+        onChange: (search) => viewModel.setSearch(search),
+        initialValue: viewModel.getValue(FormFieldValues.search).value,
+        errorMessage: viewModel.getValue(FormFieldValues.search).error,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, ListDetailsViewModel viewModel) {
     return Scaffold(
@@ -47,18 +60,7 @@ class ListDetailsView
                         const SizedBox(
                           height: 12,
                         ),
-                        DefaultFormattedTextField(
-                          hintText: "Pesquisar",
-                          leftIcon: const Icon(Icons.search_rounded),
-                          onChange: (search) => viewModel.setSearch(search),
-                          initialValue:
-                              viewModel.getValue(FormFieldValues.search).value,
-                          errorMessage:
-                              viewModel.getValue(FormFieldValues.search).error,
-                        ),
-                        const SizedBox(
-                          height: 26,
-                        ),
+                        search(),
                         FutureBuilder(
                             future: args.onSearch(
                               viewModel
@@ -76,6 +78,13 @@ class ListDetailsView
                                     ),
                                   );
                                 default:
+                                  if (snapshot.data == null) {
+                                    return const Text(
+                                      "Não existem registos!",
+                                      textAlign: TextAlign.center,
+                                      style: AppText.smallSubHeader,
+                                    );
+                                  }
                                   return Column(
                                     children: snapshot.data as List<Widget>,
                                   );

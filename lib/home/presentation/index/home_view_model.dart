@@ -8,7 +8,7 @@ class HomeViewModel extends ViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final ClosetService _closetService;
   final ActionService _actionService;
-  late final User _user;
+  late final User? _user;
 
   HomeViewModel(this._authProvider, this._closetService, this._actionService) {
     _user = _authProvider.appUser;
@@ -19,7 +19,7 @@ class HomeViewModel extends ViewModel implements Clone {
     _actionService.getAllServices();
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   @override
   HomeViewModel clone() {

@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 class StoreViewModel extends FormViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
-  late final User _user;
+  late final User? _user;
 
   late Map<String, dynamic> _selectedFilters = {};
 
@@ -28,7 +28,7 @@ class StoreViewModel extends FormViewModel implements Clone {
     _user = _authProvider.appUser;
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void setSearch(String search) {
     try {

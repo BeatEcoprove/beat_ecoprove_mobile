@@ -30,7 +30,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
           title: LocaleContext.get().client_register_register_cloth,
-          sustainablePoints: viewModel.user.sustainablePoints,
+          sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
           hasSustainablePoints: false),
       body: Column(
         children: [

@@ -45,7 +45,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   final List<ChatItemRoot> messages = [];
   late bool isLoading = false;
   late bool hasConnectionActive = false;
-  late final User _user;
+  late final User? _user;
 
   late final TextEditingController chatTextController;
 
@@ -102,7 +102,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     super.dispose();
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void addMessage(ChatItemRoot message) {
     messages.add(message);
@@ -114,7 +114,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
       case GroupChatMessage:
       case ChatMessageResult:
         return ChatItemRoot(
-          userIsSender: message.senderId == _user.id,
+          userIsSender: message.senderId == _user?.id,
           avatarUrl: message.avatarPicture,
           createdAt: message.createdAt,
           options: messageOptions,
@@ -130,7 +130,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
       case GroupBorrowChatMessage:
       case ChatBorrowResult:
         return ChatItemRoot(
-          userIsSender: message.senderId == _user.id,
+          userIsSender: message.senderId == _user?.id,
           avatarUrl: message.avatarPicture,
           createdAt: message.createdAt,
           options: messageOptions,
@@ -152,7 +152,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
         );
       default:
         return ChatItemRoot(
-          userIsSender: message.senderId == _user.id,
+          userIsSender: message.senderId == _user?.id,
           avatarUrl: message.avatarPicture,
           createdAt: message.createdAt,
           options: messageOptions,
@@ -173,7 +173,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
         RegisterTradeRequest(
           message.groupId,
           message.messageId,
-          _user.id,
+          _user?.id ?? '',
         ),
       );
 

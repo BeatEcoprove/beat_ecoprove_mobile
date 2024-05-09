@@ -7,7 +7,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 class PrizesViewModel extends ViewModel {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationManager;
-  late final User _user;
+  late final User? _user;
 
   PrizesViewModel(
     this._authProvider,
@@ -16,7 +16,7 @@ class PrizesViewModel extends ViewModel {
     _user = _authProvider.appUser;
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void goTradePoints() => _navigationManager.push(ProfileRoutes.tradepoints);
 }

@@ -22,4 +22,8 @@ class MainSkeletonView extends LinearView<MainSkeletonViewModel> {
       ],
     );
   }
+
+  void refresh(BuildContext context) {
+    build(context, viewModel);
+  }
 }

@@ -26,7 +26,7 @@ class GroupView extends LinearView<GroupViewModel> {
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader.searchBar(
         title: "Grupos",
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSustainablePoints: false,
         hasSettings: false,
         onChange: (search) => viewModel.setSearch(search),

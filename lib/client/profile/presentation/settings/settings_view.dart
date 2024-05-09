@@ -19,7 +19,7 @@ class SettingsView extends LinearView<SettingsViewModel> {
     return Scaffold(
       appBar: StandardHeader(
         title: "Definições",
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: GoBack(
         posLeft: 18,

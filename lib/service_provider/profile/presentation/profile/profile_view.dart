@@ -22,7 +22,7 @@ class ServiceProviderProfileView
     return Scaffold(
       appBar: StandardHeader(
         title: "Perfil",
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSustainablePoints: false,
         hasSettings: true,
         settingsPress: () => viewModel.settings(),
@@ -69,7 +69,7 @@ class ServiceProviderProfileView
       width: heightProfileImage,
       height: heightProfileImage,
       child: PresentImage(
-        path: ServerImage(viewModel.user.avatarUrl),
+        path: ServerImage(viewModel.user?.avatarUrl ?? ''),
       ),
     ));
   }
@@ -113,7 +113,7 @@ class ServiceProviderProfileView
           height: 16,
         ),
         Text(
-          viewModel.user.name,
+          viewModel.user?.name ?? 'User Name',
           textAlign: TextAlign.center,
           style: AppText.titleToScrollSection,
         ),
@@ -134,7 +134,7 @@ class ServiceProviderProfileView
               height: 4,
             ),
             Points.sustainablePoints(
-              points: viewModel.user.sustainablePoints,
+              points: viewModel.user?.sustainablePoints ?? 0,
             ),
           ],
         ),

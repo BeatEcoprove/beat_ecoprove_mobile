@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/color_item.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -18,6 +20,7 @@ import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/register_cl
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_name.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_type.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -26,7 +29,7 @@ class RegisterClothViewModel extends FormViewModel {
   final RegisterClothUseCase _registerClothUseCase;
   final StaticValuesProvider _staticValuesProvider;
 
-  late final User _user;
+  late final User? _user;
   final AuthenticationProvider _authProvider;
   final INotificationProvider _notificationProvider;
   final INavigationManager _navigationRouter;
@@ -59,7 +62,7 @@ class RegisterClothViewModel extends FormViewModel {
     setValue(FormFieldValues.clothImage, XFile(defaultImage));
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void setClothName(String clothName) {
     try {
@@ -178,5 +181,26 @@ class RegisterClothViewModel extends FormViewModel {
 
     _navigationRouter.pop();
     notifyListeners();
+  }
+
+  CardItem<String> toCardItem(ClothResult clothResult) {
+    return CardItem(
+      id: clothResult.id,
+      clothState: clothResult.clothState,
+      title: clothResult.name,
+      brand: clothResult.brand,
+      color: Color(
+        int.parse(
+          clothResult.color,
+          radix: 16,
+        ),
+      ),
+      ecoScore: clothResult.ecoScore,
+      size: clothResult.size.toUpperCase(),
+      child: clothResult.clothAvatar,
+      hasProfile: clothResult.otherProfileAvatar != null
+          ? ServerImage(clothResult.otherProfileAvatar!)
+          : null,
+    );
   }
 }

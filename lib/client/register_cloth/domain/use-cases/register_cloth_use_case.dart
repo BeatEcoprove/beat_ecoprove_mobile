@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/contracts/register_cloth_request.dart';
@@ -8,9 +9,9 @@ class RegisterClothUseCase implements UseCase<RegisterClothRequest, Future> {
   RegisterClothUseCase(this._closetService);
 
   @override
-  Future handle(RegisterClothRequest request) async {
+  Future<ClothResult> handle(RegisterClothRequest request) async {
     try {
-      await _closetService.registerCloth(request);
+      return await _closetService.registerCloth(request);
     } catch (e) {
       rethrow;
     }

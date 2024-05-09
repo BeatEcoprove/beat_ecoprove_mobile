@@ -16,13 +16,13 @@ import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ClothingView extends LinearView<ClotingViewModel> {
+class ClothingView extends LinearView<ClothingViewModel> {
   const ClothingView({
     super.key,
     required super.viewModel,
   });
 
-  Widget createBucketCard(ClotingViewModel viewModel) {
+  Widget createBucketCard(ClothingViewModel viewModel) {
     return DefaultFormattedTextField(
       hintText: "Nome do cesto",
       onChange: (name) => viewModel.setName(name),
@@ -36,7 +36,7 @@ class ClothingView extends LinearView<ClotingViewModel> {
 
   List<ServiceTemplate> setUpOptions(
     BuildContext context,
-    ClotingViewModel viewModel,
+    ClothingViewModel viewModel,
   ) {
     return [
       ServiceItem(
@@ -79,7 +79,7 @@ class ClothingView extends LinearView<ClotingViewModel> {
   }
 
   void createOverlay(
-    ClotingViewModel viewModel,
+    ClothingViewModel viewModel,
     BuildContext context,
   ) {
     Modal(
@@ -100,13 +100,13 @@ class ClothingView extends LinearView<ClotingViewModel> {
   }
 
   @override
-  Widget build(BuildContext context, ClotingViewModel viewModel) {
+  Widget build(BuildContext context, ClothingViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
         title: "Vestuário",
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: AppBackground(
         type: AppBackgrounds.clothing,
@@ -196,7 +196,7 @@ class ClothingView extends LinearView<ClotingViewModel> {
     );
   }
 
-  SliverAppBar _buildSearchBarAndFilter(ClotingViewModel viewModel) {
+  SliverAppBar _buildSearchBarAndFilter(ClothingViewModel viewModel) {
     const Radius borderRadius = Radius.circular(5);
 
     return SliverAppBar(
@@ -263,7 +263,7 @@ class ClothingView extends LinearView<ClotingViewModel> {
     );
   }
 
-  SliverAppBar _buildFilterSelector(ClotingViewModel viewModel) {
+  SliverAppBar _buildFilterSelector(ClothingViewModel viewModel) {
     return SliverAppBar(
       toolbarHeight: 46,
       pinned: true,
@@ -290,7 +290,7 @@ class ClothingView extends LinearView<ClotingViewModel> {
   }
 
   SliverToBoxAdapter _buildClothsCardsSection(
-      BuildContext context, ClotingViewModel viewModel) {
+      BuildContext context, ClothingViewModel viewModel) {
     return SliverToBoxAdapter(
         child: viewModel.cloths.isNotEmpty
             ? cardList(viewModel, context)
@@ -305,7 +305,7 @@ class ClothingView extends LinearView<ClotingViewModel> {
               ));
   }
 
-  Padding cardList(ClotingViewModel viewModel, BuildContext context) {
+  Padding cardList(ClothingViewModel viewModel, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

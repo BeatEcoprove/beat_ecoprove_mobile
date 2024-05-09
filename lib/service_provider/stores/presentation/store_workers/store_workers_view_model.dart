@@ -11,7 +11,7 @@ class StoreWorkersViewModel extends FormViewModel {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
 
-  late final User _user;
+  late final User? _user;
   final List<Worker> _workers = [
     Worker(id: '1', name: 'Zé', email: 'ze@gmail.com', type: 'regularWorker'),
   ];
@@ -33,7 +33,7 @@ class StoreWorkersViewModel extends FormViewModel {
     setValue(FormFieldValues.code, _types.firstOrNull);
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   List<OptionItem> get options => _options;
 

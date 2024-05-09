@@ -29,7 +29,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   final ProfileService _profileService;
   final GroupService _groupService;
 
-  late final User _user;
+  late final User? _user;
   late bool isFetching = false;
   static const int numGroupsToShow = 3;
 
@@ -78,7 +78,7 @@ class GroupViewModel extends FormViewModel implements Clone {
     super.dispose();
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void setSearch(String search) async {
     try {

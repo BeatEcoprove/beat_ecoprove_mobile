@@ -14,7 +14,7 @@ class ProfileViewModel extends ViewModel implements Clone {
 
 //TODO: REMOVE AND CREATE A USE CASE AND A SERVICE TO GET USER MEDALS
   final List<Medal> medals = [];
-  late final User _user;
+  late final User? _user;
 
   ProfileViewModel(
     this._authProvider,
@@ -23,7 +23,7 @@ class ProfileViewModel extends ViewModel implements Clone {
     _user = _authProvider.appUser;
   }
 
-  User get user => _user;
+  User? get user => _user;
   List<MedalItem> get medalItems => medals
       .map(
         (medal) => MedalItem(

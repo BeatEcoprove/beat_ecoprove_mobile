@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_conflict_request_err
 import 'package:beat_ecoprove/core/helpers/http/errors/http_internalserver_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_unauthorized_error.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_statuscodes.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
@@ -24,7 +25,10 @@ class HttpClient {
     StreamedResponse stream;
 
     try {
-      request.headers.addAll({"Accept-Language": "pt-PT"});
+      request.headers.addAll({
+        "Accept-Language": LocaleContext.getCurrentLocaleString(),
+      });
+
       stream = await request.send();
 
       statusCode = stream.statusCode;

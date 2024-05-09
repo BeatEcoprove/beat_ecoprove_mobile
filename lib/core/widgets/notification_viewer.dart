@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_r
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/step_by_step/circle.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/group/presentation/group_index/group_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,9 +27,13 @@ class NotificationModal extends StatelessWidget {
 class NotificationView extends StatefulWidget {
   final List<GroupNotification> notifications;
   final String notificationCount;
+  final GroupViewModel groupViewModel;
 
-  NotificationView({super.key, required this.notifications})
-      : notificationCount = notifications.length.toString();
+  NotificationView({
+    super.key,
+    required this.groupViewModel,
+    required this.notifications,
+  }) : notificationCount = notifications.length.toString();
 
   @override
   State<NotificationView> createState() => _NotificationViewState();
@@ -92,8 +97,8 @@ class _NotificationViewState extends State<NotificationView> {
     final GoRouter goRouter = GoRouter.of(context);
 
     return InkWell(
-      onTap: () {
-        DependencyInjection.locator<INavigationManager>().push(
+      onTap: () async {
+        await DependencyInjection.locator<INavigationManager>().pushAsync(
           CoreRoutes.listDetails,
           extras: ListDetailsViewParams(
             title: "Convites",
@@ -107,6 +112,7 @@ class _NotificationViewState extends State<NotificationView> {
             },
           ),
         );
+        await widget.groupViewModel.refetch();
       },
       child: Stack(
         children: [

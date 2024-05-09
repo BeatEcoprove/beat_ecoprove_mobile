@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -18,7 +19,6 @@ class InfoBucketView
     extends ArgumentView<InfoBucketViewModel, InfoBucketParams> {
   final INavigationManager _navigationManager;
   final IBucketInfoManager bucketInfoManager;
-  final GlobalKey _buttonKey = GlobalKey();
   final Radius borderRadius = const Radius.circular(5);
   late List<OptionItem> options;
 
@@ -55,61 +55,42 @@ class InfoBucketView
     );
   }
 
-  //TODO: CREATE GLOBAL FUNCTION
-  void _showOptionsMenu(BuildContext context, InfoBucketViewModel viewModel) {
-    final RenderBox buttonRenderBox =
-        _buttonKey.currentContext!.findRenderObject() as RenderBox;
-    final Offset buttonPosition = buttonRenderBox.localToGlobal(Offset.zero);
-
-    options = [
-      if (args.card.id == "outfit") ...{
-        OptionItem(
-          name: 'Desmarcar Uso',
-          action: () => {
-            {
-              viewModel.unMarkClothsFromBucket(
-                args.card,
-                (args.card.child as List<CardItem>).map((e) => e.id).toList(),
-              ),
-            }
-          },
-        ),
-      } else ...{
-        OptionItem(
-          name: 'Mudar Nome',
-          action: () => {
-            _navigationManager.push(
-              ClothingRoutes.setChangeBucketName(args.card.id),
-              extras: args.card,
-            )
-          },
-        ),
-        OptionItem(
-          name: 'Remover Tudo',
-          action: () async => {
-            await viewModel.removeClothFromBucket(
-                args.card,
-                (args.card.child as List<CardItem>).map((e) => e.id).toList(),
-                args.card.id),
-          },
-        ),
-      }
-    ];
-
-    showMenu(
-      context: context,
-      position: RelativeRect.fromLTRB(
-        buttonPosition.dx,
-        buttonPosition.dy,
-        buttonPosition.dx + buttonRenderBox.size.width,
-        buttonPosition.dy + buttonRenderBox.size.height,
-      ),
-      items: options.map((option) {
-        return PopupMenuItem(
-          onTap: option.action,
-          child: Text(option.name),
-        );
-      }).toList(),
+  Widget showOptionsMenu(InfoBucketViewModel viewModel) {
+    return WithOptionsFooter(
+      options: [
+        if (args.card.id == "outfit") ...{
+          OptionItem(
+            name: 'Desmarcar Uso',
+            action: () => {
+              {
+                viewModel.unMarkClothsFromBucket(
+                  args.card,
+                  (args.card.child as List<CardItem>).map((e) => e.id).toList(),
+                ),
+              }
+            },
+          ),
+        } else ...{
+          OptionItem(
+            name: 'Mudar Nome',
+            action: () => {
+              _navigationManager.push(
+                ClothingRoutes.setChangeBucketName(args.card.id),
+                extras: args.card,
+              )
+            },
+          ),
+          OptionItem(
+            name: 'Remover Tudo',
+            action: () async => {
+              await viewModel.removeClothFromBucket(
+                  args.card,
+                  (args.card.child as List<CardItem>).map((e) => e.id).toList(),
+                  args.card.id),
+            },
+          ),
+        }
+      ],
     );
   }
 
@@ -154,15 +135,7 @@ class InfoBucketView
               Positioned(
                 top: 24,
                 right: 28,
-                child: IconButton(
-                    key: _buttonKey,
-                    icon: const Icon(
-                      Icons.more_vert_rounded,
-                      color: AppColor.widgetSecondary,
-                    ),
-                    onPressed: () {
-                      _showOptionsMenu(context, viewModel);
-                    }),
+                child: showOptionsMenu(viewModel),
               ),
               Positioned(
                 top: 82,

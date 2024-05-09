@@ -215,7 +215,6 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
     );
   }
 
-  //TODO: CREATE GLOBAL FUNCTION
   void _showOptionsMenu(BuildContext context) {
     final RenderBox buttonRenderBox =
         widget._buttonKey.currentContext!.findRenderObject() as RenderBox;

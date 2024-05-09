@@ -62,6 +62,7 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
           idBucket));
 
       _navigationRouter.pop();
+      _bucketInfoManager.removeClothes();
 
       _notificationProvider.showNotification(
         "Peça/s removida/s com sucesso!",
@@ -91,6 +92,9 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
           .forEach((element) {
         element.clothState = ClothStates.idle;
       });
+
+      _navigationRouter.pop();
+      _bucketInfoManager.removeClothes();
 
       _notificationProvider.showNotification(
         "Estado da/s peça/s atualizado!",

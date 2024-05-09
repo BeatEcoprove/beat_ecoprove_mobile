@@ -8,6 +8,6 @@ class HttpBadRequestError extends HttpError<ErrorResponse> {
 
   @override
   ErrorResponse getError() {
-    return ErrorResponse.fromJson(result);
+    return DetailErrorResponse.fromJson(result);
   }
 }

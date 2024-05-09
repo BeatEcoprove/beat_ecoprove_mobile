@@ -22,7 +22,7 @@ class User {
     required String xp,
     required String nextLevelXp,
   })  : level = int.parse(level),
-        levelPercent = double.parse(levelPercent),
+        levelPercent = double.tryParse(levelPercent) ?? 0,
         sustainablePoints = int.parse(sustainablePoints),
         ecoScore = int.parse(ecoScore),
         ecoCoins = int.parse(ecoCoins),

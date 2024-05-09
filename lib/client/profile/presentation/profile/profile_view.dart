@@ -20,7 +20,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
     return Scaffold(
       appBar: StandardHeader(
         title: "Perfil",
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSustainablePoints: false,
         hasSettings: true,
         settingsPress: () => viewModel.settings(),
@@ -70,10 +70,10 @@ class ProfileView extends LinearView<ProfileViewModel> {
             margin: const EdgeInsets.symmetric(vertical: 4),
             child: LevelProgress(
               height: heightProfileImage,
-              percent: viewModel.user.levelPercent,
-              level: viewModel.user.level,
+              percent: viewModel.user?.levelPercent ?? 0,
+              level: viewModel.user?.level ?? 0,
               color: AppColor.primaryColor,
-              url: viewModel.user.avatarUrl,
+              url: viewModel.user?.avatarUrl ?? '',
             ),
           ),
         ),
@@ -121,7 +121,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
                   height: 4,
                 ),
                 Points.ecoScore(
-                  points: viewModel.user.ecoScore,
+                  points: viewModel.user?.ecoScore ?? 0,
                 ),
               ],
             ),
@@ -134,7 +134,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '${viewModel.user.xp.toString()}/${viewModel.user.nextLevelXp.toString()}',
+            '${viewModel.user?.xp.toString()}/${viewModel.user?.nextLevelXp.toString()}',
             textAlign: TextAlign.center,
             style: AppText.titleToScrollSection,
           ),
@@ -152,7 +152,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
         height: 16,
       ),
       Text(
-        viewModel.user.name,
+        viewModel.user?.name ?? 'User Name',
         textAlign: TextAlign.center,
         style: AppText.titleToScrollSection,
       ),
@@ -177,7 +177,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
                   height: 4,
                 ),
                 Points.ecoScore(
-                  points: viewModel.user.ecoScore,
+                  points: viewModel.user?.ecoScore ?? 0,
                 ),
               ],
             ),
@@ -193,7 +193,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
                 height: 4,
               ),
               Points.sustainablePoints(
-                points: viewModel.user.sustainablePoints,
+                points: viewModel.user?.sustainablePoints ?? 0,
               ),
             ],
           ),
@@ -209,7 +209,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
                 height: 4,
               ),
               Points.ecoCoins(
-                points: viewModel.user.ecoCoins,
+                points: viewModel.user?.ecoCoins ?? 0,
               ),
             ],
           ),

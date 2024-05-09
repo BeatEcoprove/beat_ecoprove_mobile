@@ -168,7 +168,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
         title: "Pedidos",
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: AppBackground(
         content: Stack(

@@ -155,7 +155,7 @@ class StoreView extends LinearView<StoreViewModel> {
     return Scaffold(
       appBar: StandardHeader(
         title: "Lojas",
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSettings: false,
       ),
       body: AppBackground(

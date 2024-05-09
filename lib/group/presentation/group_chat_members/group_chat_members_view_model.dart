@@ -37,7 +37,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final INavigationManager _navigationManager;
   final ProfileService _profileService;
 
-  late final User _user;
+  late final User? _user;
   late GroupDetailsResult _groupDetailsResult;
   late bool _isAdmin;
   late bool _isCreator;
@@ -72,10 +72,10 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     }
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   bool get isMember => _groupDetailsResult.members.any(
-        (member) => member.id == _user.id,
+        (member) => member.id == _user?.id,
       );
 
   bool get isAdmin => _isAdmin;
@@ -83,11 +83,11 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   bool get isCreator => _isCreator;
 
   bool hasPrivilegies() {
-    return details.admins.map((elem) => elem.id).contains(user.id);
+    return details.admins.map((elem) => elem.id).contains(user?.id);
   }
 
   bool hasCreatorPrivilegies() {
-    return details.creator.id == user.id;
+    return details.creator.id == user?.id;
   }
 
   void setUserName(String userName) {
@@ -123,7 +123,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       await _leaveGroupUseCase
           .handle(ActionToMemberOfGroupRequest(memberId, groupId));
 
-      if (memberId == _user.id) {
+      if (memberId == _user?.id) {
         await _navigationManager.pushAsync(HomeRoutes.home);
       }
 

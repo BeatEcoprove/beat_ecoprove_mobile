@@ -33,7 +33,7 @@ import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
-class ClotingViewModel extends FormViewModel implements Clone {
+class ClothingViewModel extends FormViewModel implements Clone {
   final AuthenticationProvider _authenticationProvider;
   final GetClosetUseCase _closetUseCase;
   final INotificationProvider _notificationProvider;
@@ -50,7 +50,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
   late List<FilterRow> _getBrands = [];
   late List<FilterRow> _getNestedProfiles = [];
 
-  late User user;
+  late User? user;
   late int currentPage = 1;
   final int pageSize = 5;
 
@@ -61,7 +61,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
 
   final ScrollController scrollController = ScrollController();
 
-  ClotingViewModel(
+  ClothingViewModel(
     this._authenticationProvider,
     this._closetUseCase,
     this._notificationProvider,
@@ -109,6 +109,11 @@ class ClotingViewModel extends FormViewModel implements Clone {
     notifyListeners();
 
     await fetchCloths();
+  }
+
+  void appendCloth(CardItem card) {
+    cloths.add(card);
+    notifyListeners();
   }
 
   Future fetchCloths() async {
@@ -424,7 +429,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
       var profiles = await _getNestedProfilesUseCase.handle();
       nestedProfiles = profiles.nestedProfiles;
 
-      if (user.name == profiles.mainProfile.username) {
+      if (user?.name == profiles.mainProfile.username) {
         for (var profile in nestedProfiles) {
           profileItem.add(FilterButtonItem(
             text: profile.username,
@@ -545,7 +550,7 @@ class ClotingViewModel extends FormViewModel implements Clone {
 
   @override
   clone() {
-    return ClotingViewModel(
+    return ClothingViewModel(
       _authenticationProvider,
       _closetUseCase,
       _notificationProvider,

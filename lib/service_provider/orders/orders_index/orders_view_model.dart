@@ -16,7 +16,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
   final StaticValuesProvider _valuesProvider;
 
   final AuthenticationProvider _authProvider;
-  late final User _user;
+  late final User? _user;
   late Map<String, dynamic> _selectedFilters = {};
   late List<String> _selectedHorizontalFilters = [];
   late List<FilterRow> _getColors = [];
@@ -39,7 +39,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
     getAllBrands();
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void setUpdateUpdateData(bool value) {
     shouldUpdateData = value;

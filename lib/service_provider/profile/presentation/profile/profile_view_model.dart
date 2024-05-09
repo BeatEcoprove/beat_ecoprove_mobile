@@ -8,7 +8,7 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
 
-  late final User _user;
+  late final User? _user;
 
   ServiceProviderProfileViewModel(
     this._authProvider,
@@ -17,7 +17,7 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
     _user = _authProvider.appUser;
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void settings() {
     _navigationRouter.push(ProfileRoutes.settings);

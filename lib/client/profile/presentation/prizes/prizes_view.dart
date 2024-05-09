@@ -23,7 +23,7 @@ class PrizesView extends LinearView<PrizesViewModel> {
       appBar: StandardHeader(
         title: 'Prémios',
         hasSustainablePoints: true,
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: SizedBox(
         height: double.infinity,

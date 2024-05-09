@@ -22,7 +22,7 @@ class ParamsProfileViewModel extends FormViewModel {
   final AuthenticationService _authenticationService;
   final PromoteProfileUseCase _promoteProfileUseCase;
   final INavigationManager _navigationRouter;
-  late final User _user;
+  late final User? _user;
   late NestedProfilesResult _profilesResult;
 
   ParamsProfileViewModel(
@@ -103,7 +103,7 @@ class ParamsProfileViewModel extends FormViewModel {
     }
   }
 
-  User get user => _user;
+  User? get user => _user;
   NestedProfilesResult get profilesResult => _profilesResult;
 
   Future<void> promoteProfile(String profileId) async {

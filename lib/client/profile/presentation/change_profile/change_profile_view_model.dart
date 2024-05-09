@@ -28,7 +28,7 @@ class ChangeProfileViewModel extends ViewModel {
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
   final DeleteProfileUseCase _deleteProfileUseCase;
   final INavigationManager _navigationRouter;
-  late final User _user;
+  late final User? _user;
   late NestedProfilesResult _profilesResult;
 
   ChangeProfileViewModel(
@@ -43,7 +43,7 @@ class ChangeProfileViewModel extends ViewModel {
     _profilesResult = NestedProfilesResult.empty();
   }
 
-  User get user => _user;
+  User? get user => _user;
   NestedProfilesResult get profilesResult => _profilesResult;
 
   Future<void> getNestedProfiles() async {

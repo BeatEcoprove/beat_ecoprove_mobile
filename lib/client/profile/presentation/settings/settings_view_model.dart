@@ -7,13 +7,13 @@ import 'package:beat_ecoprove/core/view_model.dart';
 class SettingsViewModel extends ViewModel {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
-  late final User _user;
+  late final User? _user;
 
   SettingsViewModel(this._authProvider, this._navigationRouter) {
     _user = _authProvider.appUser;
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   Future logout() async {
     await _authProvider.logout();

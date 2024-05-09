@@ -24,7 +24,7 @@ class HomeView extends LinearView<HomeViewModel> {
     return Scaffold(
       appBar: StandardHeader(
           hasSearchBar: true,
-          sustainablePoints: viewModel.user.sustainablePoints),
+          sustainablePoints: viewModel.user?.sustainablePoints ?? 0),
       body: CustomScrollView(
         slivers: [
           _buildWelcomeSection(viewModel.user),
@@ -35,17 +35,17 @@ class HomeView extends LinearView<HomeViewModel> {
     );
   }
 
-  SliverPadding _buildWelcomeSection(User user) {
+  SliverPadding _buildWelcomeSection(User? user) {
     return SliverPadding(
       padding: const EdgeInsets.all(12),
       sliver: SliverList(
         delegate: SliverChildListDelegate(
           [
             WelcomeCard(
-              levelPercent: user.levelPercent,
-              userAvatarPictureUrl: user.avatarUrl.toString(),
-              userLevel: user.level,
-              userName: user.name,
+              levelPercent: user?.levelPercent ?? 0,
+              userAvatarPictureUrl: user?.avatarUrl.toString() ?? '',
+              userLevel: user?.level ?? 0,
+              userName: user?.name ?? '',
             ),
             const Padding(
               padding: EdgeInsets.only(top: 29),

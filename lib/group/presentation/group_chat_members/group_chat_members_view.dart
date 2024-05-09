@@ -112,7 +112,7 @@ class GroupChatMembersView
                                 child:
                                     (!viewModel.isCreator &&
                                             !viewModel.isAdmin &&
-                                            viewModel.user.id != member.id)
+                                            viewModel.user?.id != member.id)
                                         ? CompactListItemRoot(
                                             height: HeightCard.height88,
                                             padding: PaddingCard.padding0,
@@ -145,7 +145,8 @@ class GroupChatMembersView
                                                           .details.creator.id)
                                                   ? WithOptionsFooter(
                                                       options: [
-                                                        if (viewModel.user.id !=
+                                                        if (viewModel
+                                                                .user?.id !=
                                                             member.id)
                                                           OptionItem(
                                                               name: viewModel
@@ -173,7 +174,7 @@ class GroupChatMembersView
                                                                       }),
                                                         OptionItem(
                                                             name: viewModel.user
-                                                                        .id !=
+                                                                        ?.id !=
                                                                     member.id
                                                                 ? 'Remover do Grupo'
                                                                 : 'Sair do Grupo',
@@ -209,7 +210,7 @@ class GroupChatMembersView
                                 margin: const EdgeInsets.symmetric(vertical: 8),
                                 child: (!viewModel.isCreator &&
                                         !viewModel.isAdmin &&
-                                        viewModel.user.id != admin.id)
+                                        viewModel.user?.id != admin.id)
                                     ? CompactListItemRoot(
                                         height: HeightCard.height88,
                                         padding: PaddingCard.padding0,
@@ -241,7 +242,7 @@ class GroupChatMembersView
                                                   admin.id)
                                               ? WithOptionsFooter(
                                                   options: [
-                                                    if (viewModel.user.id !=
+                                                    if (viewModel.user?.id !=
                                                         admin.id)
                                                       OptionItem(
                                                         name: 'Despromover',
@@ -254,7 +255,8 @@ class GroupChatMembersView
                                                         },
                                                       ),
                                                     OptionItem(
-                                                      name: viewModel.user.id !=
+                                                      name: viewModel
+                                                                  .user?.id !=
                                                               admin.id
                                                           ? 'Remover do Grupo'
                                                           : 'Sair do Grupo',

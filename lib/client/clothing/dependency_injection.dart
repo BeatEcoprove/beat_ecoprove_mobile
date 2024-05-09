@@ -179,7 +179,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     );
 
     locator.registerFactory(
-      () => ClotingViewModel(
+      () => ClothingViewModel(
         locator<AuthenticationProvider>(),
         locator<GetClosetUseCase>(),
         locator<INotificationProvider>(),
@@ -230,7 +230,7 @@ extension ClothingDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
       () => ClothingView(
-        viewModel: locator<ClotingViewModel>(),
+        viewModel: locator<ClothingViewModel>(),
       ),
     );
   }

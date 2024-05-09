@@ -12,7 +12,7 @@ import 'package:beat_ecoprove/client/profile/domain/value_objects/feedback_descr
 import 'package:beat_ecoprove/client/profile/domain/value_objects/feedback_name.dart';
 
 class SendFeedbackViewModel extends FormViewModel {
-  late final User _user;
+  late final User? _user;
   final AuthenticationProvider _authProvider;
   final INotificationProvider _notificationProvider;
   final SendFeedbackUseCase _sendFeedbackUseCase;
@@ -31,7 +31,7 @@ class SendFeedbackViewModel extends FormViewModel {
     ]);
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   void setName(String name) {
     try {

@@ -23,7 +23,7 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
       appBar: StandardHeader(
         title: 'Prémios',
         hasSustainablePoints: true,
-        sustainablePoints: viewModel.user.sustainablePoints,
+        sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: GoBack(
         posTop: 18,

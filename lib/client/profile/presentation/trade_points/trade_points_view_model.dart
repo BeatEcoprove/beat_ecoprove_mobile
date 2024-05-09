@@ -14,7 +14,7 @@ class TradePointsViewModel extends FormViewModel {
   final AuthenticationProvider _authProvider;
   final TradePointsUseCase _tradePointsUseCase;
   final INavigationManager _navigationRouter;
-  late final User _user;
+  late final User? _user;
 
   TradePointsViewModel(
     this._navigationRouter,
@@ -53,7 +53,7 @@ class TradePointsViewModel extends FormViewModel {
     }
   }
 
-  User get user => _user;
+  User? get user => _user;
 
   int get getEcoCoins => 100;
   int get getSustainablePoints => 10;

@@ -4,9 +4,10 @@ import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_view_model.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
-import 'package:beat_ecoprove/core/widgets/place_to_place.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/rounded_button.dart';
@@ -66,12 +67,13 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
               Positioned(
                 top: 18,
                 right: 28,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.more_vert_rounded,
-                    color: AppColor.widgetSecondary,
-                  ),
-                  onPressed: () {},
+                child: WithOptionsFooter(
+                  options: [
+                    OptionItem(
+                      name: "Histórico de Ações",
+                      action: () => viewModel.getClothHistory(),
+                    ),
+                  ],
                 ),
               ),
               Positioned(
@@ -187,29 +189,33 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                         const SizedBox(
                           height: 16,
                         ),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Origem",
-                              style: AppText.smallSubHeader,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              "Destino",
-                              style: AppText.smallSubHeader,
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: List.generate(2, (index) {
-                            return const PlaceToPlace(
-                              origin: "Origem",
-                              destination: "Destino",
-                            );
-                          }),
-                        ),
+                        //TODO: GET BY BEAT API
+                        // const Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text(
+                        //       "Origem",
+                        //       style: AppText.smallSubHeader,
+                        //       overflow: TextOverflow.ellipsis,
+                        //     ),
+                        //     Text(
+                        //       "Destino",
+                        //       style: AppText.smallSubHeader,
+                        //       overflow: TextOverflow.ellipsis,
+                        //     )
+                        //   ],
+                        // ),
+                        // Column(
+                        //   children: List.generate(
+                        //     2,
+                        //     (index) {
+                        //       return const PlaceToPlace(
+                        //         origin: "Origem",
+                        //         destination: "Destino",
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

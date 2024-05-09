@@ -115,6 +115,7 @@ class GroupView extends LinearView<GroupViewModel> {
               bottom: 78,
               right: 9,
               child: NotificationView(
+                groupViewModel: viewModel,
                 notifications: viewModel.notifications,
               ),
             )

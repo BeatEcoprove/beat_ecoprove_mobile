@@ -170,11 +170,6 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
             clothStates[currentService.service.id] = currentService;
           }
         }
-      } on HttpError catch (e) {
-        _notificationProvider.showNotification(
-          e.getError().title,
-          type: NotificationTypes.error,
-        );
       } catch (e) {
         print(e.toString());
       }

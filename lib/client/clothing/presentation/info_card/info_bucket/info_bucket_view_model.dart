@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/remove_cloth_from_bucket_request.dart';
+import 'package:beat_ecoprove/client/clothing/domain/errors/no_clothes_exception.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_params.dart';
@@ -54,12 +55,15 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
   Future removeClothFromBucket(
       CardItem card, List<String> idCloth, String idBucket) async {
     try {
-      await _removeClothFromBucketUseCase.handle(RemoveClothFromBucketRequest(
-          idCloth
-              .where((element) =>
-                  !_bucketInfoManager.getAllClothes().contains(element))
-              .toList(),
-          idBucket));
+      var clothes = idCloth.where(
+          (element) => !_bucketInfoManager.getAllClothes().contains(element));
+
+      if (clothes.isEmpty) {
+        throw NoClothesException("Não tem peças de roupa selecionadas!");
+      }
+
+      await _removeClothFromBucketUseCase
+          .handle(RemoveClothFromBucketRequest(clothes.toList(), idBucket));
 
       _navigationRouter.pop();
       _bucketInfoManager.removeClothes();
@@ -73,6 +77,11 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
         e.getError().title,
         type: NotificationTypes.error,
       );
+    } on NoClothesException catch (e) {
+      _notificationProvider.showNotification(
+        e.message,
+        type: NotificationTypes.error,
+      );
     } catch (e) {
       print(e.toString());
     }
@@ -82,10 +91,14 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
 
   Future unMarkClothsFromBucket(CardItem card, List<String> idsCloth) async {
     try {
-      await _unMarkClothAsDailyUseUseCase.handle(idsCloth
-          .where((element) =>
-              !_bucketInfoManager.getAllClothes().contains(element))
-          .toList());
+      var clothes = idsCloth.where(
+          (element) => !_bucketInfoManager.getAllClothes().contains(element));
+
+      if (clothes.isEmpty) {
+        throw NoClothesException("Não tem peças de roupa selecionadas!");
+      }
+
+      await _unMarkClothAsDailyUseUseCase.handle(clothes.toList());
 
       card.child
           .where((element) => idsCloth.contains(element.id))
@@ -103,6 +116,11 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
     } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } on NoClothesException catch (e) {
+      _notificationProvider.showNotification(
+        e.message,
         type: NotificationTypes.error,
       );
     } catch (e) {

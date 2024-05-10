@@ -7,7 +7,8 @@ enum WebsocketMessageType implements Comparable<WebsocketMessageType> {
   chatTextMessage(value: "TextMessage"),
   borrowMessage(value: "BorrowClothMessage"),
   serverChatMessage(value: "ServerChatMessage"),
-  errorMessage(value: "MessageNotificationEvent");
+  errorMessage(value: "MessageNotificationEvent"),
+  notifyBorrowRequestAccepted(value: "NotifyBorrowExchangeEndedEvent");
 
   final String value;
 

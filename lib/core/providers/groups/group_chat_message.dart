@@ -1,18 +1,17 @@
-class GroupChatMessage {
-  final String groupId;
+import 'package:beat_ecoprove/core/providers/groups/group_base_message.dart';
+
+class GroupChatMessage extends GroupBaseMessage {
   final String content;
-  final String senderId;
   final String username;
   final String avatarPicture;
-  final String type;
-  final DateTime createdAt;
 
   GroupChatMessage(
-    this.groupId,
+    super.messageId,
+    super.groupId,
     this.content,
-    this.senderId,
+    super.senderId,
     this.username,
     this.avatarPicture,
-    this.type,
-  ) : createdAt = DateTime.now();
+    super.type,
+  );
 }

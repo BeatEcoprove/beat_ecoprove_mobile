@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/acceptGrou
 import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/handler.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/inviteToGroup_handler.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/levelup_handler.dart';
+import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/notify_borrow_request_accepted_handler.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/sendborrow_handler.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/handlers/sendtext_handler.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket_accept_group_connection_message.dart';
@@ -13,6 +14,7 @@ import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket
 import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket_group_message_message.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket_invite_to_group.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket_level_message.dart';
+import 'package:beat_ecoprove/core/providers/websockets/dtos/responses/websocket_notify_borrow_request_accepted_message.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/websocket_message_type.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/websocket_result.dart';
 import 'dart:convert' as convert;
@@ -63,6 +65,11 @@ abstract class Notifier {
       case WebsocketMessageType.borrowMessage:
         return SendBorrowHandler(
           WebsocketGroupBorrow(json),
+          groupManager,
+        );
+      case WebsocketMessageType.notifyBorrowRequestAccepted:
+        return NotifyBorrowRequestAcceptedHandler(
+          WebsocketNotifyBorrowRequestAcceptedMessage(json),
           groupManager,
         );
       default:

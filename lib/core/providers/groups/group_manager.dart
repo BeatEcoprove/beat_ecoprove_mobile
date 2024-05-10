@@ -1,22 +1,22 @@
 import 'dart:collection';
 
-import 'package:beat_ecoprove/core/providers/groups/group_chat_message.dart';
+import 'package:beat_ecoprove/core/providers/groups/group_base_message.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class GroupManager extends ViewModel {
-  final Queue<GroupChatMessage> messages = Queue();
+  final Queue<GroupBaseMessage> messages = Queue();
 
-  void pushMessage(GroupChatMessage message) {
+  void pushMessage(GroupBaseMessage message) {
     messages.add(message);
     notifyListeners();
   }
 
-  void dropLast(GroupChatMessage notification) {
+  void dropLast(GroupBaseMessage notification) {
     messages.remove(notification);
     notifyListeners();
   }
 
-  T getMessage<T extends GroupChatMessage>() {
+  T getMessage<T extends GroupBaseMessage>() {
     return messages.removeFirst() as T;
   }
 }

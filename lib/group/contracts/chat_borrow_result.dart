@@ -7,10 +7,10 @@ class ChatBorrowResult extends ChatMessageResult {
   final String clothColor;
   final String clothSize;
   final int clothEcoScore;
-  final String messageId;
   final bool isAccepted;
 
   ChatBorrowResult(
+    super.messageId,
     super.groupId,
     super.content,
     this.clothAvatar,
@@ -23,12 +23,12 @@ class ChatBorrowResult extends ChatMessageResult {
     super.username,
     super.avatarPicture,
     super.createdAt,
-    this.messageId,
     this.isAccepted,
   );
 
   factory ChatBorrowResult.fromJson(Map<String, dynamic> json) {
     return ChatBorrowResult(
+        json['id'],
         json['groupId'],
         json['content'],
         json['borrow']['clothAvatar'],
@@ -41,7 +41,6 @@ class ChatBorrowResult extends ChatMessageResult {
         json['sender']['username'],
         json['sender']['avatarUrl'],
         DateTime.parse(json['createdAt']),
-        json['id'],
         json['isAccepted']);
   }
 }

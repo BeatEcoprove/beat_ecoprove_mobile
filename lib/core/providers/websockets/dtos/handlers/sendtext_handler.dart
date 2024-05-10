@@ -15,6 +15,7 @@ class SendBorrowHandler extends Handler<WebsocketGroupBorrow> {
   void handle() {
     groupManager.pushMessage(
       GroupBorrowChatMessage(
+        message.messageId,
         message.groupId,
         message.message,
         message.ownerId,

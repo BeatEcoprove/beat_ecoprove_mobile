@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/groups/group_borrow_accept_message.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_borrowchat_message.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_chat_message.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
@@ -93,7 +94,42 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   void handleGroupMessage() {
     var recentMessage = _groupManager.getMessage();
 
-    addMessage(_messageBody(recentMessage));
+    if (recentMessage is GroupChatMessage) {
+      return addMessage(_messageBody(recentMessage));
+    }
+
+    handleBorrowAcceptedRequest(recentMessage as GroupBorrowAcceptMessage);
+  }
+
+  void handleBorrowAcceptedRequest(GroupBorrowAcceptMessage recentMessage) {
+    var index = messages.indexWhere((message) =>
+        message.messageId == recentMessage.messageId &&
+        message.items.first is ChatTradeItem);
+
+    var foundMessage = messages.elementAt(index);
+    var content = foundMessage.items.elementAt(0) as ChatTradeItem;
+    messages.removeAt(index);
+
+    addMessage(ChatItemRoot(
+      userIsSender: foundMessage.userIsSender,
+      avatarUrl: foundMessage.avatarUrl,
+      createdAt: foundMessage.createdAt,
+      items: [
+        ChatTradeItem(
+          userName: content.userName,
+          messageText: content.messageText,
+          sendAt: content.sendAt,
+          clothImage: content.clothImage,
+          clothName: content.clothName,
+          clothBrand: content.clothBrand,
+          clothColor: content.clothColor,
+          clothSize: content.clothSize,
+          clothEcoScore: content.clothEcoScore,
+          isBlocked: true,
+        )
+      ],
+      messageId: foundMessage.messageId,
+    ));
   }
 
   @override
@@ -125,6 +161,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
               sendAt: message.createdAt,
             )
           ],
+          messageId: message.messageId,
         );
 
       case GroupBorrowChatMessage:
@@ -149,6 +186,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
             ),
           ],
           click: () async => await handleTradeOffer(message),
+          messageId: message.messageId,
         );
       default:
         return ChatItemRoot(
@@ -163,6 +201,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
               sendAt: message.createdAt,
             )
           ],
+          messageId: message.messageId,
         );
     }
   }

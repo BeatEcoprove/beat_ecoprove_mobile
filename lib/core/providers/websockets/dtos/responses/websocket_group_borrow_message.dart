@@ -7,7 +7,6 @@ class WebsocketGroupBorrow extends WebsocketGroupMessage {
   final String clothColor;
   final String clothSize;
   final int clothEcoScore;
-  final String messageId;
   final bool isAccepted;
 
   WebsocketGroupBorrow(Map<String, dynamic> json)
@@ -17,7 +16,6 @@ class WebsocketGroupBorrow extends WebsocketGroupMessage {
         clothColor = json['Content']['Borrow']['Color'],
         clothSize = json['Content']['Borrow']['Size'],
         clothEcoScore = int.parse(json['Content']['Borrow']['EcoScore']),
-        messageId = json['Content']['Id'],
         isAccepted = json['Content']['IsAccepted'],
         super(json);
 }

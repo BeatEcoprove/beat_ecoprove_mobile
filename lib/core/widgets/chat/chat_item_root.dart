@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
 class ChatItemRoot extends StatelessWidget {
+  final String messageId;
   final bool userIsSender;
   final String avatarUrl;
   final DateTime createdAt;
@@ -25,6 +26,7 @@ class ChatItemRoot extends StatelessWidget {
     required this.items,
     this.click,
     this.options,
+    required this.messageId,
   });
 
   Widget _avatar(double imageSize) {

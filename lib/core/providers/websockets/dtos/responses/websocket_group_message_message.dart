@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/providers/websockets/dtos/websocket_result.dart';
 
 class WebsocketGroupMessage extends WebsocketResult {
+  final String messageId;
   final String groupId;
   final String message;
   final String memberId;
@@ -8,7 +9,8 @@ class WebsocketGroupMessage extends WebsocketResult {
   final String avatarPicture;
 
   WebsocketGroupMessage(Map<String, dynamic> json)
-      : groupId = json['Content']['Group'],
+      : messageId = json['Content']['Id'],
+        groupId = json['Content']['Group'],
         message = json['Content']['Message'],
         memberId = json['Content']['Member']['Id'],
         username = json['Content']['Member']['Username'],

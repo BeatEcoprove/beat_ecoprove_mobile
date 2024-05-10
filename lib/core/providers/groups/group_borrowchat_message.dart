@@ -10,6 +10,7 @@ class GroupBorrowChatMessage extends GroupChatMessage {
   final bool isAccepted;
 
   GroupBorrowChatMessage(
+    super.messageId,
     super.groupId,
     super.message,
     super.senderId,

@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ChatMessageItem extends ChatListItem {
   const ChatMessageItem({
@@ -39,7 +39,7 @@ class ChatMessageItem extends ChatListItem {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      DateFormat('yyyy-MM-dd HH:mm').format(sendAt),
+                      DatetimeService.formatDate(sendAt),
                       style: AppText.smallSubHeader,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 10,

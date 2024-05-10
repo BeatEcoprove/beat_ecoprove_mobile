@@ -5,6 +5,6 @@ class DatetimeService {
   static String formatDate(DateTime time) {
     var locale = LocaleContext.getCurrentLocaleString();
 
-    return DateFormat.MMMEd(locale).add_Hms().format(time);
+    return DateFormat.yMMMMd(locale).add_Hm().format(time);
   }
 }

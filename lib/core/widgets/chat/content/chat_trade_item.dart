@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_item.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
@@ -131,6 +132,15 @@ class ChatTradeItem extends ChatListItem {
                   ),
                   Points.ecoScore(points: clothEcoScore),
                 ],
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  DatetimeService.formatDate(sendAt),
+                  style: AppText.smallSubHeader,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 10,
+                ),
               ),
             ],
           ),

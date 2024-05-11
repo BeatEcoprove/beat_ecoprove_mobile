@@ -11,6 +11,8 @@ dependencies:
   http_parser: ^4.0.2
   web_socket_channel: ^2.4.0
 
+  connectivity_plus: ^6.0.3
+
   flutter_dotenv: ^5.1.0
   shared_preferences: ^2.2.2
   get_it: ^7.6.4

@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/navigation/navigation_guard.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/services/internet_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/routes.dart';
@@ -33,6 +34,11 @@ class ApplicationRouter<TView extends LinearView> {
     routes: [],
     redirectPages: (context, state) {
       var authProvider = DependencyInjection.locator<AuthenticationProvider>();
+      var internetService = DependencyInjection.locator<InternetService>();
+
+      if (!internetService.wifiOn) {
+        return null;
+      }
 
       if (!authProvider.isAuthenticated) {
         if (state.fullPath != AuthRoutes.login.navigationPath) {

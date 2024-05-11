@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/services/internet_service.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,17 @@ void main() async {
   await dotenv.load(fileName: '.env');
   await StorageService.initStorage();
 
-  var app = await DependencyInjection().setupDIContainer();
+  var app = DependencyInjection().setupDIContainer();
   app.build();
 
-  var provider = DependencyInjection.locator<StaticValuesProvider>();
-  await provider.fetchStaticValues();
+  var internetService = DependencyInjection.locator<InternetService>();
+
+  if (await internetService.checkServerApiConnection()) {
+    await DependencyInjection.locator<AuthenticationProvider>().checkAuth();
+
+    var provider = DependencyInjection.locator<StaticValuesProvider>();
+    await provider.fetchStaticValues();
+  }
 
   runApp(
     MultiProvider(

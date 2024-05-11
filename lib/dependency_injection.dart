@@ -17,6 +17,7 @@ import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart'
 import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
 import 'package:beat_ecoprove/core/services/country_codes_service.dart';
 import 'package:beat_ecoprove/core/services/geo_api_service.dart';
+import 'package:beat_ecoprove/core/services/internet_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
@@ -65,6 +66,11 @@ class DependencyInjection {
     locator.registerSingleton(LevelUpProvider());
     locator.registerSingleton(NotificationManager());
     locator.registerSingleton(GroupManager());
+    locator.registerSingleton<InternetService>(
+      InternetServiceImpl(
+        locator<AuthenticationService>(),
+      ),
+    );
   }
 
   void registerWebsockets(GetIt locator) {
@@ -89,7 +95,7 @@ class DependencyInjection {
     ));
   }
 
-  Future<ApplicationRouter> setupDIContainer() async {
+  ApplicationRouter setupDIContainer() {
     var applicationRouter = createApplicationRouter<LoginView>();
 
     registerProviders(locator);
@@ -101,8 +107,6 @@ class DependencyInjection {
     addHome(applicationRouter);
     addServiceProvider(applicationRouter);
     addCore(applicationRouter);
-
-    await locator<AuthenticationProvider>().checkAuth();
 
     return applicationRouter;
   }

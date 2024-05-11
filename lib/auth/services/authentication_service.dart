@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/forgotpassword_request.dart';
 import 'package:beat_ecoprove/auth/contracts/login_request.dart';
+import 'package:beat_ecoprove/auth/contracts/ping_server.dart';
 import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
 import 'package:beat_ecoprove/auth/contracts/resetpassword_request.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sign_in_personal_request.dart';
@@ -13,6 +14,14 @@ class AuthenticationService {
   final HttpClient _httpClient;
 
   AuthenticationService(this._httpClient);
+
+  Future<PingServerResult> pingServer() async {
+    return PingServerResult.fromJson(await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "ping",
+      expectedCode: 200,
+    ));
+  }
 
   Future<AuthResult> signInPersonal(SignInPersonalRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestMultiPart(

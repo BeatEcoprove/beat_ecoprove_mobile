@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 
 class HttpClient {
   final String _baseAddress = ServerConfig.backendUrl;
+  static const Duration timeOutDuration = Duration(seconds: 15);
 
   static const defaultHeaders = {"Content-Type": "application/json"};
   static const multipartFrom = {"Content-Type": "multipart/form-data"};
@@ -23,36 +24,38 @@ class HttpClient {
     String jsonResponse;
     int statusCode;
     StreamedResponse stream;
+    dynamic response;
 
     try {
       request.headers.addAll({
         "Accept-Language": LocaleContext.getCurrentLocaleString(),
       });
 
-      stream = await request.send();
+      stream = await request.send().timeout(timeOutDuration);
 
       statusCode = stream.statusCode;
       jsonResponse = await stream.stream.bytesToString();
 
-      var response = convert.jsonDecode(jsonResponse);
-
-      if (statusCode != expectedCode) {
-        switch (statusCode) {
-          case HttpStatusCodes.badRequest:
-            throw HttpBadRequestError(response);
-          case HttpStatusCodes.conflictRequest:
-            throw HttpConflictRequestError(response);
-          case HttpStatusCodes.unAuthorized:
-            throw HttpUnAuthorizedError(response);
-          default:
-            throw HttpInternalError(response);
-        }
-      }
-
-      return response;
+      response = convert.jsonDecode(jsonResponse);
     } catch (e) {
-      rethrow;
+      print(e.toString());
+      throw HttpInternalError.empty();
     }
+
+    if (statusCode != expectedCode) {
+      switch (statusCode) {
+        case HttpStatusCodes.badRequest:
+          throw HttpBadRequestError(response);
+        case HttpStatusCodes.conflictRequest:
+          throw HttpConflictRequestError(response);
+        case HttpStatusCodes.unAuthorized:
+          throw HttpUnAuthorizedError(response);
+        default:
+          throw HttpInternalError(response);
+      }
+    }
+
+    return response;
   }
 
   Future<U> makeRequestMultiPart<U>(

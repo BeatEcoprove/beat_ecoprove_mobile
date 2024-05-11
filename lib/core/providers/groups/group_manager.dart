@@ -16,7 +16,11 @@ class GroupManager extends ViewModel {
     notifyListeners();
   }
 
-  T getMessage<T extends GroupBaseMessage>() {
+  T? getMessage<T extends GroupBaseMessage>() {
+    if (messages.isEmpty) {
+      return null;
+    }
+
     return messages.removeFirst() as T;
   }
 }

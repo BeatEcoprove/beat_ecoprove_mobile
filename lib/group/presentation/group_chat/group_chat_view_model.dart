@@ -94,6 +94,10 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   void handleGroupMessage() {
     var recentMessage = _groupManager.getMessage();
 
+    if (recentMessage == null) {
+      return;
+    }
+
     if (recentMessage is GroupChatMessage) {
       return addMessage(_messageBody(recentMessage));
     }

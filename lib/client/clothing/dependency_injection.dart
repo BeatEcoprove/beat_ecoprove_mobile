@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/change_bucket_name_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_buckets_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_history_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view.dart';
@@ -69,6 +70,7 @@ extension ClothingDependencyInjection on DependencyInjection {
   void _addUseCases(GetIt locator) {
     var clothingService = locator<ClosetService>();
     var outfitService = locator<OutfitService>();
+    var clothService = locator<ClothService>();
 
     locator.registerSingleton(ActionServiceProxy(
       locator<HttpAuthClient>(),
@@ -122,6 +124,10 @@ extension ClothingDependencyInjection on DependencyInjection {
     );
 
     locator.registerSingleton(
+      GetClothHistoryUseCase(clothService),
+    );
+
+    locator.registerSingleton(
       StaticValuesProvider(
         locator<AuthenticationProvider>(),
         locator<GetColorsUseCase>(),
@@ -140,6 +146,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
+    var getClothHistoryUseCase = locator<GetClothHistoryUseCase>();
     locator<GetBrandsUseCase>();
 
     locator.registerFactory(
@@ -158,13 +165,12 @@ extension ClothingDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
       () => InfoClothViewModel(
-        locator<AuthenticationProvider>(),
         router,
         notificationProvider,
         markClothAsDailyUseUseCase,
         unMarkClothAsDailyUseUseCase,
+        getClothHistoryUseCase,
         locator<ActionService>(),
-        locator<ClothService>(),
       ),
     );
 

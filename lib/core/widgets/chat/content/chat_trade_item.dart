@@ -131,6 +131,9 @@ class ChatTradeItem extends ChatListItem {
                     height: 2,
                   ),
                   Points.ecoScore(points: clothEcoScore),
+                  const SizedBox(
+                    height: 8,
+                  ),
                 ],
               ),
               Align(

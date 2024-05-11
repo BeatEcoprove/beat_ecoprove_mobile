@@ -210,7 +210,7 @@ class ClothingView extends LinearView<ClothingViewModel> {
       flexibleSpace: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          margin: EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(
@@ -233,7 +233,7 @@ class ClothingView extends LinearView<ClothingViewModel> {
               FilterButton(
                 bodyButton: Container(
                   width: 52,
-                  height: 50,
+                  height: 60,
                   decoration: const BoxDecoration(
                     color: AppColor.widgetBackground,
                     borderRadius: BorderRadius.all(borderRadius),

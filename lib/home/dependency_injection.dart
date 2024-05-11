@@ -33,8 +33,8 @@ extension HomeDependencyInjection on DependencyInjection {
       ),
     );
 
-    locator.registerFactory(
-      () => MainSkeletonViewModel(
+    locator.registerSingleton(
+      MainSkeletonViewModel(
         locator<StaticValuesProvider>(),
       ),
     );

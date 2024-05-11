@@ -21,6 +21,9 @@ import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_n
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_type.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/home/presentation/main_skeleton/main_skeleton_view_model.dart';
+import 'package:beat_ecoprove/home/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -156,6 +159,8 @@ class RegisterClothViewModel extends FormViewModel {
   }
 
   Future registerCloth() async {
+    var mainSkeleton = DependencyInjection.locator<MainSkeletonViewModel>();
+
     try {
       await _registerClothUseCase.handle(RegisterClothRequest(
         getValue(FormFieldValues.clothName).value ?? "",
@@ -165,6 +170,9 @@ class RegisterClothViewModel extends FormViewModel {
         getValue(FormFieldValues.clothColor).value ?? "FF000000",
         getValue(FormFieldValues.clothImage).value ?? "",
       ));
+
+      mainSkeleton.setIndex(1);
+      _navigationRouter.push(HomeRoutes.home);
 
       _notificationProvider.showNotification(
         LocaleContext.get().client_register_cloth_created,
@@ -179,7 +187,7 @@ class RegisterClothViewModel extends FormViewModel {
       print(e.toString());
     }
 
-    _navigationRouter.pop();
+    // _navigationRouter.pop();
     notifyListeners();
   }
 

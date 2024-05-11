@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/group/presentation/group_index/group_view.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view.dart';
 
 class MainSkeletonViewModel extends ViewModel {
+  late int currentIndex = 0;
   final StaticValuesProvider _staticValuesProvider;
 
   MainSkeletonViewModel(this._staticValuesProvider);
@@ -14,6 +15,11 @@ class MainSkeletonViewModel extends ViewModel {
   @override
   void initSync() async {
     await _staticValuesProvider.fetchAuthorizedValues();
+  }
+
+  void setIndex(int index) {
+    currentIndex = index;
+    notifyListeners();
   }
 
   List<LinearView> getViews() {

@@ -5,12 +5,14 @@ class Swiper extends StatefulWidget {
   final List<Widget> views;
   final List<Widget> bottomNavigationBarOptions;
   final bool hasRegisterCloth;
+  final int? index;
 
   const Swiper({
     super.key,
     required this.bottomNavigationBarOptions,
     this.hasRegisterCloth = true,
     required this.views,
+    this.index,
   });
 
   @override
@@ -19,11 +21,18 @@ class Swiper extends StatefulWidget {
 
 class _SwiperState extends State<Swiper> {
   static const _animationDuration = Duration(milliseconds: 750);
-  late int selectedIndex = 0;
-  final PageController controller = PageController(
-    initialPage: 0,
-    keepPage: false,
-  );
+  late int selectedIndex = widget.index ?? 0;
+  late final PageController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = PageController(
+      initialPage: widget.index ?? selectedIndex,
+      keepPage: false,
+    );
+  }
 
   Future _animateToPage(int page) {
     return controller.animateToPage(page,

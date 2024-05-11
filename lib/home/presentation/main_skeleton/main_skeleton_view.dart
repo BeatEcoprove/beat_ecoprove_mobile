@@ -14,6 +14,7 @@ class MainSkeletonView extends LinearView<MainSkeletonViewModel> {
   Widget build(BuildContext context, MainSkeletonViewModel viewModel) {
     return Swiper(
       views: viewModel.getViews(),
+      index: viewModel.currentIndex,
       bottomNavigationBarOptions: const [
         Icon(Icons.home_rounded),
         SvgImage(path: "assets/shirt.svg"),

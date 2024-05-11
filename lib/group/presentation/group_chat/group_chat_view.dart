@@ -122,7 +122,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                           },
                     child: Container(
                       width: 52,
-                      height: 50,
+                      height: 60,
                       decoration: const BoxDecoration(
                         color: AppColor.widgetBackground,
                         borderRadius: BorderRadius.all(borderRadius),
@@ -142,7 +142,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                     onTap: () => viewModel.sendTradeOffer(args.id),
                     child: Container(
                       width: 52,
-                      height: 50,
+                      height: 60,
                       decoration: const BoxDecoration(
                         color: AppColor.widgetBackground,
                         borderRadius: BorderRadius.all(borderRadius),

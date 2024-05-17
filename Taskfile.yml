@@ -1,0 +1,18 @@
+version: '3'
+
+env:
+  BUILD_APKS_DIR: ./build/apks/ecoprove.apks
+
+dotenv: ['.env']
+
+tasks:
+  install:
+    - java -jar ./tools/bundletool.jar install-apks --apks=$BUILD_APKS_DIR --device-id $INSTALL_DEVICE_ID
+
+  build:
+    desc: Generate APKS
+    cmds:
+      - flutter build appbundle
+      - java -jar ./tools/bundletool.jar build-apks --bundle=./build/app/outputs/bundle/release/app-release.aab --output=$BUILD_APKS_DIR
+    status:
+      - test -f $BUILD_APKS_DIR

@@ -30,7 +30,7 @@ class StoreView extends LinearView<StoreViewModel> {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: SizedBox(
-        height: 50,
+        height: 60,
         child: Row(
           children: [
             Expanded(
@@ -51,7 +51,7 @@ class StoreView extends LinearView<StoreViewModel> {
             FilterButton(
               bodyButton: Container(
                 width: 52,
-                height: 50,
+                height: 60,
                 decoration: const BoxDecoration(
                   color: AppColor.widgetBackground,
                   borderRadius: BorderRadius.all(borderRadius),
@@ -84,9 +84,7 @@ class StoreView extends LinearView<StoreViewModel> {
     return stores
         .map(
           (e) => Container(
-            margin: const EdgeInsets.symmetric(
-              vertical: 4,
-            ),
+            margin: const EdgeInsets.only(top: 12, bottom: 6),
             child: InkWell(
                 onTap: () => viewModel.goToStore(e),
                 child:
@@ -191,10 +189,23 @@ class StoreView extends LinearView<StoreViewModel> {
                                 child: Column(
                                   children: [
                                     Column(
-                                      children: _renderCards(
-                                        viewModel,
-                                        viewModel.stores,
-                                      ),
+                                      children: viewModel.stores.isEmpty
+                                          ? [
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 36),
+                                                child: const Text(
+                                                  "Não existem lojas!",
+                                                  textAlign: TextAlign.center,
+                                                  style: AppText.smallSubHeader,
+                                                ),
+                                              )
+                                            ]
+                                          : _renderCards(
+                                              viewModel,
+                                              viewModel.stores,
+                                            ),
                                     ),
                                   ],
                                 ),

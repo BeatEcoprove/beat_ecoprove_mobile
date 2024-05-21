@@ -1,54 +1,102 @@
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
-import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
-import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/remove_worker_request.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/add_worker_request.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_store_workers_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/worker.dart';
+import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
+import 'package:beat_ecoprove/service_provider/stores/routes.dart';
+import 'package:beat_ecoprove/service_provider/stores/services/store_service.dart';
 
 class StoreWorkersViewModel extends FormViewModel {
+  final INotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
+  final GetStoreWorkersUseCase _getStoreWorkersUseCase;
+  final StoreService _storeService;
 
-  late final User? _user;
-  final List<Worker> _workers = [
-    Worker(id: '1', name: 'Zé', email: 'ze@gmail.com', type: 'regularWorker'),
-  ];
-  final List<String> _types = ["Regular", "Gerente"];
-
-  //TODO: ADD ACTION
-  final List<OptionItem> _options = [
-    OptionItem(name: "Remover", action: () => {}),
-  ];
+  late final User? user;
+  final List<Worker> workers = [];
+  final List<String> types = ["Regular", "Gerente"];
 
   StoreWorkersViewModel(
+    this._notificationProvider,
     this._authProvider,
     this._navigationRouter,
+    this._getStoreWorkersUseCase,
+    this._storeService,
   ) {
     initializeFields([
       FormFieldValues.code,
     ]);
-    _user = _authProvider.appUser;
-    setValue(FormFieldValues.code, _types.firstOrNull);
+    user = _authProvider.appUser;
+    setValue(FormFieldValues.code, types.firstOrNull);
   }
 
-  User? get user => _user;
+  Future getWorkers(String storeId) async {
+    try {
+      workers.clear();
 
-  List<OptionItem> get options => _options;
+      var workersResult = await _getStoreWorkersUseCase.handle(
+        GetStoreWorkersUseCaseRequest(
+          storeId: storeId,
+        ),
+      );
 
-  List<String> get types => _types;
-
-  List<Worker> get workers => _workers;
-
-  Future<void> getWorkers(String storeId) async {
-    //TODO: CREATE SERVICE
-    return;
+      workers.addAll(workersResult);
+    } on HttpError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
-  Future addWorker(String storeId) async {
-    await _navigationRouter
-        .pushAsync(AppRoute.from("/store/$storeId/addWorkers"));
+  Future addWorker(StoreParams store) async {
+    await _navigationRouter.pushAsync(
+      StoreRoutes.addWorker(store.storeId),
+      extras: store,
+    );
+
+    notifyListeners();
+  }
+
+  Future removeWorker(String storeId, String workerId) async {
+    try {
+      await _storeService.removeWorker(RemoveWorkerRequest(storeId, workerId));
+    } on HttpError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+
+    notifyListeners();
+  }
+
+  Future changeWorkerType(String storeId, String workerId, String type) async {
+    try {
+      await _storeService.changeWorkerType(
+        AddWorkerRequest(storeId, workerId, type),
+      );
+    } on HttpError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+
     notifyListeners();
   }
 }

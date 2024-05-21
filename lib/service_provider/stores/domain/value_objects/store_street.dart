@@ -7,7 +7,7 @@ class StoreStreet {
 
   factory StoreStreet.create(String storeStreet) {
     if (storeStreet.isEmpty) {
-      throw DomainException("Por favor introduza a rua à loja!");
+      throw DomainException("Por favor introduza a rua da loja!");
     }
 
     return StoreStreet._(storeStreet);

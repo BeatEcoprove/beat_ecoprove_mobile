@@ -1,25 +1,23 @@
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/filter_card_type.dart';
+import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list_base.dart';
 import 'package:flutter/material.dart';
 
-class HorizontalSelectorList extends StatefulWidget {
-  final Map<String, String> list;
-  final Function(List<String>) onSelectionChanged;
-  final bool Function(String) isHorizontalFilterSelected;
-
+class HorizontalSelectorList extends HorizontalSelectorListBase {
   const HorizontalSelectorList({
     super.key,
-    required this.list,
-    required this.onSelectionChanged,
-    required this.isHorizontalFilterSelected,
+    required super.list,
+    required super.onSelectionChanged,
+    required super.isHorizontalFilterSelected,
   });
 
   @override
   State<HorizontalSelectorList> createState() => _HorizontalSelectorListState();
 }
 
-class _HorizontalSelectorListState extends State<HorizontalSelectorList> {
+class _HorizontalSelectorListState
+    extends HorizontalSelectorListBaseState<HorizontalSelectorList> {
+  @override
   final Map<String, String> items = {"all": "Tudo"};
-  late List<String> selectedItems = [];
   late int selectedIndex = 0;
 
   @override
@@ -43,7 +41,8 @@ class _HorizontalSelectorListState extends State<HorizontalSelectorList> {
     );
   }
 
-  renderHorizontalFilter(int i) {
+  @override
+  Widget renderHorizontalFilter(int i) {
     return FilterCardType(
       onPress: () => setState(() {
         var title = items.keys.toList()[i];
@@ -72,6 +71,7 @@ class _HorizontalSelectorListState extends State<HorizontalSelectorList> {
 
   bool isHeadSelected(int i) => selectedIndex == 0;
 
+  @override
   bool handleSelection(title) {
     if (isAllSelected(title)) {
       return true;

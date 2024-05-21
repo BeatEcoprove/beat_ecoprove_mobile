@@ -1,17 +1,19 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
+import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
-import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/add_worker/add_worker_view_model.dart';
+import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
 import 'package:flutter/material.dart';
 
-class AddWorkerView extends LinearView<AddWorkerViewModel> {
+class AddWorkerView extends ArgumentView<AddWorkerViewModel, StoreParams> {
   const AddWorkerView({
     super.key,
     required super.viewModel,
+    required super.args,
   });
 
   @override
@@ -71,7 +73,8 @@ class AddWorkerView extends LinearView<AddWorkerViewModel> {
                 content: "Continuar",
                 textColor: Colors.white,
                 disabled: viewModel.thereAreErrors,
-                onPress: () async => await viewModel.registerWorker(),
+                onPress: () async =>
+                    await viewModel.registerWorker(args.storeId),
               )
             ],
           ),

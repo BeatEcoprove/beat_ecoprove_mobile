@@ -2,17 +2,12 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 
 class StoreNumberPort {
   final String number;
+  static final RegExp regex = RegExp(r'^\d{1,8}$');
 
   StoreNumberPort._(this.number);
 
   factory StoreNumberPort.create(String storeNumberPort) {
-    if (storeNumberPort.isEmpty) {
-      throw DomainException("Por favor introduza o número da porta!");
-    }
-
-    try {
-      int.parse(storeNumberPort);
-    } catch (e) {
+    if (!regex.hasMatch(storeNumberPort)) {
       throw DomainException("O número da porta deve ser um número!");
     }
 

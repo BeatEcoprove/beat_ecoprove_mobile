@@ -5,7 +5,12 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_reviews_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_store_workers_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/add_worker_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/register_store_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/create_store/create_store_view.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/create_store/create_store_view_model.dart';
@@ -32,7 +37,23 @@ extension StoresDependencyInjection on DependencyInjection {
     var storeService = locator<StoreService>();
 
     locator.registerSingleton(
+      GetStoresUseCase(storeService),
+    );
+
+    locator.registerSingleton(
       RegisterStoreUseCase(storeService),
+    );
+
+    locator.registerSingleton(
+      AddWorkerUseCase(storeService),
+    );
+
+    locator.registerSingleton(
+      GetStoreWorkersUseCase(storeService),
+    );
+
+    locator.registerSingleton(
+      GetReviewsUseCase(storeService),
     );
   }
 
@@ -41,16 +62,23 @@ extension StoresDependencyInjection on DependencyInjection {
     var router = locator<INavigationManager>();
     var notificationProvider = locator<INotificationProvider>();
     var registerStoreUseCase = locator<RegisterStoreUseCase>();
+    var addWorkerUseCase = locator<AddWorkerUseCase>();
+    var getStoreWorkersUseCase = locator<GetStoreWorkersUseCase>();
+    var getReviewsUseCase = locator<GetReviewsUseCase>();
+    var getStoresUseCase = locator<GetStoresUseCase>();
 
     locator.registerFactory(
       () => StoreViewModel(
+        notificationProvider,
         authProvider,
         router,
+        getStoresUseCase,
       ),
     );
 
     locator.registerFactory(
       () => CreateStoreViewModel(
+        locator<StaticValuesProvider>(),
         notificationProvider,
         registerStoreUseCase,
         router,
@@ -59,14 +87,20 @@ extension StoresDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
       () => InfoStoreViewModel(
+        notificationProvider,
         router,
+        authProvider,
+        getReviewsUseCase,
       ),
     );
 
     locator.registerFactory(
       () => StoreWorkersViewModel(
+        notificationProvider,
         authProvider,
         router,
+        getStoreWorkersUseCase,
+        locator<StoreService>(),
       ),
     );
 
@@ -74,6 +108,7 @@ extension StoresDependencyInjection on DependencyInjection {
       () => AddWorkerViewModel(
         notificationProvider,
         router,
+        addWorkerUseCase,
       ),
     );
   }
@@ -105,9 +140,10 @@ extension StoresDependencyInjection on DependencyInjection {
       ),
     );
 
-    locator.registerFactory(
-      () => AddWorkerView(
+    locator.registerFactoryParam<AddWorkerView, StoreParams, void>(
+      (params, _) => AddWorkerView(
         viewModel: locator<AddWorkerViewModel>(),
+        args: params,
       ),
     );
   }

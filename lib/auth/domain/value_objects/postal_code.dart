@@ -3,7 +3,7 @@ import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class PostalCode {
   final String value;
-  static final RegExp regex = RegExp(r'\d{4}-\d{3}$');
+  static final RegExp regex = RegExp(r'^\d{4}-\d{3}$');
 
   PostalCode._({required this.value});
 

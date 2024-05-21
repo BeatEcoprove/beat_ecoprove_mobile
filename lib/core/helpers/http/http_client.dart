@@ -38,7 +38,6 @@ class HttpClient {
 
       response = convert.jsonDecode(jsonResponse);
     } catch (e) {
-      print(e.toString());
       throw HttpInternalError.empty();
     }
 

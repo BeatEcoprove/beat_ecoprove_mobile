@@ -71,20 +71,20 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                               runSpacing: 16,
                               children: [
                                 FormattedDropDown(
-                                  //TODO: CHANGE
-                                  options: const ['Portugal', 'Espanha'],
+                                  options: viewModel.countries,
                                   value: viewModel
                                       .getValue(FormFieldValues.storeCountry)
-                                      .value,
+                                      .value
+                                      .toString(),
                                   onValueChanged: (value) => viewModel.setValue(
                                       FormFieldValues.storeCountry, value),
                                 ),
                                 FormattedDropDown(
-                                  //TODO: CHANGE
-                                  options: const ['Lisboa', 'Porto'],
+                                  options: viewModel.getLocalities(),
                                   value: viewModel
                                       .getValue(FormFieldValues.storeLocality)
-                                      .value,
+                                      .value
+                                      .toString(),
                                   onValueChanged: (value) => viewModel.setValue(
                                       FormFieldValues.storeLocality, value),
                                 ),
@@ -117,7 +117,7 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                                             .setStorePostalCode(postalCode),
                                         errorMessage: viewModel
                                             .getValue(
-                                                FormFieldValues.postalCode)
+                                                FormFieldValues.storePostalCode)
                                             .error,
                                       ),
                                     ),
@@ -129,6 +129,8 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                                       child: DefaultFormattedTextField(
                                         hintText: "Porta",
                                         inputFormatter: [
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
                                           LengthLimitingTextInputFormatter(8),
                                         ],
                                         onChange: (storeNumberPort) async =>

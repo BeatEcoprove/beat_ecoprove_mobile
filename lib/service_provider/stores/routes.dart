@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_view.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
@@ -16,8 +17,22 @@ extension StoreRoutes on AppRoute {
 
   static final AppRoute createStore = AppRoute(path: "createStore");
   static final AppRoute detailsStore = AppRoute(path: "info/store/:id");
+
+  static AppRoute setStoreDetails(String id) {
+    return AppRoute.withParent(store, "info/store/$id");
+  }
+
   static final AppRoute workers = AppRoute(path: "store/:id/workers");
+
+  static AppRoute setWorkers(String id) {
+    return AppRoute.withParent(store, "store/$id/workers");
+  }
+
   static final AppRoute addWorkers = AppRoute(path: "store/:id/addWorkers");
+
+  static AppRoute addWorker(String id) {
+    return AppRoute.withParent(store, "store/$id/addWorkers");
+  }
 }
 
 final NavigationRoute storeRoute = NavigationRoute(
@@ -31,7 +46,8 @@ final NavigationRoute storeRoute = NavigationRoute(
     ),
     NavigationRoute(
       route: StoreRoutes.detailsStore,
-      view: (context, state) => ArgumentView.of<InfoStoreView>(state.extra),
+      view: (context, state) =>
+          ArgumentView.of<InfoStoreView>(state.extra as InfoStoreParams),
     ),
     NavigationRoute(
       route: StoreRoutes.workers,
@@ -40,7 +56,8 @@ final NavigationRoute storeRoute = NavigationRoute(
     ),
     NavigationRoute(
       route: StoreRoutes.addWorkers,
-      view: (context, state) => LinearView.of<AddWorkerView>(),
+      view: (context, state) =>
+          ArgumentView.of<AddWorkerView>(state.extra as StoreParams),
     ),
   ],
 );

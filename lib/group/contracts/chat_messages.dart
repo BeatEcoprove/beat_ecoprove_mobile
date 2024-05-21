@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
 import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/chat_rating_result.dart';
 
 class ChatMessages {
   List<ChatMessageResult> messages;
@@ -24,6 +25,10 @@ class ChatMessages {
 
         case "BorrowMessageResult":
           return ChatBorrowResult.fromJson(item);
+
+        case "RatingMessageResult":
+          return ChatRatingResult.fromJson(item);
+
         default:
           return ChatMessageResult.fromJson(item);
       }

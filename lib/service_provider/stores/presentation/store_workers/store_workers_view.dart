@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/worker_header/worker_with_type_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
@@ -17,6 +18,18 @@ class StoreWorkersView
     required super.viewModel,
     required super.args,
   });
+
+  List<OptionItem> _options(String workerId) {
+    return [
+      OptionItem(
+        name: "Remover",
+        action: () async => await viewModel.removeWorker(
+          args.storeId,
+          workerId,
+        ),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context, StoreWorkersViewModel viewModel) {
@@ -74,20 +87,30 @@ class StoreWorkersView
                                             //     CompactListItemRoot(
                                             //   items: [
                                             //     WorkerCanEditPrivilegiesHeader(
-                                            //       title: worker.name,
-                                            //       subTitle: worker.email,
-                                            //       dropOptions: viewModel.types,
-                                            //       dropOptionsValue: viewModel
-                                            //           .getValue(
-                                            //               FormFieldValues.code)
-                                            //           .value,
-                                            //       dropOptionsSet: (value) =>
+                                            //         title: worker.name,
+                                            //         subTitle: worker.email,
+                                            //         dropOptions: viewModel.types,
+                                            //         //TODO: CHANGE TO THE WORKER TYPE BY DEFAULT
+                                            //         dropOptionsValue: viewModel
+                                            //             .getValue(
+                                            //                 FormFieldValues.code)
+                                            //             .value,
+                                            //         dropOptionsSet: (value) {
                                             //           viewModel.setValue(
                                             //               FormFieldValues.code,
-                                            //               value),
-                                            //     ),
+                                            //               value);
+                                            //           viewModel.changeWorkerType(
+                                            //             args.storeId,
+                                            //             worker.id,
+                                            //             viewModel
+                                            //                 .getValue(
+                                            //                     FormFieldValues
+                                            //                         .code)
+                                            //                 .value,
+                                            //           );
+                                            //         }),
                                             //     WithOptionsFooter(
-                                            //       options: viewModel.options,
+                                            //       options: _options(worker.id),
                                             //     )
                                             //   ],
                                             // ),
@@ -127,7 +150,7 @@ class StoreWorkersView
                   Icons.add_circle_outline_rounded,
                   color: AppColor.widgetBackground,
                 ),
-                onPressed: () async => await viewModel.addWorker(args.storeId),
+                onPressed: () async => await viewModel.addWorker(args),
               ),
             ),
           ],

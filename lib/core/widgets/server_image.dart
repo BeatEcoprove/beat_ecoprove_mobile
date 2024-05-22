@@ -6,7 +6,7 @@ class ServerImage implements ImageProvider<NetworkImage> {
 
   ServerImage(String path)
       : _provider = NetworkImage(
-            Uri.parse('${ServerConfig.backendUrl}/$path').toString());
+            Uri.parse('${ServerConfig.blobUrl}/$path').toString());
 
   @override
   ImageStream createStream(ImageConfiguration configuration) {

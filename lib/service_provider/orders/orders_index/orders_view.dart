@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/client/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view.dart';
@@ -8,7 +7,13 @@ import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list.dart';
+import 'package:beat_ecoprove/core/widgets/order_card/order_header.dart';
+import 'package:beat_ecoprove/core/widgets/order_card/order_card_root.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
+import 'package:beat_ecoprove/service_provider/orders/domain/data/filters.dart';
+import 'package:beat_ecoprove/service_provider/orders/domain/models/order_item.dart';
 import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,14 +30,16 @@ class OrdersView extends LinearView<OrdersViewModel> {
 
     return SliverAppBar(
       toolbarHeight: 76,
+      automaticallyImplyLeading: false,
       shadowColor: Colors.transparent,
       backgroundColor: AppColor.widgetBackground,
-      pinned: false,
+      pinned: true,
+      snap: true,
       floating: true,
       flexibleSpace: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(
@@ -55,7 +62,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
               FilterButton(
                 bodyButton: Container(
                   width: 52,
-                  height: 50,
+                  height: 60,
                   decoration: const BoxDecoration(
                     color: AppColor.widgetBackground,
                     borderRadius: BorderRadius.all(borderRadius),
@@ -89,6 +96,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
     return SliverAppBar(
       toolbarHeight: 46,
       pinned: true,
+      automaticallyImplyLeading: false,
       backgroundColor: AppColor.widgetBackground,
       flexibleSpace: SizedBox(
         height: 40,
@@ -97,8 +105,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
           scrollDirection: Axis.horizontal,
           children: [
             HorizontalSelectorList(
-              //TODO: CHANGE TO THE LOCALITIES OF THE STORES
-              list: clothes,
+              list: storePlaces,
               onSelectionChanged: (ids) =>
                   {viewModel.changeHorizontalFiltersSelection(ids)},
               isHorizontalFilterSelected: (filter) =>
@@ -110,38 +117,44 @@ class OrdersView extends LinearView<OrdersViewModel> {
     );
   }
 
-  List<Widget> _renderOrders(List<Widget> orders) {
-    return [];
+  Padding _renderOrders(List<OrderItem> orders) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: orders
+            .map((e) => Container(
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  child: OrderCardRoot(items: [
+                    OrderHeader(
+                      widget: PresentImage(path: ServerImage(e.avatarPicture)),
+                      isCircular: true,
+                      title: e.username,
+                      subTitle: "Pedido ${e.orderId}",
+                      cloth: e.clothes.first,
+                      services: e.services,
+                    ),
+                  ]),
+                ))
+            .toList(),
+      ),
+    );
   }
 
   SliverToBoxAdapter _buildOrdersCardsSection(
       BuildContext context, OrdersViewModel viewModel) {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            FutureBuilder(
-              future: viewModel.getOrders(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting &&
-                    viewModel.orders.isEmpty) {
-                  return const CircularProgressIndicator(
-                    color: AppColor.primaryColor,
-                    strokeWidth: 4,
-                  );
-                }
-
-                return Wrap(
-                  children: _renderOrders(viewModel.orders),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+        child: viewModel.orders.isNotEmpty
+            ? _renderOrders(viewModel.orders)
+            : Container(
+                margin: const EdgeInsets.symmetric(vertical: 36),
+                child: const Text(
+                  "Não existe nenhum pedido!",
+                  style: AppText.subHeader,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ));
   }
 
   Positioned _addStoreButton() {
@@ -176,7 +189,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
             CustomScrollView(
               slivers: [
                 _buildSearchBarAndFilter(viewModel),
-                //TODO: CHANGE
+                //TODO: CHANGE AND PUT ON THE HORIZONTAL FILTERS THE STORE OF THE WORKER IF NOT SERVICE PROVIDER
                 // if(viewModel.user.type == "serviceProvider")
                 _buildFilterSelector(viewModel),
                 _buildOrdersCardsSection(context, viewModel)

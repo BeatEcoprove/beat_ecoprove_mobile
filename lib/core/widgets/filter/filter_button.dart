@@ -52,6 +52,7 @@ class FilterButton extends StatefulWidget {
 class _FilterButton extends State<FilterButton> {
   late OverlayWidget _overlay;
   late Map<String, dynamic> selectedFilterButtons = {...widget.selectedFilters};
+  late String selectedInRow = '';
 
   @override
   void initState() {
@@ -70,14 +71,28 @@ class _FilterButton extends State<FilterButton> {
     );
   }
 
-  void getAllFilters(Map<String, dynamic> filters) {
-    for (var filter in filters.keys) {
-      if (widget.filterIsSelect(filter) && !widget.needOnlyOne) {
-        selectedFilterButtons.remove(filter);
+  void getAllFilters(
+      Map<String, dynamic> filters, Set<String> hasOnlyOnePerRow) {
+    for (var filterSelected in filters.keys) {
+      if (widget.filterIsSelect(filterSelected) && !widget.needOnlyOne) {
+        selectedFilterButtons.remove(filterSelected);
       } else {
         if (widget.needOnlyOne) selectedFilterButtons.clear();
 
-        selectedFilterButtons[filter] = filters[filter];
+        if (hasOnlyOnePerRow.isNotEmpty) {
+          for (var tag in hasOnlyOnePerRow) {
+            for (var filter in filters.entries) {
+              if (tag.contains(
+                      (filter.value as Map<String, String>).values.first) &&
+                  haveFiltersWithThisTag(tag)) {
+                selectedFilterButtons.remove(selectedInRow);
+                selectedInRow = '';
+              }
+            }
+          }
+        }
+
+        selectedFilterButtons[filterSelected] = filters[filterSelected];
 
         if (widget.needOnlyOne) _overlay.remove();
       }
@@ -86,11 +101,27 @@ class _FilterButton extends State<FilterButton> {
     widget.onSelectionChanged(selectedFilterButtons);
   }
 
+  void selectedInOnlyOneRow(String filter) {
+    selectedInRow = filter;
+  }
+
+  bool haveFiltersWithThisTag(String tag) {
+    for (var entry in widget.selectedFilters.entries) {
+      if ((entry.value as Map<String, String>).values.first == tag &&
+          widget.filterIsSelect(entry.key)) {
+        selectedInOnlyOneRow(entry.key);
+        return true;
+      }
+    }
+    return false;
+  }
+
   FilterRowOptions renderRowOptions(FilterRow option) {
     return FilterRowOptions(
       title: option.title,
       isCircular: option.isCircular,
       filterOptions: option.options,
+      hasOnlyOne: option.hasOnlyOne,
       filterIsSelect: widget.filterIsSelect,
       onSelectionChanged: getAllFilters,
     );

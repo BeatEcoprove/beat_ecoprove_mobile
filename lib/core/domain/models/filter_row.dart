@@ -4,11 +4,13 @@ class FilterRow {
   final List<FilterButtonItem> options;
   final String? title;
   final bool isCircular;
+  final bool hasOnlyOne;
 
   FilterRow({
     required this.options,
     this.title,
     this.isCircular = false,
+    this.hasOnlyOne = false,
   });
 }
 

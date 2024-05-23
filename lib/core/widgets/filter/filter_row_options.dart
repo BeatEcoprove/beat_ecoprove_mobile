@@ -4,12 +4,13 @@ import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:flutter/material.dart';
 
 class FilterRowOptions extends StatefulWidget {
-  final Function(Map<String, dynamic>) onSelectionChanged;
+  final Function(Map<String, dynamic>, Set<String>) onSelectionChanged;
   final bool Function(String) filterIsSelect;
 
   final String? title;
   final List<FilterButtonItem> filterOptions;
   final bool isCircular;
+  final bool hasOnlyOne;
 
   const FilterRowOptions({
     Key? key,
@@ -18,6 +19,7 @@ class FilterRowOptions extends StatefulWidget {
     required this.filterOptions,
     required this.onSelectionChanged,
     required this.filterIsSelect,
+    this.hasOnlyOne = false,
   }) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class FilterRowOptions extends StatefulWidget {
 
 class _FilterRowOptionsState extends State<FilterRowOptions> {
   final Map<String, Map<String, String>> selectedFilterButtons = {};
+  final Set<String> hasOnlyOnePerRow = {};
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +76,11 @@ class _FilterRowOptionsState extends State<FilterRowOptions> {
           option.text: {option.value: option.tag}
         });
 
-        widget.onSelectionChanged(selectedFilterButtons);
+        if (widget.hasOnlyOne) hasOnlyOnePerRow.add(option.tag);
+
+        widget.onSelectionChanged(selectedFilterButtons, hasOnlyOnePerRow);
         selectedFilterButtons.clear();
+        hasOnlyOnePerRow.clear();
       }),
     );
   }

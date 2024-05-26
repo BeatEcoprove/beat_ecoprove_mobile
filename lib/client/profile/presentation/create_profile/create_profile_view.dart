@@ -3,7 +3,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view.dart';
-import 'package:beat_ecoprove/core/widgets/circle_avatar_chooser.dart';
+import 'package:beat_ecoprove/core/widgets/avatar_chooser/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/date_picker.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';

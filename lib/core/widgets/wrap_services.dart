@@ -1,14 +1,17 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/payable_prize.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/routes.dart';
-import 'package:beat_ecoprove/core/widgets/service_button.dart';
+import 'package:beat_ecoprove/core/widgets/service_button/payable_prize_button.dart';
+import 'package:beat_ecoprove/core/widgets/service_button/service_button.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
 
 class WrapServices extends StatefulWidget {
   final String title;
+  final String noResultsText;
   final List<ServiceTemplate> services;
   final double dimension;
   final Function(List<String>)? onSelectionChanged;
@@ -18,6 +21,7 @@ class WrapServices extends StatefulWidget {
     super.key,
     required this.services,
     required this.title,
+    required this.noResultsText,
     this.dimension = 110,
     required this.onSelectionChanged,
     required this.blockedServices,
@@ -27,6 +31,7 @@ class WrapServices extends StatefulWidget {
     super.key,
     required this.services,
     required this.title,
+    required this.noResultsText,
     this.blockedServices = const [],
     this.dimension = 110,
   }) : onSelectionChanged = null;
@@ -48,6 +53,18 @@ class _WrapServicesState extends State<WrapServices> {
       title: service.title,
       isSelect: selectedServices.contains(service.idText),
       isBlocked: widget.blockedServices.contains(service.idText),
+    );
+  }
+
+  PayablePrizeButton renderPayableButton(PayablePrizeItem service) {
+    return PayablePrizeButton(
+      colorForeground: service.foregroundColor,
+      colorBorder: service.borderColor,
+      colorBackground: service.backgroundColor,
+      object: service.content,
+      dimension: widget.dimension,
+      title: service.title,
+      prize: service.prize,
     );
   }
 
@@ -81,6 +98,7 @@ class _WrapServicesState extends State<WrapServices> {
                         navigator.push(
                           CoreRoutes.selectService,
                           extras: ServiceParams(
+                            noResultsText: widget.noResultsText,
                             services: service.services,
                           ),
                         );
@@ -110,7 +128,9 @@ class _WrapServicesState extends State<WrapServices> {
                     }
                   }
                 },
-                child: renderServiceButton(service),
+                child: service is PayablePrizeItem
+                    ? renderPayableButton(service)
+                    : renderServiceButton(service),
               ),
             ]
           ],

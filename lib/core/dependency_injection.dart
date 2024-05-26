@@ -3,6 +3,9 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
+import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_params.dart';
+import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_view.dart';
+import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_view_model.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_view_model.dart';
@@ -25,6 +28,10 @@ extension CoreDependencyInjection on DependencyInjection {
     );
 
     locator.registerFactory(
+      () => ListWidgetViewModel(),
+    );
+
+    locator.registerFactory(
       () => MakeProfileActionViewModel(
         router,
       ),
@@ -40,6 +47,13 @@ extension CoreDependencyInjection on DependencyInjection {
   }
 
   void _addViews(GetIt locator) {
+    locator.registerFactoryParam<ListWidgetView, ListWidgetViewParams, void>(
+      (params, _) => ListWidgetView(
+        viewModel: locator<ListWidgetViewModel>(),
+        args: params,
+      ),
+    );
+
     locator.registerFactoryParam<ListDetailsView, ListDetailsViewParams, void>(
       (params, _) => ListDetailsView(
         viewModel: locator<ListDetailsViewModel>(),

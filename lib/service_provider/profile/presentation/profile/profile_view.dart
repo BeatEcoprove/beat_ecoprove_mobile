@@ -1,4 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/payable_prize.dart';
+import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/button_with_icon.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
@@ -41,7 +43,7 @@ class ServiceProviderProfileView
                     ),
                     // TODO: CHANGE IN THE FUTURE
                     // if (user.type != 'funcionario')
-                    _options(),
+                    _options(viewModel),
                   ],
                 ),
               ),
@@ -175,7 +177,60 @@ class ServiceProviderProfileView
   }
 }
 
-Widget _options() {
+List<ServiceTemplate> setUpOptions(ServiceProviderProfileViewModel viewModel) {
+  List<ServiceTemplate> possibleOptions = [];
+  List<PayablePrizeItem> options = [
+    PayablePrizeItem(
+      title: "Anúncio",
+      idText: "advert",
+      content: const Icon(Icons.shopping_cart_outlined,
+          color: AppColor.buttonBackground, size: 50),
+      backgroundColor: AppColor.widgetBackground,
+      borderColor: Colors.transparent,
+      foregroundColor: AppColor.buttonBackground,
+      prize: 150,
+      action: () async => await {
+        viewModel.goToCreatePrize("advert", 150),
+      },
+    ),
+    PayablePrizeItem(
+      title: "Promoção",
+      idText: "promotion",
+      content: const Icon(Icons.discount_rounded,
+          color: AppColor.buttonBackground, size: 50),
+      backgroundColor: AppColor.widgetBackground,
+      borderColor: Colors.transparent,
+      foregroundColor: AppColor.buttonBackground,
+      prize: 100,
+      action: () async => await {
+        viewModel.goToCreatePrize("promotion", 100),
+      },
+    ),
+    //local_activity
+    PayablePrizeItem(
+      title: "Voucher",
+      idText: "voucher",
+      content: const Icon(Icons.confirmation_num_rounded,
+          color: AppColor.buttonBackground, size: 50),
+      backgroundColor: AppColor.widgetBackground,
+      borderColor: Colors.transparent,
+      foregroundColor: AppColor.buttonBackground,
+      prize: 10,
+      action: () async => await {
+        viewModel.goToCreatePrize("voucher", 10),
+      },
+    ),
+  ];
+
+  for (var option in options) {
+    if (viewModel.user!.sustainablePoints >= option.prize) {
+      possibleOptions.add(option);
+    }
+  }
+  return possibleOptions;
+}
+
+Widget _options(ServiceProviderProfileViewModel viewModel) {
   return Wrap(
     runSpacing: 8,
     children: [
@@ -187,8 +242,7 @@ Widget _options() {
           height: 36,
           width: 36,
         ),
-        //TODO: GO TO PAGE
-        onPress: () => {},
+        onPress: () => {viewModel.createPrize(setUpOptions(viewModel))},
       ),
       ButtonWithIcon(
         title: "Anúncios Ativos",
@@ -197,8 +251,7 @@ Widget _options() {
           color: AppColor.widgetBackground,
           size: 40,
         ),
-        //TODO: GO TO PAGE
-        onPress: () => {},
+        onPress: () => {viewModel.advertsPage()},
       ),
     ],
   );

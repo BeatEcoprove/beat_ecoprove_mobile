@@ -5,9 +5,15 @@ import 'package:intl/intl.dart';
 class DatePicker extends StatefulWidget {
   final DateTime? value;
   final Function(DateTime)? onDateChanged;
+  final double? width;
+  final double? height;
+  final bool nowToBefore;
 
   const DatePicker({
     this.value,
+    this.width,
+    this.height,
+    this.nowToBefore = true,
     Key? key,
     this.onDateChanged,
   }) : super(key: key);
@@ -30,23 +36,30 @@ class _DatePickerState extends State<DatePicker> {
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        builder: (context, child) => Theme(
-            data: ThemeData(
-              colorScheme: const ColorScheme.light(
-                primary: AppColor.primaryColor,
-              ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColor.darkGreen,
-                ),
+      context: context,
+      builder: (context, child) => Theme(
+          data: ThemeData(
+            colorScheme: const ColorScheme.light(
+              primary: AppColor.primaryColor,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: AppColor.darkGreen,
               ),
             ),
-            child: child!),
-        initialDate: _selectedDate,
-        firstDate: DateTime.now()
-            .subtract(const Duration(days: 365 * _maxYearsSupported)),
-        lastDate: DateTime.now());
+          ),
+          child: child!),
+      initialDate: _selectedDate,
+      firstDate: widget.nowToBefore
+          ? DateTime.now()
+              .subtract(const Duration(days: 365 * _maxYearsSupported))
+          : DateTime.now(),
+      lastDate: widget.nowToBefore
+          ? DateTime.now()
+          : DateTime.now().add(
+              const Duration(days: 365 * _maxYearsSupported),
+            ),
+    );
 
     if (picked != null && picked != _selectedDate) {
       setState(() {
@@ -62,6 +75,8 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: widget.width,
+      height: widget.height,
       decoration: const BoxDecoration(
           boxShadow: [AppColor.defaultShadow],
           color: AppColor.widgetBackground,

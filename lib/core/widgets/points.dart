@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 class Points extends StatefulWidget {
   final int points;
   final SvgImage image;
+  final double height;
+  final double width;
 
   const Points.sustainablePoints({
     super.key,
+    this.height = 30,
+    this.width = 100,
     required this.points,
     this.image = const SvgImage(
       width: 24,
@@ -18,6 +22,8 @@ class Points extends StatefulWidget {
 
   const Points.ecoCoins({
     super.key,
+    this.height = 30,
+    this.width = 100,
     required this.points,
     this.image = const SvgImage(
       width: 22,
@@ -28,6 +34,8 @@ class Points extends StatefulWidget {
 
   const Points.ecoScore({
     super.key,
+    this.height = 30,
+    this.width = 100,
     required this.points,
     this.image = const SvgImage(
       width: 24,
@@ -46,8 +54,8 @@ class _PointsState extends State<Points> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 100,
-        height: 30,
+        width: widget.width,
+        height: widget.height,
         decoration: const BoxDecoration(
             color: AppColor.widgetBackground,
             boxShadow: [AppColor.defaultShadow],

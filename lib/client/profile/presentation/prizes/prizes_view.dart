@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
-import 'package:beat_ecoprove/core/widgets/service_button.dart';
+import 'package:beat_ecoprove/core/widgets/service_button/service_button.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/client/profile/presentation/prizes/prizes_view_model.dart';
 import 'package:flutter/material.dart';

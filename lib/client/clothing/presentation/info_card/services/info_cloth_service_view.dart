@@ -149,6 +149,7 @@ class InfoClothServiceViewAlt
                     child: viewModel.isLoading
                         ? WrapServices(
                             title: title,
+                            noResultsText: "Não existem serviços disponíveis!",
                             services: formatServices(
                               args.card.id,
                               args.card.hasChildren,

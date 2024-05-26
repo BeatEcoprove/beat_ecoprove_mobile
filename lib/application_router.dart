@@ -10,7 +10,7 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/services/internet_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/routes.dart';
+import 'package:beat_ecoprove/home/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,14 +48,14 @@ class ApplicationRouter<TView extends LinearView> {
         return AuthRoutes.login;
       }
 
-      // if (state.fullPath == AppRoute.root.navigationPath) {
-      //   return HomeRoutes.home;
-      // }
+      if (state.fullPath == AppRoute.root.navigationPath) {
+        return HomeRoutes.home;
+      }
 
       //TODO: IF SERVICE PROVIDER
-      if (state.fullPath == AppRoute.root.navigationPath) {
-        return ServiceProviderRoutes.serviceProvider;
-      }
+      // if (state.fullPath == AppRoute.root.navigationPath) {
+      //   return ServiceProviderRoutes.serviceProvider;
+      // }
 
       return null;
     },

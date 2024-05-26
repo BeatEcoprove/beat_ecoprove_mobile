@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
+import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -37,12 +38,24 @@ class SelectServiceView
                       right: 16,
                       bottom: 16,
                     ),
-                    child: WrapServices.servicesItems(
-                      title: args.services.keys.first,
-                      services: args.services.values
-                          .expand((value) => value)
-                          .toList(),
-                    ),
+                    child: args.services.values.first.isNotEmpty
+                        ? WrapServices.servicesItems(
+                            title: args.services.keys.first,
+                            noResultsText: args.noResultsText,
+                            services: args.services.values
+                                .expand((value) => value)
+                                .toList(),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.symmetric(vertical: 36),
+                            child: Text(
+                              args.noResultsText,
+                              maxLines: 3,
+                              style: AppText.subHeader,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                   ),
                 ],
               ),

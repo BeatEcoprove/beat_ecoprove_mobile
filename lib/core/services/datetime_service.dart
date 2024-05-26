@@ -7,4 +7,10 @@ class DatetimeService {
 
     return DateFormat.yMMMMd(locale).add_Hm().format(time);
   }
+
+  static String formatDateCompact(DateTime time) {
+    var locale = LocaleContext.getCurrentLocaleString();
+
+    return DateFormat('dd/MM/yyyy', locale).format(time);
+  }
 }

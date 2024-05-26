@@ -501,6 +501,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
     _navigationManager.push(
       CoreRoutes.selectService,
       extras: ServiceParams(
+        noResultsText: "Não existem cestos!",
         services: {
           "Em que cesto pretende inserir esta peça?": items,
         },

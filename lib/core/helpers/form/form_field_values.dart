@@ -37,7 +37,14 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   storeLocality(value: "storeLocality"),
   storeStreet(value: "storeStreet"),
   storePostalCode(value: "storePostalCode"),
-  storeNumberPort(value: "storeNumberPort");
+  storeNumberPort(value: "storeNumberPort"),
+  title(value: "title"),
+  description(value: "description"),
+  beginAt(value: "beginAt"),
+  endAt(value: "endAt"),
+  picture(value: "picture"),
+  priceItem(value: "priceItem"),
+  quantityItem(value: "quantityItem");
 
   final String value;
   const FormFieldValues({required this.value});

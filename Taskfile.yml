@@ -6,15 +6,22 @@ env:
 dotenv: ['.env']
 
 tasks:
-  install:
-    - java -jar ./tools/bundletool.jar install-apks --apks=$BUILD_APKS_DIR --device-id $INSTALL_DEVICE_ID
-    
-  build:
-    desc: Generate APKS
+  generate:
+    desc: Install Dependencies and Generate Locales
     cmds:
       - flutter pub get
       - flutter gen-l10n --arb-dir lib/core/locales/l10n/
+
+  install:
+    desc: Install APK Bundle on device
+    cmds:
+      - java -jar ./tools/bundletool.jar install-apks --apks=$BUILD_APKS_DIR --device-id $INSTALL_DEVICE_ID
+    
+  build:
+    desc: Generate APK Bundle
+    cmds: 
+      - if [ -d $BUILD_APKS_DIR ]; then rm $BUILD_APKS_DIR; fi
+      - task: generate
       - flutter build appbundle
       - java -jar ./tools/bundletool.jar build-apks --bundle=./build/app/outputs/bundle/release/app-release.aab --output=$BUILD_APKS_DIR
-    status:
-      - test -f $BUILD_APKS_DIR
+     

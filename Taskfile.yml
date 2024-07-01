@@ -8,10 +8,12 @@ dotenv: ['.env']
 tasks:
   install:
     - java -jar ./tools/bundletool.jar install-apks --apks=$BUILD_APKS_DIR --device-id $INSTALL_DEVICE_ID
-
+    
   build:
     desc: Generate APKS
     cmds:
+      - flutter pub get
+      - flutter gen-l10n --arb-dir lib/core/locales/l10n/
       - flutter build appbundle
       - java -jar ./tools/bundletool.jar build-apks --bundle=./build/app/outputs/bundle/release/app-release.aab --output=$BUILD_APKS_DIR
     status:

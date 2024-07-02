@@ -9,6 +9,9 @@ import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_vie
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_view_model.dart';
+import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
+import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view.dart';
+import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view_model.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view_model.dart';
@@ -43,6 +46,12 @@ extension CoreDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
       () => ShowCompltedViewModel(),
+    );
+
+    locator.registerFactory(
+      () => QRCodeViewModel(
+        router,
+      ),
     );
   }
 
@@ -80,6 +89,13 @@ extension CoreDependencyInjection on DependencyInjection {
         .registerFactoryParam<ShowCompletedView, ShowCompletedViewParams, void>(
       (params, _) => ShowCompletedView(
         viewModel: locator<ShowCompltedViewModel>(),
+        args: params,
+      ),
+    );
+
+    locator.registerFactoryParam<QRCodeView, QRCodeParams, void>(
+      (params, _) => QRCodeView(
+        viewModel: locator<QRCodeViewModel>(),
         args: params,
       ),
     );

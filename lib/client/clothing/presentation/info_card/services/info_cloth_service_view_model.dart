@@ -19,8 +19,10 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 
 class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
@@ -103,7 +105,10 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
 
       if (availableServices.isNotEmpty) {
         result.addAll(
-            availableServices.map((e) => e.toService(handleAction)).toList());
+          availableServices
+              .map((e) => e.toService(handleAction, handleServiceAction))
+              .toList(),
+        );
       } else {
         var currentRunningServices =
             await _actionService.getCurrentServiceActivity(clothId);
@@ -141,7 +146,9 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
       var availableServices = await _actionService.getAllServices();
 
       result.addAll(
-        availableServices.map((e) => e.toService(handleAction)).toList(),
+        availableServices
+            .map((e) => e.toService(handleAction, handleServiceAction))
+            .toList(),
       );
 
       var bucket = await _closetService.getBucket(bucketId);
@@ -254,6 +261,19 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
     }
 
     _navigationManager.pop();
+    await refetch();
+  }
+
+  Future handleServiceAction(
+      String serviceId, String actionId, String state) async {
+    //TODO: CHANGE TO URL VALID AND ACTION
+    _navigationManager.push(CoreRoutes.qrCode,
+        extras: QRCodeParams(
+          data: "url da roupa",
+          textButton: "Lojas",
+          action: () => {},
+        ));
+
     await refetch();
   }
 

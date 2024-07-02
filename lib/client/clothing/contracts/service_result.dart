@@ -37,7 +37,35 @@ class ServiceResult {
     return group;
   }
 
-  Service toService(Function(String, String, String) callback) {
+  Service toService(
+    Function(String, String, String) callback,
+    Function(String, String, String) callbackLastService,
+  ) {
+    List<ServiceItem> serviceItems = actions
+        .asMap()
+        .map((index, action) {
+          bool isLast = index == actions.length - 1;
+          Function callbackFunction = isLast ? callbackLastService : callback;
+
+          return MapEntry(
+            index,
+            ServiceItem(
+              foregroundColor: AppColor.buttonBackground,
+              borderColor: Colors.transparent,
+              backgroundColor: AppColor.widgetBackground,
+              title: action.title,
+              idText: action.id,
+              content: Image(
+                image: ServerImage(action.badge),
+              ),
+              action: () async =>
+                  await callbackFunction(id, action.id, ServiceState.available),
+            ),
+          );
+        })
+        .values
+        .toList();
+
     return Service<List<ServiceItem>>(
       foregroundColor: AppColor.buttonBackground,
       borderColor: Colors.transparent,
@@ -47,24 +75,7 @@ class ServiceResult {
       content: Image(
         image: ServerImage(badge),
       ),
-      services: {
-        description: actions
-            .map(
-              (action) => ServiceItem(
-                foregroundColor: AppColor.buttonBackground,
-                borderColor: Colors.transparent,
-                backgroundColor: AppColor.widgetBackground,
-                title: action.title,
-                idText: action.id,
-                content: Image(
-                  image: ServerImage(action.badge),
-                ),
-                action: () async =>
-                    await callback(id, action.id, ServiceState.available),
-              ),
-            )
-            .toList()
-      },
+      services: {description: serviceItems},
     );
   }
 }

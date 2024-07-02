@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
+import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/services/datetime_service.dart';
@@ -156,6 +157,16 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         },
       ),
     );
+  }
+
+  //TODO: CHANGE TO URL VALID AND ACTION
+  void goToQRCodePage() {
+    _navigationManager.push(CoreRoutes.qrCode,
+        extras: QRCodeParams(
+          data: "url da roupa",
+          textButton: "Lojas",
+          action: () => {},
+        ));
   }
 
   @override

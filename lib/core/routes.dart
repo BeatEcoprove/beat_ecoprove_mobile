@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_view.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make%20_profile_action_view.dart';
+import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view.dart';
 
@@ -19,6 +20,10 @@ extension CoreRoutes on AppRoute {
 
   static final AppRoute makeProfileAction = AppRoute(
     path: "make_profile_action",
+  );
+
+  static final AppRoute qrCode = AppRoute(
+    path: "qr_code",
   );
 
   static final AppRoute listDetails = AppRoute(
@@ -45,6 +50,10 @@ NavigationRoute coreRoutes = NavigationRoute(
       route: CoreRoutes.makeProfileAction,
       view: (context, state) =>
           ArgumentView.of<MakeProfileActionView>(state.extra),
+    ),
+    NavigationRoute(
+      route: CoreRoutes.qrCode,
+      view: (context, state) => ArgumentView.of<QRCodeView>(state.extra),
     ),
     NavigationRoute(
       route: CoreRoutes.listDetails,

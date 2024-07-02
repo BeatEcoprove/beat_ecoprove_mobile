@@ -78,6 +78,20 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
               ),
               Positioned(
                 right: 28,
+                top: 125,
+                child: IconButtonRectangular(
+                  dimension: 50,
+                  colorBackground: AppColor.buttonBackground,
+                  object: const Icon(
+                    Icons.qr_code,
+                    color: AppColor.widgetBackground,
+                    size: 32,
+                  ),
+                  onPress: () => viewModel.goToQRCodePage(),
+                ),
+              ),
+              Positioned(
+                right: 28,
                 top: 185,
                 child: RoundedButton(
                   disabled: viewModel.disableButton,

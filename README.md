@@ -1,6 +1,6 @@
 # Eco Prove
 
-An application designed to encourage users to improve the circular clothing market. By facilitating the exchange, reuse, and recycling of clothing, this app aims to reduce waste and promote sustainable fashion practices. Users can easily connect to swap, donate, or up-cycle their clothes, contributing to a more sustainable and eco-friendly fashion industry.
+An application designed to encourage users to improve the circular clothing market. By facilitating the exchange, reuse, and recycling of clothing, this app aims to reduce waste and promote sustainable fashion practices. Users can easily connect to swap, donate, or up-cycle their garments, contributing to a more sustainable and eco-friendly fashion industry.
 
 ## Table of Contents
 

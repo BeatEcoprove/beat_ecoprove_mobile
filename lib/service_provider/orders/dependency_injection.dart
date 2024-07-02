@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
@@ -30,9 +31,11 @@ extension OrdersDependencyInjection on DependencyInjection {
     var authProvider = locator<AuthenticationProvider>();
     var notificationProvider = locator<INotificationProvider>();
     var getOrdersUseCase = locator<GetOrdersUseCase>();
+    var router = locator<INavigationManager>();
 
     locator.registerFactory(
       () => OrdersViewModel(
+        router,
         notificationProvider,
         authProvider,
         locator<StaticValuesProvider>(),

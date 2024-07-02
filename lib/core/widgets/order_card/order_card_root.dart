@@ -8,6 +8,7 @@ class OrderCardRoot extends StatelessWidget {
   final List<OrderCardItem> items;
 
   final VoidCallback? click;
+  final VoidCallback? longPress;
 
   final double padding;
 
@@ -16,6 +17,7 @@ class OrderCardRoot extends StatelessWidget {
     required this.items,
     this.padding = 8,
     this.click,
+    this.longPress,
   });
 
   @override
@@ -23,6 +25,7 @@ class OrderCardRoot extends StatelessWidget {
     if (click != null) {
       return InkWell(
         onTap: click,
+        onLongPress: longPress,
         child: body(context),
       );
     }

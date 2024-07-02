@@ -125,16 +125,20 @@ class OrdersView extends LinearView<OrdersViewModel> {
         children: orders
             .map((e) => Container(
                   margin: const EdgeInsets.symmetric(vertical: 6),
-                  child: OrderCardRoot(items: [
-                    OrderHeader(
-                      widget: PresentImage(path: ServerImage(e.avatarPicture)),
-                      isCircular: true,
-                      title: e.username,
-                      subTitle: "Pedido ${e.orderId}",
-                      cloth: e.clothes.first,
-                      services: e.services,
-                    ),
-                  ]),
+                  child: OrderCardRoot(
+                    items: [
+                      OrderHeader(
+                        widget:
+                            PresentImage(path: ServerImage(e.avatarPicture)),
+                        isCircular: true,
+                        title: e.username,
+                        subTitle: "Pedido ${e.orderId}",
+                        cloth: e.clothes.first,
+                        services: e.services,
+                      ),
+                    ],
+                    longPress: () => viewModel.goToQRCodePage(),
+                  ),
                 ))
             .toList(),
       ),

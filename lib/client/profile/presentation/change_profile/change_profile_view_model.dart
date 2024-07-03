@@ -3,6 +3,9 @@ import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_page_params.dart';
 import 'package:beat_ecoprove/client/profile/routes.dart';
+import 'package:beat_ecoprove/core/domain/entities/consumer.dart';
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
+import 'package:beat_ecoprove/core/domain/entities/organization.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
@@ -147,18 +150,45 @@ class ChangeProfileViewModel extends ViewModel {
       Authentication(
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
-        user: User(
-          id: decodedToken[Tokens.id],
-          name: decodedToken[Tokens.name],
-          avatarUrl: decodedToken[Tokens.avatarUrl],
-          level: decodedToken[Tokens.level],
-          levelPercent: decodedToken[Tokens.levelPercent],
-          sustainablePoints: decodedToken[Tokens.sustainablePoints],
-          ecoScore: decodedToken[Tokens.ecoScore],
-          ecoCoins: decodedToken[Tokens.ecoCoins],
-          xp: decodedToken[Tokens.xp],
-          nextLevelXp: decodedToken[Tokens.nextLevelXp],
-        ),
+        user: switch (UserType.getOf(decodedToken[Tokens.type])) {
+          UserType.consumer => Consumer(
+              id: decodedToken[Tokens.id],
+              name: decodedToken[Tokens.name],
+              avatarUrl: decodedToken[Tokens.avatarUrl],
+              level: decodedToken[Tokens.level],
+              levelPercent: decodedToken[Tokens.levelPercent],
+              sustainablePoints: decodedToken[Tokens.sustainablePoints],
+              ecoScore: decodedToken[Tokens.ecoScore],
+              ecoCoins: decodedToken[Tokens.ecoCoins],
+              xp: decodedToken[Tokens.xp],
+              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+            ),
+          UserType.organization => Organization(
+              id: decodedToken[Tokens.id],
+              name: decodedToken[Tokens.name],
+              avatarUrl: decodedToken[Tokens.avatarUrl],
+              level: decodedToken[Tokens.level],
+              levelPercent: decodedToken[Tokens.levelPercent],
+              sustainablePoints: decodedToken[Tokens.sustainablePoints],
+              ecoScore: decodedToken[Tokens.ecoScore],
+              ecoCoins: decodedToken[Tokens.ecoCoins],
+              xp: decodedToken[Tokens.xp],
+              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+            ),
+          UserType.employee => Employee(
+              id: decodedToken[Tokens.id],
+              name: decodedToken[Tokens.name],
+              avatarUrl: decodedToken[Tokens.avatarUrl],
+              level: decodedToken[Tokens.level],
+              levelPercent: decodedToken[Tokens.levelPercent],
+              sustainablePoints: decodedToken[Tokens.sustainablePoints],
+              ecoScore: decodedToken[Tokens.ecoScore],
+              ecoCoins: decodedToken[Tokens.ecoCoins],
+              xp: decodedToken[Tokens.xp],
+              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
+            ),
+        },
       ),
     );
   }

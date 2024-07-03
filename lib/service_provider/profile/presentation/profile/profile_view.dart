@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/button_with_icon.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
+import 'package:beat_ecoprove/core/widgets/level_progress.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
@@ -31,7 +32,10 @@ class ServiceProviderProfileView
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 26),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 18,
+            vertical: 26,
+          ),
           child: Column(
             children: [
               Center(
@@ -41,9 +45,7 @@ class ServiceProviderProfileView
                     const SizedBox(
                       height: 36,
                     ),
-                    // TODO: CHANGE IN THE FUTURE
-                    // if (user.type != 'funcionario')
-                    _options(viewModel),
+                    if (viewModel.hasAuthorization()) _options(viewModel),
                   ],
                 ),
               ),
@@ -55,16 +57,15 @@ class ServiceProviderProfileView
   }
 
   Widget _topProfile(double heightProfileImage) {
-    // TODO: CHANGE IN THE FUTURE
-    // if (user.type == 'gerente') {
-    //   return LevelProgress(
-    //     height: heightProfileImage,
-    //     percent: user.levelPercent,
-    //     level: user.level,
-    //     color: AppColor.primaryColor,
-    //     url: user.avatarUrl,
-    //   );
-    // }
+    if (viewModel.isManager()) {
+      return LevelProgress(
+        height: heightProfileImage,
+        percent: viewModel.user!.levelPercent,
+        level: viewModel.user!.level,
+        color: AppColor.primaryColor,
+        url: viewModel.user!.avatarUrl,
+      );
+    }
 
     return ClipOval(
         child: SizedBox(
@@ -88,29 +89,29 @@ class ServiceProviderProfileView
             child: _topProfile(heightProfileImage),
           ),
         ]),
-        // TODO: CHANGE IN THE FUTURE
-        // if (user.type == 'gerente')
-        //   const SizedBox(
-        //     height: 6,
-        //   ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Text(
-        //       '${user.xp.toString()}/${user.nextLevelXp.toString()}',
-        //       textAlign: TextAlign.center,
-        //       style: AppText.titleToScrollSection,
-        //     ),
-        //     const SizedBox(
-        //       width: 3,
-        //     ),
-        //     const Text(
-        //       'XP',
-        //       textAlign: TextAlign.center,
-        //       style: AppText.rating,
-        //     ),
-        //   ],
-        // ),
+        if (viewModel.isManager()) ...[
+          const SizedBox(
+            height: 6,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${viewModel.user!.xp.toString()}/${viewModel.user!.nextLevelXp.toString()}',
+                textAlign: TextAlign.center,
+                style: AppText.titleToScrollSection,
+              ),
+              const SizedBox(
+                width: 3,
+              ),
+              const Text(
+                'XP',
+                textAlign: TextAlign.center,
+                style: AppText.rating,
+              ),
+            ],
+          ),
+        ],
         const SizedBox(
           height: 16,
         ),
@@ -122,24 +123,23 @@ class ServiceProviderProfileView
         const SizedBox(
           height: 16,
         ),
-        //TODO: CHANGE IN THE FUTURE
-        // if (user.type != 'funcionario')
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Pontos Sustentáveis",
-              textAlign: TextAlign.center,
-              style: AppText.smallSubHeader,
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Points.sustainablePoints(
-              points: viewModel.user?.sustainablePoints ?? 0,
-            ),
-          ],
-        ),
+        if (viewModel.hasAuthorization())
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Pontos Sustentáveis",
+                textAlign: TextAlign.center,
+                style: AppText.smallSubHeader,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Points.sustainablePoints(
+                points: viewModel.user?.sustainablePoints ?? 0,
+              ),
+            ],
+          ),
       ],
     );
   }

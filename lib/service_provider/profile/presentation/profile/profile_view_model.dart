@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/client/profile/routes.dart';
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
@@ -128,6 +129,15 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
         },
       ),
     );
+  }
+
+  bool hasAuthorization() =>
+      user is! Employee ||
+      user is Employee && (user as Employee).workerType != EmployeeType.worker;
+
+  bool isManager() {
+    return user is Employee &&
+        (user as Employee).workerType == EmployeeType.manager;
   }
 
   @override

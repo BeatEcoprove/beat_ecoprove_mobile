@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -192,9 +193,8 @@ class OrdersView extends LinearView<OrdersViewModel> {
             CustomScrollView(
               slivers: [
                 _buildSearchBarAndFilter(viewModel),
-                //TODO: CHANGE AND PUT ON THE HORIZONTAL FILTERS THE STORE OF THE WORKER IF NOT SERVICE PROVIDER
-                // if(viewModel.user.type == "serviceProvider")
-                _buildFilterSelector(viewModel),
+                if (viewModel.user!.type == UserType.organization)
+                  _buildFilterSelector(viewModel),
                 _buildOrdersCardsSection(context, viewModel)
               ],
             ),

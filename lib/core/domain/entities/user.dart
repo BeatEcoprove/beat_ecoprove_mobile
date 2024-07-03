@@ -9,6 +9,7 @@ class User {
   final int ecoCoins;
   final int xp;
   final int nextLevelXp;
+  final UserType type;
 
   User({
     required this.id,
@@ -21,6 +22,7 @@ class User {
     required String ecoCoins,
     required String xp,
     required String nextLevelXp,
+    required this.type,
   })  : level = int.parse(level),
         levelPercent = double.tryParse(levelPercent) ?? 0,
         sustainablePoints = int.parse(sustainablePoints),
@@ -28,4 +30,22 @@ class User {
         ecoCoins = int.parse(ecoCoins),
         xp = int.parse(xp),
         nextLevelXp = int.parse(nextLevelXp);
+}
+
+enum UserType implements Comparable<UserType> {
+  consumer(value: "consumer"),
+  organization(value: "organization"),
+  employee(value: "employee");
+
+  final String value;
+
+  const UserType({required this.value});
+
+  static UserType getOf(String value) =>
+      UserType.values.singleWhere((element) => element.value == value);
+
+  @override
+  int compareTo(UserType other) {
+    throw UnimplementedError();
+  }
 }

@@ -2,7 +2,10 @@ import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/worker_header/worker_can_edit_privilegies_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/worker_header/worker_with_type_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
@@ -81,50 +84,54 @@ class StoreWorkersView
                                         margin: const EdgeInsets.symmetric(
                                           vertical: 8,
                                         ),
-                                        child:
-                                            //TODO: CHANGE
-                                            // viewModel.user.type != "regularWorker" ?
-                                            //     CompactListItemRoot(
-                                            //   items: [
-                                            //     WorkerCanEditPrivilegiesHeader(
-                                            //         title: worker.name,
-                                            //         subTitle: worker.email,
-                                            //         dropOptions: viewModel.types,
-                                            //         //TODO: CHANGE TO THE WORKER TYPE BY DEFAULT
-                                            //         dropOptionsValue: viewModel
-                                            //             .getValue(
-                                            //                 FormFieldValues.code)
-                                            //             .value,
-                                            //         dropOptionsSet: (value) {
-                                            //           viewModel.setValue(
-                                            //               FormFieldValues.code,
-                                            //               value);
-                                            //           viewModel.changeWorkerType(
-                                            //             args.storeId,
-                                            //             worker.id,
-                                            //             viewModel
-                                            //                 .getValue(
-                                            //                     FormFieldValues
-                                            //                         .code)
-                                            //                 .value,
-                                            //           );
-                                            //         }),
-                                            //     WithOptionsFooter(
-                                            //       options: _options(worker.id),
-                                            //     )
-                                            //   ],
-                                            // ),
-                                            // :
-                                            CompactListItemRoot(
-                                          items: [
-                                            WorkerWithTypeHeader(
-                                              title: worker.name,
-                                              subTitle: worker.email,
-                                              //TODO: CHANGE
-                                              workerType: "Regular",
-                                            ),
-                                          ],
-                                        ),
+                                        child: viewModel.hasAuthorization()
+                                            ? CompactListItemRoot(
+                                                items: [
+                                                  WorkerCanEditPrivilegiesHeader(
+                                                      title: worker.name,
+                                                      subTitle: worker.email,
+                                                      dropOptions:
+                                                          viewModel.types,
+                                                      dropOptionsValue: viewModel
+                                                          .getValue(
+                                                              FormFieldValues
+                                                                  .code)
+                                                          .value,
+                                                      dropOptionsSet: (value) {
+                                                        viewModel.setValue(
+                                                            FormFieldValues
+                                                                .code,
+                                                            value);
+                                                        viewModel
+                                                            .changeWorkerType(
+                                                          args.storeId,
+                                                          worker.id,
+                                                          viewModel
+                                                              .getValue(
+                                                                  FormFieldValues
+                                                                      .code)
+                                                              .value,
+                                                        );
+                                                      }),
+                                                  WithOptionsFooter(
+                                                    options:
+                                                        _options(worker.id),
+                                                  )
+                                                ],
+                                              )
+                                            : CompactListItemRoot(
+                                                items: [
+                                                  WorkerWithTypeHeader(
+                                                    title: worker.name,
+                                                    subTitle: worker.email,
+                                                    workerType: worker
+                                                            .type.value[0]
+                                                            .toUpperCase() +
+                                                        worker.type.value
+                                                            .substring(1),
+                                                  ),
+                                                ],
+                                              ),
                                       ),
                                     )
                                     .toList(),
@@ -137,22 +144,21 @@ class StoreWorkersView
                 ),
               ),
             ),
-            //TODO: CHANGE
-            // if(viewModel.user.type != "regularWorker")
-            Positioned(
-              bottom: 36,
-              right: 26,
-              child: FloatingButton(
-                color: AppColor.darkGreen,
-                dimension: 64,
-                icon: const Icon(
-                  size: 34,
-                  Icons.add_circle_outline_rounded,
-                  color: AppColor.widgetBackground,
+            if (viewModel.hasAuthorization())
+              Positioned(
+                bottom: 36,
+                right: 26,
+                child: FloatingButton(
+                  color: AppColor.darkGreen,
+                  dimension: 64,
+                  icon: const Icon(
+                    size: 34,
+                    Icons.add_circle_outline_rounded,
+                    color: AppColor.widgetBackground,
+                  ),
+                  onPressed: () async => await viewModel.addWorker(args),
                 ),
-                onPressed: () async => await viewModel.addWorker(args),
               ),
-            ),
           ],
         ),
         type: AppBackgrounds.members,

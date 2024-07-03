@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
@@ -22,7 +23,7 @@ class StoreWorkersViewModel extends FormViewModel {
 
   late final User? user;
   final List<Worker> workers = [];
-  final List<String> types = ["Regular", "Gerente"];
+  final List<String> types = [];
 
   StoreWorkersViewModel(
     this._notificationProvider,
@@ -31,6 +32,10 @@ class StoreWorkersViewModel extends FormViewModel {
     this._getStoreWorkersUseCase,
     this._storeService,
   ) {
+    var typesFormatted = EmployeeType.getAllTypes();
+    types.addAll(typesFormatted
+        .map((e) => e.value[0].toUpperCase() + e.value.substring(1)));
+
     initializeFields([
       FormFieldValues.code,
     ]);
@@ -99,4 +104,8 @@ class StoreWorkersViewModel extends FormViewModel {
 
     notifyListeners();
   }
+
+  bool hasAuthorization() =>
+      user is! Employee ||
+      user is Employee && (user as Employee).workerType != EmployeeType.worker;
 }

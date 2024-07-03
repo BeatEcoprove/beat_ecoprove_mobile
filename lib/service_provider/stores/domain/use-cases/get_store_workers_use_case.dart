@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/worker_result.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/worker.dart';
@@ -41,7 +42,7 @@ class GetStoreWorkersUseCase
         id: worker.id,
         name: worker.name,
         email: worker.email,
-        type: worker.type,
+        type: EmployeeType.getOf(worker.type),
       );
 
       workers.add(workerCard);

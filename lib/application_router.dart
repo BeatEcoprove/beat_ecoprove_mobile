@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/routes.dart';
+import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
@@ -11,6 +12,7 @@ import 'package:beat_ecoprove/core/services/internet_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/routes.dart';
+import 'package:beat_ecoprove/service_provider/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,14 +50,23 @@ class ApplicationRouter<TView extends LinearView> {
         return AuthRoutes.login;
       }
 
-      if (state.fullPath == AppRoute.root.navigationPath) {
-        return HomeRoutes.home;
+      switch (authProvider.appUser!.type) {
+        case UserType.consumer:
+          if (state.fullPath == AppRoute.root.navigationPath) {
+            return HomeRoutes.home;
+          }
+          break;
+        case UserType.organization:
+        case UserType.employee:
+          if (state.fullPath == AppRoute.root.navigationPath) {
+            return ServiceProviderRoutes.serviceProvider;
+          }
+          break;
+        default:
+          if (state.fullPath == AppRoute.root.navigationPath) {
+            return HomeRoutes.home;
+          }
       }
-
-      //TODO: IF SERVICE PROVIDER
-      // if (state.fullPath == AppRoute.root.navigationPath) {
-      //   return ServiceProviderRoutes.serviceProvider;
-      // }
 
       return null;
     },

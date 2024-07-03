@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -92,6 +93,10 @@ class StoreViewModel extends FormViewModel implements Clone {
       extras: InfoStoreParams(store),
     );
   }
+
+  bool hasAuthorization() =>
+      user is! Employee ||
+      user is Employee && (user as Employee).workerType != EmployeeType.worker;
 
   @override
   StoreViewModel clone() {

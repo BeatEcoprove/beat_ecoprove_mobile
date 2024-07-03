@@ -161,7 +161,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
               ));
   }
 
-  Positioned _addStoreButton() {
+  Positioned _addOrderButton() {
     return Positioned(
       bottom: 16,
       right: 26,
@@ -173,8 +173,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
           Icons.add_circle_outline_rounded,
           color: AppColor.widgetBackground,
         ),
-        //TODO: READ QRCode TO REGISTER ORDER
-        onPressed: () => {},
+        onPressed: () => viewModel.goToReadQRCode(),
       ),
     );
   }
@@ -199,7 +198,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
                 _buildOrdersCardsSection(context, viewModel)
               ],
             ),
-            _addStoreButton(),
+            _addOrderButton(),
           ],
         ),
         type: AppBackgrounds.clothing,

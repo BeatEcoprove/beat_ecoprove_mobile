@@ -176,17 +176,18 @@ class ClothingView extends LinearView<ClothingViewModel> {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 bottom: 78,
                 right: 9,
                 child: FloatingButton(
                   color: AppColor.buttonBackground,
                   dimension: 49,
-                  icon: Icon(
+                  icon: const Icon(
                     size: 29,
                     Icons.qr_code,
                     color: AppColor.widgetBackground,
                   ),
+                  onPressed: () => viewModel.goToReadQRCode(),
                 ),
               ),
             ],
@@ -210,7 +211,7 @@ class ClothingView extends LinearView<ClothingViewModel> {
       flexibleSpace: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Container(
-          margin: EdgeInsets.all(8),
+          margin: const EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(

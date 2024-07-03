@@ -23,6 +23,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
+import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_params.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -547,6 +548,10 @@ class ClothingViewModel extends FormViewModel implements Clone {
     _navigationManager.pop();
 
     refetch();
+  }
+
+  void goToReadQRCode() {
+    _navigationManager.push(CoreRoutes.readQRCode, extras: ReadQRCodeParams());
   }
 
   @override

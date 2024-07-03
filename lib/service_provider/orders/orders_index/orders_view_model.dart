@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
+import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
@@ -327,7 +328,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
     notifyListeners();
   }
 
-  //TODO: CHANGE TO URL VALID AND ACTION
+  //TODO: CHANGE TO VALID URL AND ACTION
   void goToQRCodePage() {
     _navigationManager.push(CoreRoutes.qrCode,
         extras: QRCodeParams(
@@ -335,6 +336,10 @@ class OrdersViewModel extends FormViewModel implements Clone {
           textButton: "Lojas",
           action: () => {},
         ));
+  }
+
+  void goToReadQRCode() {
+    _navigationManager.push(CoreRoutes.readQRCode, extras: ReadQRCodeParams());
   }
 
   @override

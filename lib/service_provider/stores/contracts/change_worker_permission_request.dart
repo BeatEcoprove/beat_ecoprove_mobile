@@ -1,24 +1,20 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 
-class AddWorkerRequest implements BaseJsonRequest {
+class ChangeWorkerPermissionRequest implements BaseJsonRequest {
   final String storeId;
-  final String name;
-  final String email;
+  final String id;
   final String type;
 
-  AddWorkerRequest(
+  ChangeWorkerPermissionRequest(
     this.storeId,
-    this.name,
-    this.email,
+    this.id,
     this.type,
   );
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'permission': type,
-      'email': email,
-      'name': name,
+      'type': type,
     };
   }
 }

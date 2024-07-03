@@ -45,6 +45,17 @@ class AddWorkerView extends ArgumentView<AddWorkerViewModel, StoreParams> {
                     child: Column(
                       children: [
                         DefaultFormattedTextField(
+                          hintText: 'Nome',
+                          errorMessage:
+                              viewModel.getValue(FormFieldValues.name).error,
+                          onChange: (value) => viewModel.setDisplayName(value),
+                          initialValue:
+                              viewModel.getValue(FormFieldValues.name).value,
+                        ),
+                        SizedBox(
+                          height: textBoxGap,
+                        ),
+                        DefaultFormattedTextField(
                           hintText: 'Email',
                           errorMessage:
                               viewModel.getValue(FormFieldValues.email).error,

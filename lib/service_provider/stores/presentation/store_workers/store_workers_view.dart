@@ -92,11 +92,8 @@ class StoreWorkersView
                                                       subTitle: worker.email,
                                                       dropOptions:
                                                           viewModel.types,
-                                                      dropOptionsValue: viewModel
-                                                          .getValue(
-                                                              FormFieldValues
-                                                                  .code)
-                                                          .value,
+                                                      dropOptionsValue:
+                                                          worker.type.text,
                                                       dropOptionsSet: (value) {
                                                         viewModel.setValue(
                                                             FormFieldValues

@@ -4,13 +4,11 @@ import 'package:beat_ecoprove/service_provider/stores/services/store_service.dar
 
 class GetReviewsUseCaseRequest {
   final String storeId;
-  final Map<String, String> params;
   final int page;
   final int pageSize;
 
   GetReviewsUseCaseRequest(
-    this.storeId,
-    this.params, {
+    this.storeId, {
     this.page = 1,
     this.pageSize = 50,
   });
@@ -25,16 +23,10 @@ class GetReviewsUseCase
   @override
   Future<ChatMessages> handle(request) async {
     ChatMessages reviewsResult;
-    String filters = '';
-
-    if (request.params.isNotEmpty) {
-      filters = _prepareRequest(request.params);
-    }
 
     try {
-      reviewsResult = await _storeService.getReviews(
+      reviewsResult = await _storeService.getRatings(
         request.storeId,
-        filters,
         page: request.page,
         pageSize: request.pageSize,
       );
@@ -42,24 +34,6 @@ class GetReviewsUseCase
       rethrow;
     }
 
-    filters = '';
     return reviewsResult;
-  }
-
-  String _prepareRequest(Map<String, String> params) {
-    Set<String> tags = {};
-    String endPoint = '&';
-
-    for (var param in params.values) {
-      tags.add(param);
-    }
-
-    for (var tag in tags) {
-      endPoint +=
-          '$tag=${params.entries.where((entry) => entry.value.contains(tag)).map((entry) => entry.key).join(',')}';
-      endPoint += '&';
-    }
-
-    return endPoint;
   }
 }

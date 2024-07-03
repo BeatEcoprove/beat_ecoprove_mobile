@@ -28,17 +28,24 @@ class StoreResult {
   );
 
   factory StoreResult.fromJson(Map<String, dynamic> json) {
+    dynamic totalRating = json['totalRating'];
+    if (totalRating is int) {
+      totalRating = totalRating.toDouble();
+    }
+
     return StoreResult(
       json['id'],
       json['name'],
-      json['numberWorkers'],
-      json['country'],
-      json['locality'],
-      json['street'],
-      json['postalCode'],
-      json['numberPort'],
+      json['numberOfWorkers'],
+      //TODO: ERROR IN API
+      // json['address']['country'],
+      'Portugal',
+      json['address']['locality'],
+      json['address']['street'],
+      json['address']['postalCode']['value'],
+      json['address']['port'],
       json['sustainablePoints'],
-      json['rating'],
+      totalRating,
       json['picture'],
       json['level'],
     );

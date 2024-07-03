@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
@@ -15,21 +16,31 @@ class AddWorkerViewModel extends FormViewModel {
   final INavigationManager _navigationRouter;
   final AddWorkerUseCase _addWorkerUseCase;
 
-  final List<String> _types = ["Regular", "Gerente"];
+  final List<String> types = [];
 
   AddWorkerViewModel(
     this._notificationProvider,
     this._navigationRouter,
     this._addWorkerUseCase,
   ) {
+    var employeeTypes = EmployeeType.getAllTypes().map((e) => e.text);
+    types.addAll(employeeTypes);
+
     initializeFields([
+      FormFieldValues.name,
       FormFieldValues.email,
       FormFieldValues.code,
     ]);
-    setValue(FormFieldValues.code, _types.firstOrNull);
+    setValue(FormFieldValues.code, EmployeeType.getAllTypes().first.text);
   }
 
-  List<String> get types => _types;
+  void setDisplayName(String displayName) {
+    try {
+      setValue<String>(FormFieldValues.name, displayName);
+    } on DomainException catch (e) {
+      setError(FormFieldValues.name, e.message);
+    }
+  }
 
   void setEmail(String email) {
     try {
@@ -43,8 +54,9 @@ class AddWorkerViewModel extends FormViewModel {
     try {
       await _addWorkerUseCase.handle(AddWorkerRequest(
         storeId,
+        getValue(FormFieldValues.name).value ?? "",
         getValue(FormFieldValues.email).value ?? "",
-        getValue(FormFieldValues.code).value ?? "Regular",
+        EmployeeType.getValue(getValue(FormFieldValues.code).value),
       ));
 
       _navigationRouter.pop();

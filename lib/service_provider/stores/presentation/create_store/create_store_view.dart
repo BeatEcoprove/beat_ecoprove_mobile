@@ -36,12 +36,14 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 26),
+                        horizontal: 16,
+                        vertical: 26,
+                      ),
                       child: Center(
                         child: Column(
                           children: [
                             const SizedBox(
-                              height: 112,
+                              height: 64,
                             ),
                             const Text(
                               "Criar Loja",
@@ -56,6 +58,23 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                               color: AppColor.widgetSecondary,
                               imageProvider: viewModel.getStorePicture(),
                               onPress: () => viewModel.getImageFromGallery(),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            DefaultFormattedTextField(
+                              hintText: "Nome",
+                              inputFormatter: [
+                                LengthLimitingTextInputFormatter(50),
+                              ],
+                              onChange: (storeName) async =>
+                                  viewModel.setStoreName(storeName),
+                              initialValue: viewModel
+                                  .getValue(FormFieldValues.name)
+                                  .value,
+                              errorMessage: viewModel
+                                  .getValue(FormFieldValues.name)
+                                  .error,
                             ),
                             const SizedBox(
                               height: 24,

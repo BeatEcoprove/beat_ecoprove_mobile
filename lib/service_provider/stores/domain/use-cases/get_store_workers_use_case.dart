@@ -42,7 +42,7 @@ class GetStoreWorkersUseCase
         id: worker.id,
         name: worker.name,
         email: worker.email,
-        type: EmployeeType.getOf(worker.type),
+        type: EmployeeType.getOf(worker.type.toLowerCase()),
       );
 
       workers.add(workerCard);

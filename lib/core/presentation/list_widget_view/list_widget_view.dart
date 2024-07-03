@@ -58,11 +58,12 @@ class ListWidgetView
                                     ),
                                   );
                                 default:
-                                  if (snapshot.data == null) {
+                                  if (snapshot.data!.isEmpty) {
                                     return Text(
                                       args.noResultsText,
+                                      style: AppText.subHeader,
                                       textAlign: TextAlign.center,
-                                      style: AppText.smallSubHeader,
+                                      overflow: TextOverflow.ellipsis,
                                     );
                                   }
                                   return Column(

@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -7,12 +8,10 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_f
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/with_text_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
-import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
-import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_index/store_view_model.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +24,6 @@ class StoreView extends LinearView<StoreViewModel> {
   });
 
   Widget _buildSearchBarAndFilter(StoreViewModel viewModel) {
-    const Radius borderRadius = Radius.circular(5);
-    final options = viewModel.getFilters;
-
     return Padding(
       padding: const EdgeInsets.all(12),
       child: SizedBox(
@@ -45,35 +41,6 @@ class StoreView extends LinearView<StoreViewModel> {
                 initialValue: viewModel.getValue(FormFieldValues.search).value,
                 errorMessage: viewModel.getValue(FormFieldValues.search).error,
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 6),
-            ),
-            FilterButton(
-              bodyButton: Container(
-                width: 52,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: AppColor.widgetBackground,
-                  borderRadius: BorderRadius.all(borderRadius),
-                  boxShadow: [AppColor.defaultShadow],
-                ),
-                child: const SvgImage(
-                  path: "assets/filter/settings.svg",
-                  height: 24,
-                  width: 24,
-                  color: AppColor.widgetSecondary,
-                ),
-              ),
-              overlayPaddingBottom: 86,
-              overlayPaddingTop: 110,
-              contentPaddingTop: 56,
-              bodyTop: 0,
-              options: options,
-              onSelectionChanged: (filter) =>
-                  viewModel.changeFilterSelection(filter),
-              filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
-              selectedFilters: viewModel.allSelectedFilters,
             ),
           ],
         ),
@@ -104,7 +71,12 @@ class StoreView extends LinearView<StoreViewModel> {
                           subTitle: "${e.numberWorkers} funcionários",
                         ),
                         WithOptionsAndTextFooter(
-                          options: [],
+                          options: [
+                            OptionItem(
+                              name: 'Remover',
+                              action: () async => {},
+                            ),
+                          ],
                           text: "Nível ${e.level}",
                         )
                       ],

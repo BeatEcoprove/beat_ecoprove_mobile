@@ -6,8 +6,8 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/change_worker_permission_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/remove_worker_request.dart';
-import 'package:beat_ecoprove/service_provider/stores/contracts/add_worker_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_store_workers_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/worker.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
@@ -32,15 +32,14 @@ class StoreWorkersViewModel extends FormViewModel {
     this._getStoreWorkersUseCase,
     this._storeService,
   ) {
-    var typesFormatted = EmployeeType.getAllTypes();
-    types.addAll(typesFormatted
-        .map((e) => e.value[0].toUpperCase() + e.value.substring(1)));
+    var employeeTypes = EmployeeType.getAllTypes().map((e) => e.text);
+    types.addAll(employeeTypes);
 
     initializeFields([
       FormFieldValues.code,
     ]);
     user = _authProvider.appUser;
-    setValue(FormFieldValues.code, types.firstOrNull);
+    setValue(FormFieldValues.code, EmployeeType.getAllTypes().first.text);
   }
 
   Future getWorkers(String storeId) async {
@@ -91,7 +90,8 @@ class StoreWorkersViewModel extends FormViewModel {
   Future changeWorkerType(String storeId, String workerId, String type) async {
     try {
       await _storeService.changeWorkerType(
-        AddWorkerRequest(storeId, workerId, type),
+        ChangeWorkerPermissionRequest(
+            storeId, workerId, EmployeeType.getValue(type)),
       );
     } on HttpError catch (e) {
       _notificationProvider.showNotification(

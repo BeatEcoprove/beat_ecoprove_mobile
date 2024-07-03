@@ -33,6 +33,7 @@ class CreateStoreViewModel extends FormViewModel {
   ) {
     initializeFields([
       FormFieldValues.groupPicture,
+      FormFieldValues.name,
       FormFieldValues.storeCountry,
       FormFieldValues.storeLocality,
       FormFieldValues.storeStreet,
@@ -55,6 +56,14 @@ class CreateStoreViewModel extends FormViewModel {
     }
 
     return _countries.values.first;
+  }
+
+  void setStoreName(String storeName) {
+    try {
+      setValue<String>(FormFieldValues.name, storeName);
+    } on DomainException catch (e) {
+      setError(FormFieldValues.name, e.message);
+    }
   }
 
   void setStoreStreet(String storeStreet) {
@@ -109,6 +118,7 @@ class CreateStoreViewModel extends FormViewModel {
     try {
       await _registerStoreUseCase.handle(RegisterStoreRequest(
         getValue(FormFieldValues.groupPicture).value ?? "",
+        getValue(FormFieldValues.name).value ?? "",
         getValue(FormFieldValues.storeCountry).value ?? "",
         getValue(FormFieldValues.storeLocality).value ?? "",
         getValue(FormFieldValues.storeStreet).value ?? "",

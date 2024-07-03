@@ -56,17 +56,14 @@ class InfoStoreViewModel extends ViewModel<InfoStoreParams> {
   }
 
   Future fetchMessages(String storeId) async {
-    Map<String, String> param = {};
-
     try {
       for (var value in selectedFilter) {
-        param.addAll({value: 'reviews'});
+        print(value);
       }
 
       var result = await _getReviewsUseCase.handle(
         GetReviewsUseCaseRequest(
           storeId,
-          param,
         ),
       );
 

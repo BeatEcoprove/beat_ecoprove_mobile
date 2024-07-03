@@ -20,12 +20,13 @@ class Employee extends User {
 }
 
 enum EmployeeType implements Comparable<EmployeeType> {
-  manager(value: "manager"),
-  worker(value: "worker");
+  worker(value: "worker", text: "Funcionário"),
+  manager(value: "manager", text: "Gerente");
 
   final String value;
+  final String text;
 
-  const EmployeeType({required this.value});
+  const EmployeeType({required this.value, required this.text});
 
   static List<EmployeeType> getAllTypes() {
     return EmployeeType.values.toList();
@@ -33,6 +34,9 @@ enum EmployeeType implements Comparable<EmployeeType> {
 
   static EmployeeType getOf(String value) =>
       EmployeeType.values.singleWhere((element) => element.value == value);
+
+  static String getValue(String text) =>
+      EmployeeType.values.singleWhere((element) => element.text == text).value;
 
   @override
   int compareTo(EmployeeType other) {

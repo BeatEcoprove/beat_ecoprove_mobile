@@ -9,6 +9,8 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_f
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/home/presentation/index/home_view_model.dart';
 import 'package:beat_ecoprove/home/widgets/welcome_card.dart';
 import 'package:flutter/material.dart';
@@ -114,27 +116,42 @@ class HomeView extends LinearView<HomeViewModel> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                for (var service in services)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: CompactListItemRoot(
-                      items: [
-                        ImageTitleSubtitleHeader(
-                          widget: service.widget,
-                          title: service.title,
-                          subTitle: service.subtitle,
-                        ),
-                        WithOptionsFooter(
-                          options: [
-                            OptionItem(
-                              name: 'Não voltar a aparecer',
-                              action: () {},
-                            )
-                          ],
-                        ),
-                      ],
+                if (viewModel.servicesProviders.isEmpty) ...[
+                  Center(
+                      child: Container(
+                    margin: const EdgeInsets.only(top: 16, bottom: 64),
+                    child: const Text(
+                      "Não existem Prestadores de Serviço!",
+                      style: AppText.subHeader,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
+                  )),
+                ] else ...[
+                  for (var service in viewModel.servicesProviders)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: CompactListItemRoot(
+                        items: [
+                          ImageTitleSubtitleHeader(
+                            widget: PresentImage(
+                              path: ServerImage(service.icon),
+                            ),
+                            title: service.name,
+                            subTitle: service.type,
+                          ),
+                          WithOptionsFooter(
+                            options: [
+                              OptionItem(
+                                name: 'Não voltar a aparecer',
+                                action: () {},
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                ]
               ],
             ),
           ),

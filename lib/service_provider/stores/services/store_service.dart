@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/group/contracts/chat_messages.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/change_worker_permission_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/remove_worker_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/add_worker_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/register_store_request.dart';
@@ -15,11 +16,11 @@ class StoreService {
   Future<List<StoreResult>> getStores(
     String filters, {
     int page = 1,
-    int pageSize = 10,
+    int pageSize = 100,
   }) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "stores?page=$page&pageSize=$pageSize$filters",
+      path: "stores/own?page=$page&pageSize=$pageSize$filters",
       expectedCode: 200,
     );
 
@@ -38,7 +39,7 @@ class StoreService {
   Future<List<WorkerResult>> getStoreWorkers(
     String storeId, {
     int page = 1,
-    int pageSize = 10,
+    int pageSize = 100,
   }) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
@@ -53,10 +54,10 @@ class StoreService {
 
   Future addWorker(AddWorkerRequest request) async {
     await _httpClient.makeRequestJson(
-      method: HttpMethods.put,
+      method: HttpMethods.post,
       path: "stores/${request.storeId}/workers",
       body: request,
-      expectedCode: 201,
+      expectedCode: 200,
     );
   }
 
@@ -69,7 +70,7 @@ class StoreService {
     );
   }
 
-  Future changeWorkerType(AddWorkerRequest request) async {
+  Future changeWorkerType(ChangeWorkerPermissionRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
       path: "stores/${request.storeId}/workers/${request.id}",
@@ -78,15 +79,14 @@ class StoreService {
     );
   }
 
-  Future<ChatMessages> getReviews(
-    String storeId,
-    String filters, {
+  Future<ChatMessages> getRatings(
+    String storeId, {
     int page = 1,
     int pageSize = 10,
   }) async {
     var response = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "stores/$storeId/messages?page=$page&pageSize=$pageSize$filters",
+      path: "stores/$storeId/ratings?page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 

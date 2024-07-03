@@ -213,7 +213,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
           content: "QR Code",
           textColor: AppColor.buttonBackground,
           buttonColor: AppColor.widgetBackground,
-          onPress: () {}, //TODO: Create way to do it
+          onPress: () => viewModel.goToReadQRCode(),
         ),
       ),
     );

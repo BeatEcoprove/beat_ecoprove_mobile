@@ -1,0 +1,3 @@
+class ReadQRCodeParams {
+  ReadQRCodeParams();
+}

@@ -12,6 +12,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
+import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
@@ -20,6 +21,7 @@ import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/register_cl
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_name.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_size.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/value_objects/cloth_type.dart';
+import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/presentation/main_skeleton/main_skeleton_view_model.dart';
@@ -210,5 +212,9 @@ class RegisterClothViewModel extends FormViewModel {
           ? ServerImage(clothResult.otherProfileAvatar!)
           : null,
     );
+  }
+
+  void goToReadQRCode() {
+    _navigationRouter.push(CoreRoutes.readQRCode, extras: ReadQRCodeParams());
   }
 }

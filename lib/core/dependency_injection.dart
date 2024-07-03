@@ -12,12 +12,16 @@ import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view_model.dart';
+import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_params.dart';
+import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_view.dart';
+import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_view_model.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view_model.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view_model.dart';
+import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
@@ -25,6 +29,7 @@ import 'package:get_it/get_it.dart';
 extension CoreDependencyInjection on DependencyInjection {
   void _addViewModels(GetIt locator) {
     var router = locator<INavigationManager>();
+    var notificationProvider = locator<INotificationProvider>();
 
     locator.registerFactory(
       () => ListDetailsViewModel(),
@@ -50,6 +55,13 @@ extension CoreDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
       () => QRCodeViewModel(
+        router,
+      ),
+    );
+
+    locator.registerFactory(
+      () => ReadQRCodeViewModel(
+        notificationProvider,
         router,
       ),
     );
@@ -96,6 +108,13 @@ extension CoreDependencyInjection on DependencyInjection {
     locator.registerFactoryParam<QRCodeView, QRCodeParams, void>(
       (params, _) => QRCodeView(
         viewModel: locator<QRCodeViewModel>(),
+        args: params,
+      ),
+    );
+
+    locator.registerFactoryParam<ReadQRCodeView, ReadQRCodeParams, void>(
+      (params, _) => ReadQRCodeView(
+        viewModel: locator<ReadQRCodeViewModel>(),
         args: params,
       ),
     );

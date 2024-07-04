@@ -77,6 +77,7 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
               xp: decodedToken[Tokens.xp],
               nextLevelXp: decodedToken[Tokens.nextLevelXp],
               workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
+              storeId: decodedToken[Tokens.storeId],
             ),
         },
       ),

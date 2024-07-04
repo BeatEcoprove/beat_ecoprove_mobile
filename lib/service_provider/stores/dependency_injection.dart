@@ -11,6 +11,8 @@ import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_store
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/add_worker_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/register_store_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/remove_store_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/remove_worker_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/create_store/create_store_view.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/create_store/create_store_view_model.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_index/store_view.dart';
@@ -42,6 +44,14 @@ extension StoresDependencyInjection on DependencyInjection {
     locator.registerSingleton(
       GetReviewsUseCase(storeService),
     );
+
+    locator.registerSingleton(
+      RemoveWorkerUseCase(storeService),
+    );
+
+    locator.registerSingleton(
+      RemoveStoreUseCase(storeService),
+    );
   }
 
   void _addViewModels(GetIt locator) {
@@ -53,13 +63,17 @@ extension StoresDependencyInjection on DependencyInjection {
     var getStoreWorkersUseCase = locator<GetStoreWorkersUseCase>();
     var getReviewsUseCase = locator<GetReviewsUseCase>();
     var getStoresUseCase = locator<GetStoresUseCase>();
+    var removeStoreUseCase = locator<RemoveStoreUseCase>();
+    var removeWorkerUseCase = locator<RemoveWorkerUseCase>();
 
     locator.registerFactory(
       () => StoreViewModel(
+        locator<StaticValuesProvider>(),
         notificationProvider,
         authProvider,
         router,
         getStoresUseCase,
+        removeStoreUseCase,
       ),
     );
 
@@ -87,6 +101,7 @@ extension StoresDependencyInjection on DependencyInjection {
         authProvider,
         router,
         getStoreWorkersUseCase,
+        removeWorkerUseCase,
         locator<StoreService>(),
       ),
     );

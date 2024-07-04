@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 
 class Employee extends User {
   final EmployeeType workerType;
+  final String storeId;
 
   Employee({
     required super.id,
@@ -16,6 +17,7 @@ class Employee extends User {
     required super.nextLevelXp,
     super.type = UserType.employee,
     required this.workerType,
+    required this.storeId,
   });
 }
 

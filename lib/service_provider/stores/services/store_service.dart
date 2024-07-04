@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/group/contracts/chat_messages.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/change_worker_permission_request.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/remove_store_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/remove_worker_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/add_worker_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/register_store_request.dart';
@@ -31,6 +32,15 @@ class StoreService {
     await _httpClient.makeRequestMultiPart(
       method: HttpMethods.post,
       path: "stores",
+      body: request,
+      expectedCode: 200,
+    );
+  }
+
+  Future removeStore(RemoveStoreRequest request) async {
+    await _httpClient.makeRequestJson(
+      method: HttpMethods.delete,
+      path: "stores/${request.storeId}",
       body: request,
       expectedCode: 200,
     );
@@ -73,9 +83,9 @@ class StoreService {
   Future changeWorkerType(ChangeWorkerPermissionRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
-      path: "stores/${request.storeId}/workers/${request.id}",
+      path: "stores/${request.storeId}/workers/${request.id}/switch",
       body: request,
-      expectedCode: 204,
+      expectedCode: 200,
     );
   }
 

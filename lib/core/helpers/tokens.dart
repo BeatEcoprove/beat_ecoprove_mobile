@@ -12,4 +12,5 @@ abstract class Tokens {
   static const String nextLevelXp = "next_level_xp";
   static const String type = "type";
   static const String role = "role";
+  static const String storeId = "store_id";
 }

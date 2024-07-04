@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/service_provider/orders/domain/use-cases/get_order
 import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view.dart';
 import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view_model.dart';
 import 'package:beat_ecoprove/service_provider/orders/services/order_service.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 import 'package:get_it/get_it.dart';
 
 extension OrdersDependencyInjection on DependencyInjection {
@@ -31,6 +32,7 @@ extension OrdersDependencyInjection on DependencyInjection {
     var authProvider = locator<AuthenticationProvider>();
     var notificationProvider = locator<INotificationProvider>();
     var getOrdersUseCase = locator<GetOrdersUseCase>();
+    var getStoresUseCase = locator<GetStoresUseCase>();
     var router = locator<INavigationManager>();
 
     locator.registerFactory(
@@ -40,6 +42,7 @@ extension OrdersDependencyInjection on DependencyInjection {
         authProvider,
         locator<StaticValuesProvider>(),
         getOrdersUseCase,
+        getStoresUseCase,
       ),
     );
   }

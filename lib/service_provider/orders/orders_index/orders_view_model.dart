@@ -20,6 +20,7 @@ import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/service_provider/orders/domain/models/order_item.dart';
 import 'package:beat_ecoprove/service_provider/orders/domain/use-cases/get_orders_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 import 'package:flutter/material.dart';
 
 class OrdersViewModel extends FormViewModel implements Clone {
@@ -29,13 +30,15 @@ class OrdersViewModel extends FormViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   late final User? user;
   late Map<String, dynamic> _selectedFilters = {};
-  late List<String> _selectedHorizontalFilters = [];
+  late List<Map<String, String>> _selectedHorizontalFilters = [];
   late List<FilterRow> _getColors = [];
   late List<FilterRow> _getBrands = [];
   late List<FilterRow> _getActiveOptions = [];
   late List<FilterRow> _getServices = [];
+  late Map<String, String> stores = {};
 
   final GetOrdersUseCase _getOrdersUseCase;
+  final GetStoresUseCase _getStoresUseCase;
 
   late final List<OrderItem> orders = [];
 
@@ -47,9 +50,11 @@ class OrdersViewModel extends FormViewModel implements Clone {
     this._authProvider,
     this._valuesProvider,
     this._getOrdersUseCase,
+    this._getStoresUseCase,
   ) {
     user = _authProvider.appUser;
-
+    stores = _valuesProvider.storesMap;
+    _selectedHorizontalFilters.add(stores);
     initializeFields([
       FormFieldValues.search,
     ]);
@@ -58,7 +63,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
     getAllActiveOptions();
     getAllServices();
     _selectedFilters.addAll({
-      "Concluídos": {"no": "isActive"}
+      "Ativos": {"false": "isDone"}
     });
   }
 
@@ -87,13 +92,23 @@ class OrdersViewModel extends FormViewModel implements Clone {
 
   bool get haveHorizontalFilters => _selectedHorizontalFilters.isNotEmpty;
 
-  List<String> get allSelectedHorizontalFilters => _selectedHorizontalFilters;
+  List<Map<String, String>> get allSelectedHorizontalFilters =>
+      _selectedHorizontalFilters;
 
   bool haveThisHorizontalFilter(String filter) =>
-      _selectedHorizontalFilters.contains(filter);
+      _selectedHorizontalFilters.any((map) => map.containsKey(filter));
 
   void changeHorizontalFiltersSelection(List<String> filters) async {
-    _selectedHorizontalFilters = filters;
+    List<Map<String, String>> result = [];
+
+    stores.forEach((key, value) {
+      if (filters.contains(key)) {
+        result.add({key: value});
+      }
+    });
+
+    _selectedHorizontalFilters = result;
+
     await refetch();
   }
 
@@ -117,23 +132,23 @@ class OrdersViewModel extends FormViewModel implements Clone {
         text: "Ativos",
         dimension: 50,
         content: const Icon(
-          Icons.check_circle_outline_rounded,
+          Icons.highlight_off_rounded,
           size: 36,
-          color: AppColor.darkGreen,
+          color: AppColor.endSession,
         ),
-        value: "yes",
-        tag: "isActive",
+        value: "false",
+        tag: "isDone",
       ),
       FilterButtonItem(
         text: "Concluídos",
         dimension: 50,
         content: const Icon(
-          Icons.highlight_off_rounded,
+          Icons.check_circle_outline_rounded,
           size: 36,
-          color: AppColor.endSession,
+          color: AppColor.darkGreen,
         ),
-        value: "no",
-        tag: "isActive",
+        value: "true",
+        tag: "isDone",
       ),
     ]);
 
@@ -227,7 +242,8 @@ class OrdersViewModel extends FormViewModel implements Clone {
           height: 25,
         ),
         backgroundColor: AppColor.darkGreen,
-        value: "recycle",
+        // value: "recycle",
+        value: "Reciclar",
         tag: "services",
       ),
       FilterButtonItem(
@@ -239,7 +255,8 @@ class OrdersViewModel extends FormViewModel implements Clone {
           height: 30,
         ),
         backgroundColor: AppColor.orange,
-        value: "iron",
+        // value: "iron",
+        value: "Engomar",
         tag: "services",
       ),
       FilterButtonItem(
@@ -251,7 +268,8 @@ class OrdersViewModel extends FormViewModel implements Clone {
           height: 30,
         ),
         backgroundColor: AppColor.yellow,
-        value: "dry",
+        // value: "dry",
+        value: "Secar",
         tag: "services",
       ),
       FilterButtonItem(
@@ -263,7 +281,8 @@ class OrdersViewModel extends FormViewModel implements Clone {
           height: 50,
         ),
         backgroundColor: AppColor.lightBlue,
-        value: "wash",
+        // value: "wash",
+        value: "Lavar",
         tag: "services",
       ),
       FilterButtonItem(
@@ -275,7 +294,8 @@ class OrdersViewModel extends FormViewModel implements Clone {
           height: 30,
         ),
         backgroundColor: AppColor.darkBlue,
-        value: "repair",
+        // value: "repair",
+        value: "Reparar",
         tag: "services",
       ),
     ]);
@@ -301,7 +321,9 @@ class OrdersViewModel extends FormViewModel implements Clone {
       }
 
       for (var filter in _selectedHorizontalFilters) {
-        param.addAll({filter: 'localities'});
+        for (var key in filter.keys) {
+          param.addAll({key: 'storeIds'});
+        }
       }
 
       param.addAll({getValue(FormFieldValues.search).value ?? "": "search"});
@@ -350,6 +372,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
       _authProvider,
       _valuesProvider,
       _getOrdersUseCase,
+      _getStoresUseCase,
     );
   }
 }

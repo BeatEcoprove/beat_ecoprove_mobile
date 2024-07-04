@@ -21,14 +21,13 @@ class GetOrdersUseCaseRequest {
 
 class GetOrdersUseCase
     implements UseCase<GetOrdersUseCaseRequest, Future<List<OrderItem>>> {
-  final OrderService _clothingService;
+  final OrderService _orderService;
 
-  GetOrdersUseCase(this._clothingService);
+  GetOrdersUseCase(this._orderService);
 
   @override
   Future<List<OrderItem>> handle(request) async {
     List<OrderResult> ordersResult;
-    List<CardItem> clothes = [];
     List<OrderItem> orders = [];
     String filters = '';
 
@@ -37,7 +36,7 @@ class GetOrdersUseCase
     }
 
     try {
-      ordersResult = await _clothingService.getOrders(
+      ordersResult = await _orderService.getOrders(
         filters,
         page: request.page,
         pageSize: request.pageSize,
@@ -47,64 +46,68 @@ class GetOrdersUseCase
     }
 
     for (var order in ordersResult) {
-      for (var cloth in order.cloths) {
-        var card = CardItem(
-          id: cloth.id,
-          clothState: cloth.clothState,
-          title: cloth.name,
-          brand: cloth.brand,
-          color: Color(
-            int.parse(
-              cloth.color,
-              radix: 16,
-            ),
-          ),
-          ecoScore: cloth.ecoScore,
-          size: cloth.size.toUpperCase(),
-          child: cloth.clothAvatar,
-          hasProfile: cloth.otherProfileAvatar != null
-              ? ServerImage(cloth.otherProfileAvatar!)
-              : null,
-        );
-
-        clothes.add(card);
-      }
-
-      for (var bucket in order.buckets) {
-        var card = CardItem(
-          id: bucket.id,
-          title: bucket.name,
-          child: bucket.associatedCloth.map((item) {
-            return CardItem(
-              id: item.id,
-              clothState: item.clothState,
-              title: item.name,
-              brand: item.brand,
-              color: Color(
-                int.parse(
-                  item.color,
-                  radix: 16,
-                ),
+      if (order is OrderClothResult) {
+        var orderCard = OrderItem(
+          orderId: order.orderId,
+          ownerId: order.ownerId,
+          username: order.username,
+          avatarPicture: order.avatarPicture,
+          card: CardItem(
+            id: order.cloth.id,
+            clothState: order.cloth.clothState,
+            title: order.cloth.name,
+            brand: order.cloth.brand,
+            color: Color(
+              int.parse(
+                order.cloth.color,
+                radix: 16,
               ),
-              ecoScore: item.ecoScore,
-              size: item.size.toUpperCase(),
-              child: item.clothAvatar,
-            );
-          }).toList(),
+            ),
+            ecoScore: order.cloth.ecoScore,
+            size: order.cloth.size.toUpperCase(),
+            child: order.cloth.clothAvatar,
+            hasProfile: order.cloth.otherProfileAvatar != null
+                ? ServerImage(order.cloth.otherProfileAvatar!)
+                : null,
+          ),
+          services: order.services.map((e) => e.name).toList(),
         );
-        clothes.add(card);
+
+        orders.add(orderCard);
       }
 
-      orders.add(OrderItem(
-        id: order.id,
-        orderId: order.orderId,
-        ownerId: order.ownerId,
-        username: order.username,
-        avatarPicture: order.avatarPicture,
-        clothes: clothes,
-        services: order.services,
-      ));
-      clothes = [];
+      if (order is OrderBucketResult) {
+        var orderCard = OrderItem(
+          orderId: (order).orderId,
+          ownerId: order.ownerId,
+          username: order.username,
+          avatarPicture: order.avatarPicture,
+          card: CardItem(
+            id: order.bucket.id,
+            title: order.bucket.name,
+            child: order.bucket.associatedCloth.map((item) {
+              return CardItem(
+                id: item.id,
+                clothState: item.clothState,
+                title: item.name,
+                brand: item.brand,
+                color: Color(
+                  int.parse(
+                    item.color,
+                    radix: 16,
+                  ),
+                ),
+                ecoScore: item.ecoScore,
+                size: item.size.toUpperCase(),
+                child: item.clothAvatar,
+              );
+            }).toList(),
+          ),
+          services: order.services.map((e) => e.name).toList(),
+        );
+
+        orders.add(orderCard);
+      }
     }
 
     filters = '';
@@ -125,6 +128,8 @@ class GetOrdersUseCase
       endPoint += '&';
     }
 
-    return endPoint;
+    var index = endPoint.lastIndexOf('&');
+
+    return endPoint.substring(0, index);
   }
 }

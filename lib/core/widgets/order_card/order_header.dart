@@ -221,6 +221,7 @@ class OrderHeader extends OrderCardItem {
     double iconDimension = dimension * (2 / 3);
     switch (service) {
       case "recycle":
+      case "Reciclar":
         return IconButtonRectangular(
           dimension: dimension,
           colorBackground: AppColor.darkGreen,
@@ -232,6 +233,7 @@ class OrderHeader extends OrderCardItem {
           ),
         );
       case "iron":
+      case "Engomar":
         return IconButtonRectangular(
           dimension: dimension,
           colorBackground: AppColor.orange,
@@ -244,6 +246,7 @@ class OrderHeader extends OrderCardItem {
         );
 
       case "dry":
+      case "Secar":
         return IconButtonRectangular(
           dimension: dimension,
           colorBackground: AppColor.yellow,
@@ -256,6 +259,7 @@ class OrderHeader extends OrderCardItem {
         );
 
       case "wash":
+      case "Lavar":
         return IconButtonRectangular(
           dimension: dimension,
           colorBackground: AppColor.lightBlue,
@@ -268,6 +272,7 @@ class OrderHeader extends OrderCardItem {
         );
 
       case "repair":
+      case "Reparar":
         return IconButtonRectangular(
           dimension: dimension,
           colorBackground: AppColor.darkBlue,

@@ -25,6 +25,20 @@ class OrderCardRoot extends StatelessWidget {
     if (click != null) {
       return InkWell(
         onTap: click,
+        child: body(context),
+      );
+    }
+
+    if (longPress != null) {
+      return InkWell(
+        onLongPress: longPress,
+        child: body(context),
+      );
+    }
+
+    if (click != null && longPress != null) {
+      return InkWell(
+        onTap: click,
         onLongPress: longPress,
         child: body(context),
       );

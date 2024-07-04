@@ -54,9 +54,7 @@ extension CoreDependencyInjection on DependencyInjection {
     );
 
     locator.registerFactory(
-      () => QRCodeViewModel(
-        router,
-      ),
+      () => QRCodeViewModel(),
     );
 
     locator.registerFactory(

@@ -13,7 +13,6 @@ import 'package:beat_ecoprove/core/widgets/order_card/order_card_root.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
-import 'package:beat_ecoprove/service_provider/orders/domain/data/filters.dart';
 import 'package:beat_ecoprove/service_provider/orders/domain/models/order_item.dart';
 import 'package:beat_ecoprove/service_provider/orders/orders_index/orders_view_model.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +105,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
           scrollDirection: Axis.horizontal,
           children: [
             HorizontalSelectorList(
-              list: storePlaces,
+              list: viewModel.stores,
               onSelectionChanged: (ids) =>
                   {viewModel.changeHorizontalFiltersSelection(ids)},
               isHorizontalFilterSelected: (filter) =>
@@ -133,8 +132,8 @@ class OrdersView extends LinearView<OrdersViewModel> {
                             PresentImage(path: ServerImage(e.avatarPicture)),
                         isCircular: true,
                         title: e.username,
-                        subTitle: "Pedido ${e.orderId}",
-                        cloth: e.clothes.first,
+                        subTitle: "",
+                        cloth: e.card,
                         services: e.services,
                       ),
                     ],

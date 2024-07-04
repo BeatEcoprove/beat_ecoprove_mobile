@@ -126,6 +126,8 @@ class CreateStoreViewModel extends FormViewModel {
         getValue(FormFieldValues.storeNumberPort).value ?? "",
       ));
 
+      await _staticValuesProvider.fetchAuthorizedValues();
+
       _navigationRouter.pop();
 
       _notificationProvider.showNotification(

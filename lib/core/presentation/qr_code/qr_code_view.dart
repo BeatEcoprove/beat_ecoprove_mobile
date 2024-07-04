@@ -22,7 +22,6 @@ class QRCodeView extends ArgumentView<QRCodeViewModel, QRCodeParams> {
         content: GoBack(
           posLeft: 18,
           posTop: 18,
-          onExit: () => viewModel.goBack(),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

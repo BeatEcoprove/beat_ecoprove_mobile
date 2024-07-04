@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_view.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_view_model.dart';
-import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -25,20 +24,8 @@ import 'package:beat_ecoprove/service_provider/stores/services/store_service.dar
 import 'package:get_it/get_it.dart';
 
 extension StoresDependencyInjection on DependencyInjection {
-  void _addServices(GetIt locator) {
-    var httpClient = locator<HttpAuthClient>();
-
-    locator.registerFactory(
-      () => StoreService(httpClient),
-    );
-  }
-
   void _addUseCases(GetIt locator) {
     var storeService = locator<StoreService>();
-
-    locator.registerSingleton(
-      GetStoresUseCase(storeService),
-    );
 
     locator.registerSingleton(
       RegisterStoreUseCase(storeService),
@@ -151,7 +138,6 @@ extension StoresDependencyInjection on DependencyInjection {
   void addStore() {
     GetIt locator = DependencyInjection.locator;
 
-    _addServices(locator);
     _addUseCases(locator);
     _addViewModels(locator);
     _addViews(locator);

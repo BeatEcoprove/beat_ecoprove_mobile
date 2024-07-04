@@ -8,24 +8,28 @@ import 'package:beat_ecoprove/core/services/geo_api_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_colors_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 
 class StaticValuesProvider extends ViewModel {
   final AuthenticationProvider _authenticationProvider;
   final GetColorsUseCase _getColorsUseCase;
   final GetBrandsUseCase _getBrandsUseCase;
   final CountryCodesService _countryCodesService;
+  final GetStoresUseCase _getStoresUseCase;
   final GeoApiService _apiService;
 
   final Map<String, ColorItem> colorsMap = {};
   final Map<String, BrandItem> brandsMap = {};
   final Map<String, String> countryCodes = {};
   final Map<String, List<String>> countryParishes = {};
+  final Map<String, String> storesMap = {};
 
   StaticValuesProvider(
     this._authenticationProvider,
     this._getColorsUseCase,
     this._getBrandsUseCase,
     this._countryCodesService,
+    this._getStoresUseCase,
     this._apiService,
   );
 
@@ -50,7 +54,8 @@ class StaticValuesProvider extends ViewModel {
 
     List<Future> values = [
       _getColorsUseCase.handle(),
-      _getBrandsUseCase.handle()
+      _getBrandsUseCase.handle(),
+      _getStoresUseCase.handle(GetStoresUseCaseRequest({})),
     ];
 
     var result = await Future.wait(values);
@@ -59,6 +64,10 @@ class StaticValuesProvider extends ViewModel {
 
     var brands = Map.castFrom<dynamic, dynamic, String, BrandItem>(
         {for (var brand in result[1]) brand.name: brand});
+
+    result[2].forEach((e) {
+      storesMap.addAll({e.id: e.name});
+    });
 
     colorsMap.addAll(colors);
     brandsMap.addAll(brands);

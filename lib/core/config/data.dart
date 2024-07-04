@@ -1,7 +1,5 @@
-import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
-import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 
 class CardData {
@@ -46,46 +44,6 @@ List<CardData> cards = [
         "Experimente a nossa lavagem a seco premium com 30% de desconto na primeira vez. Tratamos cada peça com o cuidado que merece.",
     widget: const PresentImage(
       path: AssetImage("assets/fakedata/wash.jpg"),
-    ),
-  ),
-];
-
-class ServiceData {
-  final String title;
-  final String subtitle;
-  final Widget widget;
-
-  ServiceData(
-      {required this.title, required this.subtitle, required this.widget});
-}
-
-List<ServiceData> services = [
-  ServiceData(
-    title: "Wash&Clean",
-    subtitle: "Lavandaria",
-    widget: const Icon(
-      Icons.water_drop_outlined,
-      color: AppColor.lightBlue,
-    ),
-  ),
-  ServiceData(
-    title: "Arranjos Express",
-    subtitle: "Arranjo",
-    widget: const SvgImage(
-      path: 'assets/services/repair.svg',
-      width: 30,
-      height: 30,
-      color: AppColor.orange,
-    ),
-  ),
-  ServiceData(
-    title: "Seco & Leve",
-    subtitle: "Secagem",
-    widget: const SvgImage(
-      path: 'assets/services/dry.svg',
-      width: 30,
-      height: 30,
-      color: AppColor.primaryColor,
     ),
   ),
 ];

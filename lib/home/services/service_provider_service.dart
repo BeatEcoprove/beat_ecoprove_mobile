@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/home/contracts/service_provider_plus_result.dart';
 import 'package:beat_ecoprove/home/contracts/service_provider_result.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/store_result.dart';
 
 class ServiceProviderService {
   final HttpAuthClient _httpClient;
@@ -32,5 +33,19 @@ class ServiceProviderService {
     );
 
     return ServiceProviderPlusResult.fromJson(serviceProviderJson);
+  }
+
+  Future<List<StoreResult>> getStoresOfServiceProvider(
+    String serviceProviderId, {
+    int page = 1,
+    int pageSize = 100,
+  }) async {
+    List<dynamic> result = await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "providers/$serviceProviderId/stores?page=$page&pageSize=$pageSize",
+      expectedCode: 200,
+    );
+
+    return result.map((storeJson) => StoreResult.fromJson(storeJson)).toList();
   }
 }

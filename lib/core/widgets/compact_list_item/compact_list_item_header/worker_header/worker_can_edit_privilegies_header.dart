@@ -47,7 +47,7 @@ class WorkerCanEditPrivilegiesHeader extends WorkerHeader {
         ),
         SizedBox(
           height: height.value / 2,
-          width: 125,
+          width: 135,
           child: FormattedDropDown(
             options: dropOptions,
             value: dropOptionsValue,

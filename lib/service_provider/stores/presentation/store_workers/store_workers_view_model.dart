@@ -95,7 +95,7 @@ class StoreWorkersViewModel extends FormViewModel<StoreParams>
         type: NotificationTypes.success,
       );
 
-      notifyListeners();
+      _navigationRouter.pop();
     } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,

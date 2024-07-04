@@ -182,7 +182,7 @@ List<ServiceTemplate> setUpOptions(ServiceProviderProfileViewModel viewModel) {
   List<PayablePrizeItem> options = [
     PayablePrizeItem(
       title: "Anúncio",
-      idText: "advert",
+      idText: "advertisement",
       content: const Icon(Icons.shopping_cart_outlined,
           color: AppColor.buttonBackground, size: 50),
       backgroundColor: AppColor.widgetBackground,
@@ -190,7 +190,7 @@ List<ServiceTemplate> setUpOptions(ServiceProviderProfileViewModel viewModel) {
       foregroundColor: AppColor.buttonBackground,
       prize: 150,
       action: () async => await {
-        viewModel.goToCreatePrize("advert", 150),
+        viewModel.goToCreatePrize("advertisement", 150),
       },
     ),
     PayablePrizeItem(

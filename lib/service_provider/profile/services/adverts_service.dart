@@ -33,9 +33,9 @@ class AdvertsService {
   Future registerAdvert(RegisterAdvertRequest request) async {
     await _httpClient.makeRequestMultiPart(
       method: HttpMethods.post,
-      path: "advert",
+      path: "adverts",
       body: request,
-      expectedCode: 201,
+      expectedCode: 200,
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/formatters/price_formatter.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/avatar_chooser/retangular_avatar_chooser.dart';
@@ -25,20 +24,6 @@ class CreatePrizeView
   Column _voucherParams() {
     return Column(
       children: [
-        DefaultFormattedTextField(
-          hintText: "Custo do Voucher",
-          keyboardType: TextInputType.number,
-          inputFormatter: [
-            LengthLimitingTextInputFormatter(12),
-            PriceFormatter(),
-          ],
-          onChange: (priceItem) async => viewModel.setPriceItem(priceItem),
-          initialValue: viewModel.getValue(FormFieldValues.priceItem).value,
-          errorMessage: viewModel.getValue(FormFieldValues.priceItem).error,
-        ),
-        const SizedBox(
-          height: 12,
-        ),
         DefaultFormattedTextField(
           hintText: "Quantidade de Vouchers",
           keyboardType: TextInputType.number,
@@ -99,9 +84,9 @@ class CreatePrizeView
                               height: 12,
                             ),
                             DefaultFormattedTextField(
-                              hintText: "Descrição (optional)",
+                              hintText: "Descrição",
                               inputFormatter: [
-                                LengthLimitingTextInputFormatter(100),
+                                LengthLimitingTextInputFormatter(500),
                               ],
                               onChange: (description) async =>
                                   viewModel.setDescription(description),

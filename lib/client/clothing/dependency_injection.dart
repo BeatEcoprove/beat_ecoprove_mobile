@@ -40,6 +40,8 @@ import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_colors_use_case.dart';
+import 'package:beat_ecoprove/home/domain/use-cases/get_services_providers_use_case.dart';
+import 'package:beat_ecoprove/home/services/service_provider_service.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/services/store_service.dart';
 import 'package:get_it/get_it.dart';
@@ -71,6 +73,10 @@ extension ClothingDependencyInjection on DependencyInjection {
     locator.registerFactory(
       () => StoreService(httpClient),
     );
+
+    locator.registerFactory(
+      () => ServiceProviderService(httpClient),
+    );
   }
 
   void _addUseCases(GetIt locator) {
@@ -78,6 +84,7 @@ extension ClothingDependencyInjection on DependencyInjection {
     var outfitService = locator<OutfitService>();
     var storeService = locator<StoreService>();
     var clothService = locator<ClothService>();
+    var serviceProviderService = locator<ServiceProviderService>();
 
     locator.registerSingleton(ActionServiceProxy(
       locator<HttpAuthClient>(),
@@ -139,12 +146,17 @@ extension ClothingDependencyInjection on DependencyInjection {
     );
 
     locator.registerSingleton(
+      GetServicesProvidersUseCase(serviceProviderService),
+    );
+
+    locator.registerSingleton(
       StaticValuesProvider(
         locator<AuthenticationProvider>(),
         locator<GetColorsUseCase>(),
         locator<GetBrandsUseCase>(),
         locator<CountryCodesService>(),
         locator<GetStoresUseCase>(),
+        locator<GetServicesProvidersUseCase>(),
         locator<GeoApiService>(),
       ),
     );

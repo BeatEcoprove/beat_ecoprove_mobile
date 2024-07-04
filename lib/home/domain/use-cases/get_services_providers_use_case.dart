@@ -68,10 +68,8 @@ class GetServicesProvidersUseCase
         id: serviceProvider.id,
         name: serviceProvider.name,
         type: serviceProvider.type,
-        picture: serviceProvider.picture,
+        picture: serviceProvider.icon,
         icon: serviceProvider.icon,
-        rating: serviceProvider.rating,
-        stores: getStores(serviceProvider.stores),
       );
 
       servicesProviders.add(serviceProviderCard);

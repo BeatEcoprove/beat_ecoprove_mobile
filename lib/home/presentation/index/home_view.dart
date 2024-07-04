@@ -132,6 +132,7 @@ class HomeView extends LinearView<HomeViewModel> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: CompactListItemRoot(
+                        click: () => viewModel.goToInfoService(service),
                         items: [
                           ImageTitleSubtitleHeader(
                             widget: PresentImage(

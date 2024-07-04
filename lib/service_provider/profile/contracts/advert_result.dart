@@ -18,14 +18,22 @@ class AdvertResult {
   );
 
   factory AdvertResult.fromJson(Map<String, dynamic> json) {
+    var type = switch (json['type']) {
+      'advertisement' => 'Anúncio',
+      'promotion' => 'Promoção',
+      'voucher' => 'Voucher',
+      Object() => 'Anúncio',
+      null => 'Anúncio'
+    };
+
     var result = AdvertResult(
       json['id'],
       json['picture'],
-      json['title'],
+      type,
       DateTime.parse(json['beginAt']),
       DateTime.parse(json['endAt']),
-      json['contentText'],
-      json['contentSubText'],
+      json['title'],
+      json['description'],
     );
 
     return result;

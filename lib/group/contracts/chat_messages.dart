@@ -27,7 +27,7 @@ class ChatMessages {
           return ChatBorrowResult.fromJson(item);
 
         case "RatingMessageResult":
-          return ChatRatingResult.fromJson(item);
+          return ChatRatingMessageResult.fromJson(item);
 
         default:
           return ChatMessageResult.fromJson(item);

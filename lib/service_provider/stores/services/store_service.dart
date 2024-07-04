@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
-import 'package:beat_ecoprove/group/contracts/chat_messages.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/change_worker_permission_request.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/chat_rating_result.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/remove_store_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/remove_worker_request.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/add_worker_request.dart';
@@ -89,17 +89,19 @@ class StoreService {
     );
   }
 
-  Future<ChatMessages> getRatings(
+  Future<List<ChatRatingResult>> getRatings(
     String storeId, {
     int page = 1,
     int pageSize = 10,
   }) async {
-    var response = await _httpClient.makeRequestJson(
+    List<dynamic> response = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path: "stores/$storeId/ratings?page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 
-    return ChatMessages.fromJson(response);
+    return response
+        .map((ratingJson) => ChatRatingResult.fromJson(ratingJson))
+        .toList();
   }
 }

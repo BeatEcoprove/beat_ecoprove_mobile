@@ -6,10 +6,10 @@ import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
 class ChatItemRoot extends StatelessWidget {
-  final String messageId;
+  final String? messageId;
   final bool userIsSender;
   final String avatarUrl;
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   final List<ChatListItem> items;
 
@@ -22,11 +22,11 @@ class ChatItemRoot extends StatelessWidget {
     super.key,
     required this.userIsSender,
     required this.avatarUrl,
-    required this.createdAt,
+    this.createdAt,
     required this.items,
     this.click,
     this.options,
-    required this.messageId,
+    this.messageId,
   });
 
   Widget _avatar(double imageSize) {

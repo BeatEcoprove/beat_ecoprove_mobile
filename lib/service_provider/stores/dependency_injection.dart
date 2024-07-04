@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
-import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_reviews_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_ratings_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_store_workers_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/add_worker_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
@@ -42,7 +42,7 @@ extension StoresDependencyInjection on DependencyInjection {
     );
 
     locator.registerSingleton(
-      GetReviewsUseCase(storeService),
+      GetRatingsUseCase(storeService),
     );
 
     locator.registerSingleton(
@@ -61,7 +61,7 @@ extension StoresDependencyInjection on DependencyInjection {
     var registerStoreUseCase = locator<RegisterStoreUseCase>();
     var addWorkerUseCase = locator<AddWorkerUseCase>();
     var getStoreWorkersUseCase = locator<GetStoreWorkersUseCase>();
-    var getReviewsUseCase = locator<GetReviewsUseCase>();
+    var getRatingsUseCase = locator<GetRatingsUseCase>();
     var getStoresUseCase = locator<GetStoresUseCase>();
     var removeStoreUseCase = locator<RemoveStoreUseCase>();
     var removeWorkerUseCase = locator<RemoveWorkerUseCase>();
@@ -91,7 +91,7 @@ extension StoresDependencyInjection on DependencyInjection {
         notificationProvider,
         router,
         authProvider,
-        getReviewsUseCase,
+        getRatingsUseCase,
       ),
     );
 

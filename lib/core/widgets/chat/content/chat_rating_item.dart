@@ -12,7 +12,7 @@ class ChaRatingItem extends ChatListItem {
     required this.rating,
     required super.userName,
     required super.messageText,
-    required super.sendAt,
+    super.sendAt,
   });
 
   @override
@@ -35,15 +35,16 @@ class ChaRatingItem extends ChatListItem {
                     maxLines: 1,
                   ),
                   RatingBarWidget(rating: rating),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      DatetimeService.formatDate(sendAt),
-                      style: AppText.smallSubHeader,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 10,
-                    ),
-                  )
+                  if (sendAt != null)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        DatetimeService.formatDate(sendAt!),
+                        style: AppText.smallSubHeader,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 10,
+                      ),
+                    )
                 ],
               ),
             ),

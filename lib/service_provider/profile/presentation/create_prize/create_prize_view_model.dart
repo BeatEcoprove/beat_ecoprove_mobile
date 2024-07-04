@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/service_provider/profile/contracts/register_advert_request.dart';
 import 'package:beat_ecoprove/service_provider/profile/domain/use-cases/register_prize_use_case.dart';
+import 'package:beat_ecoprove/service_provider/profile/domain/value_objects/description.dart';
 import 'package:beat_ecoprove/service_provider/profile/domain/value_objects/title.dart';
 import 'package:beat_ecoprove/service_provider/profile/presentation/create_prize/create_prize_params.dart';
 import 'package:flutter/material.dart';
@@ -32,15 +33,13 @@ class CreatePrizeViewModel extends FormViewModel<CreatePrizeParams> {
       FormFieldValues.beginAt,
       FormFieldValues.endAt,
       FormFieldValues.picture,
-      FormFieldValues.priceItem,
       FormFieldValues.quantityItem,
     ]);
 
-    setValue(FormFieldValues.priceItem, '0');
     setValue(FormFieldValues.quantityItem, '0');
-    setValue(FormFieldValues.description, '');
     setValue(FormFieldValues.beginAt, DateTime.now());
-    setValue(FormFieldValues.endAt, DateTime.now());
+    setValue(
+        FormFieldValues.endAt, DateTime.now().add(const Duration(days: 1)));
     setValue(FormFieldValues.picture, XFile(defaultImage));
   }
 
@@ -54,7 +53,12 @@ class CreatePrizeViewModel extends FormViewModel<CreatePrizeParams> {
   }
 
   void setDescription(String description) {
-    setValue(FormFieldValues.description, description);
+    try {
+      setValue<String>(FormFieldValues.description,
+          DescriptionInput.create(description).toString());
+    } on DomainException catch (e) {
+      setError(FormFieldValues.description, e.message);
+    }
   }
 
   void setBeginDate(DateTime date) {
@@ -63,10 +67,6 @@ class CreatePrizeViewModel extends FormViewModel<CreatePrizeParams> {
 
   void setEndDate(DateTime date) {
     setValue(FormFieldValues.endAt, date);
-  }
-
-  void setPriceItem(String price) {
-    setValue(FormFieldValues.priceItem, price);
   }
 
   void setQuantityItem(String quantity) {
@@ -105,8 +105,6 @@ class CreatePrizeViewModel extends FormViewModel<CreatePrizeParams> {
             getValue(FormFieldValues.endAt).value ?? "",
             getValue(FormFieldValues.picture).value ?? "",
             arg!.type,
-            arg!.price,
-            double.parse(getValue(FormFieldValues.priceItem).value),
             int.parse(getValue(FormFieldValues.quantityItem).value),
           );
           break;
@@ -118,7 +116,6 @@ class CreatePrizeViewModel extends FormViewModel<CreatePrizeParams> {
             getValue(FormFieldValues.endAt).value ?? "",
             getValue(FormFieldValues.picture).value ?? "",
             arg!.type,
-            arg!.price,
           );
       }
 

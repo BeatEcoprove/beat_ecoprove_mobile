@@ -9,7 +9,6 @@ class RegisterAdvertRequest implements BaseMultiPartRequest {
   final DateTime endAt;
   final XFile picture;
   final String type;
-  final int price;
 
   RegisterAdvertRequest(
     this.title,
@@ -18,7 +17,6 @@ class RegisterAdvertRequest implements BaseMultiPartRequest {
     this.endAt,
     this.picture,
     this.type,
-    this.price,
   );
 
   @override
@@ -30,13 +28,11 @@ class RegisterAdvertRequest implements BaseMultiPartRequest {
       'endAt': DateFormat('yyyy-MM-dd').format(endAt),
       'picture': picture,
       'type': type,
-      'price': price,
     };
   }
 }
 
 class RegisterAdvertVoucherRequest extends RegisterAdvertRequest {
-  final double? priceItem;
   final int? quantityItem;
 
   RegisterAdvertVoucherRequest(
@@ -46,8 +42,6 @@ class RegisterAdvertVoucherRequest extends RegisterAdvertRequest {
     super.endAt,
     super.picture,
     super.type,
-    super.price,
-    this.priceItem,
     this.quantityItem,
   );
 
@@ -60,9 +54,7 @@ class RegisterAdvertVoucherRequest extends RegisterAdvertRequest {
       'endAt': DateFormat('yyyy-MM-dd').format(endAt),
       'picture': picture,
       'type': type,
-      'price': price,
-      'priceItem': priceItem,
-      'quantityItem': quantityItem,
+      'quantity': quantityItem.toString(),
     };
   }
 }

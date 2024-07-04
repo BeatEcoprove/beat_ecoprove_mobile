@@ -1,5 +1,5 @@
 import 'package:beat_ecoprove/core/use_case.dart';
-import 'package:beat_ecoprove/group/contracts/chat_messages.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/chat_rating_result.dart';
 import 'package:beat_ecoprove/service_provider/stores/services/store_service.dart';
 
 class GetReviewsUseCaseRequest {
@@ -14,15 +14,16 @@ class GetReviewsUseCaseRequest {
   });
 }
 
-class GetReviewsUseCase
-    implements UseCase<GetReviewsUseCaseRequest, Future<ChatMessages>> {
+class GetRatingsUseCase
+    implements
+        UseCase<GetReviewsUseCaseRequest, Future<List<ChatRatingResult>>> {
   final StoreService _storeService;
 
-  GetReviewsUseCase(this._storeService);
+  GetRatingsUseCase(this._storeService);
 
   @override
-  Future<ChatMessages> handle(request) async {
-    ChatMessages reviewsResult;
+  Future<List<ChatRatingResult>> handle(request) async {
+    List<ChatRatingResult> reviewsResult;
 
     try {
       reviewsResult = await _storeService.getRatings(

@@ -3,16 +3,12 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
-import 'package:beat_ecoprove/core/providers/groups/group_chat_message.dart';
-import 'package:beat_ecoprove/core/providers/groups/group_ratingchat_message.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_item_root.dart';
-import 'package:beat_ecoprove/core/widgets/chat/content/chat_message_item.dart';
 import 'package:beat_ecoprove/core/widgets/chat/content/chat_rating_item.dart';
-import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/chat_rating_result.dart';
-import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_reviews_use_case.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_ratings_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/presentation/store_workers/store_params.dart';
 import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 
@@ -20,7 +16,7 @@ class InfoStoreViewModel extends ViewModel<InfoStoreParams> {
   final INotificationProvider _notificationProvider;
   final INavigationManager _navigationRouter;
   final AuthenticationProvider _authProvider;
-  final GetReviewsUseCase _getReviewsUseCase;
+  final GetRatingsUseCase _getRatingsUseCase;
 
   late final User? user;
 
@@ -36,7 +32,7 @@ class InfoStoreViewModel extends ViewModel<InfoStoreParams> {
     this._notificationProvider,
     this._navigationRouter,
     this._authProvider,
-    this._getReviewsUseCase,
+    this._getRatingsUseCase,
   ) {
     user = _authProvider.appUser;
   }
@@ -61,20 +57,20 @@ class InfoStoreViewModel extends ViewModel<InfoStoreParams> {
         print(value);
       }
 
-      var result = await _getReviewsUseCase.handle(
+      var result = await _getRatingsUseCase.handle(
         GetReviewsUseCaseRequest(
           storeId,
         ),
       );
 
       reviews.clear();
-      var mapMessages = result.messages.map(
+      var mapReviews = result.map(
         (message) {
           return _messageBody(message);
         },
       );
 
-      reviews.addAll(mapMessages);
+      reviews.addAll(mapReviews);
     } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -89,51 +85,29 @@ class InfoStoreViewModel extends ViewModel<InfoStoreParams> {
 
   ChatItemRoot _messageBody(dynamic message) {
     switch (message.runtimeType) {
-      case GroupChatMessage:
-      case ChatMessageResult:
-        return ChatItemRoot(
-          userIsSender: message.senderId == user?.id,
-          avatarUrl: message.avatarPicture,
-          createdAt: message.createdAt,
-          items: [
-            ChatMessageItem(
-              userName: message.username,
-              messageText: message.content,
-              sendAt: message.createdAt,
-            )
-          ],
-          messageId: message.messageId,
-        );
-
-      case GroupRatingChatMessage:
       case ChatRatingResult:
         return ChatItemRoot(
           userIsSender: message.senderId == user?.id,
           avatarUrl: message.avatarPicture,
-          createdAt: message.createdAt,
           items: [
             ChaRatingItem(
               userName: message.username,
-              messageText: message.content,
-              sendAt: message.createdAt,
+              messageText: "",
               rating: message.rating,
             ),
           ],
-          messageId: message.messageId,
         );
       default:
         return ChatItemRoot(
           userIsSender: message.senderId == user?.id,
           avatarUrl: message.avatarPicture,
-          createdAt: message.createdAt,
           items: [
-            ChatMessageItem(
+            ChaRatingItem(
               userName: message.username,
-              messageText: message.content,
-              sendAt: message.createdAt,
-            )
+              messageText: "",
+              rating: message.rating,
+            ),
           ],
-          messageId: message.messageId,
         );
     }
   }

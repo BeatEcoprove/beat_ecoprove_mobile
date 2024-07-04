@@ -36,15 +36,16 @@ class ChatMessageItem extends ChatListItem {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 10,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      DatetimeService.formatDate(sendAt),
-                      style: AppText.smallSubHeader,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 10,
-                    ),
-                  )
+                  if (sendAt != null)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        DatetimeService.formatDate(sendAt!),
+                        style: AppText.smallSubHeader,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 10,
+                      ),
+                    )
                 ],
               ),
             ),

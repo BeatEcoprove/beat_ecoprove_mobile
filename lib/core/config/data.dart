@@ -81,7 +81,6 @@ ServiceViewData serviceView = ServiceViewData(
     IconButtonRetangularType.dry,
     IconButtonRetangularType.recycle,
     IconButtonRetangularType.repair,
-    IconButtonRetangularType.wash
   ],
   rating: 3,
 );

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
 import 'package:beat_ecoprove/core/domain/models/color_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -8,6 +9,8 @@ import 'package:beat_ecoprove/core/services/geo_api_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_colors_use_case.dart';
+import 'package:beat_ecoprove/home/domain/models/service_provider_item.dart';
+import 'package:beat_ecoprove/home/domain/use-cases/get_services_providers_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 
 class StaticValuesProvider extends ViewModel {
@@ -16,6 +19,8 @@ class StaticValuesProvider extends ViewModel {
   final GetBrandsUseCase _getBrandsUseCase;
   final CountryCodesService _countryCodesService;
   final GetStoresUseCase _getStoresUseCase;
+  final GetServicesProvidersUseCase _getServicesProvidersUseCase;
+
   final GeoApiService _apiService;
 
   final Map<String, ColorItem> colorsMap = {};
@@ -23,6 +28,7 @@ class StaticValuesProvider extends ViewModel {
   final Map<String, String> countryCodes = {};
   final Map<String, List<String>> countryParishes = {};
   final Map<String, String> storesMap = {};
+  final List<ServiceProviderItem> servicesProvidersList = [];
 
   StaticValuesProvider(
     this._authenticationProvider,
@@ -30,6 +36,7 @@ class StaticValuesProvider extends ViewModel {
     this._getBrandsUseCase,
     this._countryCodesService,
     this._getStoresUseCase,
+    this._getServicesProvidersUseCase,
     this._apiService,
   );
 
@@ -47,6 +54,9 @@ class StaticValuesProvider extends ViewModel {
     countryParishes.addAll(result[1]);
   }
 
+  bool hasAuthorization() =>
+      _authenticationProvider.appUser!.type != UserType.consumer;
+
   Future fetchAuthorizedValues() async {
     if (!_authenticationProvider.isAuthenticated) {
       return;
@@ -55,8 +65,12 @@ class StaticValuesProvider extends ViewModel {
     List<Future> values = [
       _getColorsUseCase.handle(),
       _getBrandsUseCase.handle(),
-      _getStoresUseCase.handle(GetStoresUseCaseRequest({})),
+      _getServicesProvidersUseCase.handle(GetServicesProvidersUseCaseRequest())
     ];
+
+    if (hasAuthorization()) {
+      values.add(_getStoresUseCase.handle(GetStoresUseCaseRequest({})));
+    }
 
     var result = await Future.wait(values);
     var colors = Map.castFrom<dynamic, dynamic, String, ColorItem>(
@@ -65,12 +79,18 @@ class StaticValuesProvider extends ViewModel {
     var brands = Map.castFrom<dynamic, dynamic, String, BrandItem>(
         {for (var brand in result[1]) brand.name: brand});
 
-    result[2].forEach((e) {
-      storesMap.addAll({e.id: e.name});
-    });
+    var servicesProviders = result[2];
+
+    if (hasAuthorization()) {
+      result[3].forEach((e) {
+        storesMap.addAll({e.id: e.name});
+      });
+    }
 
     colorsMap.addAll(colors);
     brandsMap.addAll(brands);
+    servicesProvidersList.clear();
+    servicesProvidersList.addAll(servicesProviders);
   }
 
   Future fetchStaticValues() async {

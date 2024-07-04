@@ -77,6 +77,7 @@ class AuthenticationProvider extends ViewModel {
               xp: decodedToken[Tokens.xp],
               nextLevelXp: decodedToken[Tokens.nextLevelXp],
               workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
+              storeId: decodedToken[Tokens.storeId],
             ),
         },
       ),

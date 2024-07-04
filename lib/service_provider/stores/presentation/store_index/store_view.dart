@@ -74,7 +74,8 @@ class StoreView extends LinearView<StoreViewModel> {
                           options: [
                             OptionItem(
                               name: 'Remover',
-                              action: () async => {},
+                              action: () async =>
+                                  await viewModel.removeStore(e.id),
                             ),
                           ],
                           text: "Nível ${e.level}",

@@ -14,7 +14,7 @@ class ChangeWorkerPermissionRequest implements BaseJsonRequest {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'type': type,
+      'permission': type,
     };
   }
 }

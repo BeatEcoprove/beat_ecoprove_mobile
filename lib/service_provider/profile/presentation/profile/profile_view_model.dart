@@ -56,6 +56,13 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
   Future _removeAdvert(String advertId) async {
     try {
       await _advertsService.removeAdvert(RemoveAdvertRequest(advertId));
+
+      _notificationProvider.showNotification(
+        "Anuncio removido!",
+        type: NotificationTypes.success,
+      );
+
+      _navigationRouter.pop();
     } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,

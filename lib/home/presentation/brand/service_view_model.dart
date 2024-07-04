@@ -5,12 +5,14 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/home/domain/models/service_provider_item.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_provider_params.dart';
 import 'package:beat_ecoprove/home/services/service_provider_service.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
 
 class ServiceViewModel extends FormViewModel<ServiceProviderParams> {
   final AuthenticationProvider _authProvider;
   final ServiceProviderService _serviceProviderService;
 
   late final User? user;
+  final List<StoreItem> stores = [];
 
   ServiceViewModel(
     this._authProvider,
@@ -49,6 +51,35 @@ class ServiceViewModel extends FormViewModel<ServiceProviderParams> {
         FormFieldValues.code,
         serviceProvider,
       );
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getStores(String serviceProviderId) async {
+    try {
+      var result = await _serviceProviderService
+          .getStoresOfServiceProvider(serviceProviderId);
+
+      var storesResult = result.map((store) {
+        return StoreItem(
+          id: store.id,
+          name: store.name,
+          numberWorkers: store.numberWorkers,
+          country: store.country,
+          locality: store.locality,
+          street: store.street,
+          postalCode: store.postalCode,
+          numberPort: store.numberPort,
+          sustainablePoints: store.sustainablePoints,
+          rating: store.rating,
+          picture: store.picture,
+          level: store.level,
+        );
+      }).toList();
+
+      stores.clear();
+      stores.addAll(storesResult);
     } catch (e) {
       print(e.toString());
     }

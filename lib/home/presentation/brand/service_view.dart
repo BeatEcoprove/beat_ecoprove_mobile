@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/data.dart';
@@ -15,6 +16,7 @@ import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_provider_params.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_view_model.dart';
+import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
 import 'package:flutter/material.dart';
 
 class ServiceView
@@ -74,7 +76,32 @@ class ServiceView
     );
   }
 
+  List<Widget> _renderCards(List<StoreItem> stores) {
+    return stores
+        .map(
+          (e) => Container(
+            margin: const EdgeInsets.only(top: 6, bottom: 6),
+            child: CompactListItemRoot(
+              items: [
+                ImageTitleSubtitleHeader(
+                  isCircular: true,
+                  widget: PresentImage(
+                    path: ServerImage(e.picture),
+                  ),
+                  title: e.name,
+                  subTitle: '',
+                ),
+                const WithoutOptionsFooter(),
+              ],
+            ),
+          ),
+        )
+        .toList();
+  }
+
   SliverToBoxAdapter _buildStores() {
+    final memo = AsyncMemoizer();
+
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,31 +113,53 @@ class ServiceView
               style: AppText.titleToScrollSection,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                for (var store in stores)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: CompactListItemRoot(
-                      items: [
-                        ImageTitleSubtitleHeader(
-                          isCircular: true,
-                          widget: store.image,
-                          title: store.name,
-                          subTitle: store.serviceProvider,
-                        ),
-                        const WithoutOptionsFooter(),
-                      ],
+          FutureBuilder(
+            future: memo.runOnce(
+                () async => await viewModel.getStores(args.serviceProviderId)),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColor.primaryColor,
                     ),
-                  ),
-              ],
-            ),
+                  );
+                default:
+                  return Container(
+                    margin: const EdgeInsets.only(top: 2),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 0,
+                              left: 18,
+                              right: 18,
+                              bottom: 26,
+                            ),
+                            child: Column(
+                              children: [
+                                Column(
+                                    children: viewModel.stores.isEmpty
+                                        ? [
+                                            const Center(
+                                              child: Text(
+                                                "Não existem lojas!",
+                                                textAlign: TextAlign.center,
+                                                style: AppText.smallSubHeader,
+                                              ),
+                                            )
+                                          ]
+                                        : _renderCards(viewModel.stores)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+              }
+            },
           ),
         ],
       ),

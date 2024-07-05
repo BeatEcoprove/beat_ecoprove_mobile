@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:flutter/material.dart';
 
@@ -46,77 +45,4 @@ List<CardData> cards = [
       path: AssetImage("assets/fakedata/wash.jpg"),
     ),
   ),
-];
-
-class ServiceViewData {
-  final String title;
-  final String subtitle;
-  final Widget widget;
-  final IconButtonRectangular icon;
-  final List<IconButtonRetangularType> services;
-  final double rating;
-
-  ServiceViewData({
-    required this.title,
-    required this.subtitle,
-    required this.widget,
-    required this.icon,
-    required this.services,
-    required this.rating,
-  });
-}
-
-ServiceViewData serviceView = ServiceViewData(
-  title: "Título do Cartão 1",
-  subtitle: "Subtítulo do Cartão 1",
-  widget: const PresentImage(
-    path: AssetImage("assets/default_avatar.png"),
-  ),
-  icon: const IconButtonRectangular(
-    dimension: 50,
-    object: Icon(Icons.store_mall_directory_outlined),
-  ),
-  services: [
-    IconButtonRetangularType.iron,
-    IconButtonRetangularType.dry,
-    IconButtonRetangularType.recycle,
-    IconButtonRetangularType.repair,
-  ],
-  rating: 3,
-);
-
-class Store {
-  final String name;
-  final String serviceProvider;
-  final Widget image;
-
-  Store(
-      {required this.name, required this.serviceProvider, required this.image});
-}
-
-List<Store> stores = [
-  Store(
-      image: const IconButtonRectangular(
-        isCircular: true,
-        dimension: 50,
-        object: Icon(Icons.store_mall_directory_outlined),
-      ),
-      name: "Nome da Loja 1",
-      serviceProvider: "Serviços Prestados"),
-  Store(
-      image: const IconButtonRectangular(
-        isCircular: true,
-        dimension: 50,
-        object: Icon(Icons.store_mall_directory_outlined),
-      ),
-      name: "Nome da Loja 2",
-      serviceProvider: "Serviços Prestados"),
-  Store(
-      image: const IconButtonRectangular(
-        isCircular: true,
-        dimension: 50,
-        object: Icon(Icons.store_mall_directory_outlined),
-      ),
-      name: "Nome da Loja 3",
-      serviceProvider: "Serviços Prestados"),
 ];

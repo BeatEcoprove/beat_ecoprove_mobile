@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/widgets/advets_card/advet_card_item.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
+import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,9 @@ class AdvertHeader extends AdvertCardItem {
                                 width: optionsSize,
                                 child: Container(),
                               ),
-                              WithOptionsFooter(options: options),
+                              options.isEmpty
+                                  ? const WithoutOptionsFooter()
+                                  : WithOptionsFooter(options: options),
                             ],
                           ),
                         )

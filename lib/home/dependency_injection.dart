@@ -42,6 +42,7 @@ extension HomeDependencyInjection on DependencyInjection {
         getServicesProvidersUseCase,
         router,
         locator<StaticValuesProvider>(),
+        locator<ServiceProviderService>(),
       ),
     );
 

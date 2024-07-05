@@ -40,6 +40,7 @@ import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_colors_use_case.dart';
+import 'package:beat_ecoprove/home/domain/use-cases/get_public_adverts_use_case.dart';
 import 'package:beat_ecoprove/home/domain/use-cases/get_services_providers_use_case.dart';
 import 'package:beat_ecoprove/home/services/service_provider_service.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
@@ -150,6 +151,10 @@ extension ClothingDependencyInjection on DependencyInjection {
     );
 
     locator.registerSingleton(
+      GetPublicAdvertsUseCase(serviceProviderService),
+    );
+
+    locator.registerSingleton(
       StaticValuesProvider(
         locator<AuthenticationProvider>(),
         locator<GetColorsUseCase>(),
@@ -157,6 +162,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<CountryCodesService>(),
         locator<GetStoresUseCase>(),
         locator<GetServicesProvidersUseCase>(),
+        locator<GetPublicAdvertsUseCase>(),
         locator<GeoApiService>(),
       ),
     );

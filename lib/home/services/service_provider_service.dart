@@ -2,6 +2,8 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/home/contracts/service_provider_plus_result.dart';
 import 'package:beat_ecoprove/home/contracts/service_provider_result.dart';
+import 'package:beat_ecoprove/home/domain/use-cases/get_public_adverts_use_case.dart';
+import 'package:beat_ecoprove/service_provider/profile/contracts/advert_result.dart';
 import 'package:beat_ecoprove/service_provider/stores/contracts/store_result.dart';
 
 class ServiceProviderService {
@@ -47,5 +49,18 @@ class ServiceProviderService {
     );
 
     return result.map((storeJson) => StoreResult.fromJson(storeJson)).toList();
+  }
+
+  Future<List<AdvertResult>> getPublicAdverts(
+      GetPublicAdvertsUseCaseRequest request) async {
+    List<dynamic> result = await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "public/adverts?page=${request.page}&pageSize=${request.pageSize}",
+      expectedCode: 200,
+    );
+
+    return result
+        .map((advertJson) => AdvertResult.fromJson(advertJson))
+        .toList();
   }
 }

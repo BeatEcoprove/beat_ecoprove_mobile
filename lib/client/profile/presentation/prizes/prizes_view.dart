@@ -1,11 +1,14 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
-import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
+import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
-import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
-import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
+import 'package:beat_ecoprove/core/widgets/advets_card/advert_header.dart';
+import 'package:beat_ecoprove/core/widgets/advets_card/advet_card_root.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
+import 'package:beat_ecoprove/core/widgets/present_image.dart';
+import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/core/widgets/service_button/service_button.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/client/profile/presentation/prizes/prizes_view_model.dart';
@@ -76,7 +79,14 @@ class PrizesView extends LinearView<PrizesViewModel> {
                         ),
                       ],
                     ),
-                    _buildAdvertisementSection(),
+                    SizedBox(
+                      height: 234,
+                      child: CustomScrollView(
+                        slivers: [
+                          _buildAdvertisementSection(),
+                        ],
+                      ),
+                    ),
                     const SizedBox(
                       height: 16,
                     ),
@@ -241,33 +251,45 @@ class PrizesView extends LinearView<PrizesViewModel> {
     );
   }
 
-  Widget _buildAdvertisementSection() {
-    return SizedBox(
-      height: 231,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: cards.length,
-        itemBuilder: (BuildContext context, int index) {
-          var card = cards[index];
-          return _buildAdvertisementCard(card);
-        },
+  SliverToBoxAdapter _buildAdvertisementSection() {
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: SizedBox(
+          height: 231,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: viewModel.adverts.length,
+            itemBuilder: (BuildContext context, int index) {
+              var card = viewModel.adverts[index];
+              return _buildAdvertisementCard(card);
+            },
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildAdvertisementCard(card) {
+  Widget _buildAdvertisementCard(AdvertItem card) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 6,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
       child: SizedBox(
         width: 378,
-        child: AdvertisementCard(
-          widget: card.widget,
-          cardContext: AdvertisementCardTextContext(
-            title: card.title,
-            subTitle: card.subtitle,
-          ),
+        child: AdvertCardRoot(
+          items: [
+            AdvertHeader(
+              isCircular: true,
+              widget: PresentImage(
+                path: ServerImage(card.advertPicture),
+              ),
+              title: card.title,
+              subTitle:
+                  '${DatetimeService.formatDateCompact(card.beginIn)} - ${DatetimeService.formatDateCompact(card.endIn)}',
+              contentText: card.contentText,
+              contentSubText: card.contentSubText,
+              options: const [],
+            ),
+          ],
         ),
       ),
     );

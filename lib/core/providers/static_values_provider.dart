@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
 import 'package:beat_ecoprove/core/domain/models/color_item.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -10,6 +11,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_brands_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_colors_use_case.dart';
 import 'package:beat_ecoprove/home/domain/models/service_provider_item.dart';
+import 'package:beat_ecoprove/home/domain/use-cases/get_public_adverts_use_case.dart';
 import 'package:beat_ecoprove/home/domain/use-cases/get_services_providers_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 
@@ -20,6 +22,7 @@ class StaticValuesProvider extends ViewModel {
   final CountryCodesService _countryCodesService;
   final GetStoresUseCase _getStoresUseCase;
   final GetServicesProvidersUseCase _getServicesProvidersUseCase;
+  final GetPublicAdvertsUseCase _getPublicAdvertsUseCase;
 
   final GeoApiService _apiService;
 
@@ -29,6 +32,7 @@ class StaticValuesProvider extends ViewModel {
   final Map<String, List<String>> countryParishes = {};
   final Map<String, String> storesMap = {};
   final List<ServiceProviderItem> servicesProvidersList = [];
+  final List<AdvertItem> advertsList = [];
 
   StaticValuesProvider(
     this._authenticationProvider,
@@ -37,6 +41,7 @@ class StaticValuesProvider extends ViewModel {
     this._countryCodesService,
     this._getStoresUseCase,
     this._getServicesProvidersUseCase,
+    this._getPublicAdvertsUseCase,
     this._apiService,
   );
 
@@ -65,7 +70,8 @@ class StaticValuesProvider extends ViewModel {
     List<Future> values = [
       _getColorsUseCase.handle(),
       _getBrandsUseCase.handle(),
-      _getServicesProvidersUseCase.handle(GetServicesProvidersUseCaseRequest())
+      _getServicesProvidersUseCase.handle(GetServicesProvidersUseCaseRequest()),
+      _getPublicAdvertsUseCase.handle(GetPublicAdvertsUseCaseRequest())
     ];
 
     if (hasAuthorization()) {
@@ -81,8 +87,10 @@ class StaticValuesProvider extends ViewModel {
 
     var servicesProviders = result[2];
 
+    var publicAdverts = result[3];
+
     if (hasAuthorization()) {
-      result[3].forEach((e) {
+      result[4].forEach((e) {
         storesMap.addAll({e.id: e.name});
       });
     }
@@ -91,6 +99,8 @@ class StaticValuesProvider extends ViewModel {
     brandsMap.addAll(brands);
     servicesProvidersList.clear();
     servicesProvidersList.addAll(servicesProviders);
+    advertsList.clear();
+    advertsList.addAll(publicAdverts);
   }
 
   Future fetchStaticValues() async {

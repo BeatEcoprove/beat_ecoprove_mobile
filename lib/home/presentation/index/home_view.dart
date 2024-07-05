@@ -1,10 +1,11 @@
-import 'package:beat_ecoprove/core/config/data.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
-import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
-import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_text.dart';
+import 'package:beat_ecoprove/core/widgets/advets_card/advert_header.dart';
+import 'package:beat_ecoprove/core/widgets/advets_card/advet_card_root.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
@@ -64,33 +65,43 @@ class HomeView extends LinearView<HomeViewModel> {
 
   SliverToBoxAdapter _buildAdvertisementSection() {
     return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 231,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: cards.length,
-          itemBuilder: (BuildContext context, int index) {
-            var card = cards[index];
-            return _buildAdvertisementCard(card);
-          },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: SizedBox(
+          height: 231,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: viewModel.adverts.length,
+            itemBuilder: (BuildContext context, int index) {
+              var card = viewModel.adverts[index];
+              return _buildAdvertisementCard(card);
+            },
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildAdvertisementCard(card) {
+  Widget _buildAdvertisementCard(AdvertItem card) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 6,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
       child: SizedBox(
         width: 378,
-        child: AdvertisementCard(
-          widget: card.widget,
-          cardContext: AdvertisementCardTextContext(
-            title: card.title,
-            subTitle: card.subtitle,
-          ),
+        child: AdvertCardRoot(
+          items: [
+            AdvertHeader(
+              isCircular: true,
+              widget: PresentImage(
+                path: ServerImage(card.advertPicture),
+              ),
+              title: card.title,
+              subTitle:
+                  '${DatetimeService.formatDateCompact(card.beginIn)} - ${DatetimeService.formatDateCompact(card.endIn)}',
+              contentText: card.contentText,
+              contentSubText: card.contentSubText,
+              options: const [],
+            ),
+          ],
         ),
       ),
     );

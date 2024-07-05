@@ -12,6 +12,7 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/delete_profile_use_case.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
@@ -93,6 +94,7 @@ extension ProfileDependencyInjection on DependencyInjection {
       () => PrizesViewModel(
         authProvider,
         locator<INavigationManager>(),
+        locator<StaticValuesProvider>(),
       ),
     );
 

@@ -27,7 +27,7 @@ class WorkerCanEditPrivilegiesHeader extends WorkerHeader {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: ((2 / 3) * width) - 80,
+          width: ((2 / 3) * width) - 80 - 16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

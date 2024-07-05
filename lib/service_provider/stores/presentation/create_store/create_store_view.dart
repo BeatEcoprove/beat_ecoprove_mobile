@@ -130,6 +130,7 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                                           LengthLimitingTextInputFormatter(7),
                                           PostalCodeFormatter(),
                                         ],
+                                        keyboardType: TextInputType.number,
                                         initialValue: viewModel.getDefault(
                                             FormFieldValues.postalCode),
                                         onChange: (postalCode) => viewModel
@@ -152,6 +153,7 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                                               .digitsOnly,
                                           LengthLimitingTextInputFormatter(8),
                                         ],
+                                        keyboardType: TextInputType.number,
                                         onChange: (storeNumberPort) async =>
                                             viewModel.setStoreNumberPort(
                                                 storeNumberPort),

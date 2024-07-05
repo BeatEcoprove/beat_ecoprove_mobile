@@ -57,7 +57,6 @@ class EnterpriseAddressStage extends Stage<EnterpriseAddressStageViewModel> {
                   DefaultFormattedTextField(
                     hintText: LocaleContext.get().auth_enterprise_street,
                     onChange: (street) => viewModel.setStreet(street),
-                    keyboardType: TextInputType.number,
                     initialValue:
                         viewModel.getValue(FormFieldValues.street).value,
                     errorMessage:

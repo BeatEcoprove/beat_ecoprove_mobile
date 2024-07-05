@@ -90,6 +90,7 @@ class StaticValuesProvider extends ViewModel {
     var publicAdverts = result[3];
 
     if (hasAuthorization()) {
+      storesMap.clear();
       result[4].forEach((e) {
         storesMap.addAll({e.id: e.name});
       });

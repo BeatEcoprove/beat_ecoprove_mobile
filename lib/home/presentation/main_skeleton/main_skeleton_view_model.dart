@@ -14,7 +14,7 @@ class MainSkeletonViewModel extends ViewModel {
 
   @override
   void initSync() async {
-    await _staticValuesProvider.fetchAuthorizedValues();
+    await _staticValuesProvider.fetchStaticValues();
   }
 
   void setIndex(int index) {

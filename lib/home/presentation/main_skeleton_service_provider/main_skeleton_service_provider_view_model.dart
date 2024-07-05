@@ -13,8 +13,8 @@ class MainSkeletonServiceProviderViewModel extends ViewModel {
   MainSkeletonServiceProviderViewModel(this._staticValuesProvider);
 
   @override
-  Future initAsync() async {
-    await _staticValuesProvider.fetchAuthorizedValues();
+  void initSync() async {
+    await _staticValuesProvider.fetchStaticValues();
   }
 
   List<LinearView> getViews() {

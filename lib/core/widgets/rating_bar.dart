@@ -45,7 +45,7 @@ class _RatingBarWidgetState extends State<RatingBarWidget> {
           padding: EdgeInsets.only(left: 6),
         ),
         RatingBar.builder(
-          itemSize: 28,
+          itemSize: 24,
           initialRating: ratingValue,
           minRating: 0,
           allowHalfRating: true,

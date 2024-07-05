@@ -1,0 +1,51 @@
+import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
+import 'package:beat_ecoprove/core/use_case.dart';
+import 'package:beat_ecoprove/home/services/service_provider_service.dart';
+import 'package:beat_ecoprove/service_provider/profile/contracts/advert_result.dart';
+
+class GetServiceProviderAdvertsUseCaseRequest {
+  final String serviceProviderId;
+  final int page;
+  final int pageSize;
+
+  GetServiceProviderAdvertsUseCaseRequest({
+    required this.serviceProviderId,
+    this.page = 1,
+    this.pageSize = 100,
+  });
+}
+
+class GetServiceProviderAdvertsUseCase
+    implements
+        UseCase<GetServiceProviderAdvertsUseCaseRequest,
+            Future<List<AdvertItem>>> {
+  final ServiceProviderService _serviceProviderService;
+
+  GetServiceProviderAdvertsUseCase(this._serviceProviderService);
+
+  @override
+  Future<List<AdvertItem>> handle(request) async {
+    List<AdvertResult> publicAdvertsResult;
+
+    try {
+      publicAdvertsResult =
+          await _serviceProviderService.getServiceProviderAdverts(request);
+    } catch (e) {
+      rethrow;
+    }
+
+    var advertsResult = publicAdvertsResult.map((ad) {
+      return AdvertItem(
+        advertId: ad.advertId,
+        advertPicture: ad.advertPicture,
+        title: ad.title,
+        beginIn: ad.beginIn,
+        endIn: ad.endIn,
+        contentText: ad.contentText,
+        contentSubText: ad.contentSubText,
+      );
+    }).toList();
+
+    return advertsResult;
+  }
+}

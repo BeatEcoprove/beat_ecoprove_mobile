@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/home/domain/use-cases/get_service_provider_adverts_use_case.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_provider_params.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_view.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_view_model.dart';
@@ -20,6 +21,14 @@ import 'package:beat_ecoprove/home/services/service_provider_service.dart';
 import 'package:get_it/get_it.dart';
 
 extension HomeDependencyInjection on DependencyInjection {
+  void _addUseCases(GetIt locator) {
+    var serviceProviderService = locator<ServiceProviderService>();
+
+    locator.registerSingleton(
+      GetServiceProviderAdvertsUseCase(serviceProviderService),
+    );
+  }
+
   void _addViewModels(GetIt locator) {
     var authProvider = locator<AuthenticationProvider>();
     var closetService = locator<ClosetService>();
@@ -31,6 +40,7 @@ extension HomeDependencyInjection on DependencyInjection {
       () => ServiceViewModel(
         authProvider,
         locator<ServiceProviderService>(),
+        locator<GetServiceProviderAdvertsUseCase>(),
       ),
     );
 
@@ -89,6 +99,7 @@ extension HomeDependencyInjection on DependencyInjection {
   void addHome(ApplicationRouter router) {
     GetIt locator = DependencyInjection.locator;
 
+    _addUseCases(locator);
     _addViewModels(locator);
     _addViews(locator);
 

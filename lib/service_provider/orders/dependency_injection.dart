@@ -43,6 +43,7 @@ extension OrdersDependencyInjection on DependencyInjection {
         locator<StaticValuesProvider>(),
         getOrdersUseCase,
         getStoresUseCase,
+        locator<OrderService>(),
       ),
     );
   }

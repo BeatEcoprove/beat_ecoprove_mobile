@@ -20,6 +20,7 @@ import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/service_provider/orders/domain/models/order_item.dart';
 import 'package:beat_ecoprove/service_provider/orders/domain/use-cases/get_orders_use_case.dart';
+import 'package:beat_ecoprove/service_provider/orders/services/order_service.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,8 @@ class OrdersViewModel extends FormViewModel implements Clone {
   final INotificationProvider _notificationProvider;
   final StaticValuesProvider _valuesProvider;
   final AuthenticationProvider _authProvider;
+  final OrderService _orderService;
+
   late final User? user;
   late Map<String, dynamic> _selectedFilters = {};
   late List<Map<String, String>> _selectedHorizontalFilters = [];
@@ -51,6 +54,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
     this._valuesProvider,
     this._getOrdersUseCase,
     this._getStoresUseCase,
+    this._orderService,
   ) {
     user = _authProvider.appUser;
     stores = _valuesProvider.storesMap;
@@ -69,10 +73,12 @@ class OrdersViewModel extends FormViewModel implements Clone {
 
   @override
   void initSync() async {
-    await getOrders();
+    await refetch();
   }
 
   Future<void> refetch() async {
+    var oi = _selectedFilters.isEmpty;
+
     await getOrders();
   }
 
@@ -350,18 +356,32 @@ class OrdersViewModel extends FormViewModel implements Clone {
     notifyListeners();
   }
 
-  //TODO: CHANGE TO VALID URL AND ACTION
-  void goToQRCodePage() {
-    _navigationManager.push(CoreRoutes.qrCode,
-        extras: QRCodeParams(
-          data: "url do pedido",
-          textButton: "Lojas",
-          action: () => {},
-        ));
+  void goToQRCodePage(String orderId, String clothId) {
+    var storeId = _selectedHorizontalFilters.first.keys.first;
+
+    _navigationManager.push(
+      CoreRoutes.qrCode,
+      extras: QRCodeParams(
+        data: "orders/$orderId?clothId=$clothId&storeId=$storeId",
+        textButton: "Lojas",
+        action: () => {},
+      ),
+    );
   }
 
-  void goToReadQRCode() {
-    _navigationManager.push(CoreRoutes.readQRCode, extras: ReadQRCodeParams());
+  void goToReadQRCode() async {
+    var storeId = _selectedHorizontalFilters.first.keys.first;
+
+    await _navigationManager.pushAsync(
+      CoreRoutes.readQRCode,
+      extras: ReadQRCodeParams(
+        callBack: (url) async {
+          await _orderService.createOrder("$url&storeId=$storeId");
+        },
+      ),
+    );
+
+    notifyListeners();
   }
 
   @override
@@ -373,6 +393,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
       _valuesProvider,
       _getOrdersUseCase,
       _getStoresUseCase,
+      _orderService,
     );
   }
 }

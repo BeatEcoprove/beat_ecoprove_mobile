@@ -137,7 +137,8 @@ class OrdersView extends LinearView<OrdersViewModel> {
                         services: e.services,
                       ),
                     ],
-                    longPress: () => viewModel.goToQRCodePage(),
+                    longPress: () =>
+                        viewModel.goToQRCodePage(e.orderId, e.card.id),
                   ),
                 ))
             .toList(),
@@ -170,7 +171,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
         dimension: 64,
         icon: const Icon(
           size: 34,
-          Icons.add_circle_outline_rounded,
+          Icons.qr_code,
           color: AppColor.widgetBackground,
         ),
         onPressed: () => viewModel.goToReadQRCode(),

@@ -32,6 +32,7 @@ import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
+import 'package:beat_ecoprove/service_provider/orders/services/order_service.dart';
 import 'package:flutter/material.dart';
 
 class ClothingViewModel extends FormViewModel implements Clone {
@@ -46,6 +47,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
   final RegisterBucketUseCase _registerBucketUseCase;
   final AddClothsBucketUseCase _addClothsBucketUseCase;
   final INavigationManager _navigationManager;
+  final OrderService _orderService;
 
   late List<FilterRow> _getColors = [];
   late List<FilterRow> _getBrands = [];
@@ -74,6 +76,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
     this._deleteCardUseCase,
     this._registerBucketUseCase,
     this._addClothsBucketUseCase,
+    this._orderService,
   ) {
     initializeFields([
       FormFieldValues.search,
@@ -550,8 +553,19 @@ class ClothingViewModel extends FormViewModel implements Clone {
     refetch();
   }
 
-  void goToReadQRCode() {
-    _navigationManager.push(CoreRoutes.readQRCode, extras: ReadQRCodeParams());
+  void goToReadQRCode() async {
+    await _navigationManager.pushAsync(
+      CoreRoutes.readQRCode,
+      extras: ReadQRCodeParams(
+        callBack: (url) async {
+          await _orderService.completeOrder(
+            "$url&ownerId=${_authenticationProvider.appUser?.id}",
+          );
+        },
+      ),
+    );
+
+    await refetch();
   }
 
   @override
@@ -568,6 +582,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       _deleteCardUseCase,
       _registerBucketUseCase,
       _addClothsBucketUseCase,
+      _orderService,
     );
   }
 }

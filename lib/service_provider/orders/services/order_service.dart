@@ -7,6 +7,26 @@ class OrderService {
 
   OrderService(this._httpClient);
 
+  Future<OrderResult> completeOrder(String url) async {
+    dynamic result = await _httpClient.makeRequestJson(
+      method: HttpMethods.patch,
+      path: url,
+      expectedCode: 200,
+    );
+
+    return OrderResult.fromJson(result);
+  }
+
+  Future<OrderResult> createOrder(String url) async {
+    dynamic result = await _httpClient.makeRequestJson(
+      method: HttpMethods.post,
+      path: url,
+      expectedCode: 200,
+    );
+
+    return OrderResult.fromJson(result);
+  }
+
   Future<List<OrderResult>> getOrders(
     String filters, {
     int page = 1,

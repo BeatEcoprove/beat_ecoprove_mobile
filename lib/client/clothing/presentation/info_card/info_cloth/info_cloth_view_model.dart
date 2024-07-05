@@ -12,6 +12,7 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
+import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/services/datetime_service.dart';
@@ -27,6 +28,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final GetClothHistoryUseCase _getClothHistoryUseCase;
   final ActionService _actionService;
+  final AuthenticationProvider _authenticationProvider;
 
   late bool isInUse = false;
   late bool disableButton = false;
@@ -38,6 +40,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     this._unMarkClothAsDailyUseUseCase,
     this._getClothHistoryUseCase,
     this._actionService,
+    this._authenticationProvider,
   );
 
   @override
@@ -159,11 +162,13 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     );
   }
 
-  //TODO: CHANGE TO URL VALID AND ACTION
   void goToQRCodePage() {
+    var clothUrl =
+        "orders?ownerId=${_authenticationProvider.appUser?.id}&clothId=${arg?.card.id ?? ""}";
+
     _navigationManager.push(CoreRoutes.qrCode,
         extras: QRCodeParams(
-          data: "url da roupa",
+          data: clothUrl,
           textButton: "Lojas",
           action: () => {},
         ));
@@ -178,6 +183,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
       _unMarkClothAsDailyUseUseCase,
       _getClothHistoryUseCase,
       _actionService,
+      _authenticationProvider,
     );
   }
 }

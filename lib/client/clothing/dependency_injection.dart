@@ -43,6 +43,7 @@ import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/get_colors_
 import 'package:beat_ecoprove/home/domain/use-cases/get_public_adverts_use_case.dart';
 import 'package:beat_ecoprove/home/domain/use-cases/get_services_providers_use_case.dart';
 import 'package:beat_ecoprove/home/services/service_provider_service.dart';
+import 'package:beat_ecoprove/service_provider/orders/services/order_service.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/use-cases/get_stores_use_case.dart';
 import 'package:beat_ecoprove/service_provider/stores/services/store_service.dart';
 import 'package:get_it/get_it.dart';
@@ -201,6 +202,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         unMarkClothAsDailyUseUseCase,
         getClothHistoryUseCase,
         locator<ActionService>(),
+        locator<AuthenticationProvider>(),
       ),
     );
 
@@ -235,6 +237,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<DeleteCardUseCase>(),
         locator<RegisterBucketUseCase>(),
         locator<AddClothsBucketUseCase>(),
+        locator<OrderService>(),
       ),
     );
   }

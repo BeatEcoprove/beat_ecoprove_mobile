@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
 import 'package:beat_ecoprove/core/domain/models/color_item.dart';
@@ -324,6 +325,11 @@ class OrdersViewModel extends FormViewModel implements Clone {
     try {
       for (var (value as Map<String, String>) in _selectedFilters.values) {
         param.addAll(value);
+      }
+
+      if (_authProvider.appUser?.type == UserType.employee) {
+        var storeId = (_authProvider.appUser as Employee).storeId;
+        param.addAll({storeId: "storeIds"});
       }
 
       for (var filter in _selectedHorizontalFilters) {

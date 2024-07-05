@@ -41,6 +41,7 @@ extension HomeDependencyInjection on DependencyInjection {
         authProvider,
         locator<ServiceProviderService>(),
         locator<GetServiceProviderAdvertsUseCase>(),
+        router,
       ),
     );
 

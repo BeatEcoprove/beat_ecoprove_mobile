@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
+import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
@@ -111,6 +112,10 @@ class InfoStoreViewModel extends ViewModel<InfoStoreParams> {
         );
     }
   }
+
+  bool hasAuthorization() =>
+      user is! Employee ||
+      user is Employee && (user as Employee).workerType != EmployeeType.worker;
 
   void goToWorkersPage(StoreParams params) {
     _navigationRouter.push(StoreRoutes.setWorkers(params.storeId),

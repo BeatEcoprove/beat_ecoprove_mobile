@@ -1,18 +1,23 @@
+import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/home/domain/models/service_provider_item.dart';
 import 'package:beat_ecoprove/home/domain/use-cases/get_service_provider_adverts_use_case.dart';
 import 'package:beat_ecoprove/home/presentation/brand/service_provider_params.dart';
 import 'package:beat_ecoprove/home/services/service_provider_service.dart';
+import 'package:beat_ecoprove/service_provider/stores/contracts/store_result.dart';
 import 'package:beat_ecoprove/service_provider/stores/domain/models/store_item.dart';
+import 'package:beat_ecoprove/service_provider/stores/routes.dart';
 
 class ServiceViewModel extends FormViewModel<ServiceProviderParams> {
   final AuthenticationProvider _authProvider;
   final ServiceProviderService _serviceProviderService;
   final GetServiceProviderAdvertsUseCase _getServiceProviderAdvertsUseCase;
+  final INavigationManager _navigationManager;
 
   late final User? user;
   final List<StoreItem> stores = [];
@@ -22,6 +27,7 @@ class ServiceViewModel extends FormViewModel<ServiceProviderParams> {
     this._authProvider,
     this._serviceProviderService,
     this._getServiceProviderAdvertsUseCase,
+    this._navigationManager,
   ) {
     user = _authProvider.appUser;
 
@@ -102,5 +108,30 @@ class ServiceViewModel extends FormViewModel<ServiceProviderParams> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future goToStoreInfo(String providerId, String storeId) async {
+    StoreResult result =
+        await _serviceProviderService.getStoreById(providerId, storeId);
+
+    _navigationManager.push(
+      StoreRoutes.detailsStore,
+      extras: InfoStoreParams(
+        StoreItem(
+          id: result.id,
+          name: result.name,
+          numberWorkers: result.numberWorkers,
+          country: result.country,
+          locality: result.locality,
+          street: result.street,
+          postalCode: result.postalCode,
+          numberPort: result.numberPort,
+          sustainablePoints: result.sustainablePoints,
+          rating: result.rating,
+          picture: result.picture,
+          level: result.level,
+        ),
+      ),
+    );
   }
 }

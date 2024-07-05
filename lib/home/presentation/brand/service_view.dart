@@ -84,6 +84,8 @@ class ServiceView
           (e) => Container(
             margin: const EdgeInsets.only(top: 6, bottom: 6),
             child: CompactListItemRoot(
+              click: () async =>
+                  await viewModel.goToStoreInfo(args.serviceProviderId, e.id),
               items: [
                 ImageTitleSubtitleHeader(
                   isCircular: true,

@@ -82,18 +82,19 @@ class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
             )
           ],
         ),
-        Positioned(
-          top: 0,
-          right: 2,
-          child: CircularButton(
-            height: 46,
-            icon: const Icon(
-              Icons.people_alt_rounded,
-              color: AppColor.bottomNavigationBar,
+        if (viewModel.hasAuthorization())
+          Positioned(
+            top: 0,
+            right: 2,
+            child: CircularButton(
+              height: 46,
+              icon: const Icon(
+                Icons.people_alt_rounded,
+                color: AppColor.bottomNavigationBar,
+              ),
+              onPress: () => viewModel.goToWorkersPage(storeParams),
             ),
-            onPress: () => viewModel.goToWorkersPage(storeParams),
           ),
-        ),
       ],
     );
   }

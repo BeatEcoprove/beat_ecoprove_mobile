@@ -78,4 +78,14 @@ class ServiceProviderService {
         .map((advertJson) => AdvertResult.fromJson(advertJson))
         .toList();
   }
+
+  Future<StoreResult> getStoreById(String providerId, String storeId) async {
+    var result = await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "providers/$providerId/stores/$storeId",
+      expectedCode: 200,
+    );
+
+    return StoreResult.fromJson(result);
+  }
 }

@@ -191,6 +191,8 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<DeleteCardUseCase>(),
         locator<ActionService>(),
         locator<ClosetService>(),
+        locator<AuthenticationProvider>(),
+        locator<OrderService>(),
       ),
     );
 

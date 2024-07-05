@@ -77,8 +77,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
   }
 
   Future<void> refetch() async {
-    var oi = _selectedFilters.isEmpty;
-
+    // TODO: FIX STORE IDS!
     await getOrders();
   }
 

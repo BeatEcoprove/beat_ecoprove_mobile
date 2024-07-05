@@ -20,10 +20,12 @@ import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
+import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
+import 'package:beat_ecoprove/service_provider/orders/services/order_service.dart';
 
 class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
     implements Clone {
@@ -36,6 +38,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
   final DeleteCardUseCase _deleteCardUseCase;
   final ActionService _actionService;
   final ClosetService _closetService;
+  final OrderService _orderService;
+  final AuthenticationProvider _authenticationProvider;
 
   final List<ServiceTemplate> services = [];
   final List<String> selectedServices = [];
@@ -55,6 +59,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
     this._deleteCardUseCase,
     this._actionService,
     this._closetService,
+    this._authenticationProvider,
+    this._orderService,
   ) {
     initializeFields([
       FormFieldValues.name,
@@ -266,15 +272,19 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
 
   Future handleServiceAction(
       String serviceId, String actionId, String state) async {
-    //TODO: CHANGE TO URL VALID AND ACTION
-    _navigationManager.push(CoreRoutes.qrCode,
-        extras: QRCodeParams(
-          data: "url da roupa",
-          textButton: "Lojas",
-          action: () => {},
-        ));
+    var clothUrl =
+        "orders?ownerId=${_authenticationProvider.appUser?.id}&clothId=${arg?.card.id ?? ""}";
 
-    await refetch();
+    await _navigationManager.pushAsync(
+      CoreRoutes.qrCode,
+      extras: QRCodeParams(
+        data: clothUrl,
+        textButton: "Lojas",
+        action: () => {},
+      ),
+    );
+
+    notifyListeners();
   }
 
   void setName(String name) async {
@@ -419,6 +429,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
       _deleteCardUseCase,
       _actionService,
       _closetService,
+      _authenticationProvider,
+      _orderService,
     );
   }
 }

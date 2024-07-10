@@ -61,7 +61,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
   double calculateHeightSections(double percent, BuildContext context) {
     double maxHeight = MediaQuery.of(context).size.height;
     // 96 is the height of the header
-    return (maxHeight - 96) * (percent / 100);
+    return (maxHeight - 96 - 26.7) * (percent / 100);
   }
 
   Widget _buildRegisterForm(

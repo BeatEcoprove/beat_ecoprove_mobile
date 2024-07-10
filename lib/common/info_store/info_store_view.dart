@@ -124,7 +124,7 @@ class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
   @override
   Widget build(BuildContext context, InfoStoreViewModel viewModel) {
     double maxWidth = MediaQuery.of(context).size.width;
-    double maxHeight = MediaQuery.of(context).size.height - 96;
+    double maxHeight = MediaQuery.of(context).size.height - 96 + 40;
 
     var storeParams = StoreParams(
       storeId: args.card.id,
@@ -144,7 +144,7 @@ class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
         height: double.maxFinite,
         width: double.maxFinite,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
           child: Column(
             children: [
               SizedBox(

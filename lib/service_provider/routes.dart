@@ -11,10 +11,11 @@ extension ServiceProviderRoutes on AppRoute {
 }
 
 final NavigationRoute serviceProviderRoutes = NavigationRoute(
-    route: ServiceProviderRoutes.serviceProvider,
-    view: (context, state) => LinearView.of<MainSkeletonServiceProviderView>(),
-    routes: [
-      orderRoutes,
-      serviceProviderProfileRoute,
-      storeRoute,
-    ]);
+  route: ServiceProviderRoutes.serviceProvider,
+  view: (context, state) => LinearView.of<MainSkeletonServiceProviderView>(),
+  routes: [
+    orderRoutes,
+    serviceProviderProfileRoute,
+    storeRoute,
+  ],
+);

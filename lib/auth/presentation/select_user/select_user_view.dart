@@ -44,7 +44,8 @@ class SelectUserView extends LinearView<SelectUserViewModel> {
               SelectorButton(
                 selectors: [
                   LocaleContext.get().auth_select_user_personal_type,
-                  LocaleContext.get().auth_select_user_enterprise_type
+                  //TODO: ADD ENTERPRISE AND SPONSOR LATER
+                  // LocaleContext.get().auth_select_user_enterprise_type
                 ],
                 onIndexChanged: (selectedIndex) =>
                     viewModel.setSelectionIndex(selectedIndex),

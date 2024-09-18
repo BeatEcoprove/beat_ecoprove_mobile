@@ -124,7 +124,7 @@ class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
   @override
   Widget build(BuildContext context, InfoStoreViewModel viewModel) {
     double maxWidth = MediaQuery.of(context).size.width;
-    double maxHeight = MediaQuery.of(context).size.height - 96 + 40;
+    double maxHeight = MediaQuery.of(context).size.height - 96;
 
     var storeParams = StoreParams(
       storeId: args.card.id,
@@ -148,7 +148,7 @@ class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
           child: Column(
             children: [
               SizedBox(
-                height: maxHeight * (1 / 4),
+                height: maxHeight * (1.5 / 4),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -180,7 +180,7 @@ class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
                 ),
               ),
               SizedBox(
-                height: maxHeight * (2.55 / 4),
+                height: maxHeight * (2.5 / 4),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,

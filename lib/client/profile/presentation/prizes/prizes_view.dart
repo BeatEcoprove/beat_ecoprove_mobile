@@ -46,27 +46,27 @@ class PrizesView extends LinearView<PrizesViewModel> {
                     const SizedBox(
                       height: 18,
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "Categorias",
-                            style: AppText.titleToScrollSection,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Text(
-                          "Ver mais",
-                          style: AppText.underlineStyle,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    _categoriesCards(),
-                    const SizedBox(
-                      height: 18,
-                    ),
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Expanded(
+                    //       child: Text(
+                    //         "Categorias",
+                    //         style: AppText.titleToScrollSection,
+                    //         overflow: TextOverflow.ellipsis,
+                    //       ),
+                    //     ),
+                    //     Text(
+                    //       "Ver mais",
+                    //       style: AppText.underlineStyle,
+                    //       overflow: TextOverflow.ellipsis,
+                    //     ),
+                    //   ],
+                    // ),
+                    // _categoriesCards(),
+                    // const SizedBox(
+                    //   height: 18,
+                    // ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

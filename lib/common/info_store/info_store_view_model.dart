@@ -113,8 +113,8 @@ class InfoStoreViewModel extends ViewModel<InfoStoreParams> {
     }
   }
 
+//TODO: CHECK LATER IF IT WORK WELL WITH THE ENTERPRISE AND THE WORKERS
   bool hasAuthorization() =>
-      user is! Employee ||
       user is Employee && (user as Employee).workerType != EmployeeType.worker;
 
   void goToWorkersPage(StoreParams params) {

@@ -21,10 +21,11 @@ class ProfileService {
     ));
   }
 
-  Future<ProfilesResult> getAllProfiles({String search = ""}) async {
+  Future<ProfilesResult> getAllProfiles(int page, int pageSize,
+      {String search = ""}) async {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/all?search=$search",
+      path: "profiles/all?search=$search&page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 

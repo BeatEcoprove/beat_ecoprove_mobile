@@ -6,6 +6,8 @@ class ListDetailsViewModel extends FormViewModel {
   ListDetailsViewModel() {
     initializeFields([
       FormFieldValues.search,
+      FormFieldValues.page,
+      FormFieldValues.pageSize,
     ]);
   }
 
@@ -14,6 +16,22 @@ class ListDetailsViewModel extends FormViewModel {
       setValue<String>(FormFieldValues.search, search);
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
+    }
+  }
+
+  void setPage(int page) {
+    try {
+      setValue<int>(FormFieldValues.page, page);
+    } on DomainException catch (e) {
+      setError(FormFieldValues.page, e.message);
+    }
+  }
+
+  void setPageSize(int pageSize) {
+    try {
+      setValue<int>(FormFieldValues.pageSize, pageSize);
+    } on DomainException catch (e) {
+      setError(FormFieldValues.pageSize, e.message);
     }
   }
 

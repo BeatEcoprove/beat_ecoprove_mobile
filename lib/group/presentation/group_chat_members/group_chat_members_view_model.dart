@@ -216,15 +216,16 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Convide um Utilizador",
-        onSearch: (searchTerm, vm) async {
-          var profiles = await _profileService.getAllProfiles();
+        onSearchPagination: (searchTerm, vm, page, pageSize) async {
+          var profiles = await _profileService.getAllProfiles(
+            page,
+            pageSize,
+            search: searchTerm,
+          );
 
           return profiles.profiles
               .where((element) => !_groupDetailsResult.members
                   .any((member) => member.id == element.id))
-              .where((profile) => profile.username
-                  .toLowerCase()
-                  .contains(searchTerm.toLowerCase()))
               .map(
             (profile) {
               return Container(

@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
+import 'package:beat_ecoprove/core/recycle_view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,25 @@ class ListDetailsView
 
   @override
   Widget build(BuildContext context, ListDetailsViewModel viewModel) {
+    Future<List<Widget>> getSearch(int pageNumber, int pageSize) async {
+      if (args.onSearch != null) {
+        return args.onSearch!(
+          viewModel.getValue(FormFieldValues.search).value ?? '',
+          viewModel,
+        );
+      }
+      if (args.onSearchPagination != null) {
+        return args.onSearchPagination!(
+          viewModel.getValue(FormFieldValues.search).value ?? '',
+          viewModel,
+          pageNumber,
+          pageSize,
+        );
+      }
+
+      return List.empty();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AppBackground(
@@ -41,60 +61,42 @@ class ListDetailsView
           child: SizedBox(
             height: double.infinity,
             width: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 64,
-                      horizontal: 16,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          args.title,
-                          style: AppText.alternativeHeader,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        search(),
-                        FutureBuilder(
-                            future: args.onSearch(
-                              viewModel
-                                      .getValue(FormFieldValues.search)
-                                      .value ??
-                                  '',
-                              viewModel,
-                            ),
-                            builder: (context, snapshot) {
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColor.primaryColor,
-                                    ),
-                                  );
-                                default:
-                                  if (snapshot.data == null) {
-                                    return const Text(
-                                      "Não existem registos!",
-                                      textAlign: TextAlign.center,
-                                      style: AppText.smallSubHeader,
-                                    );
-                                  }
-                                  return Column(
-                                    children: snapshot.data as List<Widget>,
-                                  );
-                              }
-                            })
-                      ],
-                    ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 64,
+                    right: 16,
+                    left: 16,
                   ),
-                ],
-              ),
+                  child: Column(
+                    children: [
+                      Text(
+                        args.title,
+                        style: AppText.alternativeHeader,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      search(),
+                      RecycleView(
+                        numberMaxItemsPage:
+                            (MediaQuery.sizeOf(context).height.ceil() / 70)
+                                    .ceil() +
+                                2,
+                        search:
+                            viewModel.getValue(FormFieldValues.search).value ??
+                                '',
+                        callback: (page, size) {
+                          return getSearch(page, size);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

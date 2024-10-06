@@ -102,6 +102,7 @@ class _NotificationViewState extends State<NotificationView> {
           CoreRoutes.listDetails,
           extras: ListDetailsViewParams(
             title: "Convites",
+            numberMaxItemsPage: (double.infinity).ceil(),
             onSearch: (searchTerm, vm) async {
               return _renderCards(
                 goRouter,

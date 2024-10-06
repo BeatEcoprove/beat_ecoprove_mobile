@@ -279,14 +279,25 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     clearChatText();
   }
 
-  void sendTradeOffer(String groupId) {
+  void sendTradeOffer(String groupId, BuildContext context) {
+    Map<String, String> param = {};
+
     _navigationRouter.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Selecione uma Roupa para trocar",
-        onSearch: (searchTerm, vm) async {
-          var clothes =
-              await _getClothesUseCase.handle(GetClothesUseCaseRequest());
+        numberMaxItemsPage:
+            (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
+        onSearchPagination: (searchTerm, vm, page, pageSize) async {
+          param.clear();
+          param.addAll({searchTerm: "search"});
+          var clothes = await _getClothesUseCase.handle(
+            GetClothesUseCaseRequest(
+              page: page,
+              pageSize: pageSize,
+              params: param,
+            ),
+          );
 
           return clothes
               .where((cloth) =>

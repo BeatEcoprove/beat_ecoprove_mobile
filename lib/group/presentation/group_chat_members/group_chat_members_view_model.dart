@@ -211,11 +211,13 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     notifyListeners();
   }
 
-  void navigateSearchUsers() {
+  void navigateSearchUsers(BuildContext context) {
     _navigationManager.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Convide um Utilizador",
+        numberMaxItemsPage:
+            (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
           var profiles = await _profileService.getAllProfiles(
             page,

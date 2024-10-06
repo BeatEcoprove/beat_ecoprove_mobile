@@ -82,10 +82,7 @@ class ListDetailsView
                       ),
                       search(),
                       RecycleView(
-                        numberMaxItemsPage:
-                            (MediaQuery.sizeOf(context).height.ceil() / 70)
-                                    .ceil() +
-                                2,
+                        numberMaxItemsPage: args.numberMaxItemsPage,
                         search:
                             viewModel.getValue(FormFieldValues.search).value ??
                                 '',

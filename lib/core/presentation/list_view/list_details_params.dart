@@ -6,10 +6,17 @@ class ListDetailsViewParams {
   final Future<List<Widget>> Function(
     String searchTerm,
     ListDetailsViewModel viewModel,
-  ) onSearch;
+  )? onSearch;
+  final Future<List<Widget>> Function(
+    String searchTerm,
+    ListDetailsViewModel viewModel,
+    int page,
+    int pageSize,
+  )? onSearchPagination;
 
   ListDetailsViewParams({
+    this.onSearch,
+    this.onSearchPagination,
     required this.title,
-    required this.onSearch,
   });
 }

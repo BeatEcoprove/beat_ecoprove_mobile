@@ -294,7 +294,7 @@ class GroupChatMembersView
                     Icons.add_circle_outline_rounded,
                     color: AppColor.widgetBackground,
                   ),
-                  onPressed: () async => viewModel.navigateSearchUsers(),
+                  onPressed: () async => viewModel.navigateSearchUsers(context),
                 ),
               ),
           ],

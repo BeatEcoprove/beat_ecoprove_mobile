@@ -139,7 +139,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                     width: 4,
                   ),
                   InkWell(
-                    onTap: () => viewModel.sendTradeOffer(args.id),
+                    onTap: () => viewModel.sendTradeOffer(args.id, context),
                     child: Container(
                       width: 52,
                       height: 60,

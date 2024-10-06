@@ -55,7 +55,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
 
   late User? user;
   late int currentPage = 1;
-  final int pageSize = 5;
+  final int pageSize = 200;
 
   final List<CardItem> cloths = [];
   final List<String> horizontalSelectedTags = [];

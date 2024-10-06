@@ -32,6 +32,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   late final User? _user;
   late bool isFetching = false;
   static const int numGroupsToShow = 3;
+  static const int numGroupsToShowSearch = 4;
 
   final List<GroupItem> publicGroups = [];
   final List<GroupItem> privateGroups = [];
@@ -69,7 +70,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   }
 
   Future refetch() async {
-    await getGroups(numGroupsToShow, null);
+    await getGroups(1, numGroupsToShow, "");
   }
 
   @override
@@ -84,7 +85,7 @@ class GroupViewModel extends FormViewModel implements Clone {
     try {
       setValue<String>(FormFieldValues.search, search);
 
-      await getGroups(3, null);
+      await getGroups(1, numGroupsToShowSearch, search);
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
     }
@@ -161,15 +162,10 @@ class GroupViewModel extends FormViewModel implements Clone {
     await refetch();
   }
 
-  Future<void> getGroups(int limit, String? search) async {
+  Future<void> getGroups(int page, int pageSize, String search) async {
     Map<String, String> param = {};
-    var searchParam = getValue(FormFieldValues.search).value ?? "";
 
-    param.addAll({limit.toString(): "pageSize"});
-
-    if (search != null) {}
-
-    param.addAll({searchParam: "search"});
+    param.addAll({search: "search"});
 
     try {
       isFetching = true;
@@ -177,7 +173,11 @@ class GroupViewModel extends FormViewModel implements Clone {
       privateGroups.clear();
       publicGroups.clear();
 
-      var result = await _getGroupsUseCase.handle(param);
+      var result = await _getGroupsUseCase.handle(GetGroupsUseCaseRequest(
+        page: page,
+        pageSize: pageSize,
+        params: param,
+      ));
 
       privateGroups.addAll(result.mine);
       publicGroups.addAll(result.globals);
@@ -200,13 +200,16 @@ class GroupViewModel extends FormViewModel implements Clone {
     await refetch();
   }
 
-  void goToMyGroupsList(List<Widget> Function(List<GroupItem>) func) {
+  void goToMyGroupsList(
+      List<Widget> Function(List<GroupItem>) func, BuildContext context) {
     _navigationRouter.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Meus Grupos",
-        onSearch: (searchTerm, vm) async {
-          await getGroups(100, searchTerm);
+        numberMaxItemsPage:
+            (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
+        onSearchPagination: (searchTerm, vm, page, pageSize) async {
+          await getGroups(page, pageSize, searchTerm);
 
           return func(privateGroups);
         },
@@ -214,13 +217,16 @@ class GroupViewModel extends FormViewModel implements Clone {
     );
   }
 
-  void goToPublicList(List<Widget> Function(List<GroupItem>) func) {
+  void goToPublicList(
+      List<Widget> Function(List<GroupItem>) func, BuildContext context) {
     _navigationRouter.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
+        numberMaxItemsPage:
+            (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         title: "Grupos Globais",
-        onSearch: (searchTerm, vm) async {
-          await getGroups(100, searchTerm);
+        onSearchPagination: (searchTerm, vm, page, pageSize) async {
+          await getGroups(page, pageSize, searchTerm);
 
           return func(publicGroups);
         },

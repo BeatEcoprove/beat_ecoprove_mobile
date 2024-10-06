@@ -4,25 +4,41 @@ import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/group/contracts/groups_result.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 
+class GetGroupsUseCaseRequest {
+  final Map<String, String> params;
+  final int page;
+  final int pageSize;
+
+  GetGroupsUseCaseRequest({
+    Map<String, String>? params,
+    this.page = 1,
+    this.pageSize = 10,
+  }) : params = params ?? {};
+}
+
 class GetGroupsUseCase
-    implements UseCase<Map<String, String>, Future<GroupList>> {
+    implements UseCase<GetGroupsUseCaseRequest, Future<GroupList>> {
   final GroupService _groupService;
 
   GetGroupsUseCase(this._groupService);
 
   @override
-  Future<GroupList> handle(param) async {
+  Future<GroupList> handle(request) async {
     GroupsResult groupsResult;
     List<GroupItem> privateGroups = [];
     List<GroupItem> publicGroups = [];
-    String searchParam = '';
+    String params = '';
 
-    if (param.isNotEmpty) {
-      searchParam = _prepareRequest(param);
+    if (request.params.isNotEmpty) {
+      params = _prepareRequest(request.params);
     }
 
     try {
-      groupsResult = await _groupService.getGroups(searchParam);
+      groupsResult = await _groupService.getGroups(
+        request.page,
+        request.pageSize,
+        params,
+      );
     } catch (e) {
       rethrow;
     }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class ListDetailsViewParams {
   final String title;
+  final int numberMaxItemsPage;
   final Future<List<Widget>> Function(
     String searchTerm,
     ListDetailsViewModel viewModel,
@@ -18,5 +19,6 @@ class ListDetailsViewParams {
     this.onSearch,
     this.onSearchPagination,
     required this.title,
+    required this.numberMaxItemsPage,
   });
 }

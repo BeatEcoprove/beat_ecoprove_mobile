@@ -50,7 +50,7 @@ class GroupView extends LinearView<GroupViewModel> {
                       child: Column(
                         children: [
                           if (viewModel.privateGroups.isNotEmpty)
-                            ...renderPrivateGroups(viewModel),
+                            ...renderPrivateGroups(viewModel, context),
                           const SizedBox(
                             height: 26,
                           ),
@@ -70,8 +70,8 @@ class GroupView extends LinearView<GroupViewModel> {
                                     textAlign: TextAlign.center,
                                     style: AppText.underlineStyle,
                                   ),
-                                  onTap: () =>
-                                      viewModel.goToPublicList(_renderCards),
+                                  onTap: () => viewModel.goToPublicList(
+                                      _renderCards, context),
                                 ),
                               )
                             ],
@@ -88,7 +88,7 @@ class GroupView extends LinearView<GroupViewModel> {
                               : Column(
                                   children: _renderCards(
                                     viewModel.publicGroups,
-                                  ),
+                                  ).take(3).toList(),
                                 ),
                         ],
                       ),
@@ -156,7 +156,7 @@ class GroupView extends LinearView<GroupViewModel> {
         .toList();
   }
 
-  renderPrivateGroups(GroupViewModel viewModel) {
+  renderPrivateGroups(GroupViewModel viewModel, BuildContext context) {
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,7 +174,7 @@ class GroupView extends LinearView<GroupViewModel> {
                 textAlign: TextAlign.center,
                 style: AppText.underlineStyle,
               ),
-              onTap: () => viewModel.goToMyGroupsList(_renderCards),
+              onTap: () => viewModel.goToMyGroupsList(_renderCards, context),
             ),
           )
         ],
@@ -185,7 +185,7 @@ class GroupView extends LinearView<GroupViewModel> {
       Column(
         children: _renderCards(
           viewModel.privateGroups,
-        ),
+        ).take(3).toList(),
       ),
       const SizedBox(
         height: 26,

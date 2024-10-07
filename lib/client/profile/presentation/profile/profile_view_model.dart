@@ -47,7 +47,7 @@ class ProfileViewModel extends ViewModel implements Clone {
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Minhas Medalhas",
-        numberMaxItemsPage: (double.infinity).ceil(),
+        numberMaxItemsPage: 500,
         onSearch: (searchTerm, vm) async {
           return medalItems
               .where((medal) =>

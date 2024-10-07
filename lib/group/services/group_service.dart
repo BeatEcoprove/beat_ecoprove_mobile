@@ -105,7 +105,7 @@ class GroupService {
   Future<ChatMessages> getMessages(String groupId) async {
     var response = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "groups/$groupId/messages",
+      path: "groups/$groupId/messages?page=1&pageSize=10000",
       expectedCode: 200,
     );
 

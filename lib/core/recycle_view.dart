@@ -88,7 +88,7 @@ class _RecycleViewState extends State<RecycleView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.78,
+      height: MediaQuery.of(context).size.height * 0.78 -26,
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Column(

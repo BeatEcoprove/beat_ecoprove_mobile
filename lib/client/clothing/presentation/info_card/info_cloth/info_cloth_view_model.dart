@@ -130,7 +130,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title: "Histórico da Peça",
-        numberMaxItemsPage: (double.infinity).ceil(),
+        numberMaxItemsPage: 500,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
           var actionsHistory = await _getClothHistoryUseCase.handle(
             HistoryActionRequest(

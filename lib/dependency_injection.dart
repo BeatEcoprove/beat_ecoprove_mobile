@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/event_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -69,6 +70,7 @@ class DependencyInjection {
     locator.registerSingleton<InternetService>(
       InternetServiceImpl(
         locator<AuthenticationService>(),
+        locator.registerSingleton<IEventProvider>(EventProvider()),
       ),
     );
   }

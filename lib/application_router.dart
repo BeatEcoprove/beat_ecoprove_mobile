@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/application_navigation.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_guard.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/event_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/services/internet_service.dart';
@@ -23,6 +24,22 @@ class ApplicationRouter<TView extends LinearView> {
     notificationProvider.setContext(context);
     var leverUpProvider = DependencyInjection.locator<LevelUpProvider>();
     leverUpProvider.setContext(context);
+
+    final eventProvider = DependencyInjection.locator<IEventProvider>();
+    final navigationManager = DependencyInjection.locator<INavigationManager>();
+
+    eventProvider.notifications.listen((event) {
+      switch (event.runtimeType) {
+        case ChangeWifiStatusEvent:
+          if (!(event as ChangeWifiStatusEvent).wifiOn) {
+            navigationManager.push(AuthRoutes.noWifi);
+          }
+          navigationManager.push(AuthRoutes.login);
+
+        default:
+          Exception("Event failure!");
+      }
+    });
   }
 
   final ApplicationNavigation router = NavigationGuard(
@@ -50,20 +67,25 @@ class ApplicationRouter<TView extends LinearView> {
         return AuthRoutes.login;
       }
 
+      bool checkCurrentPath(GoRouterState state) {
+        return state.fullPath == AppRoute.root.navigationPath ||
+            state.fullPath == AuthRoutes.login.navigationPath;
+      }
+
       switch (authProvider.appUser!.type) {
         case UserType.consumer:
-          if (state.fullPath == AppRoute.root.navigationPath) {
+          if (checkCurrentPath(state)) {
             return HomeRoutes.home;
           }
           break;
         case UserType.organization:
         case UserType.employee:
-          if (state.fullPath == AppRoute.root.navigationPath) {
+          if (checkCurrentPath(state)) {
             return ServiceProviderRoutes.serviceProvider;
           }
           break;
         default:
-          if (state.fullPath == AppRoute.root.navigationPath) {
+          if (checkCurrentPath(state)) {
             return HomeRoutes.home;
           }
       }

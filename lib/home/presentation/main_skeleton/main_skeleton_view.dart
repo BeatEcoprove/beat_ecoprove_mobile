@@ -12,15 +12,18 @@ class MainSkeletonView extends LinearView<MainSkeletonViewModel> {
 
   @override
   Widget build(BuildContext context, MainSkeletonViewModel viewModel) {
-    return Swiper(
-      views: viewModel.getViews(),
-      index: viewModel.currentIndex,
-      bottomNavigationBarOptions: const [
-        Icon(Icons.home_rounded),
-        SvgImage(path: "assets/shirt.svg"),
-        Icon(Icons.public_rounded),
-        Icon(Icons.person),
-      ],
+    return PopScope(
+      canPop: false,
+      child: Swiper(
+        views: viewModel.getViews(),
+        index: viewModel.currentIndex,
+        bottomNavigationBarOptions: const [
+          Icon(Icons.home_rounded),
+          SvgImage(path: "assets/shirt.svg"),
+          Icon(Icons.public_rounded),
+          Icon(Icons.person),
+        ],
+      ),
     );
   }
 

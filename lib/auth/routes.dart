@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
+import 'package:beat_ecoprove/core/presentation/no_wifi/no_wifi_view.dart';
 import 'package:beat_ecoprove/core/view.dart';
 
 extension AuthRoutes on AppRoute {
@@ -35,6 +36,10 @@ extension AuthRoutes on AppRoute {
 
   static final AppRoute resetPassword = AppRoute(
     path: "reset_password",
+  );
+
+  static final AppRoute noWifi = AppRoute(
+    path: "no_wifi",
   );
 }
 
@@ -66,6 +71,10 @@ final NavigationRoute authRoute = NavigationRoute(
       view: (context, state) => ArgumentView.of<ResetPasswordView>(
         state.extra as ResetPasswordParams,
       ),
+    ),
+    NavigationRoute(
+      route: AuthRoutes.noWifi,
+      view: (context, state) => LinearView.of<NoWifiView>(),
     ),
   ],
 );

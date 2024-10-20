@@ -95,11 +95,6 @@ flutter:
 
   assets:
     - .env
-    - assets/fakedata/dry.jpg
-    - assets/fakedata/dry2.jpg
-    - assets/fakedata/recycle.jpg
-    - assets/fakedata/repair.jpg
-    - assets/fakedata/wash.jpg
     - assets/background1/background1.svg
     - assets/background1/background2.svg
     - assets/background1/background3.svg
@@ -117,9 +112,7 @@ flutter:
     - assets/level_up/leaf2.svg
     - assets/level_up/crown.svg
     - assets/applicationTitle.svg
-    - assets/default_avatar.png
-    - assets/salsa.png
-    - assets/sueter.png
+    - assets/nowifi.svg
     - assets/points/sustainable_points_icon.svg
     - assets/points/eco_coins_points_icon.svg
     - assets/points/eco_score_points_icon.svg

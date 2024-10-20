@@ -9,6 +9,8 @@ import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_vie
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make%20_profile_action_view.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_view_model.dart';
+import 'package:beat_ecoprove/core/presentation/no_wifi/no_wifi_view.dart';
+import 'package:beat_ecoprove/core/presentation/no_wifi/no_wifi_view_model.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view_model.dart';
@@ -63,6 +65,10 @@ extension CoreDependencyInjection on DependencyInjection {
         router,
       ),
     );
+
+    locator.registerFactory(
+      () => NoWifiViewModel(),
+    );
   }
 
   void _addViews(GetIt locator) {
@@ -114,6 +120,12 @@ extension CoreDependencyInjection on DependencyInjection {
       (params, _) => ReadQRCodeView(
         viewModel: locator<ReadQRCodeViewModel>(),
         args: params,
+      ),
+    );
+
+    locator.registerFactory(
+      () => NoWifiView(
+        viewModel: locator<NoWifiViewModel>(),
       ),
     );
   }

@@ -39,7 +39,7 @@ class ApplicationRouter<TView extends LinearView> {
       var internetService = DependencyInjection.locator<InternetService>();
 
       if (!internetService.wifiOn) {
-        return null;
+        return AuthRoutes.noWifi;
       }
 
       if (!authProvider.isAuthenticated) {

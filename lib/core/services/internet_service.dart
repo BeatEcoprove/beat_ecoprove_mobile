@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
+import 'package:beat_ecoprove/core/providers/event_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -11,16 +12,17 @@ abstract class InternetService extends ViewModel {
 
 class InternetServiceImpl extends InternetService {
   final AuthenticationService _authService;
+  final IEventProvider _eventProvider;
 
-  InternetServiceImpl(this._authService) {
-    Connectivity().onConnectivityChanged.listen((event) {
-      wifiOn = event.contains(ConnectivityResult.wifi);
-
-      if (!wifiOn) {
-        print("error internet connection failed");
-      }
-
-      notifyListeners();
+  InternetServiceImpl(this._authService, this._eventProvider) {
+    Connectivity()
+        .onConnectivityChanged
+        .listen((List<ConnectivityResult> results) {
+      wifiOn = results.contains(ConnectivityResult.wifi) ||
+          results.contains(ConnectivityResult.ethernet) ||
+          results.contains(ConnectivityResult.mobile);
+      print(wifiOn);
+      _eventProvider.sendNotification(ChangeWifiStatusEvent(wifiOn));
     });
   }
 
@@ -30,7 +32,11 @@ class InternetServiceImpl extends InternetService {
   @override
   Future<bool> checkInternetConnection() async {
     var connectionResult = await Connectivity().checkConnectivity();
-    return connectionResult.contains(ConnectivityResult.wifi);
+    wifiOn = connectionResult.contains(ConnectivityResult.wifi) ||
+        connectionResult.contains(ConnectivityResult.ethernet) ||
+        connectionResult.contains(ConnectivityResult.mobile);
+
+    return wifiOn;
   }
 
   @override

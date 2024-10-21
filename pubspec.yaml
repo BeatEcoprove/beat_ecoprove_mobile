@@ -1,7 +1,7 @@
 name: beat_ecoprove
 description: A be@t project.
 publish_to: "none"
-version: 0.1.1
+version: 0.1.2+6
 
 environment:
   sdk: ">=3.1.3 <4.0.0"
@@ -38,6 +38,9 @@ dependencies:
 
   qr_flutter: ^4.1.0
   qr_code_scanner: ^1.0.1
+
+  # Check the latest version on play store
+  in_app_update: ^4.2.3
 
 flutter_native_splash:
   android: true

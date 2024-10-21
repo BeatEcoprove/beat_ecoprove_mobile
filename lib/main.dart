@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -59,13 +60,50 @@ void main() async {
   );
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   final GoRouter appRouter;
 
   const MainApp({
     super.key,
     required this.appRouter,
   });
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  AppUpdateInfo? _updateInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkForUpdate();
+  }
+
+  Future<void> _checkForUpdate() async {
+    try {
+      AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate();
+      setState(() {
+        _updateInfo = updateInfo;
+      });
+
+      if (_updateInfo?.updateAvailability ==
+          UpdateAvailability.updateAvailable) {
+        _forceUpdate();
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _forceUpdate() async {
+    try {
+      await InAppUpdate.performImmediateUpdate();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +115,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       theme: ThemeData(fontFamily: 'Lato'),
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
+      routerConfig: widget.appRouter,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

@@ -26,7 +26,6 @@ class LoginView extends LinearView<LoginViewModel> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: AppBackground(
           type: AppBackgrounds.login,
           content: ScrollHandler(

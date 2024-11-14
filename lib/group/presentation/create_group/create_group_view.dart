@@ -20,96 +20,94 @@ class CreateGroupView extends LinearView<CreateGroupViewModel> {
   @override
   Widget build(BuildContext context, CreateGroupViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: AppBackground(
-          content: SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: GoBack(
-              posLeft: 22,
-              posTop: 48,
+        content: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: GoBack(
+            posLeft: 22,
+            posTop: 48,
+            child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 26),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 112,
-                            ),
-                            const Text(
-                              "Criar um Grupo",
-                              style: AppText.header,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(
-                              height: 42,
-                            ),
-                            CircleAvatarChooser(
-                              height: 140,
-                              color: AppColor.widgetSecondary,
-                              imageProvider: viewModel.getGroupPicture(),
-                              onPress: () => viewModel.getImageFromGallery(),
-                            ),
-                            const SizedBox(
-                              height: 36,
-                            ),
-                            DefaultFormattedTextField(
-                              hintText: "Nome",
-                              inputFormatter: [
-                                LengthLimitingTextInputFormatter(25),
-                              ],
-                              onChange: (groupName) async =>
-                                  viewModel.setGroupName(groupName),
-                              initialValue: viewModel
-                                  .getValue(FormFieldValues.groupName)
-                                  .value,
-                              errorMessage: viewModel
-                                  .getValue(FormFieldValues.groupName)
-                                  .error,
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            DefaultFormattedTextField(
-                              hintText: "Descrição",
-                              inputFormatter: [
-                                LengthLimitingTextInputFormatter(100),
-                              ],
-                              onChange: (groupDescription) async => viewModel
-                                  .setGroupDescription(groupDescription),
-                              initialValue: viewModel
-                                  .getValue(FormFieldValues.groupDescription)
-                                  .value,
-                              errorMessage: viewModel
-                                  .getValue(FormFieldValues.groupDescription)
-                                  .error,
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            FormattedDropDown(
-                              options: const ['Público', 'Privado'],
-                              value: viewModel
-                                  .getValue(FormFieldValues.groupIsPublic)
-                                  .value,
-                              onValueChanged: (value) => viewModel.setValue(
-                                  FormFieldValues.groupIsPublic, value),
-                            ),
-                            const SizedBox(
-                              height: 64,
-                            ),
-                            FormattedButton(
-                              content: "Registar",
-                              textColor: Colors.white,
-                              disabled: viewModel.thereAreErrors,
-                              onPress: () async => viewModel.registerGroup(),
-                            )
-                          ],
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 26),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 112,
+                          ),
+                          const Text(
+                            "Criar um Grupo",
+                            style: AppText.header,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(
+                            height: 42,
+                          ),
+                          CircleAvatarChooser(
+                            height: 140,
+                            color: AppColor.widgetSecondary,
+                            imageProvider: viewModel.getGroupPicture(),
+                            onPress: () => viewModel.getImageFromGallery(),
+                          ),
+                          const SizedBox(
+                            height: 36,
+                          ),
+                          DefaultFormattedTextField(
+                            hintText: "Nome",
+                            inputFormatter: [
+                              LengthLimitingTextInputFormatter(25),
+                            ],
+                            onChange: (groupName) async =>
+                                viewModel.setGroupName(groupName),
+                            initialValue: viewModel
+                                .getValue(FormFieldValues.groupName)
+                                .value,
+                            errorMessage: viewModel
+                                .getValue(FormFieldValues.groupName)
+                                .error,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          DefaultFormattedTextField(
+                            hintText: "Descrição",
+                            inputFormatter: [
+                              LengthLimitingTextInputFormatter(100),
+                            ],
+                            onChange: (groupDescription) async =>
+                                viewModel.setGroupDescription(groupDescription),
+                            initialValue: viewModel
+                                .getValue(FormFieldValues.groupDescription)
+                                .value,
+                            errorMessage: viewModel
+                                .getValue(FormFieldValues.groupDescription)
+                                .error,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          FormattedDropDown(
+                            options: const ['Público', 'Privado'],
+                            value: viewModel
+                                .getValue(FormFieldValues.groupIsPublic)
+                                .value,
+                            onValueChanged: (value) => viewModel.setValue(
+                                FormFieldValues.groupIsPublic, value),
+                          ),
+                          const SizedBox(
+                            height: 64,
+                          ),
+                          FormattedButton(
+                            content: "Registar",
+                            textColor: Colors.white,
+                            disabled: viewModel.thereAreErrors,
+                            onPress: () async => viewModel.registerGroup(),
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -117,7 +115,9 @@ class CreateGroupView extends LinearView<CreateGroupViewModel> {
               ),
             ),
           ),
-          type: AppBackgrounds.createGroup),
+        ),
+        type: AppBackgrounds.createGroup,
+      ),
     );
   }
 }

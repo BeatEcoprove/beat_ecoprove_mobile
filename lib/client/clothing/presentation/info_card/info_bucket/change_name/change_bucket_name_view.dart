@@ -23,53 +23,70 @@ class ChangeBucketNameView
   @override
   Widget build(BuildContext context, ChangeBucketNameViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: AppBackground(
         type: AppBackgrounds.createGroup,
-        content: GoBack(
-          posLeft: 24,
-          posTop: 24,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+        content: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: GoBack(
+            posLeft: 24,
+            posTop: 24,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 64,
+                  horizontal: 16,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
-                      height: 64,
-                    ),
-                    const Text(
-                      "Alterar Nome do Cesto",
-                      style: AppText.header,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 116),
-                      child: Column(
-                        children: [
-                          DefaultFormattedTextField(
-                            hintText: "Nome do cesto",
-                            onChange: (name) => viewModel.setName(name),
-                            inputFormatter: [
-                              LengthLimitingTextInputFormatter(50),
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 64,
+                        ),
+                        const Text(
+                          "Alterar Nome do Cesto",
+                          style: AppText.header,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 116),
+                          child: Column(
+                            children: [
+                              DefaultFormattedTextField(
+                                hintText: "Nome do cesto",
+                                onChange: (name) => viewModel.setName(name),
+                                inputFormatter: [
+                                  LengthLimitingTextInputFormatter(50),
+                                ],
+                                initialValue: viewModel
+                                    .getValue(FormFieldValues.name)
+                                    .value,
+                                errorMessage: viewModel
+                                    .getValue(FormFieldValues.name)
+                                    .error,
+                              ),
                             ],
-                            initialValue:
-                                viewModel.getValue(FormFieldValues.name).value,
-                            errorMessage:
-                                viewModel.getValue(FormFieldValues.name).error,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 156,
+                        ),
+                        FormattedButton(
+                          content: "Alterar",
+                          textColor: Colors.white,
+                          onPress: () async =>
+                              await viewModel.changeBucketName(args.bucket),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                FormattedButton(
-                  content: "Alterar",
-                  textColor: Colors.white,
-                  onPress: () async =>
-                      await viewModel.changeBucketName(args.bucket),
-                ),
-              ],
+              ),
             ),
           ),
         ),

@@ -18,66 +18,76 @@ class InsertResetCodeView extends LinearView<InsertResetCodeViewModel> {
   @override
   Widget build(BuildContext context, InsertResetCodeViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: AppBackground(
-        content: GoBack(
-          posTop: 18,
-          posLeft: 18,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
+        content: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: GoBack(
+            posTop: 18,
+            posLeft: 18,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 146,
+                    horizontal: 16,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Foi enviado um código para o seu email",
-                        style: AppText.smallHeader,
-                        textAlign: TextAlign.center,
+                      Column(
+                        children: [
+                          const Text(
+                            "Foi enviado um código para o seu email",
+                            style: AppText.smallHeader,
+                            textAlign: TextAlign.center,
+                          ),
+                          const Text(
+                            "Coloque o código enviado para o seu email",
+                            style: AppText.smallSubHeader,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 136,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: DefaultFormattedTextField(
+                              hintText: "Código",
+                              keyboardType: TextInputType.number,
+                              initialValue: viewModel
+                                  .getValue(FormFieldValues.email)
+                                  .value,
+                              errorMessage: viewModel
+                                  .getValue(FormFieldValues.email)
+                                  .error,
+                              onChange: (value) => viewModel.setCode(value),
+                              inputFormatter: [
+                                LengthLimitingTextInputFormatter(6),
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        "Coloque o código enviado para o seu email",
-                        style: AppText.smallSubHeader,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 136,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: DefaultFormattedTextField(
-                          hintText: "Código",
-                          keyboardType: TextInputType.number,
-                          initialValue:
-                              viewModel.getValue(FormFieldValues.email).value,
-                          errorMessage:
-                              viewModel.getValue(FormFieldValues.email).error,
-                          onChange: (value) => viewModel.setCode(value),
-                          inputFormatter: [
-                            LengthLimitingTextInputFormatter(6),
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 36,
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 156,
+                          ),
+                          FormattedButton(
+                            content: "Continuar",
+                            textColor: Colors.white,
+                            onPress: () async {
+                              viewModel.verifyCode();
+                            },
+                            disabled: viewModel.thereAreErrors,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      FormattedButton(
-                        content: "Continuar",
-                        textColor: Colors.white,
-                        onPress: () async {
-                          viewModel.verifyCode();
-                        },
-                        disabled: viewModel.thereAreErrors,
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
           ),

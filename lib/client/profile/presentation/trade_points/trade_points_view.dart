@@ -19,7 +19,6 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
   @override
   Widget build(BuildContext context, TradePointsViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
         title: 'Prémios',
         hasSustainablePoints: true,

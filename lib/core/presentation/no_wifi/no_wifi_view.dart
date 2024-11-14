@@ -18,7 +18,6 @@ class NoWifiView extends LinearView<NoWifiViewModel> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: AppBackground(
             content: SizedBox(
               height: double.infinity,

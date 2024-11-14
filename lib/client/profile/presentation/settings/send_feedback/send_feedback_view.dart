@@ -17,7 +17,6 @@ class SendFeedbackView extends LinearView<SendFeedbackViewModel> {
   @override
   Widget build(BuildContext context, SendFeedbackViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: GoBack(
         posLeft: 18,
         posTop: 18,

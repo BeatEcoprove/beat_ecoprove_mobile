@@ -27,33 +27,35 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
   @override
   Widget build(BuildContext context, RegisterClothViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
           title: LocaleContext.get().client_register_register_cloth,
           sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
           hasSustainablePoints: false),
-      body: Column(
-        children: [
-          SizedBox(
-            height: calculateHeightSections(firstSectionHeightPercent, context),
-            child: AppBackground(
-              content: GoBack(
-                posTop: 18,
-                posLeft: 18,
-                child: _buildRegisterForm(context, viewModel),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height:
+                  calculateHeightSections(firstSectionHeightPercent, context),
+              child: AppBackground(
+                content: GoBack(
+                  posTop: 18,
+                  posLeft: 18,
+                  child: _buildRegisterForm(context, viewModel),
+                ),
+                type: AppBackgrounds.registerClothBackground1,
               ),
-              type: AppBackgrounds.registerClothBackground1,
             ),
-          ),
-          SizedBox(
-            height: calculateHeightSections(
-                100 - firstSectionHeightPercent, context),
-            child: AppBackground(
-              content: _buildRegisterClothByQRCode(context),
-              type: AppBackgrounds.registerClothBackground,
+            SizedBox(
+              height: calculateHeightSections(
+                  100 - firstSectionHeightPercent, context),
+              child: AppBackground(
+                content: _buildRegisterClothByQRCode(context),
+                type: AppBackgrounds.registerClothBackground,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -34,7 +34,6 @@ class GroupChatMembersView
   @override
   Widget build(BuildContext context, GroupChatMembersViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: GroupHeader(
         title: args.title,
         state: args.state,

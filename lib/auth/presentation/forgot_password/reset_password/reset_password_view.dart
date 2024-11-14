@@ -21,77 +21,88 @@ class ResetPasswordView
   @override
   Widget build(BuildContext context, ResetPasswordViewModel viewModel) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: AppBackground(
-        content: GoBack(
-          posTop: 18,
-          posLeft: 18,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
+        content: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: GoBack(
+            posTop: 18,
+            posLeft: 18,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 86,
+                    horizontal: 16,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Text(
-                        "Redefina a sua palavra-chave",
-                        style: AppText.alternativeHeader,
-                        textAlign: TextAlign.center,
+                      Column(
+                        children: [
+                          const Text(
+                            "Redefina a sua palavra-chave",
+                            style: AppText.alternativeHeader,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 136,
+                          ),
+                          DefaultFormattedTextField(
+                            hintText: "Palavra-chave",
+                            onChange: (password) =>
+                                viewModel.setPassword(password),
+                            initialValue: viewModel
+                                .getValue(FormFieldValues.password)
+                                .value,
+                            errorMessage: viewModel
+                                .getValue(FormFieldValues.password)
+                                .error,
+                            isPassword: !viewModel.isPassword,
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          DefaultFormattedTextField(
+                            hintText: "Confirmar palavra-chave",
+                            onChange: (confirmPassword) =>
+                                viewModel.setConfirmPassword(confirmPassword),
+                            initialValue: viewModel
+                                .getValue(FormFieldValues.confirmPassword)
+                                .value,
+                            errorMessage: viewModel
+                                .getValue(FormFieldValues.confirmPassword)
+                                .error,
+                            isPassword: !viewModel.isPassword,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: FormattedCheckBox(
+                              value: viewModel.isPassword,
+                              onChanged: viewModel.setPasswordVisibitlity,
+                              title: "Mostrar palavra-chave",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 36,
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 136,
-                      ),
-                      DefaultFormattedTextField(
-                        hintText: "Palavra-chave",
-                        onChange: (password) => viewModel.setPassword(password),
-                        initialValue:
-                            viewModel.getValue(FormFieldValues.password).value,
-                        errorMessage:
-                            viewModel.getValue(FormFieldValues.password).error,
-                        isPassword: !viewModel.isPassword,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      DefaultFormattedTextField(
-                        hintText: "Confirmar palavra-chave",
-                        onChange: (confirmPassword) =>
-                            viewModel.setConfirmPassword(confirmPassword),
-                        initialValue: viewModel
-                            .getValue(FormFieldValues.confirmPassword)
-                            .value,
-                        errorMessage: viewModel
-                            .getValue(FormFieldValues.confirmPassword)
-                            .error,
-                        isPassword: !viewModel.isPassword,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: FormattedCheckBox(
-                          value: viewModel.isPassword,
-                          onChanged: viewModel.setPasswordVisibitlity,
-                          title: "Mostrar palavra-chave",
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 36,
+                      Column(
+                        children: [
+                          FormattedButton(
+                            content: "Continuar",
+                            textColor: AppColor.widgetBackground,
+                            disabled: viewModel.thereAreErrors,
+                            height: 46,
+                            onPress: () =>
+                                viewModel.handleRefreshPassword(args.code),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      FormattedButton(
-                        content: "Continuar",
-                        textColor: AppColor.widgetBackground,
-                        disabled: viewModel.thereAreErrors,
-                        height: 46,
-                        onPress: () =>
-                            viewModel.handleRefreshPassword(args.code),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
           ),

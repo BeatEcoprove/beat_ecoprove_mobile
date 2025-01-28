@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/core/widgets/wrap_services.dart';
 import 'package:flutter/material.dart';
 
 class InfoClothServiceViewAlt
-    extends ArgumentView<InfoClothServiceViewModelAlt, InfoClothServiceParms> {
+    extends ArgumentView<InfoClothServiceViewModelAlt, InfoClothServiceParams> {
   const InfoClothServiceViewAlt({
     super.key,
     required super.viewModel,
@@ -41,7 +41,7 @@ class InfoClothServiceViewAlt
       left: 36,
       right: 36,
       action: () async {
-        await viewModel.registerBucket(args.card.id);
+        await viewModel.registerBucket(args.index);
       },
       titleModal: "Criar Cesto",
       buttonText: "Criar",
@@ -124,8 +124,8 @@ class InfoClothServiceViewAlt
     ];
   }
 
-  @override
-  Widget build(BuildContext context, InfoClothServiceViewModelAlt viewModel) {
+  Widget _buildContent(
+      BuildContext context, InfoClothServiceViewModelAlt viewModel) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AppBackground(
@@ -146,26 +146,20 @@ class InfoClothServiceViewAlt
                       right: 16,
                       left: 16,
                     ),
-                    child: viewModel.isLoading
-                        ? WrapServices(
-                            title: title,
-                            noResultsText: "Não existem serviços disponíveis!",
-                            services: formatServices(
-                              args.card.id,
-                              args.card.hasChildren,
-                              context,
-                              viewModel.services,
-                            ),
-                            blockedServices: viewModel.blockedServices,
-                            onSelectionChanged: (service) {
-                              viewModel.changeServiceSelection(service);
-                            },
-                          )
-                        : const Expanded(
-                            child: CircularProgressIndicator(
-                              color: AppColor.darkGreen,
-                            ),
-                          ),
+                    child: WrapServices(
+                      title: title,
+                      noResultsText: "Não existem serviços disponíveis!",
+                      services: formatServices(
+                        args.index,
+                        viewModel.cardItem.hasChildren,
+                        context,
+                        viewModel.services,
+                      ),
+                      blockedServices: viewModel.blockedServices,
+                      onSelectionChanged: (service) {
+                        viewModel.changeServiceSelection(service);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -200,5 +194,20 @@ class InfoClothServiceViewAlt
     }
 
     return items;
+  }
+
+  @override
+  Widget build(BuildContext context, InfoClothServiceViewModelAlt viewModel) {
+    if (viewModel.isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(
+            color: AppColor.darkGreen,
+          ),
+        ),
+      );
+    }
+
+    return _buildContent(context, viewModel);
   }
 }

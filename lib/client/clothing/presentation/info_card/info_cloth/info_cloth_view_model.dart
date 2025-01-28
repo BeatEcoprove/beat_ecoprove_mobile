@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/get_current_maintenance_action_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/history/requests/history_action_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_history_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
+import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
@@ -27,11 +30,18 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final GetClothHistoryUseCase _getClothHistoryUseCase;
+  final GetClothByIdUseCase _getClothByIdUseCase;
   final ActionService _actionService;
   final AuthenticationProvider _authenticationProvider;
 
   late bool isInUse = false;
   late bool disableButton = false;
+  late bool isLoading = true;
+  late CardItem cardItem = CardItem(
+    id: "",
+    title: "",
+    child: ServerConfig.defaultImage,
+  );
 
   InfoClothViewModel(
     this._navigationManager,
@@ -39,19 +49,37 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     this._markClothAsDailyUseUseCase,
     this._unMarkClothAsDailyUseUseCase,
     this._getClothHistoryUseCase,
+    this._getClothByIdUseCase,
     this._actionService,
     this._authenticationProvider,
   );
 
   @override
   void initSync() async {
-    if (arg != null) {
-      await isClothOnMaintenance(arg!.card.id);
-      notifyListeners();
+    isLoading = true;
+    notifyListeners();
+
+    if (arg == null) {
+      _notificationProvider.showNotification(
+        "Roupa não encontrada!",
+        type: NotificationTypes.success,
+      );
+      _navigationManager.pop();
+      return;
     }
+    cardItem = await _getClothByIdUseCase.handle(arg!.index);
+    await isClothOnMaintenance(arg!.index);
+
+    isLoading = false;
+    notifyListeners();
   }
 
   Future isClothOnMaintenance(String clothId) async {
+    if (cardItem.clothState == ClothStates.blocked) {
+      disableButton = true;
+      return;
+    }
+
     try {
       var availableServices =
           await _actionService.getClothAvailableServices(clothId);
@@ -63,9 +91,15 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
       var currentRunningServices =
           await _actionService.getCurrentServiceActivity(clothId);
 
-      if (currentRunningServices.status == "Finished") {
-        disableButton = false;
-        return;
+      switch (currentRunningServices.status) {
+        case ServiceStates.finish:
+          disableButton = false;
+          return;
+        case ServiceStates.running:
+          disableButton = true;
+          return;
+        default:
+          disableButton = false;
       }
     } on HttpError catch (e) {
       _notificationProvider.showNotification(
@@ -134,7 +168,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
           var actionsHistory = await _getClothHistoryUseCase.handle(
             HistoryActionRequest(
-              arg!.card.id,
+              arg!.index,
             ),
           );
 
@@ -165,7 +199,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
 
   void goToQRCodePage() {
     var clothUrl =
-        "orders?ownerId=${_authenticationProvider.appUser?.id}&clothId=${arg?.card.id ?? ""}";
+        "orders?ownerId=${_authenticationProvider.appUser?.id}&clothId=${arg?.index ?? ""}";
 
     _navigationManager.push(CoreRoutes.qrCode,
         extras: QRCodeParams(
@@ -183,6 +217,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
       _markClothAsDailyUseUseCase,
       _unMarkClothAsDailyUseUseCase,
       _getClothHistoryUseCase,
+      _getClothByIdUseCase,
       _actionService,
       _authenticationProvider,
     );

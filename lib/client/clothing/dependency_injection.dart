@@ -1,7 +1,9 @@
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/change_bucket_name_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_buckets_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_history_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view.dart';
@@ -144,6 +146,14 @@ extension ClothingDependencyInjection on DependencyInjection {
     );
 
     locator.registerSingleton(
+      GetClothByIdUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
+      GetBucketByIdUseCase(clothingService),
+    );
+
+    locator.registerSingleton(
       GetStoresUseCase(storeService),
     );
 
@@ -189,6 +199,8 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<AddClothsBucketUseCase>(),
         locator<GetBucketsUseCase>(),
         locator<DeleteCardUseCase>(),
+        locator<GetClothByIdUseCase>(),
+        locator<GetBucketByIdUseCase>(),
         locator<ActionService>(),
         locator<ClosetService>(),
         locator<AuthenticationProvider>(),
@@ -203,6 +215,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         markClothAsDailyUseUseCase,
         unMarkClothAsDailyUseUseCase,
         getClothHistoryUseCase,
+        locator<GetClothByIdUseCase>(),
         locator<ActionService>(),
         locator<AuthenticationProvider>(),
       ),
@@ -252,8 +265,8 @@ extension ClothingDependencyInjection on DependencyInjection {
       ),
     );
 
-    locator.registerFactoryParam<InfoClothServiceViewAlt, InfoClothServiceParms,
-        void>(
+    locator.registerFactoryParam<InfoClothServiceViewAlt,
+        InfoClothServiceParams, void>(
       (params, _) => InfoClothServiceViewAlt(
         viewModel: locator<InfoClothServiceViewModelAlt>(),
         args: params,

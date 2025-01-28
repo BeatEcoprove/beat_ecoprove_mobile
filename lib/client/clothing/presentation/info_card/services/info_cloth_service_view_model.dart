@@ -8,11 +8,14 @@ import 'package:beat_ecoprove/client/clothing/contracts/register_bucket_request.
 import 'package:beat_ecoprove/client/clothing/domain/models/service_state.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/delete_card_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_buckets_use_case.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/services/info_cloth_service_params.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/client/clothing/services/closet_service.dart';
+import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -27,7 +30,7 @@ import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/service_provider/orders/services/order_service.dart';
 
-class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
+class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
     implements Clone {
   final IBucketInfoManager bucketInfoManager;
   final INotificationProvider _notificationProvider;
@@ -36,6 +39,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
   final AddClothsBucketUseCase _addClothsBucketUseCase;
   final GetBucketsUseCase _getBucketsUseCase;
   final DeleteCardUseCase _deleteCardUseCase;
+  final GetClothByIdUseCase _getClothByIdUseCase;
+  final GetBucketByIdUseCase _getBucketByIdUseCase;
   final ActionService _actionService;
   final ClosetService _closetService;
   final OrderService _orderService;
@@ -49,6 +54,13 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
 
   late String activityId = "";
 
+  late bool isLoading = true;
+  late CardItem cardItem = CardItem(
+    id: "",
+    title: "",
+    child: ServerConfig.defaultImage,
+  );
+
   InfoClothServiceViewModelAlt(
     this.bucketInfoManager,
     this._notificationProvider,
@@ -57,6 +69,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
     this._addClothsBucketUseCase,
     this._getBucketsUseCase,
     this._deleteCardUseCase,
+    this._getClothByIdUseCase,
+    this._getBucketByIdUseCase,
     this._actionService,
     this._closetService,
     this._authenticationProvider,
@@ -70,33 +84,46 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
   @override
   void initSync() async {
     await fetchBuckets();
+    isLoading = true;
+    notifyListeners();
 
-    if (arg != null) {
-      await refetch();
+    if (arg == null) {
+      _notificationProvider.showNotification(
+        "Roupa não encontrada!",
+        type: NotificationTypes.success,
+      );
+      _navigationManager.pop();
+      return;
     }
+
+    cardItem = arg!.isBucket
+        ? await _getBucketByIdUseCase.handle(arg!.index)
+        : await _getClothByIdUseCase.handle(arg!.index);
+    await refetch();
+
+    isLoading = false;
+    notifyListeners();
   }
 
-  get isLoading =>
-      services.isNotEmpty || arg?.card.clothState != ClothStates.idle;
-
   Future refetch() async {
-    if (arg!.card.hasChildren) {
+    // if (clothIds.isNotEmpty) return;
+
+    if (cardItem.hasChildren) {
       clothIds.addAll(getClothFromBucketManager());
-      await fetchBucketServices(arg!.card.id);
+      await fetchBucketServices(cardItem.id);
     } else {
-      if (arg!.card.clothState != ClothStates.idle || arg!.card.hasChildren) {
+      if (cardItem.clothState != ClothStates.idle) {
         return;
       }
 
-      clothIds.addAll([arg!.card.id]);
-      await fetchClothServices(arg!.card.id);
+      clothIds.addAll([cardItem.id]);
+      await fetchClothServices(cardItem.id);
     }
-
     notifyListeners();
   }
 
   List<String> getClothFromBucketManager() {
-    return (arg!.card.child as List<CardItem>)
+    return (cardItem.child as List<CardItem>)
         .map((card) => card.id)
         .where((e) => !bucketInfoManager.getAllClothes().contains(e))
         .toList();
@@ -273,7 +300,7 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
   Future handleServiceAction(
       String serviceId, String actionId, String state) async {
     var clothUrl =
-        "orders?ownerId=${_authenticationProvider.appUser?.id}&clothId=${arg?.card.id ?? ""}";
+        "orders?ownerId=${_authenticationProvider.appUser?.id}&clothId=${arg?.index ?? ""}";
 
     await _navigationManager.pushAsync(
       CoreRoutes.qrCode,
@@ -427,6 +454,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParms>
       _addClothsBucketUseCase,
       _getBucketsUseCase,
       _deleteCardUseCase,
+      _getClothByIdUseCase,
+      _getBucketByIdUseCase,
       _actionService,
       _closetService,
       _authenticationProvider,

@@ -44,6 +44,14 @@ class ClosetService {
     ));
   }
 
+  Future<ClothResult> getClothById(String clothId) async {
+    return ClothResult.fromJson(await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "profiles/closet/cloth/$clothId",
+      expectedCode: 201,
+    ));
+  }
+
   Future deleteCloth(String clothId) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.delete,

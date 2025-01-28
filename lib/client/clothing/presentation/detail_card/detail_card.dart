@@ -25,12 +25,16 @@ class DetailSwiper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double maxWidth = (MediaQuery.of(context).size.width / 2) - 50;
+    // double maxWidth = (MediaQuery.of(context).size.width / 2) - 50;
 
     return Swiper(
       views: views,
-      bottomNavigationBarOptions: getLines(maxWidth),
       hasRegisterCloth: false,
+      bottomNavigationBarOptions: const [
+        Icon(Icons.description_rounded),
+        Icon(Icons.settings_suggest_rounded),
+      ],
+      // bottomNavigationBarOptions: getLines(maxWidth),
     );
   }
 }

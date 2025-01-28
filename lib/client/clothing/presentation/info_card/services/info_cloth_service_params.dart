@@ -1,7 +1,6 @@
-import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+class InfoClothServiceParams {
+  final bool isBucket;
+  final String index;
 
-class InfoClothServiceParms {
-  final CardItem card;
-
-  InfoClothServiceParms(this.card);
+  InfoClothServiceParams(this.isBucket, this.index);
 }

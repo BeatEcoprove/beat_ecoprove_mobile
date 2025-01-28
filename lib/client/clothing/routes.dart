@@ -61,12 +61,12 @@ ApplicationNavigation clothingRoute = NavigationRoute(
           ArgumentView.of<InfoClothView>(
             InfoClothParams(
               state.pathParameters['id'] ?? '0',
-              state.extra as CardItem,
             ),
           ),
           ArgumentView.of<InfoClothServiceViewAlt>(
-            InfoClothServiceParms(
-              state.extra as CardItem,
+            InfoClothServiceParams(
+              false,
+              state.pathParameters['id'] ?? '0',
             ),
           ),
         ],
@@ -92,8 +92,9 @@ ApplicationNavigation clothingRoute = NavigationRoute(
             ),
           ),
           ArgumentView.of<InfoClothServiceViewAlt>(
-            InfoClothServiceParms(
-              state.extra as CardItem,
+            InfoClothServiceParams(
+              true,
+              state.pathParameters['id'] ?? '0',
             ),
           ),
         ],

@@ -23,11 +23,9 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
     required super.args,
   });
 
-  @override
-  Widget build(BuildContext context, InfoClothViewModel viewModel) {
+  Widget _buildContent(BuildContext context, InfoClothViewModel viewModel) {
     double maxWidth = MediaQuery.of(context).size.width;
-    viewModel.isInUse = args.card.clothState == ClothStates.inUse;
-    viewModel.disableButton = args.card.clothState == ClothStates.blocked;
+    viewModel.isInUse = viewModel.cardItem.clothState == ClothStates.inUse;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -48,19 +46,19 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                     widthFactor: 257,
                     child: PresentImage(
                         path: ServerImage(
-                      args.card.child,
+                      viewModel.cardItem.child,
                     )),
                   ),
                 ),
               ),
-              if (args.card.hasProfile != null)
+              if (viewModel.cardItem.hasProfile != null)
                 Positioned(
                   left: 24,
                   top: 180,
                   child: IconButtonRectangular(
                     dimension: 50,
                     object: PresentImage(
-                      path: args.card.hasProfile!,
+                      path: viewModel.cardItem.hasProfile!,
                     ),
                   ),
                 ),
@@ -98,8 +96,8 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                   text: viewModel.disableButton ? "Bloqueado" : "Utilizar",
                   textWhenSelected: "Cancelar",
                   isSelect: viewModel.isInUse,
-                  onAction: () async =>
-                      await viewModel.setClothState(args.card.id, args.card),
+                  onAction: () async => await viewModel.setClothState(
+                      viewModel.cardItem.id, viewModel.cardItem),
                 ),
               ),
               Positioned(
@@ -129,12 +127,12 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  args.card.title,
+                                  viewModel.cardItem.title,
                                   style: AppText.smallHeader,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
-                                  args.card.brand!,
+                                  viewModel.cardItem.brand!,
                                   style: AppText.subHeader,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -150,7 +148,8 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                                 const SizedBox(
                                   height: 4,
                                 ),
-                                Points.ecoScore(points: args.card.ecoScore!),
+                                Points.ecoScore(
+                                    points: viewModel.cardItem.ecoScore!),
                               ],
                             )
                           ],
@@ -170,7 +169,7 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                               height: 30,
                               width: 30,
                               decoration: BoxDecoration(
-                                color: args.card.color,
+                                color: viewModel.cardItem.color,
                                 shape: BoxShape.circle,
                                 boxShadow: const [AppColor.defaultShadow],
                               ),
@@ -187,7 +186,7 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                               width: 12,
                             ),
                             Text(
-                              args.card.size!,
+                              viewModel.cardItem.size!,
                               style: AppText.smallHeader,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -240,5 +239,20 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context, InfoClothViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(
+            color: AppColor.darkGreen,
+          ),
+        ),
+      );
+    }
+
+    return _buildContent(context, viewModel);
   }
 }

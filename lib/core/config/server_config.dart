@@ -5,4 +5,5 @@ class ServerConfig {
   static String websocketUrl = dotenv.env['WEBSOCKETS_URL'] ?? '';
   static String countriesApiKey = dotenv.env['API_KEY_CONTRIES'] ?? '';
   static String blobUrl = dotenv.env['BLOB_URL'] ?? '';
+  static String defaultImage = 'public/default\\default.png';
 }

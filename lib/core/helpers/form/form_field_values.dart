@@ -46,7 +46,8 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   priceItem(value: "priceItem"),
   quantityItem(value: "quantityItem"),
   page(value: "page"),
-  pageSize(value: "pageSize");
+  pageSize(value: "pageSize"),
+  language(value: "language");
 
   final String value;
   const FormFieldValues({required this.value});

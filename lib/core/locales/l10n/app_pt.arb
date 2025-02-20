@@ -123,5 +123,11 @@
   "client_register_register": "Registar",
   "@client_register_register": {},
   "client_register_qr_code": "QR Code",
-  "@client_register_qr_code": {}
+  "@client_register_qr_code": {},
+  "profile_settings_language": "Linguagem",
+  "@profile_settings_language": {},
+  "language_pt": "Português",
+  "@language_pt": {},
+  "language_en": "Inglês",
+  "@language_en": {}
 }

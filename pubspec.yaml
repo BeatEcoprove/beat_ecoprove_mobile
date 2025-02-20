@@ -42,6 +42,8 @@ dependencies:
   # Check the latest version on play store
   in_app_update: ^4.2.3
 
+  rxdart: ^0.28.0
+
 flutter_native_splash:
   android: true
   ios: true

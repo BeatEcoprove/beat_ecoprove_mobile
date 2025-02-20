@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/event_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
+import 'package:beat_ecoprove/core/providers/language_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
@@ -64,6 +65,7 @@ class DependencyInjection {
 
   void registerProviders(GetIt locator) {
     locator.registerSingleton<INotificationProvider>(NotificationProvider());
+    locator.registerSingleton(LanguageProvider());
     locator.registerSingleton(LevelUpProvider());
     locator.registerSingleton(NotificationManager());
     locator.registerSingleton(GroupManager());

@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class InsertResetCodeViewModel extends FormViewModel {
   final INavigationManager _navigationRouter;
@@ -29,7 +30,8 @@ class InsertResetCodeViewModel extends FormViewModel {
     var code = getValue(FormFieldValues.code).value ?? "";
 
     if (code.isEmpty) {
-      setError(FormFieldValues.code, "O código não pode ser vazio");
+      setError(FormFieldValues.code,
+          LocaleContext.get().auth_forgot_password_insert_code_error_empty);
     }
 
     _navigationRouter.replaceTop(AuthRoutes.resetPassword,

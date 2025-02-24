@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
@@ -75,7 +76,8 @@ class LoginViewModel extends FormViewModel {
     var emailValue = email.value ?? "";
 
     if (email.error.isNotEmpty || emailValue.isEmpty) {
-      setError(FormFieldValues.email, "Por favor, introduza um email válido");
+      setError(
+          FormFieldValues.email, LocaleContext.get().auth_login_error_email);
       notifyListeners();
       return;
     }
@@ -85,7 +87,9 @@ class LoginViewModel extends FormViewModel {
 
     if (checkIfEmailExists) {
       return _notificationProvider.showNotification(
-        "O utilizador com o email ${email.value} não existe",
+        LocaleContext.get().auth_login_email_check_part_1 +
+            email.value.toString() +
+            LocaleContext.get().auth_login_email_check_part_2,
         type: NotificationTypes.error,
       );
     }
@@ -108,7 +112,7 @@ class LoginViewModel extends FormViewModel {
     );
 
     _notificationProvider.showNotification(
-      "O pedido foi enviado!",
+      LocaleContext.get().auth_login_request_sended,
       type: NotificationTypes.success,
     );
   }

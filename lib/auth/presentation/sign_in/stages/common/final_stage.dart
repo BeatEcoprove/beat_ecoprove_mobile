@@ -76,7 +76,8 @@ class FinalStage extends Stage<FinalStageViewModel> {
               child: FormattedCheckBox(
                 value: viewModel.isPassword,
                 onChanged: viewModel.setPasswordVisibitlity,
-                title: "Mostrar palavra-chave",
+                title:
+                    LocaleContext.get().auth_final_stage_finish_show_password,
               ),
             ),
           ],

@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 
 class ResetPasswordViewModel extends FormViewModel {
@@ -38,12 +39,12 @@ class ResetPasswordViewModel extends FormViewModel {
     if (password != confirmPassword) {
       setError(
         FormFieldValues.password,
-        "As palavras-chaves devem ser iguais",
+        LocaleContext.get().auth_forgot_password_reset_password_equal_password,
       );
 
       setError(
         FormFieldValues.confirmPassword,
-        "As palavras-chaves devem ser iguais",
+        LocaleContext.get().auth_forgot_password_reset_password_equal_password,
       );
     }
 
@@ -64,12 +65,12 @@ class ResetPasswordViewModel extends FormViewModel {
     if (password != confirmPassword) {
       setError(
         FormFieldValues.password,
-        "As palavras-chaves devem ser iguais",
+        LocaleContext.get().auth_forgot_password_reset_password_equal_password,
       );
 
       setError(
         FormFieldValues.confirmPassword,
-        "As palavras-chaves devem ser iguais",
+        LocaleContext.get().auth_forgot_password_reset_password_equal_password,
       );
     }
 
@@ -97,7 +98,7 @@ class ResetPasswordViewModel extends FormViewModel {
       );
 
       _notificationProvider.showNotification(
-        "Password Alterada com sucesso!",
+        LocaleContext.get().auth_forgot_password_reset_password_changed,
         type: NotificationTypes.success,
       );
 

@@ -87,7 +87,7 @@ class SettingsView extends LinearView<SettingsViewModel> {
                           ),
                         ),
                         SizedBox(
-                          width: totalWidth,
+                          width: totalWidth + 20,
                           height: 75,
                           child: FormattedDropDown(
                             options: Language.getAllLanguages()

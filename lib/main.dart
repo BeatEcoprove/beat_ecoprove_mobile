@@ -76,13 +76,14 @@ class MainApp extends StatefulWidget {
   State<MainApp> createState() => _MainAppState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   AppUpdateInfo? _updateInfo;
 
   @override
   void initState() {
     super.initState();
     _checkForUpdate();
+    WidgetsBinding.instance.addObserver(this);
     DependencyInjection.locator<LanguageProvider>().initializeLanguage();
   }
 
@@ -110,6 +111,22 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  late final LanguageProvider _languageProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _languageProvider = DependencyInjection.locator<LanguageProvider>();
+    _languageProvider.initializeLanguage();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _languageProvider.deviceLanguage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -133,12 +150,13 @@ class _MainAppState extends State<MainApp> {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
-            localeResolutionCallback: (locale, supportedLocales) {
-              DependencyInjection.locator<LanguageProvider>()
-                  .initializeLanguage();
-              return null;
-            },
           );
         });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }

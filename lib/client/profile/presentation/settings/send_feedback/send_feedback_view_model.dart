@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/send_feedback_request.dart';
@@ -59,7 +60,7 @@ class SendFeedbackViewModel extends FormViewModel {
       ));
 
       _notificationProvider.showNotification(
-        "Feedback enviado!",
+        LocaleContext.get().client_profile_settings_send_feedback_sent,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {

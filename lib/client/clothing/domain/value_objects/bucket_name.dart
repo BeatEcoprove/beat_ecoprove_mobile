@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class BucketName {
   final String name;
@@ -7,7 +8,8 @@ class BucketName {
 
   factory BucketName.create(String bucketName) {
     if (bucketName.isEmpty) {
-      throw DomainException("Por favor introduza um nome ao cesto");
+      throw DomainException(
+          LocaleContext.get().client_clothing_domain_bucket_name_empty);
     }
 
     return BucketName._(bucketName);

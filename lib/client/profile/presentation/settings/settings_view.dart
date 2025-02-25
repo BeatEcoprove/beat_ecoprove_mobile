@@ -23,7 +23,7 @@ class SettingsView extends LinearView<SettingsViewModel> {
 
     return Scaffold(
       appBar: StandardHeader(
-        title: "Definições",
+        title: LocaleContext.get().client_profile_settings,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: GoBack(
@@ -48,15 +48,16 @@ class SettingsView extends LinearView<SettingsViewModel> {
                     ),
                     child: InkWell(
                       onTap: () => viewModel.sendFeedback(),
-                      child: const Row(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Enviar Feedback",
+                              LocaleContext.get()
+                                  .client_profile_settings_send_feedback_send,
                               textAlign: TextAlign.start,
                               style: AppText.firstHeader,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward_ios_rounded,
                               color: AppColor.widgetSecondary,
                             ),
@@ -117,11 +118,12 @@ class SettingsView extends LinearView<SettingsViewModel> {
                     ),
                     child: InkWell(
                       onTap: () async => await viewModel.logout(),
-                      child: const Row(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Terminar Sessão",
+                              LocaleContext.get()
+                                  .client_profile_settings_end_session,
                               textAlign: TextAlign.center,
                               style: AppText.firstHeaderWhite,
                             ),

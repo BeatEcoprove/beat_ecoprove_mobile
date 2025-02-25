@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
@@ -20,7 +21,7 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
   Widget build(BuildContext context, TradePointsViewModel viewModel) {
     return Scaffold(
       appBar: StandardHeader(
-        title: 'Prémios',
+        title: LocaleContext.get().client_profile_trade_points_prizes,
         hasSustainablePoints: true,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
@@ -52,7 +53,8 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
                           height: 64,
                         ),
                         FormattedButton(
-                          content: "Confirmar",
+                          content: LocaleContext.get()
+                              .client_profile_trade_points_confirm,
                           textColor: Colors.white,
                           onPress: () => viewModel.tradePoints(),
                         ),
@@ -71,8 +73,8 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
 
     return Column(
       children: [
-        const Text(
-          "Trocar Moedas",
+        Text(
+          LocaleContext.get().client_profile_trade_points_trade_coins,
           style: AppText.titleToScrollSection,
           overflow: TextOverflow.ellipsis,
         ),
@@ -139,8 +141,9 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
 
     return Column(
       children: [
-        const Text(
-          "Eco-Coins para Pontos Sustentáveis",
+        Text(
+          LocaleContext.get()
+              .client_profile_trade_points_trade_eco_coins_to_sustainable_points,
           maxLines: 2,
           textAlign: TextAlign.center,
           style: AppText.titleToScrollSection,
@@ -225,8 +228,9 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
 
     return Column(
       children: [
-        const Text(
-          "Pontos Sustentáveis para Eco-Coins",
+        Text(
+          LocaleContext.get()
+              .client_profile_trade_points_trade_sustainable_points_to_eco_coins,
           maxLines: 2,
           textAlign: TextAlign.center,
           style: AppText.titleToScrollSection,

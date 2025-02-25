@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_profile_view_model.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,9 @@ class ParamsProfileView
               children: [
                 Column(
                   children: [
-                    const Text(
-                      "Nova Conta",
+                    Text(
+                      LocaleContext.get()
+                          .client_profile_change_profile_params_new_account,
                       style: AppText.header,
                     ),
                     Padding(
@@ -41,7 +43,8 @@ class ParamsProfileView
                       child: Column(
                         children: [
                           DefaultFormattedTextField(
-                            hintText: "E-mail",
+                            hintText: LocaleContext.get()
+                                .client_profile_change_profile_params_email,
                             onChange: (email) => viewModel.setEmail(email),
                             initialValue:
                                 viewModel.getValue(FormFieldValues.email).value,
@@ -52,7 +55,8 @@ class ParamsProfileView
                             height: textFieldsGap,
                           ),
                           DefaultFormattedTextField(
-                            hintText: "Palavra-chave",
+                            hintText: LocaleContext.get()
+                                .client_profile_change_profile_params_password,
                             onChange: (password) =>
                                 viewModel.setPassword(password),
                             initialValue: viewModel
@@ -67,7 +71,8 @@ class ParamsProfileView
                             height: textFieldsGap,
                           ),
                           DefaultFormattedTextField(
-                            hintText: "Confirmar palavra-chave",
+                            hintText: LocaleContext.get()
+                                .client_profile_change_profile_params_confirm_password,
                             onChange: (confirmPassword) =>
                                 viewModel.setConfirmPassword(confirmPassword),
                             initialValue: viewModel
@@ -84,7 +89,8 @@ class ParamsProfileView
                   ],
                 ),
                 FormattedButton(
-                  content: "Criar",
+                  content: LocaleContext.get()
+                      .client_profile_change_profile_params_create,
                   textColor: Colors.white,
                   onPress: () async => await viewModel.promoteProfile(
                     args.params,

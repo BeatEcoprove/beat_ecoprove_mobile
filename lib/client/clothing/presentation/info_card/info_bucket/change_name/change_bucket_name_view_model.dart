@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 
 class ChangeBucketNameViewModel extends FormViewModel {
@@ -43,7 +44,8 @@ class ChangeBucketNameViewModel extends FormViewModel {
       ));
 
       _notificationProvider.showNotification(
-        "Cesto atualizado com sucesso!",
+        LocaleContext.get()
+            .client_clothing_info_card_bucket_change_name_updated,
         type: NotificationTypes.success,
       );
 

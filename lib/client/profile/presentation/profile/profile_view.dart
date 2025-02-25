@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
@@ -19,7 +20,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
   Widget build(BuildContext context, ProfileViewModel viewModel) {
     return Scaffold(
       appBar: StandardHeader(
-        title: "Perfil",
+        title: LocaleContext.get().client_profile_profile,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSustainablePoints: false,
         hasSettings: true,
@@ -112,8 +113,8 @@ class ProfileView extends LinearView<ProfileViewModel> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Eco-Score",
+                Text(
+                  LocaleContext.get().client_profile_profile_eco_score,
                   textAlign: TextAlign.center,
                   style: AppText.smallSubHeader,
                 ),
@@ -168,8 +169,8 @@ class ProfileView extends LinearView<ProfileViewModel> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Eco-Score",
+                Text(
+                  LocaleContext.get().client_profile_profile_eco_score,
                   textAlign: TextAlign.center,
                   style: AppText.smallSubHeader,
                 ),
@@ -184,8 +185,8 @@ class ProfileView extends LinearView<ProfileViewModel> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Pontos Sustentáveis",
+              Text(
+                LocaleContext.get().client_profile_profile_sustainable_points,
                 textAlign: TextAlign.center,
                 style: AppText.smallSubHeader,
               ),
@@ -200,8 +201,8 @@ class ProfileView extends LinearView<ProfileViewModel> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Eco-Coins",
+              Text(
+                LocaleContext.get().client_profile_profile_eco_coins,
                 textAlign: TextAlign.center,
                 style: AppText.smallSubHeader,
               ),
@@ -262,10 +263,10 @@ class ProfileView extends LinearView<ProfileViewModel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
+            Row(
               children: [
                 Text(
-                  "Medalhas",
+                  LocaleContext.get().client_profile_profile_medals,
                   style: AppText.titleToScrollSection,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -274,8 +275,8 @@ class ProfileView extends LinearView<ProfileViewModel> {
             Container(
               margin: const EdgeInsets.only(right: 12),
               child: GestureDetector(
-                child: const Text(
-                  "Ver Mais",
+                child: Text(
+                  LocaleContext.get().client_profile_profile_see_more,
                   textAlign: TextAlign.center,
                   style: AppText.underlineStyle,
                 ),
@@ -289,8 +290,8 @@ class ProfileView extends LinearView<ProfileViewModel> {
         else
           Container(
             margin: const EdgeInsetsDirectional.all(16),
-            child: const Text(
-              "Não tem nenhuma medalha!",
+            child: Text(
+              LocaleContext.get().client_profile_profile_no_medals,
               textAlign: TextAlign.center,
               style: AppText.subHeader,
             ),

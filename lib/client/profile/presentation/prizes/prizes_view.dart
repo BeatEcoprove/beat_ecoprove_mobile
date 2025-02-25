@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/advets_card/advert_header.dart';
@@ -24,7 +25,7 @@ class PrizesView extends LinearView<PrizesViewModel> {
   Widget build(BuildContext context, PrizesViewModel viewModel) {
     return Scaffold(
       appBar: StandardHeader(
-        title: 'Prémios',
+        title: LocaleContext.get().client_profile_prizes_prizes,
         hasSustainablePoints: true,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
@@ -67,12 +68,12 @@ class PrizesView extends LinearView<PrizesViewModel> {
                     // const SizedBox(
                     //   height: 18,
                     // ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            "Recomendados para si",
+                            LocaleContext.get().client_profile_prizes_recommend,
                             style: AppText.titleToScrollSection,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -117,18 +118,19 @@ class PrizesView extends LinearView<PrizesViewModel> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Trocar Pontos',
+                    LocaleContext.get().client_profile_prizes_trade_points,
                     style: AppText.headerBlack,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    'Clique aqui para trocar pontos',
+                    LocaleContext.get()
+                        .client_profile_prizes_trade_points_button,
                     style: AppText.subHeader,
                     overflow: TextOverflow.ellipsis,
                   )
@@ -175,7 +177,7 @@ class PrizesView extends LinearView<PrizesViewModel> {
   }
 
   Widget _categoriesCards() {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SizedBox(
         height: 150,
@@ -186,15 +188,15 @@ class PrizesView extends LinearView<PrizesViewModel> {
               colorBorder: AppColor.widgetBackground,
               dimension: 120,
               colorBackground: AppColor.widgetBackground,
-              object: SvgImage(
+              object: const SvgImage(
                 path: 'assets/services/dry.svg',
                 width: 60,
                 height: 60,
                 color: AppColor.buttonBackground,
               ),
-              title: 'Secar',
+              title: LocaleContext.get().client_profile_prizes_dry,
             ),
-            SizedBox(
+            const SizedBox(
               width: 6,
             ),
             ServiceButton(
@@ -202,15 +204,15 @@ class PrizesView extends LinearView<PrizesViewModel> {
               colorBorder: AppColor.widgetBackground,
               dimension: 120,
               colorBackground: AppColor.widgetBackground,
-              object: SvgImage(
+              object: const SvgImage(
                 path: 'assets/services/wash.svg',
                 width: 70,
                 height: 70,
                 color: AppColor.buttonBackground,
               ),
-              title: 'Lavar',
+              title: LocaleContext.get().client_profile_prizes_wash,
             ),
-            SizedBox(
+            const SizedBox(
               width: 6,
             ),
             ServiceButton(
@@ -218,15 +220,15 @@ class PrizesView extends LinearView<PrizesViewModel> {
               colorBorder: AppColor.widgetBackground,
               dimension: 120,
               colorBackground: AppColor.widgetBackground,
-              object: SvgImage(
+              object: const SvgImage(
                 path: 'assets/services/iron.svg',
                 width: 60,
                 height: 60,
                 color: AppColor.buttonBackground,
               ),
-              title: 'Engomar',
+              title: LocaleContext.get().client_profile_prizes_iron,
             ),
-            SizedBox(
+            const SizedBox(
               width: 6,
             ),
             ServiceButton(
@@ -234,15 +236,15 @@ class PrizesView extends LinearView<PrizesViewModel> {
               colorBorder: AppColor.widgetBackground,
               dimension: 120,
               colorBackground: AppColor.widgetBackground,
-              object: SvgImage(
+              object: const SvgImage(
                 path: 'assets/services/repair.svg',
                 width: 60,
                 height: 60,
                 color: AppColor.buttonBackground,
               ),
-              title: 'Reparar',
+              title: LocaleContext.get().client_profile_prizes_repair,
             ),
-            SizedBox(
+            const SizedBox(
               width: 6,
             ),
           ],

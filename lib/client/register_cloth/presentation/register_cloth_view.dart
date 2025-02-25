@@ -213,7 +213,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
       child: Padding(
         padding: const EdgeInsets.only(top: 16),
         child: FormattedButton(
-          content: "QR Code",
+          content: LocaleContext.get().client_register_cloth_qr_code,
           textColor: AppColor.buttonBackground,
           buttonColor: AppColor.widgetBackground,
           onPress: () => viewModel.goToReadQRCode(),

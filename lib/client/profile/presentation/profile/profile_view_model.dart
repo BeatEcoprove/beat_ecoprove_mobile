@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
@@ -46,7 +47,7 @@ class ProfileViewModel extends ViewModel implements Clone {
     _navigationRouter.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
-        title: "Minhas Medalhas",
+        title: LocaleContext.get().client_profile_profile_my_medals,
         numberMaxItemsPage: 500,
         onSearch: (searchTerm, vm) async {
           return medalItems

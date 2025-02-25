@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/client/clothing/contracts/action_result.dart';
 import 'package:beat_ecoprove/client/clothing/domain/models/service_state.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,8 @@ class CurrentServiceResult {
         image: ServerImage(badge),
       ),
       services: {
-        "Encerre a ação de forma a concluí-la": [
+        LocaleContext.get()
+            .client_clothing_contracts_current_service_finish_action: [
           ServiceItem(
             foregroundColor: AppColor.buttonBackground,
             borderColor: AppColor.buttonBackground,

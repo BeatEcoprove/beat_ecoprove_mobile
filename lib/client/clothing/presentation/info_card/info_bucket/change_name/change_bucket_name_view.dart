@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
@@ -45,8 +46,9 @@ class ChangeBucketNameView
                         const SizedBox(
                           height: 64,
                         ),
-                        const Text(
-                          "Alterar Nome do Cesto",
+                        Text(
+                          LocaleContext.get()
+                              .client_clothing_info_card_bucket_change_name_alter_name,
                           style: AppText.header,
                         ),
                         Padding(
@@ -54,7 +56,8 @@ class ChangeBucketNameView
                           child: Column(
                             children: [
                               DefaultFormattedTextField(
-                                hintText: "Nome do cesto",
+                                hintText: LocaleContext.get()
+                                    .client_clothing_info_card_bucket_change_name_name,
                                 onChange: (name) => viewModel.setName(name),
                                 inputFormatter: [
                                   LengthLimitingTextInputFormatter(50),
@@ -77,7 +80,8 @@ class ChangeBucketNameView
                           height: 156,
                         ),
                         FormattedButton(
-                          content: "Alterar",
+                          content: LocaleContext.get()
+                              .client_clothing_info_card_bucket_change_name_alter,
                           textColor: Colors.white,
                           onPress: () async =>
                               await viewModel.changeBucketName(args.bucket),

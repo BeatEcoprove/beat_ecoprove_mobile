@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/overlay_widget_with_button.dart';
@@ -24,7 +25,8 @@ class InfoClothServiceViewAlt
 
   Widget createBucketCard() {
     return DefaultFormattedTextField(
-      hintText: "Nome do cesto",
+      hintText:
+          LocaleContext.get().client_clothing_info_card_services_bucket_name,
       onChange: (name) => viewModel.setName(name),
       initialValue: viewModel.getValue(FormFieldValues.name).value,
       errorMessage: viewModel.getValue(FormFieldValues.name).error,
@@ -43,8 +45,9 @@ class InfoClothServiceViewAlt
       action: () async {
         await viewModel.registerBucket(args.index);
       },
-      titleModal: "Criar Cesto",
-      buttonText: "Criar",
+      titleModal:
+          LocaleContext.get().client_clothing_info_card_services_create_bucket,
+      buttonText: LocaleContext.get().client_clothing_info_card_services_create,
     ).create(
       context,
       createBucketCard(),
@@ -63,7 +66,7 @@ class InfoClothServiceViewAlt
           foregroundColor: AppColor.buttonBackground,
           borderColor: AppColor.widgetBackground,
           backgroundColor: AppColor.widgetBackground,
-          title: "Cesto",
+          title: LocaleContext.get().client_clothing_info_card_services_bucket,
           idText: "bucket",
           content: const SvgImage(
             path: "assets/services/bucket.svg",
@@ -72,12 +75,14 @@ class InfoClothServiceViewAlt
             color: AppColor.buttonBackground,
           ),
           services: {
-            "Em que cesto pretende adicionar esta peça?": [
+            LocaleContext.get().client_clothing_info_card_services_add_garment:
+                [
               ServiceItem(
                 foregroundColor: AppColor.buttonBackground,
                 borderColor: AppColor.widgetBackground,
                 backgroundColor: AppColor.widgetBackground,
-                title: "Novo cesto",
+                title: LocaleContext.get()
+                    .client_clothing_info_card_services_new_bucket,
                 idText: "bucket_new_bucket",
                 content: const Icon(
                   Icons.add,
@@ -95,7 +100,7 @@ class InfoClothServiceViewAlt
       ServiceItem(
         foregroundColor: AppColor.buttonBackground,
         borderColor: AppColor.widgetBackground,
-        title: "Enviar para reciclagem",
+        title: LocaleContext.get().client_clothing_info_card_services_recycle,
         idText: "recycle",
         backgroundColor: AppColor.widgetBackground,
         content: const SvgImage(
@@ -110,7 +115,7 @@ class InfoClothServiceViewAlt
       ServiceItem(
         foregroundColor: AppColor.buttonBackground,
         borderColor: AppColor.widgetBackground,
-        title: "Colocar no lixo",
+        title: LocaleContext.get().client_clothing_info_card_services_trash,
         idText: "trash",
         backgroundColor: AppColor.widgetBackground,
         content: const SvgImage(
@@ -148,7 +153,8 @@ class InfoClothServiceViewAlt
                     ),
                     child: WrapServices(
                       title: title,
-                      noResultsText: "Não existem serviços disponíveis!",
+                      noResultsText: LocaleContext.get()
+                          .client_clothing_info_card_services_no_services,
                       services: formatServices(
                         args.index,
                         viewModel.cardItem.hasChildren,

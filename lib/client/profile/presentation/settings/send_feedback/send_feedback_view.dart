@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/client/profile/presentation/settings/send_feedback/send_feedback_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -32,8 +33,9 @@ class SendFeedbackView extends LinearView<SendFeedbackViewModel> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Text(
-                        "Enviar Feedback",
+                      Text(
+                        LocaleContext.get()
+                            .client_profile_settings_send_feedback_send,
                         textAlign: TextAlign.center,
                         style: AppText.titleToScrollSection,
                       ),
@@ -41,7 +43,8 @@ class SendFeedbackView extends LinearView<SendFeedbackViewModel> {
                         height: 64,
                       ),
                       DefaultFormattedTextField(
-                        hintText: "Título",
+                        hintText: LocaleContext.get()
+                            .client_profile_settings_send_feedback_title,
                         onChange: (name) async => viewModel.setName(name),
                         initialValue:
                             viewModel.getValue(FormFieldValues.name).value,
@@ -52,7 +55,8 @@ class SendFeedbackView extends LinearView<SendFeedbackViewModel> {
                         height: 26,
                       ),
                       DefaultFormattedTextField(
-                        hintText: "Descrição",
+                        hintText: LocaleContext.get()
+                            .client_profile_settings_send_feedback_description,
                         onChange: (description) async =>
                             viewModel.setDescription(description),
                         initialValue: viewModel
@@ -66,7 +70,8 @@ class SendFeedbackView extends LinearView<SendFeedbackViewModel> {
                         height: 64,
                       ),
                       FormattedButton(
-                        content: "Enviar",
+                        content: LocaleContext.get()
+                            .client_profile_settings_send_feedback_button,
                         textColor: Colors.white,
                         disabled: viewModel.thereAreErrors,
                         onPress: () async => await viewModel.sendFeedback(),

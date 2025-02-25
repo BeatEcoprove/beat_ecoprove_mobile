@@ -22,6 +22,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
@@ -89,7 +90,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
 
     if (arg == null) {
       _notificationProvider.showNotification(
-        "Roupa não encontrada!",
+        LocaleContext.get()
+            .client_clothing_info_card_services_garment_not_found,
         type: NotificationTypes.success,
       );
       _navigationManager.pop();
@@ -170,7 +172,7 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
 
     if (clothIds.isEmpty) {
       return _notificationProvider.showNotification(
-        "Todas as peças estão bloqueadas!",
+        LocaleContext.get().client_clothing_info_card_services_garments_blocked,
         type: NotificationTypes.warning,
       );
     }
@@ -192,7 +194,7 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
 
       if (clothOfBucket.any((cloth) => cloth.clothState == ClothStates.inUse)) {
         _notificationProvider.showNotification(
-          "Possuí pelo menos uma roupa em uso!",
+          LocaleContext.get().client_clothing_info_card_services_garment_in_use,
           type: NotificationTypes.warning,
         );
         return;
@@ -217,7 +219,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
       if (clothStates.isNotEmpty && result.length > clothStates.length) {
         if (clothStates.length != 1) {
           _notificationProvider.showNotification(
-            "Uma ou mais roupas estão em manutenção!",
+            LocaleContext.get()
+                .client_clothing_info_card_services_garment_in_service,
             type: NotificationTypes.warning,
           );
 
@@ -262,7 +265,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
           await Future.wait(processes);
 
           _notificationProvider.showNotification(
-            "Ação registada!",
+            LocaleContext.get()
+                .client_clothing_info_card_services_action_registered,
             type: NotificationTypes.success,
           );
           break;
@@ -278,7 +282,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
           await Future.wait(processes);
 
           _notificationProvider.showNotification(
-            "Ação desmarcada!",
+            LocaleContext.get()
+                .client_clothing_info_card_services_action_unchecked,
             type: NotificationTypes.success,
           );
 
@@ -306,7 +311,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
       CoreRoutes.qrCode,
       extras: QRCodeParams(
         data: clothUrl,
-        textButton: "Lojas",
+        textButton:
+            LocaleContext.get().client_clothing_info_card_services_stores,
         action: () => {},
       ),
     );
@@ -352,7 +358,7 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
       );
 
       _notificationProvider.showNotification(
-        "Cesto criado!",
+        LocaleContext.get().client_clothing_info_card_services_bucket_created,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -376,7 +382,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
       ));
 
       _notificationProvider.showNotification(
-        "Peça/s adicionada/s ao cesto com sucesso!",
+        LocaleContext.get()
+            .client_clothing_info_card_services_garment_added_bucket,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -416,7 +423,8 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
 
       if (clothes.isEmpty) {
         return _notificationProvider.showNotification(
-          "Todas as peças estão bloqueadas",
+          LocaleContext.get()
+              .client_clothing_info_card_services_garments_blocked,
           type: NotificationTypes.warning,
         );
       }
@@ -428,7 +436,7 @@ class InfoClothServiceViewModelAlt extends FormViewModel<InfoClothServiceParams>
       }
 
       _notificationProvider.showNotification(
-        "Removido com sucesso!",
+        LocaleContext.get().client_clothing_info_card_services_removed,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {

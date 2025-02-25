@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
@@ -68,7 +69,8 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                 child: WithOptionsFooter(
                   options: [
                     OptionItem(
-                      name: "Histórico de Ações",
+                      name: LocaleContext.get()
+                          .client_clothing_info_card_cloth_actions_history,
                       action: () => viewModel.getClothHistory(),
                     ),
                   ],
@@ -93,8 +95,13 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                 top: 185,
                 child: RoundedButton(
                   disabled: viewModel.disableButton,
-                  text: viewModel.disableButton ? "Bloqueado" : "Utilizar",
-                  textWhenSelected: "Cancelar",
+                  text: viewModel.disableButton
+                      ? LocaleContext.get()
+                          .client_clothing_info_card_cloth_blocked
+                      : LocaleContext.get()
+                          .client_clothing_info_card_cloth_in_use,
+                  textWhenSelected: LocaleContext.get()
+                      .client_clothing_info_card_cloth_cancel,
                   isSelect: viewModel.isInUse,
                   onAction: () async => await viewModel.setClothState(
                       viewModel.cardItem.id, viewModel.cardItem),
@@ -140,8 +147,9 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                             ),
                             Column(
                               children: [
-                                const Text(
-                                  "Eco-Score",
+                                Text(
+                                  LocaleContext.get()
+                                      .client_clothing_info_card_cloth_eco_score,
                                   style: AppText.smallSubHeader,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -157,8 +165,9 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            const Text(
-                              "Color:",
+                            Text(
+                              LocaleContext.get()
+                                  .client_clothing_info_card_cloth_color,
                               style: AppText.strongStyle,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -177,8 +186,9 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                             const SizedBox(
                               width: 36,
                             ),
-                            const Text(
-                              "Tamanho:",
+                            Text(
+                              LocaleContext.get()
+                                  .client_clothing_info_card_cloth_size,
                               style: AppText.strongStyle,
                               overflow: TextOverflow.ellipsis,
                             ),

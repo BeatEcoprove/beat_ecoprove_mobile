@@ -1,19 +1,20 @@
 import 'package:beat_ecoprove/client/clothing/domain/models/row_filter.dart';
 import 'package:beat_ecoprove/client/clothing/domain/models/filter.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:flutter/material.dart';
 
 Map<String, String> clothes = {
-  "jeans": "Calças",
-  "jackets": "Casacos",
-  "tshirts": "T-shirts",
-  "shirts": "Camisas",
-  "skirts": "Saias",
+  "jeans": LocaleContext.get().client_clothing_domain_data_filters_jeans,
+  "jackets": LocaleContext.get().client_clothing_domain_data_filters_jackets,
+  "tshirts": LocaleContext.get().client_clothing_domain_data_filters_t_shirts,
+  "shirts": LocaleContext.get().client_clothing_domain_data_filters_shirts,
+  "skirts": LocaleContext.get().client_clothing_domain_data_filters_skirts,
 };
 
 List<RowFilter> optionsToFilter = [
   RowFilter(
-    title: "Tamanho",
+    title: LocaleContext.get().client_clothing_domain_data_filters_size,
     options: [
       Filter(
         text: "size_xs",

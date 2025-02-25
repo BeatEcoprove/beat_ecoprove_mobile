@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +77,8 @@ class LevelProgress extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Nível",
+                        Text(
+                          LocaleContext.get().core_level_up_level,
                           style: AppText.superSmallSubHeader,
                         ),
                         Text(

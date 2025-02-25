@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/cloth.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/image_title_subtitle_header.dart';
@@ -88,7 +89,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
               _otherProfileImageWidget(50, null, 16, 54),
             if (isClothInUse()) _inUseBadge(35, null, 16, 54 + extraDistance),
           ]),
-          text: "Tem a certeza que pretende remover esta peça de roupa?",
+          text: LocaleContext.get().core_widgets_cloth_card_remove_garment,
           firstAction: () {
             widget.cardSelectedToDelete(id);
             Navigator.of(context).pop();
@@ -337,7 +338,7 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
 
     options = [
       OptionItem(
-        name: 'Remover',
+        name: LocaleContext.get().core_remove,
         action: () => {
           if (widget.buttonAction != null)
             {

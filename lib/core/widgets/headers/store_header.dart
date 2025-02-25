@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,7 @@ class StoreHeader extends Header {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      "$numberMembers funcionários",
+                      "$numberMembers ${LocaleContext.get().core_widgets_store_header}",
                       style: AppText.subHeader,
                       overflow: TextOverflow.ellipsis,
                     ),

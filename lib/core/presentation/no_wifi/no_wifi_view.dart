@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/no_wifi/no_wifi_view_model.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -40,8 +41,8 @@ class NoWifiView extends LinearView<NoWifiViewModel> {
                                 SizedBox(
                                   height: (gapHeight / 3) - 16,
                                 ),
-                                const Text(
-                                  "Sem Internet!",
+                                Text(
+                                  LocaleContext.get().core_no_wifi,
                                   style: AppText.header,
                                   overflow: TextOverflow.ellipsis,
                                 ),

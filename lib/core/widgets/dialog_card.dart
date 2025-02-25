@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ class DialogCard extends StatelessWidget {
               height: 14,
             ),
             FormattedButton(
-              content: "Remover",
+              content: LocaleContext.get().core_remove,
               buttonColor: AppColor.buttonBackground,
               textColor: AppColor.widgetBackground,
               height: 46,
@@ -59,7 +60,7 @@ class DialogCard extends StatelessWidget {
               height: 6,
             ),
             FormattedButton(
-              content: "Cancelar",
+              content: LocaleContext.get().core_cancel,
               buttonColor: AppColor.widgetBackground,
               textColor: AppColor.black,
               height: 46,

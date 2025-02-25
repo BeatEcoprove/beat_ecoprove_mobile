@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/compact_list_item_header.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
@@ -46,8 +47,8 @@ class ProfileHeader extends CompactListItemHeader {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Nível",
+              Text(
+                LocaleContext.get().core_level_up_level,
                 style: AppText.textButton,
                 overflow: TextOverflow.ellipsis,
               ),

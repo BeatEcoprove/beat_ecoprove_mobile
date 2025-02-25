@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/filter_card_type.dart';
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list_base.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,9 @@ class HorizontalSelectorList extends HorizontalSelectorListBase {
 class _HorizontalSelectorListState
     extends HorizontalSelectorListBaseState<HorizontalSelectorList> {
   @override
-  final Map<String, String> items = {"all": "Tudo"};
+  final Map<String, String> items = {
+    "all": LocaleContext.get().core_widgets_horizontal_selector_all
+  };
   late int selectedIndex = 0;
 
   @override

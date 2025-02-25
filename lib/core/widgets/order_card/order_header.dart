@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
 import 'package:beat_ecoprove/core/widgets/order_card/order_card_item.dart';
@@ -97,7 +98,7 @@ class OrderHeader extends OrderCardItem {
                 maxLines: 1,
               ),
               Text(
-                "Quantidade: ${(cloth.child as List<dynamic>).length}",
+                "${LocaleContext.get().core_widgets_order_header_quantity} ${(cloth.child as List<dynamic>).length}",
                 style: AppText.subHeader,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 10,
@@ -154,8 +155,8 @@ class OrderHeader extends OrderCardItem {
               ),
               Row(
                 children: [
-                  const Text(
-                    "Color:",
+                  Text(
+                    LocaleContext.get().client_clothing_info_card_cloth_color,
                     style: AppText.strongStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -178,8 +179,8 @@ class OrderHeader extends OrderCardItem {
               ),
               Row(
                 children: [
-                  const Text(
-                    "Tamanho:",
+                  Text(
+                    LocaleContext.get().client_clothing_info_card_cloth_size,
                     style: AppText.strongStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -199,8 +200,8 @@ class OrderHeader extends OrderCardItem {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Eco-Score",
+                  Text(
+                    LocaleContext.get().core_eco_score,
                     style: AppText.smallSubHeader,
                     overflow: TextOverflow.ellipsis,
                   ),

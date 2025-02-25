@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -33,8 +34,8 @@ class QRCode extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "QRCode",
+              Text(
+                LocaleContext.get().core_qr_code,
                 style: AppText.titleToScrollSection,
                 overflow: TextOverflow.ellipsis,
               ),

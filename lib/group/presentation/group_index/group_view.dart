@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/with_text_footer.dart';
@@ -25,7 +26,7 @@ class GroupView extends LinearView<GroupViewModel> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader.searchBar(
-        title: "Grupos",
+        title: LocaleContext.get().group_group_chat_groups,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSustainablePoints: false,
         hasSettings: false,
@@ -57,16 +58,18 @@ class GroupView extends LinearView<GroupViewModel> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "Grupos Globais",
+                              Text(
+                                LocaleContext.get()
+                                    .group_group_chat_global_groups,
                                 style: AppText.titleToScrollSection,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Container(
                                 margin: const EdgeInsets.only(right: 12),
                                 child: GestureDetector(
-                                  child: const Text(
-                                    "Ver Mais",
+                                  child: Text(
+                                    LocaleContext.get()
+                                        .group_group_chat_see_more,
                                     textAlign: TextAlign.center,
                                     style: AppText.underlineStyle,
                                   ),
@@ -146,9 +149,13 @@ class GroupView extends LinearView<GroupViewModel> {
                     ),
                   ),
                   title: e.name,
-                  subTitle: "${e.membersCount} membros",
+                  subTitle:
+                      "${e.membersCount} ${LocaleContext.get().group_group_chat_members}",
                 ),
-                WithTextFooter(text: e.isPublic ? "Público" : "Privado"),
+                WithTextFooter(
+                    text: e.isPublic
+                        ? LocaleContext.get().group_domain_type_public
+                        : LocaleContext.get().group_domain_type_private),
               ],
             ),
           ),
@@ -161,16 +168,16 @@ class GroupView extends LinearView<GroupViewModel> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            "Meus Grupos",
+          Text(
+            LocaleContext.get().group_group_chat_my_groups,
             style: AppText.titleToScrollSection,
             overflow: TextOverflow.ellipsis,
           ),
           Container(
             margin: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              child: const Text(
-                "Ver Mais",
+              child: Text(
+                LocaleContext.get().group_group_chat_see_more,
                 textAlign: TextAlign.center,
                 style: AppText.underlineStyle,
               ),

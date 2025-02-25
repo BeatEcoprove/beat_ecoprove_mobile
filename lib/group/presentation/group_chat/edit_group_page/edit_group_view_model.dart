@@ -5,12 +5,14 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/update_group_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/update_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_description.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_name.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -36,7 +38,7 @@ class EditGroupViewModel extends FormViewModel {
     ]);
     setValue(FormFieldValues.groupName, '');
     setValue(FormFieldValues.groupDescription, '');
-    setValue(FormFieldValues.groupIsPublic, 'Público');
+    setValue(FormFieldValues.groupIsPublic, GroupType.public);
     setValue(FormFieldValues.groupPicture, XFile(defaultImage));
   }
 
@@ -92,12 +94,12 @@ class EditGroupViewModel extends FormViewModel {
         _groupDetails.id,
         getValue(FormFieldValues.groupName).value ?? '',
         getValue(FormFieldValues.groupDescription).value ?? '',
-        getValue(FormFieldValues.groupIsPublic).value ?? "Público",
+        getValue(FormFieldValues.groupIsPublic).value ?? '',
         getValue(FormFieldValues.groupPicture).value ?? '',
       ));
 
       _notificationProvider.showNotification(
-        "Grupo atualizado!",
+        LocaleContext.get().group_group_chat_edit_group_updated,
         type: NotificationTypes.success,
       );
       _navigationRouter.pop();

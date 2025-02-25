@@ -2,11 +2,13 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/avatar_chooser/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_view_model.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +46,9 @@ class EditGroupView extends ArgumentView<EditGroupViewModel, EditGroupParams> {
                             const SizedBox(
                               height: 112,
                             ),
-                            const Text(
-                              "Criar um Grupo",
+                            Text(
+                              LocaleContext.get()
+                                  .group_group_chat_edit_group_create_group,
                               style: AppText.header,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -62,7 +65,8 @@ class EditGroupView extends ArgumentView<EditGroupViewModel, EditGroupParams> {
                               height: 36,
                             ),
                             DefaultFormattedTextField(
-                              hintText: "Novo Nome",
+                              hintText: LocaleContext.get()
+                                  .group_group_chat_edit_group_new_name,
                               inputFormatter: [
                                 LengthLimitingTextInputFormatter(25),
                               ],
@@ -79,7 +83,8 @@ class EditGroupView extends ArgumentView<EditGroupViewModel, EditGroupParams> {
                               height: 12,
                             ),
                             DefaultFormattedTextField(
-                              hintText: "Nova Descrição",
+                              hintText: LocaleContext.get()
+                                  .group_group_chat_edit_group_new_description,
                               inputFormatter: [
                                 LengthLimitingTextInputFormatter(100),
                               ],
@@ -96,18 +101,23 @@ class EditGroupView extends ArgumentView<EditGroupViewModel, EditGroupParams> {
                               height: 12,
                             ),
                             FormattedDropDown(
-                              options: const ['Público', 'Privado'],
+                              options: GroupType.getAllTypes()
+                                  .map((e) => e.displayValue)
+                                  .toList(),
                               value: viewModel
                                   .getValue(FormFieldValues.groupIsPublic)
-                                  .value,
+                                  .value
+                                  .toString(),
                               onValueChanged: (value) => viewModel.setValue(
-                                  FormFieldValues.groupIsPublic, value),
+                                  FormFieldValues.groupIsPublic,
+                                  GroupType.getOfDisplayValue(value)),
                             ),
                             const SizedBox(
                               height: 64,
                             ),
                             FormattedButton(
-                              content: "Confirmar",
+                              content: LocaleContext.get()
+                                  .group_group_chat_edit_group_confirm,
                               textColor: Colors.white,
                               disabled: viewModel.thereAreErrors,
                               onPress: () async =>

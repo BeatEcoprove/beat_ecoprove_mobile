@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class GroupDescription {
   final String description;
@@ -7,7 +8,7 @@ class GroupDescription {
 
   factory GroupDescription.create(String groupDescription) {
     if (groupDescription.isEmpty) {
-      throw DomainException("Por favor introduza uma descrição ao grupo");
+      throw DomainException(LocaleContext.get().group_domain_group_description);
     }
 
     return GroupDescription._(groupDescription);

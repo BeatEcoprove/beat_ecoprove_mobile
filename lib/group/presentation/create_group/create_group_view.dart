@@ -1,12 +1,14 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/avatar_chooser/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:beat_ecoprove/group/presentation/create_group/create_group_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,8 +41,8 @@ class CreateGroupView extends LinearView<CreateGroupViewModel> {
                           const SizedBox(
                             height: 112,
                           ),
-                          const Text(
-                            "Criar um Grupo",
+                          Text(
+                            LocaleContext.get().group_create_group_create,
                             style: AppText.header,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -57,7 +59,8 @@ class CreateGroupView extends LinearView<CreateGroupViewModel> {
                             height: 36,
                           ),
                           DefaultFormattedTextField(
-                            hintText: "Nome",
+                            hintText:
+                                LocaleContext.get().group_create_group_name,
                             inputFormatter: [
                               LengthLimitingTextInputFormatter(25),
                             ],
@@ -74,7 +77,8 @@ class CreateGroupView extends LinearView<CreateGroupViewModel> {
                             height: 12,
                           ),
                           DefaultFormattedTextField(
-                            hintText: "Descrição",
+                            hintText: LocaleContext.get()
+                                .group_create_group_description,
                             inputFormatter: [
                               LengthLimitingTextInputFormatter(100),
                             ],
@@ -91,18 +95,23 @@ class CreateGroupView extends LinearView<CreateGroupViewModel> {
                             height: 12,
                           ),
                           FormattedDropDown(
-                            options: const ['Público', 'Privado'],
+                            options: GroupType.getAllTypes()
+                                .map((e) => e.displayValue)
+                                .toList(),
                             value: viewModel
                                 .getValue(FormFieldValues.groupIsPublic)
-                                .value,
+                                .value
+                                .toString(),
                             onValueChanged: (value) => viewModel.setValue(
-                                FormFieldValues.groupIsPublic, value),
+                                FormFieldValues.groupIsPublic,
+                                GroupType.getOfDisplayValue(value)),
                           ),
                           const SizedBox(
                             height: 64,
                           ),
                           FormattedButton(
-                            content: "Registar",
+                            content:
+                                LocaleContext.get().group_create_group_register,
                             textColor: Colors.white,
                             disabled: viewModel.thereAreErrors,
                             onPress: () async => viewModel.registerGroup(),

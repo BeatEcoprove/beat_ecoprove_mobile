@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class UserNameInvite {
   final String name;
@@ -7,7 +8,7 @@ class UserNameInvite {
 
   factory UserNameInvite.create(String userNameInvite) {
     if (userNameInvite.isEmpty) {
-      throw DomainException("Por favor introduza um nome de utilizador!");
+      throw DomainException(LocaleContext.get().group_domain_username);
     }
 
     return UserNameInvite._(userNameInvite);

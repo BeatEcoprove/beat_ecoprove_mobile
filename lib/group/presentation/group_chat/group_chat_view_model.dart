@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_borrow_accept_message.dart';
@@ -27,6 +28,7 @@ import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
 import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
 import 'package:beat_ecoprove/group/contracts/register_trade_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:beat_ecoprove/group/routes.dart';
@@ -52,11 +54,11 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
 
   final List<OptionItem> messageOptions = [
     OptionItem(
-      name: "Denunciar Utilizador",
+      name: LocaleContext.get().group_group_chat_report_user,
       action: () => {},
     ),
     OptionItem(
-      name: "Denunciar Mensagem",
+      name: LocaleContext.get().group_group_chat_report_msg,
       action: () => {},
     ),
   ];
@@ -221,7 +223,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
       );
 
       _notificationProvider.showNotification(
-        "Troca realizada com sucesso!",
+        LocaleContext.get().group_group_chat_exchange_done,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -265,7 +267,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
       var text = getValue(FormFieldValues.search).value ?? "";
 
       if (text.isEmpty) {
-        throw DomainException("Digite uma mensagem");
+        throw DomainException(LocaleContext.get().group_group_chat_add_msg);
       }
 
       _sessionWsNotifier.sendMessageOnGroup(groupId, text);
@@ -285,7 +287,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     _navigationRouter.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
-        title: "Selecione uma Roupa para trocar",
+        title: LocaleContext.get().group_group_chat_select_cloth,
         numberMaxItemsPage:
             (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
@@ -333,7 +335,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     try {
       _sessionWsNotifier.sendTradeOfferOnGroup(
         groupId,
-        "Alguém quer trocar esta peça de roupa?",
+        LocaleContext.get().group_group_chat_ask_trade_cloth,
         clothId,
       );
     } on DomainException catch (e) {
@@ -381,7 +383,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
         extras: GroupChatParams(
           groupId: arguments.id,
           title: arguments.name,
-          state: arguments.isPublic ? "Publico" : "Privado",
+          state: arguments.isPublic ? GroupType.public : GroupType.private,
           numberMembers: arguments.membersCount.toString(),
         ),
       );

@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -122,7 +123,7 @@ class GroupViewModel extends FormViewModel implements Clone {
       notifications.remove(notification);
 
       _notificationProvider.showNotification(
-        "Entrou no grupo!",
+        LocaleContext.get().group_group_chat_enter_group,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -147,7 +148,7 @@ class GroupViewModel extends FormViewModel implements Clone {
       notifications.remove(notification);
 
       _notificationProvider.showNotification(
-        "Cancelou o convite!",
+        LocaleContext.get().group_group_chat_cancel_invite,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -205,7 +206,7 @@ class GroupViewModel extends FormViewModel implements Clone {
     _navigationRouter.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
-        title: "Meus Grupos",
+        title: LocaleContext.get().group_group_chat_my_groups,
         numberMaxItemsPage:
             (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
@@ -224,7 +225,7 @@ class GroupViewModel extends FormViewModel implements Clone {
       extras: ListDetailsViewParams(
         numberMaxItemsPage:
             (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
-        title: "Grupos Globais",
+        title: LocaleContext.get().group_group_chat_global_groups,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
           await getGroups(page, pageSize, searchTerm);
 

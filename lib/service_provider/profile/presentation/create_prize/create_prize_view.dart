@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/avatar_chooser/retangular_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/date_picker.dart';
@@ -25,7 +26,8 @@ class CreatePrizeView
     return Column(
       children: [
         DefaultFormattedTextField(
-          hintText: "Quantidade de Vouchers",
+          hintText: LocaleContext.get()
+              .service_provider_profile_create_prize_vouchers_quantity,
           keyboardType: TextInputType.number,
           inputFormatter: [
             LengthLimitingTextInputFormatter(9),
@@ -67,7 +69,8 @@ class CreatePrizeView
                               height: 86,
                             ),
                             DefaultFormattedTextField(
-                              hintText: "Título",
+                              hintText: LocaleContext.get()
+                                  .service_provider_profile_create_prize_title,
                               inputFormatter: [
                                 LengthLimitingTextInputFormatter(25),
                               ],
@@ -84,7 +87,8 @@ class CreatePrizeView
                               height: 12,
                             ),
                             DefaultFormattedTextField(
-                              hintText: "Descrição",
+                              hintText: LocaleContext.get()
+                                  .service_provider_profile_create_prize_description,
                               inputFormatter: [
                                 LengthLimitingTextInputFormatter(500),
                               ],
@@ -102,12 +106,13 @@ class CreatePrizeView
                             ),
                             Column(
                               children: [
-                                const Row(
+                                Row(
                                   children: [
                                     Text(
-                                      "Intervalo",
+                                      LocaleContext.get()
+                                          .service_provider_profile_create_prize_interval,
                                       softWrap: true,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: AppText.title5,
                                         color: AppColor.widgetSecondary,
                                         fontWeight: FontWeight.bold,
@@ -162,12 +167,13 @@ class CreatePrizeView
                                 ),
                                 Column(
                                   children: [
-                                    const Row(
+                                    Row(
                                       children: [
                                         Text(
-                                          "Imagem",
+                                          LocaleContext.get()
+                                              .service_provider_profile_create_prize_image,
                                           softWrap: true,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: AppText.title5,
                                             color: AppColor.widgetSecondary,
                                             fontWeight: FontWeight.bold,
@@ -221,10 +227,11 @@ class CreatePrizeView
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                const Text(
-                                  "Custo",
+                                Text(
+                                  LocaleContext.get()
+                                      .service_provider_profile_create_prize_cost,
                                   softWrap: true,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: AppText.title5,
                                     color: AppColor.widgetSecondary,
                                     fontWeight: FontWeight.bold,
@@ -246,7 +253,8 @@ class CreatePrizeView
                           height: 10,
                         ),
                         FormattedButton(
-                          content: "Criar",
+                          content: LocaleContext.get()
+                              .service_provider_profile_create_create,
                           textColor: Colors.white,
                           disabled: viewModel.thereAreErrors,
                           onPress: () async => viewModel.registerAdvert(),

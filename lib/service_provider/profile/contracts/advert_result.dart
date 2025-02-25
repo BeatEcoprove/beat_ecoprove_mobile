@@ -1,3 +1,5 @@
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
+
 class AdvertResult {
   final String advertId;
   final String advertPicture;
@@ -19,11 +21,14 @@ class AdvertResult {
 
   factory AdvertResult.fromJson(Map<String, dynamic> json) {
     var type = switch (json['type']) {
-      'advertisement' => 'Anúncio',
-      'promotion' => 'Promoção',
-      'voucher' => 'Voucher',
-      Object() => 'Anúncio',
-      null => 'Anúncio'
+      'advertisement' =>
+        LocaleContext.get().service_provider_profile_profile_advertisement,
+      'promotion' =>
+        LocaleContext.get().service_provider_profile_profile_promotion,
+      'voucher' => LocaleContext.get().service_provider_profile_profile_voucher,
+      Object() =>
+        LocaleContext.get().service_provider_profile_profile_advertisement,
+      null => LocaleContext.get().service_provider_profile_profile_advertisement
     };
 
     var result = AdvertResult(

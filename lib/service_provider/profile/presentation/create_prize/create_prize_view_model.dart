@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/service_provider/profile/contracts/register_advert_request.dart';
 import 'package:beat_ecoprove/service_provider/profile/domain/use-cases/register_prize_use_case.dart';
@@ -122,7 +123,7 @@ class CreatePrizeViewModel extends FormViewModel<CreatePrizeParams> {
       await _registerAdvertUseCase.handle(request);
 
       _notificationProvider.showNotification(
-        "Prémio criado com sucesso!",
+        LocaleContext.get().service_provider_profile_create_prize_created,
         type: NotificationTypes.success,
       );
 

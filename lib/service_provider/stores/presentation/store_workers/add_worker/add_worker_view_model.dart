@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -62,8 +63,10 @@ class AddWorkerViewModel extends FormViewModel {
       _navigationRouter.pop();
       _navigationRouter.push(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
-              text: "E-mail enviado!",
-              textButton: "Voltar",
+              text: LocaleContext.get()
+                  .service_provider_stores_store_index_store_workers_add_worker_email_sent,
+              textButton: LocaleContext.get()
+                  .service_provider_stores_store_index_store_workers_add_worker_back,
               action: () => _navigationRouter.pop()));
     } on HttpError catch (e) {
       _notificationProvider.showNotification(

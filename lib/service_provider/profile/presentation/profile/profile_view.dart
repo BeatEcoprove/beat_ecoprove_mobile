@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/payable_prize.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/button_with_icon.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
@@ -24,7 +25,7 @@ class ServiceProviderProfileView
       BuildContext context, ServiceProviderProfileViewModel viewModel) {
     return Scaffold(
       appBar: StandardHeader(
-        title: "Perfil",
+        title: LocaleContext.get().service_provider_profile_profile,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSustainablePoints: false,
         hasSettings: true,
@@ -127,8 +128,9 @@ class ServiceProviderProfileView
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Pontos Sustentáveis",
+              Text(
+                LocaleContext.get()
+                    .service_provider_profile_profile_sustainable_points,
                 textAlign: TextAlign.center,
                 style: AppText.smallSubHeader,
               ),
@@ -181,7 +183,7 @@ List<ServiceTemplate> setUpOptions(ServiceProviderProfileViewModel viewModel) {
   List<ServiceTemplate> possibleOptions = [];
   List<PayablePrizeItem> options = [
     PayablePrizeItem(
-      title: "Anúncio",
+      title: LocaleContext.get().service_provider_profile_profile_advertisement,
       idText: "advertisement",
       content: const Icon(Icons.shopping_cart_outlined,
           color: AppColor.buttonBackground, size: 50),
@@ -194,7 +196,7 @@ List<ServiceTemplate> setUpOptions(ServiceProviderProfileViewModel viewModel) {
       },
     ),
     PayablePrizeItem(
-      title: "Promoção",
+      title: LocaleContext.get().service_provider_profile_profile_promotion,
       idText: "promotion",
       content: const Icon(Icons.discount_rounded,
           color: AppColor.buttonBackground, size: 50),
@@ -208,7 +210,7 @@ List<ServiceTemplate> setUpOptions(ServiceProviderProfileViewModel viewModel) {
     ),
     //local_activity
     PayablePrizeItem(
-      title: "Voucher",
+      title: LocaleContext.get().service_provider_profile_profile_voucher,
       idText: "voucher",
       content: const Icon(Icons.confirmation_num_rounded,
           color: AppColor.buttonBackground, size: 50),
@@ -235,7 +237,7 @@ Widget _options(ServiceProviderProfileViewModel viewModel) {
     runSpacing: 8,
     children: [
       ButtonWithIcon.svg(
-        title: "Prémios",
+        title: LocaleContext.get().service_provider_profile_profile_prizes,
         svg: const SvgImage(
           path: "assets/gift-sharp.svg",
           color: AppColor.widgetBackground,
@@ -245,7 +247,8 @@ Widget _options(ServiceProviderProfileViewModel viewModel) {
         onPress: () => {viewModel.createPrize(setUpOptions(viewModel))},
       ),
       ButtonWithIcon(
-        title: "Anúncios Ativos",
+        title: LocaleContext.get()
+            .service_provider_profile_profile_active_advertisements,
         icon: const Icon(
           Icons.newspaper_sharp,
           color: AppColor.widgetBackground,

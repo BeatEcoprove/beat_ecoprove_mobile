@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_params.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -47,7 +48,7 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
   List<OptionItem> _options(String advertId) {
     return [
       OptionItem(
-        name: "Remover Anúncio",
+        name: LocaleContext.get().service_provider_profile_profile_remove_ad,
         action: () async => await _removeAdvert(advertId),
       ),
     ];
@@ -58,7 +59,7 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
       await _advertsService.removeAdvert(RemoveAdvertRequest(advertId));
 
       _notificationProvider.showNotification(
-        "Anuncio removido!",
+        LocaleContext.get().service_provider_profile_profile_ad_removed,
         type: NotificationTypes.success,
       );
 
@@ -89,7 +90,8 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
       CoreRoutes.listWidget,
       extras: ListWidgetViewParams(
         title: "",
-        noResultsText: "Não existem anúncios!",
+        noResultsText:
+            LocaleContext.get().service_provider_profile_profile_no_ad,
         getContent: (vm) async {
           List<AdvertResult> adverts = [];
           try {
@@ -130,7 +132,8 @@ class ServiceProviderProfileViewModel extends ViewModel implements Clone {
     _navigationRouter.push(
       CoreRoutes.selectService,
       extras: ServiceParams(
-        noResultsText: "Não tem Pontos Sustentáveis para nenhum prémio!",
+        noResultsText:
+            LocaleContext.get().service_provider_profile_profile_no_sp_points,
         services: {
           "": items,
         },

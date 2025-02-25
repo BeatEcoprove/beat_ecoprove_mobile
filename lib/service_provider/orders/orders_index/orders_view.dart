@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_button.dart';
@@ -44,7 +45,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
             children: [
               Expanded(
                 child: DefaultFormattedTextField(
-                  hintText: "Pesquisar",
+                  hintText: LocaleContext.get().core_search,
                   inputFormatter: [
                     LengthLimitingTextInputFormatter(25),
                   ],
@@ -153,8 +154,8 @@ class OrdersView extends LinearView<OrdersViewModel> {
             ? _renderOrders(viewModel.orders)
             : Container(
                 margin: const EdgeInsets.symmetric(vertical: 36),
-                child: const Text(
-                  "Não existe nenhum pedido!",
+                child: Text(
+                  LocaleContext.get().service_provider_orders_index_no_orders,
                   style: AppText.subHeader,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -184,7 +185,7 @@ class OrdersView extends LinearView<OrdersViewModel> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
-        title: "Pedidos",
+        title: LocaleContext.get().service_provider_orders_index_orders,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: AppBackground(

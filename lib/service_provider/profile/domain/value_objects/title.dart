@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class TitleInput {
   final String title;
@@ -7,7 +8,8 @@ class TitleInput {
 
   factory TitleInput.create(String title) {
     if (title.isEmpty) {
-      throw DomainException("Por favor introduza um título");
+      throw DomainException(
+          LocaleContext.get().service_provider_profile_add_title);
     }
 
     return TitleInput._(title);

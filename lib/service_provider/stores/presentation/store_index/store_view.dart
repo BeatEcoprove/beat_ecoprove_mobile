@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_and_text_footer.dart';
@@ -32,7 +33,7 @@ class StoreView extends LinearView<StoreViewModel> {
           children: [
             Expanded(
               child: DefaultFormattedTextField(
-                hintText: "Pesquisar",
+                hintText: LocaleContext.get().core_search,
                 inputFormatter: [
                   LengthLimitingTextInputFormatter(25),
                 ],
@@ -68,17 +69,20 @@ class StoreView extends LinearView<StoreViewModel> {
                             ),
                           ),
                           title: e.name,
-                          subTitle: "${e.numberWorkers} funcionários",
+                          subTitle:
+                              "${e.numberWorkers} ${LocaleContext.get().service_provider_stores_store_index_workers}",
                         ),
                         WithOptionsAndTextFooter(
                           options: [
                             OptionItem(
-                              name: 'Remover',
+                              name: LocaleContext.get()
+                                  .service_provider_stores_store_index_remove,
                               action: () async =>
                                   await viewModel.removeStore(e.id),
                             ),
                           ],
-                          text: "Nível ${e.level}",
+                          text:
+                              "${LocaleContext.get().service_provider_stores_store_index_level} ${e.level}",
                         )
                       ],
                     )
@@ -94,9 +98,12 @@ class StoreView extends LinearView<StoreViewModel> {
                             ),
                           ),
                           title: e.name,
-                          subTitle: "${e.numberWorkers} funcionários",
+                          subTitle:
+                              "${e.numberWorkers} ${LocaleContext.get().service_provider_stores_store_index_workers}",
                         ),
-                        WithTextFooter(text: "Nível ${e.level}")
+                        WithTextFooter(
+                            text:
+                                "${LocaleContext.get().service_provider_stores_store_index_level} ${e.level}")
                       ],
                     ),
             ),
@@ -128,7 +135,7 @@ class StoreView extends LinearView<StoreViewModel> {
 
     return Scaffold(
       appBar: StandardHeader(
-        title: "Lojas",
+        title: LocaleContext.get().service_provider_stores_store_index_stores,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
         hasSettings: false,
       ),
@@ -171,8 +178,9 @@ class StoreView extends LinearView<StoreViewModel> {
                                                 margin:
                                                     const EdgeInsets.symmetric(
                                                         vertical: 36),
-                                                child: const Text(
-                                                  "Não existem lojas!",
+                                                child: Text(
+                                                  LocaleContext.get()
+                                                      .service_provider_stores_store_index_no_stores,
                                                   textAlign: TextAlign.center,
                                                   style: AppText.smallSubHeader,
                                                 ),

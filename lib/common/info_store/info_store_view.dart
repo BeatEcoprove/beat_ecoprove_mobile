@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/common/info_store/info_store_params.dart';
 import 'package:beat_ecoprove/common/info_store/info_store_view_model.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/headers/store_header.dart';
 import 'package:beat_ecoprove/core/widgets/horizontal_selector/horizontal_selector_list_store.dart';
@@ -112,8 +113,8 @@ class InfoStoreView extends ArgumentView<InfoStoreViewModel, InfoStoreParams> {
           )
         : Container(
             margin: const EdgeInsets.symmetric(vertical: 36),
-            child: const Text(
-              "Não existe nenhuma review!",
+            child: Text(
+              LocaleContext.get().common_info_store_no_reviews,
               style: AppText.subHeader,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,

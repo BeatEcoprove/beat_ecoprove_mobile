@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_header/worker_header/worker_can_edit_privilegies_header.dart';
@@ -25,7 +26,8 @@ class StoreWorkersView
   List<OptionItem> _options(String workerId) {
     return [
       OptionItem(
-        name: "Remover",
+        name: LocaleContext.get()
+            .service_provider_stores_store_index_store_workers_remove,
         action: () async => await viewModel.removeWorker(
           args.storeId,
           workerId,
@@ -57,8 +59,9 @@ class StoreWorkersView
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Funcionários",
+                      Text(
+                        LocaleContext.get()
+                            .service_provider_stores_store_index_store_workers_workers,
                         style: AppText.titleToScrollSection,
                         overflow: TextOverflow.ellipsis,
                       ),

@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/avatar_chooser/circle_avatar_chooser.dart';
 import 'package:beat_ecoprove/core/widgets/date_picker.dart';
@@ -38,8 +39,8 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
               children: [
                 Column(
                   children: [
-                    const Text(
-                      "Informações Pessoais",
+                    Text(
+                      LocaleContext.get().client_profile_create_profile_info,
                       style: AppText.header,
                       textAlign: TextAlign.center,
                     ),
@@ -50,7 +51,8 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                       child: Column(
                         children: [
                           DefaultFormattedTextField(
-                            hintText: 'Nome',
+                            hintText: LocaleContext.get()
+                                .client_profile_create_profile_name,
                             inputFormatter: [
                               LengthLimitingTextInputFormatter(50),
                             ],
@@ -71,10 +73,11 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                             children: [
                               SizedBox(
                                 width: halfWidth,
-                                child: const Text(
-                                  "Data de Nascimento",
+                                child: Text(
+                                  LocaleContext.get()
+                                      .client_profile_create_profile_birth_date,
                                   softWrap: true,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: AppText.title5,
                                     color: AppColor.widgetSecondary,
                                     fontWeight: FontWeight.bold,
@@ -107,7 +110,8 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                             height: textBoxGap,
                           ),
                           DefaultFormattedTextField(
-                            hintText: 'Nome de exibição',
+                            hintText: LocaleContext.get()
+                                .client_profile_create_profile_username,
                             inputFormatter: [
                               LengthLimitingTextInputFormatter(18),
                             ],
@@ -138,7 +142,8 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                   ],
                 ),
                 FormattedButton(
-                  content: "Continuar",
+                  content: LocaleContext.get()
+                      .client_profile_create_profile_continue,
                   textColor: Colors.white,
                   disabled: viewModel.thereAreErrors,
                   onPress: () async => await viewModel.registerProfile(),

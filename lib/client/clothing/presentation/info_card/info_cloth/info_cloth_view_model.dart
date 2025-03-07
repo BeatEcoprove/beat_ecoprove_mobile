@@ -13,6 +13,7 @@ import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -61,7 +62,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
 
     if (arg == null) {
       _notificationProvider.showNotification(
-        "Roupa não encontrada!",
+        LocaleContext.get().client_clothing_info_card_cloth_garment_not_found,
         type: NotificationTypes.success,
       );
       _navigationManager.pop();
@@ -128,7 +129,8 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
       await _markClothAsDailyUseUseCase.handle(idsCloth);
 
       _notificationProvider.showNotification(
-        "Estado da/s peça/s alterado!",
+        LocaleContext.get()
+            .client_clothing_info_card_cloth_garment_status_updated,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -146,7 +148,8 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
       await _unMarkClothAsDailyUseUseCase.handle(idsCloth);
 
       _notificationProvider.showNotification(
-        "Estado da/s peça/s alterado!",
+        LocaleContext.get()
+            .client_clothing_info_card_cloth_garment_status_updated,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -163,7 +166,8 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     _navigationManager.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
-        title: "Histórico da Peça",
+        title:
+            LocaleContext.get().client_clothing_info_card_cloth_garment_history,
         numberMaxItemsPage: 500,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
           var actionsHistory = await _getClothHistoryUseCase.handle(
@@ -204,7 +208,8 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     _navigationManager.push(CoreRoutes.qrCode,
         extras: QRCodeParams(
           data: clothUrl,
-          textButton: "Lojas",
+          textButton:
+              LocaleContext.get().client_clothing_info_card_cloth_stores,
           action: () => {},
         ));
   }

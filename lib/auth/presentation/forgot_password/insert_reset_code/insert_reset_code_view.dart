@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_cod
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
@@ -37,13 +38,15 @@ class InsertResetCodeView extends LinearView<InsertResetCodeViewModel> {
                     children: [
                       Column(
                         children: [
-                          const Text(
-                            "Foi enviado um código para o seu email",
+                          Text(
+                            LocaleContext.get()
+                                .auth_forgot_password_insert_code_send_code,
                             style: AppText.smallHeader,
                             textAlign: TextAlign.center,
                           ),
-                          const Text(
-                            "Coloque o código enviado para o seu email",
+                          Text(
+                            LocaleContext.get()
+                                .auth_forgot_password_insert_code_insert_code,
                             style: AppText.smallSubHeader,
                             textAlign: TextAlign.center,
                           ),
@@ -53,7 +56,8 @@ class InsertResetCodeView extends LinearView<InsertResetCodeViewModel> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 32),
                             child: DefaultFormattedTextField(
-                              hintText: "Código",
+                              hintText: LocaleContext.get()
+                                  .auth_forgot_password_insert_code_code,
                               keyboardType: TextInputType.number,
                               initialValue: viewModel
                                   .getValue(FormFieldValues.email)
@@ -76,7 +80,8 @@ class InsertResetCodeView extends LinearView<InsertResetCodeViewModel> {
                             height: 156,
                           ),
                           FormattedButton(
-                            content: "Continuar",
+                            content: LocaleContext.get()
+                                .auth_forgot_password_insert_code_continue,
                             textColor: Colors.white,
                             onPress: () async {
                               viewModel.verifyCode();

@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -128,7 +129,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       }
 
       _notificationProvider.showNotification(
-        "Foi removido do grupo!",
+        LocaleContext.get().group_group_chat_members_remove,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -149,7 +150,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
           .handle(ActionToMemberOfGroupRequest(memberId, groupId));
 
       _notificationProvider.showNotification(
-        "Membro foi promovido a Administrador!",
+        LocaleContext.get().group_group_chat_members_promoted,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -170,7 +171,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
           .handle(ActionToMemberOfGroupRequest(memberId, groupId));
 
       _notificationProvider.showNotification(
-        "Administrador foi despromovido!",
+        LocaleContext.get().group_group_chat_members_demoted,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -195,7 +196,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
       );
 
       _notificationProvider.showNotification(
-        "Utilizador foi convidado!",
+        LocaleContext.get().group_group_chat_members_invited,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -215,7 +216,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     _navigationManager.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
-        title: "Convide um Utilizador",
+        title: LocaleContext.get().group_group_chat_members_invite,
         numberMaxItemsPage:
             (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
@@ -241,7 +242,8 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
                         path: ServerImage(profile.avatarUrl),
                       ),
                       title: profile.username,
-                      subTitle: "Level ${profile.level.toString()}",
+                      subTitle:
+                          "${LocaleContext.get().group_group_chat_members_level} ${profile.level.toString()}",
                     ),
                   ],
                 ),

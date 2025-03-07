@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view_
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_list.dart';
@@ -24,7 +25,7 @@ class ClothingView extends LinearView<ClothingViewModel> {
 
   Widget createBucketCard(ClothingViewModel viewModel) {
     return DefaultFormattedTextField(
-      hintText: "Nome do cesto",
+      hintText: LocaleContext.get().client_clothing_closet_clothing_bucket_name,
       onChange: (name) => viewModel.setName(name),
       inputFormatter: [
         LengthLimitingTextInputFormatter(50),
@@ -43,7 +44,7 @@ class ClothingView extends LinearView<ClothingViewModel> {
         backgroundColor: AppColor.widgetBackground,
         borderColor: Colors.transparent,
         foregroundColor: AppColor.buttonBackground,
-        title: "Novo cesto",
+        title: LocaleContext.get().client_clothing_closet_clothing_new_bucket,
         idText: "bucket_new_bucket",
         content: const Icon(
           Icons.add,
@@ -89,8 +90,9 @@ class ClothingView extends LinearView<ClothingViewModel> {
       right: 36,
       action: () async =>
           await viewModel.registerBucket(viewModel.selectedCloth),
-      titleModal: "Criar Cesto",
-      buttonText: "Criar",
+      titleModal:
+          LocaleContext.get().client_clothing_closet_clothing_create_bucket,
+      buttonText: LocaleContext.get().client_clothing_closet_clothing_create,
     ).create(
       context,
       createBucketCard(
@@ -105,7 +107,7 @@ class ClothingView extends LinearView<ClothingViewModel> {
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       appBar: StandardHeader(
-        title: "Vestuário",
+        title: LocaleContext.get().client_clothing_closet_clothing_closet,
         sustainablePoints: viewModel.user?.sustainablePoints ?? 0,
       ),
       body: AppBackground(
@@ -216,7 +218,8 @@ class ClothingView extends LinearView<ClothingViewModel> {
             children: [
               Expanded(
                 child: DefaultFormattedTextField(
-                  hintText: "Pesquisar",
+                  hintText: LocaleContext.get()
+                      .client_clothing_closet_clothing_search,
                   inputFormatter: [
                     LengthLimitingTextInputFormatter(25),
                   ],
@@ -297,8 +300,9 @@ class ClothingView extends LinearView<ClothingViewModel> {
             ? cardList(viewModel, context)
             : Container(
                 margin: const EdgeInsets.symmetric(vertical: 36),
-                child: const Text(
-                  "Não existe nenhuma peça de roupa!",
+                child: Text(
+                  LocaleContext.get()
+                      .client_clothing_closet_clothing_no_garment,
                   style: AppText.subHeader,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,

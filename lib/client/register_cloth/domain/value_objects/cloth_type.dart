@@ -1,14 +1,26 @@
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
+
 enum ClothType implements Comparable<ClothType> {
-  jeans(value: "Jeans", displayValue: "Calças"),
-  jackets(value: "Jackets", displayValue: "Casacos"),
-  tshirts(value: "TShirts", displayValue: "T-Shirts"),
-  shirts(value: "Shirts", displayValue: "Camisas"),
-  skirts(value: "Skirts", displayValue: "Saias");
+  jeans(value: "Jeans"),
+  jackets(value: "Jackets"),
+  tshirts(value: "TShirts"),
+  shirts(value: "Shirts"),
+  skirts(value: "Skirts");
 
   final String value;
-  final String displayValue;
 
-  const ClothType({required this.value, required this.displayValue});
+  const ClothType({required this.value});
+
+  String get displayValue {
+    final locale = LocaleContext.get();
+    return switch (this) {
+      ClothType.jeans => locale.client_clothing_domain_data_filters_jeans,
+      ClothType.jackets => locale.client_clothing_domain_data_filters_jackets,
+      ClothType.tshirts => locale.client_clothing_domain_data_filters_t_shirts,
+      ClothType.shirts => locale.client_clothing_domain_data_filters_shirts,
+      ClothType.skirts => locale.client_clothing_domain_data_filters_skirts,
+    };
+  }
 
   static ClothType getOf(String value) =>
       ClothType.values.singleWhere((element) => element.displayValue == value);

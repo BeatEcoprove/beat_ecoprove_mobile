@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card_provider.dart';
@@ -110,10 +111,10 @@ class ServiceView
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 12, bottom: 12, left: 12),
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 12, left: 12),
             child: Text(
-              "Lojas",
+              LocaleContext.get().home_brand_stores,
               style: AppText.titleToScrollSection,
             ),
           ),
@@ -146,9 +147,10 @@ class ServiceView
                                 Column(
                                     children: viewModel.stores.isEmpty
                                         ? [
-                                            const Center(
+                                            Center(
                                               child: Text(
-                                                "Não existem lojas!",
+                                                LocaleContext.get()
+                                                    .home_brand_no_stores,
                                                 textAlign: TextAlign.center,
                                                 style: AppText.smallSubHeader,
                                               ),
@@ -203,10 +205,10 @@ class ServiceView
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 12, bottom: 12, left: 12),
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 12, left: 12),
             child: Text(
-              "Publicidade e Oportunidades",
+              LocaleContext.get().home_brand_ads_opportunities,
               style: AppText.titleToScrollSection,
             ),
           ),
@@ -242,9 +244,10 @@ class ServiceView
                                     Column(
                                         children: viewModel.adverts.isEmpty
                                             ? [
-                                                const Center(
+                                                Center(
                                                   child: Text(
-                                                    "Não existem anúncios!",
+                                                    LocaleContext.get()
+                                                        .home_brand_no_ads,
                                                     textAlign: TextAlign.center,
                                                     style:
                                                         AppText.smallSubHeader,

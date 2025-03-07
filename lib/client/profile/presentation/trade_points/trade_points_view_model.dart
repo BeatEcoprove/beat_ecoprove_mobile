@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/trade_points_request.dart';
@@ -66,7 +67,7 @@ class TradePointsViewModel extends FormViewModel {
       ));
 
       _notificationProvider.showNotification(
-        "Troca realizada!",
+        LocaleContext.get().client_profile_trade_points_done,
         type: NotificationTypes.success,
       );
 

@@ -2,9 +2,11 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/group_header.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
     var params = GroupChatParams(
       groupId: args.id,
       title: args.name,
-      state: args.isPublic == true ? "Público" : "Privado",
+      state: args.isPublic ? GroupType.public : GroupType.private,
       numberMembers: args.membersCount.toString(),
     );
 
@@ -101,7 +103,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                     width: maxWidth - 100,
                     child: DefaultFormattedTextField(
                       controller: viewModel.chatTextController,
-                      hintText: "Escreva a mensagem ...",
+                      hintText: LocaleContext.get().group_group_chat_enter_msg,
                       leftIcon: const Icon(Icons.mode_edit_outline_outlined),
                       initialValue:
                           viewModel.getValue(FormFieldValues.search).value,

@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/without_options_footer/without_options_footer.dart';
@@ -24,7 +25,7 @@ class GroupChatMembersView
 
   Widget createInviteCard() {
     return DefaultFormattedTextField(
-      hintText: "Nome do utilizador",
+      hintText: LocaleContext.get().group_group_chat_members_username,
       onChange: (name) => viewModel.setUserName(name),
       initialValue: viewModel.getValue(FormFieldValues.userName).value,
       errorMessage: viewModel.getValue(FormFieldValues.userName).error,
@@ -81,8 +82,9 @@ class GroupChatMembersView
                         children: [
                           Row(
                             children: [
-                              const Text(
-                                "Membros",
+                              Text(
+                                LocaleContext.get()
+                                    .group_group_chat_members_members,
                                 style: AppText.titleToScrollSection,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -92,7 +94,7 @@ class GroupChatMembersView
                               Padding(
                                 padding: const EdgeInsets.only(top: 5),
                                 child: Text(
-                                  "${args.numberMembers} membros",
+                                  "${args.numberMembers} ${LocaleContext.get().group_group_chat_members_members_low}",
                                   style: AppText.subHeader,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -155,8 +157,12 @@ class GroupChatMembersView
                                                                           e.id ==
                                                                           member
                                                                               .id)
-                                                                  ? 'Despromover'
-                                                                  : 'Promover',
+                                                                  ? LocaleContext
+                                                                          .get()
+                                                                      .group_group_chat_members_demote
+                                                                  : LocaleContext
+                                                                          .get()
+                                                                      .group_group_chat_members_promote,
                                                               action:
                                                                   () async => {
                                                                         viewModel.details.admins.any((e) =>
@@ -175,8 +181,12 @@ class GroupChatMembersView
                                                             name: viewModel.user
                                                                         ?.id !=
                                                                     member.id
-                                                                ? 'Remover do Grupo'
-                                                                : 'Sair do Grupo',
+                                                                ? LocaleContext
+                                                                        .get()
+                                                                    .group_group_chat_members_remove_group
+                                                                : LocaleContext
+                                                                        .get()
+                                                                    .group_group_chat_members_get_out_group,
                                                             action: () async =>
                                                                 {
                                                                   await viewModel
@@ -197,8 +207,8 @@ class GroupChatMembersView
                       const SizedBox(
                         height: 26,
                       ),
-                      const Text(
-                        "Administradores",
+                      Text(
+                        LocaleContext.get().group_group_chat_members_admins,
                         style: AppText.titleToScrollSection,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -244,7 +254,9 @@ class GroupChatMembersView
                                                     if (viewModel.user?.id !=
                                                         admin.id)
                                                       OptionItem(
-                                                        name: 'Despromover',
+                                                        name: LocaleContext
+                                                                .get()
+                                                            .group_group_chat_members_demote,
                                                         action: () async => {
                                                           await viewModel
                                                               .despromoveMember(
@@ -257,8 +269,10 @@ class GroupChatMembersView
                                                       name: viewModel
                                                                   .user?.id !=
                                                               admin.id
-                                                          ? 'Remover do Grupo'
-                                                          : 'Sair do Grupo',
+                                                          ? LocaleContext.get()
+                                                              .group_group_chat_members_remove_group
+                                                          : LocaleContext.get()
+                                                              .group_group_chat_members_get_out_group,
                                                       action: () async => {
                                                         await viewModel
                                                             .leaveGroup(

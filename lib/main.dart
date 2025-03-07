@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/language_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
@@ -41,6 +42,9 @@ void main() async {
               DependencyInjection.locator<AuthenticationProvider>(),
         ),
         ChangeNotifierProvider(
+          create: (context) => DependencyInjection.locator<LanguageProvider>(),
+        ),
+        ChangeNotifierProvider(
           create: (context) =>
               DependencyInjection.locator<INotificationProvider>()
                   as NotificationProvider,
@@ -72,13 +76,15 @@ class MainApp extends StatefulWidget {
   State<MainApp> createState() => _MainAppState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   AppUpdateInfo? _updateInfo;
 
   @override
   void initState() {
     super.initState();
     _checkForUpdate();
+    WidgetsBinding.instance.addObserver(this);
+    DependencyInjection.locator<LanguageProvider>().initializeLanguage();
   }
 
   Future<void> _checkForUpdate() async {
@@ -105,6 +111,22 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  late final LanguageProvider _languageProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _languageProvider = DependencyInjection.locator<LanguageProvider>();
+    _languageProvider.initializeLanguage();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _languageProvider.deviceLanguage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -112,16 +134,29 @@ class _MainAppState extends State<MainApp> {
       DeviceOrientation.portraitUp,
     ]);
 
-    return MaterialApp.router(
-      theme: ThemeData(fontFamily: 'Lato'),
-      debugShowCheckedModeBanner: false,
-      routerConfig: widget.appRouter,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-    );
+    return StreamBuilder<Locale>(
+        stream: DependencyInjection.locator<LanguageProvider>().localeStream,
+        initialData: const Locale('en'),
+        builder: (context, localeSnapshot) {
+          return MaterialApp.router(
+            theme: ThemeData(fontFamily: 'Lato'),
+            debugShowCheckedModeBanner: false,
+            routerConfig: widget.appRouter,
+            locale: localeSnapshot.data,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+          );
+        });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }

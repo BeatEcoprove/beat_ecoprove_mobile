@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/client/profile/presentation/trade_points/trade_poi
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/language_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -78,6 +79,7 @@ extension ProfileDependencyInjection on DependencyInjection {
       () => SettingsViewModel(
         authProvider,
         router,
+        locator<LanguageProvider>(),
       ),
     );
 

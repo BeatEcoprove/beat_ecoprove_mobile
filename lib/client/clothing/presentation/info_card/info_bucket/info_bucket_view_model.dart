@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -59,7 +60,8 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
           (element) => !_bucketInfoManager.getAllClothes().contains(element));
 
       if (clothes.isEmpty) {
-        throw NoClothesException("Não tem peças de roupa selecionadas!");
+        throw NoClothesException(LocaleContext.get()
+            .client_clothing_info_card_bucket_info_error_no_garments_selected);
       }
 
       await _removeClothFromBucketUseCase
@@ -69,7 +71,8 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
       _bucketInfoManager.removeClothes();
 
       _notificationProvider.showNotification(
-        "Peça/s removida/s com sucesso!",
+        LocaleContext.get()
+            .client_clothing_info_card_bucket_info_garment_removed,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -95,7 +98,8 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
           (element) => !_bucketInfoManager.getAllClothes().contains(element));
 
       if (clothes.isEmpty) {
-        throw NoClothesException("Não tem peças de roupa selecionadas!");
+        throw NoClothesException(LocaleContext.get()
+            .client_clothing_info_card_bucket_info_error_no_garments_selected);
       }
 
       await _unMarkClothAsDailyUseUseCase.handle(clothes.toList());
@@ -110,7 +114,8 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
       _bucketInfoManager.removeClothes();
 
       _notificationProvider.showNotification(
-        "Estado da/s peça/s atualizado!",
+        LocaleContext.get()
+            .client_clothing_info_card_bucket_info_garment_status_updated,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {

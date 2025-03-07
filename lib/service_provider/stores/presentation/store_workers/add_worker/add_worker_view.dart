@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_drop_down.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
@@ -35,8 +36,9 @@ class AddWorkerView extends ArgumentView<AddWorkerViewModel, StoreParams> {
                   const SizedBox(
                     height: 16,
                   ),
-                  const Text(
-                    "Insira o e-mail do seu funcionário",
+                  Text(
+                    LocaleContext.get()
+                        .service_provider_stores_store_index_store_workers_add_worker_worker_email,
                     style: AppText.header,
                     textAlign: TextAlign.center,
                   ),
@@ -45,7 +47,8 @@ class AddWorkerView extends ArgumentView<AddWorkerViewModel, StoreParams> {
                     child: Column(
                       children: [
                         DefaultFormattedTextField(
-                          hintText: 'Nome',
+                          hintText: LocaleContext.get()
+                              .service_provider_stores_store_index_store_workers_add_worker_name,
                           errorMessage:
                               viewModel.getValue(FormFieldValues.name).error,
                           onChange: (value) => viewModel.setDisplayName(value),
@@ -56,7 +59,8 @@ class AddWorkerView extends ArgumentView<AddWorkerViewModel, StoreParams> {
                           height: textBoxGap,
                         ),
                         DefaultFormattedTextField(
-                          hintText: 'Email',
+                          hintText: LocaleContext.get()
+                              .service_provider_stores_store_index_store_workers_add_worker_email,
                           errorMessage:
                               viewModel.getValue(FormFieldValues.email).error,
                           onChange: (value) => viewModel.setEmail(value),
@@ -81,7 +85,8 @@ class AddWorkerView extends ArgumentView<AddWorkerViewModel, StoreParams> {
                 ],
               ),
               FormattedButton(
-                content: "Continuar",
+                content: LocaleContext.get()
+                    .service_provider_stores_store_index_store_workers_add_worker_continue,
                 textColor: Colors.white,
                 disabled: viewModel.thereAreErrors,
                 onPress: () async =>

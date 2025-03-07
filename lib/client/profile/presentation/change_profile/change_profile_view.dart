@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_footer/with_options_footer/with_options_footer.dart';
@@ -74,8 +75,9 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
                                   runSpacing: 8,
                                   spacing: 8,
                                   children: [
-                                    const Text(
-                                      "Eco-Score dos perfis",
+                                    Text(
+                                      LocaleContext.get()
+                                          .client_profile_change_profile_profiles_eco_score,
                                       style: AppText.strongStyle,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -105,8 +107,9 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
                               runSpacing: 6,
                               spacing: 6,
                               children: [
-                                const Text(
-                                  "Adicionar um perfil",
+                                Text(
+                                  LocaleContext.get()
+                                      .client_profile_change_profile_add_profile,
                                   style: AppText.strongStyle,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -116,8 +119,9 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
                                 GestureDetector(
                                   onTap: () async =>
                                       await viewModel.createProfile(),
-                                  child: const Text(
-                                    "Adicionar",
+                                  child: Text(
+                                    LocaleContext.get()
+                                        .client_profile_change_profile_add,
                                     style: AppText.underlineStyle,
                                   ),
                                 )
@@ -162,11 +166,13 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
               ? WithOptionsFooter(
                   options: [
                     OptionItem(
-                      name: 'Promover',
+                      name: LocaleContext.get()
+                          .client_profile_change_profile_promote,
                       action: () => viewModel.goToPromoteProfile(profile),
                     ),
                     OptionItem(
-                      name: 'Remover',
+                      name: LocaleContext.get()
+                          .client_profile_change_profile_remove,
                       action: () => viewModel.goToDeleteProfile(profile),
                     ),
                   ],

@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +93,7 @@ class Modal {
                           ),
                           if (hasCancelButton)
                             FormattedButton(
-                              content: "Cancelar",
+                              content: LocaleContext.get().core_cancel,
                               buttonColor: AppColor.widgetBackground,
                               textColor: AppColor.black,
                               height: 46,

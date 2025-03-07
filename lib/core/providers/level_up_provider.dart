@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/overlay_widget_with_button.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
@@ -15,8 +16,8 @@ class LevelUpProvider extends ViewModel {
       left: 36,
       right: 36,
       action: () {},
-      titleModal: "Parabéns! Subiu de nível!",
-      buttonText: "Confirmar",
+      titleModal: LocaleContext.get().core_level_up_message,
+      buttonText: LocaleContext.get().core_level_up_confirm,
       hasCancelButton: false,
     );
   }
@@ -89,8 +90,8 @@ class LevelUpProvider extends ViewModel {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Nível",
+                      Text(
+                        LocaleContext.get().core_level_up_level,
                         style: AppText.smallSubHeader,
                       ),
                       Text(

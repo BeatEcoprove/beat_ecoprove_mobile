@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/closet/bucket_info_manager.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/cloth_card/card_item_template.dart';
@@ -60,7 +61,8 @@ class InfoBucketView
       options: [
         if (args.card.id == "outfit") ...{
           OptionItem(
-            name: 'Desmarcar Uso',
+            name: LocaleContext.get()
+                .client_clothing_info_card_bucket_info_deselect_use,
             action: () => {
               {
                 viewModel.unMarkClothsFromBucket(
@@ -72,7 +74,8 @@ class InfoBucketView
           ),
         } else ...{
           OptionItem(
-            name: 'Mudar Nome',
+            name: LocaleContext.get()
+                .client_clothing_info_card_bucket_info_change_name,
             action: () => {
               _navigationManager.push(
                 ClothingRoutes.setChangeBucketName(args.card.id),
@@ -81,7 +84,8 @@ class InfoBucketView
             },
           ),
           OptionItem(
-            name: 'Remover Tudo',
+            name: LocaleContext.get()
+                .client_clothing_info_card_bucket_info_remove_all,
             action: () async => {
               await viewModel.removeClothFromBucket(
                   args.card,

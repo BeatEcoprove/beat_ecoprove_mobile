@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
 import 'package:beat_ecoprove/core/recycle_view.dart';
@@ -21,7 +22,7 @@ class ListDetailsView
     return Container(
       margin: const EdgeInsets.only(bottom: 26),
       child: DefaultFormattedTextField(
-        hintText: "Pesquisar",
+        hintText: LocaleContext.get().core_search,
         leftIcon: const Icon(Icons.search_rounded),
         onChange: (search) => viewModel.setSearch(search),
         initialValue: viewModel.getValue(FormFieldValues.search).value,

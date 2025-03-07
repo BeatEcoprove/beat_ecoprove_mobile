@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:flutter/material.dart';
 
 class RecycleView extends StatefulWidget {
@@ -88,7 +89,7 @@ class _RecycleViewState extends State<RecycleView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.78 -26,
+      height: MediaQuery.of(context).size.height * 0.78 - 26,
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
@@ -96,8 +97,8 @@ class _RecycleViewState extends State<RecycleView> {
               ? items
               : items.isEmpty
                   ? [
-                      const Text(
-                        "Não existem registos!",
+                      Text(
+                        LocaleContext.get().core_recycle_view,
                         textAlign: TextAlign.center,
                         style: AppText.smallSubHeader,
                       )

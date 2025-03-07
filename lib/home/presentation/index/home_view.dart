@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/advets_card/advert_header.dart';
@@ -53,8 +54,8 @@ class HomeView extends LinearView<HomeViewModel> {
             const Padding(
               padding: EdgeInsets.only(top: 29),
             ),
-            const Text(
-              "Publicidade e Oportunidades",
+            Text(
+              LocaleContext.get().home_index_ads_opportunities,
               style: AppText.titleToScrollSection,
             ),
           ],
@@ -112,10 +113,10 @@ class HomeView extends LinearView<HomeViewModel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 24, bottom: 16, left: 12),
+          Padding(
+            padding: const EdgeInsets.only(top: 24, bottom: 16, left: 12),
             child: Text(
-              "Serviços Populares",
+              LocaleContext.get().home_index_popular_services,
               style: AppText.titleToScrollSection,
             ),
           ),
@@ -131,8 +132,8 @@ class HomeView extends LinearView<HomeViewModel> {
                   Center(
                       child: Container(
                     margin: const EdgeInsets.only(top: 16, bottom: 64),
-                    child: const Text(
-                      "Não existem Prestadores de Serviço!",
+                    child: Text(
+                      LocaleContext.get().home_index_no_service_providers,
                       style: AppText.subHeader,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
@@ -155,7 +156,8 @@ class HomeView extends LinearView<HomeViewModel> {
                           WithOptionsFooter(
                             options: [
                               OptionItem(
-                                name: 'Não voltar a aparecer',
+                                name: LocaleContext.get()
+                                    .home_index_dont_show_again,
                                 action: () {},
                               )
                             ],

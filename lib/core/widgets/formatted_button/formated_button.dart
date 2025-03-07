@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formatted_button_type.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +70,9 @@ class _FormattedButtonState extends State<FormattedButton> {
                   ),
                 ),
               Text(
-                widget.loading ? "Carregando" : widget.content,
+                widget.loading
+                    ? LocaleContext.get().core_widgets_formatted_button_loading
+                    : widget.content,
                 style: TextStyle(
                   fontSize: AppText.title3,
                   color: widget.textColor,

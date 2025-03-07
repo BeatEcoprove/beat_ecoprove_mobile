@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/buttonItem.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification.dart';
@@ -101,7 +102,7 @@ class _NotificationViewState extends State<NotificationView> {
         await DependencyInjection.locator<INavigationManager>().pushAsync(
           CoreRoutes.listDetails,
           extras: ListDetailsViewParams(
-            title: "Convites",
+            title: LocaleContext.get().core_invites,
             numberMaxItemsPage: 500,
             onSearch: (searchTerm, vm) async {
               return _renderCards(

@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
@@ -91,7 +92,8 @@ class StoreWorkersViewModel extends FormViewModel<StoreParams>
       await _removeWorkerUseCase.handle(RemoveWorkerRequest(storeId, workerId));
 
       _notificationProvider.showNotification(
-        "Funcionário removido!",
+        LocaleContext.get()
+            .service_provider_stores_store_index_store_workers_worker_removed,
         type: NotificationTypes.success,
       );
 
@@ -114,7 +116,8 @@ class StoreWorkersViewModel extends FormViewModel<StoreParams>
       );
 
       _notificationProvider.showNotification(
-        "Permissão alterada!",
+        LocaleContext.get()
+            .service_provider_stores_store_index_store_workers_permission_alter,
         type: NotificationTypes.success,
       );
 

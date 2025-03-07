@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:beat_ecoprove/core/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +57,9 @@ class AdvertisementCardProviderContext extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "Serviços Prestados",
+                Text(
+                  LocaleContext.get()
+                      .core_widgets_advertisement_card_services_providers,
                   style: AppText.subHeader,
                 ),
                 Padding(
@@ -85,8 +87,8 @@ class AdvertisementCardProviderContext extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "Rating Global",
+                Text(
+                  LocaleContext.get().core_widgets_advertisement_card_rating,
                   style: AppText.subHeader,
                 ),
                 RatingBarWidget(rating: rating),

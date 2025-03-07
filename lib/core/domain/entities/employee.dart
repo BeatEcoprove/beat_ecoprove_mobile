@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class Employee extends User {
   final EmployeeType workerType;
@@ -22,13 +23,20 @@ class Employee extends User {
 }
 
 enum EmployeeType implements Comparable<EmployeeType> {
-  worker(value: "worker", text: "Funcionário"),
-  manager(value: "manager", text: "Gerente");
+  worker(value: "worker"),
+  manager(value: "manager");
 
   final String value;
-  final String text;
 
-  const EmployeeType({required this.value, required this.text});
+  const EmployeeType({required this.value});
+
+  String get text {
+    final locale = LocaleContext.get();
+    return switch (this) {
+      EmployeeType.worker => locale.core_domain_employee_worker,
+      EmployeeType.manager => locale.core_domain_employee_manager,
+    };
+  }
 
   static List<EmployeeType> getAllTypes() {
     return EmployeeType.values.toList();

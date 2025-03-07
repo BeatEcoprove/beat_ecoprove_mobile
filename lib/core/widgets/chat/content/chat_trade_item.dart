@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_item.dart';
 import 'package:beat_ecoprove/core/widgets/line.dart';
@@ -72,8 +73,8 @@ class ChatTradeItem extends ChatListItem {
               ),
               Row(
                 children: [
-                  const Text(
-                    "Color:",
+                  Text(
+                    LocaleContext.get().client_clothing_info_card_cloth_color,
                     style: AppText.strongStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -101,8 +102,8 @@ class ChatTradeItem extends ChatListItem {
               ),
               Row(
                 children: [
-                  const Text(
-                    "Tamanho:",
+                  Text(
+                    LocaleContext.get().client_clothing_info_card_cloth_size,
                     style: AppText.strongStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -122,8 +123,8 @@ class ChatTradeItem extends ChatListItem {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Eco-Score",
+                  Text(
+                    LocaleContext.get().core_eco_score,
                     style: AppText.smallSubHeader,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -238,8 +239,8 @@ class ChatTradeItem extends ChatListItem {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Já não está disponível!",
+                  Text(
+                    LocaleContext.get().core_widgets_chat_content_not_available,
                     style: AppText.titleToScrollSection,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,

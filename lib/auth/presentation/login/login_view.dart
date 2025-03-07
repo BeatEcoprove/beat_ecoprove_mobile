@@ -75,7 +75,7 @@ class LoginView extends LinearView<LoginViewModel> {
                         child: FormattedCheckBox(
                           value: viewModel.isPassword,
                           onChanged: viewModel.setPasswordVisibitlity,
-                          title: "Mostrar palavra-chave",
+                          title: LocaleContext.get().auth_login_show_password,
                         ),
                       ),
                       Align(

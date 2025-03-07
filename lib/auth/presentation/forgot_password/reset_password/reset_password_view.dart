@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_button/formated_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_check_box.dart';
@@ -40,8 +41,9 @@ class ResetPasswordView
                     children: [
                       Column(
                         children: [
-                          const Text(
-                            "Redefina a sua palavra-chave",
+                          Text(
+                            LocaleContext.get()
+                                .auth_forgot_password_reset_password_new_password,
                             style: AppText.alternativeHeader,
                             textAlign: TextAlign.center,
                           ),
@@ -49,7 +51,8 @@ class ResetPasswordView
                             height: 136,
                           ),
                           DefaultFormattedTextField(
-                            hintText: "Palavra-chave",
+                            hintText: LocaleContext.get()
+                                .auth_forgot_password_reset_password_password,
                             onChange: (password) =>
                                 viewModel.setPassword(password),
                             initialValue: viewModel
@@ -64,7 +67,8 @@ class ResetPasswordView
                             height: 16,
                           ),
                           DefaultFormattedTextField(
-                            hintText: "Confirmar palavra-chave",
+                            hintText: LocaleContext.get()
+                                .auth_forgot_password_reset_password_confirm_password,
                             onChange: (confirmPassword) =>
                                 viewModel.setConfirmPassword(confirmPassword),
                             initialValue: viewModel
@@ -80,7 +84,8 @@ class ResetPasswordView
                             child: FormattedCheckBox(
                               value: viewModel.isPassword,
                               onChanged: viewModel.setPasswordVisibitlity,
-                              title: "Mostrar palavra-chave",
+                              title: LocaleContext.get()
+                                  .auth_forgot_password_reset_password_show_password,
                             ),
                           ),
                           const SizedBox(
@@ -91,7 +96,8 @@ class ResetPasswordView
                       Column(
                         children: [
                           FormattedButton(
-                            content: "Continuar",
+                            content: LocaleContext.get()
+                                .auth_forgot_password_reset_password_continue,
                             textColor: AppColor.widgetBackground,
                             disabled: viewModel.thereAreErrors,
                             height: 46,

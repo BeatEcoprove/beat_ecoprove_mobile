@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
 import 'package:beat_ecoprove/core/widgets/points.dart';
@@ -109,7 +110,7 @@ class StandardHeader extends Header {
           Column(
             children: [
               DefaultFormattedTextField(
-                hintText: "Pesquisar",
+                hintText: LocaleContext.get().core_search,
                 leftIcon: const Icon(Icons.search_rounded),
                 onChange: onChange,
                 initialValue: initialValue,

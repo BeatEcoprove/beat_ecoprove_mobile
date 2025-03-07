@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class StoreNumberPort {
   final String number;
@@ -8,7 +9,8 @@ class StoreNumberPort {
 
   factory StoreNumberPort.create(String storeNumberPort) {
     if (!regex.hasMatch(storeNumberPort)) {
-      throw DomainException("O número da porta deve ser um número!");
+      throw DomainException(LocaleContext.get()
+          .service_provider_stores_port_number_must_be_number);
     }
 
     return StoreNumberPort._(storeNumberPort);

@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/formatters/postal_code_formatter.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/avatar_chooser/circle_avatar_chooser.dart';
@@ -45,8 +46,9 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                             const SizedBox(
                               height: 64,
                             ),
-                            const Text(
-                              "Criar Loja",
+                            Text(
+                              LocaleContext.get()
+                                  .service_provider_stores_create_store,
                               style: AppText.header,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -63,7 +65,8 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                               height: 16,
                             ),
                             DefaultFormattedTextField(
-                              hintText: "Nome",
+                              hintText: LocaleContext.get()
+                                  .service_provider_stores_create_store_name,
                               inputFormatter: [
                                 LengthLimitingTextInputFormatter(50),
                               ],
@@ -108,7 +111,8 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                                       FormFieldValues.storeLocality, value),
                                 ),
                                 DefaultFormattedTextField(
-                                  hintText: "Rua",
+                                  hintText: LocaleContext.get()
+                                      .service_provider_stores_create_store_street,
                                   onChange: (storeStreet) async =>
                                       viewModel.setStoreStreet(storeStreet),
                                   initialValue: viewModel
@@ -123,7 +127,8 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                                     SizedBox(
                                       width: (2 / 3) * maxWidth,
                                       child: DefaultFormattedTextField(
-                                        hintText: "Código Postal",
+                                        hintText: LocaleContext.get()
+                                            .service_provider_stores_create_store_zip_code,
                                         inputFormatter: [
                                           FilteringTextInputFormatter
                                               .digitsOnly,
@@ -147,7 +152,8 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                                     SizedBox(
                                       width: (1 / 3) * maxWidth,
                                       child: DefaultFormattedTextField(
-                                        hintText: "Porta",
+                                        hintText: LocaleContext.get()
+                                            .service_provider_stores_create_store_port,
                                         inputFormatter: [
                                           FilteringTextInputFormatter
                                               .digitsOnly,
@@ -175,7 +181,8 @@ class CreateStoreView extends LinearView<CreateStoreViewModel> {
                               height: 64,
                             ),
                             FormattedButton(
-                              content: "Registar",
+                              content: LocaleContext.get()
+                                  .service_provider_stores_create_store_register,
                               textColor: Colors.white,
                               disabled: viewModel.thereAreErrors,
                               onPress: () async => viewModel.registerStore(),

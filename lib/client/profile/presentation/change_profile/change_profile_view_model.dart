@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/helpers/tokens.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
@@ -89,7 +90,7 @@ class ChangeProfileViewModel extends ViewModel {
     await DependencyInjection.locator<IWCNotifier>().logIn();
 
     _notificationProvider.showNotification(
-      "Perfil alterado!",
+      LocaleContext.get().client_profile_change_profile_profile_alter,
       type: NotificationTypes.success,
     );
 
@@ -115,8 +116,10 @@ class ChangeProfileViewModel extends ViewModel {
 
       _navigationRouter.replaceTop(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
-              text: "Perfil foi removido.",
-              textButton: "Continuar",
+              text: LocaleContext.get()
+                  .client_profile_change_profile_profile_removed,
+              textButton:
+                  LocaleContext.get().client_profile_change_profile_continue,
               action: () => _navigationRouter.pop()));
     } on HttpError catch (e) {
       _notificationProvider.showNotification(
@@ -203,8 +206,8 @@ class ChangeProfileViewModel extends ViewModel {
     _navigationRouter.push(
       CoreRoutes.makeProfileAction,
       extras: MakeProfileActionViewParams(
-        text: "Tem a certeza que pretende criar uma conta com este perfil?",
-        textButton: "Criar",
+        text: LocaleContext.get().client_profile_change_profile_create_account,
+        textButton: LocaleContext.get().client_profile_change_profile_create,
         profile: profile,
         action: () async => await promoteProfile(profile.id),
       ),
@@ -215,8 +218,8 @@ class ChangeProfileViewModel extends ViewModel {
     _navigationRouter.push(
       CoreRoutes.makeProfileAction,
       extras: MakeProfileActionViewParams(
-        text: "Tem a certeza que pretende remover este perfil?",
-        textButton: "Remover",
+        text: LocaleContext.get().client_profile_change_profile_remove_profile,
+        textButton: LocaleContext.get().client_profile_change_profile_remove,
         profile: profile,
         action: () async => await deleteProfile(profile.id),
       ),

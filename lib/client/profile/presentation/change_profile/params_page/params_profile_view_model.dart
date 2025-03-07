@@ -8,6 +8,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -50,7 +51,9 @@ class ParamsProfileViewModel extends FormViewModel {
 
       if (!isValid) {
         setError(
-            FormFieldValues.email, "O e-mail já é utilizado por um utilizador");
+            FormFieldValues.email,
+            LocaleContext.get()
+                .client_profile_change_profile_params_email_in_use);
         return;
       }
     } on HttpError {
@@ -68,9 +71,14 @@ class ParamsProfileViewModel extends FormViewModel {
     var confirmPassword = getValue(FormFieldValues.confirmPassword).value ?? "";
 
     if (password != confirmPassword) {
-      setError(FormFieldValues.password, "As palavras-chaves devem ser iguais");
-      setError(FormFieldValues.confirmPassword,
-          "As palavras-chaves devem ser iguais");
+      setError(
+          FormFieldValues.password,
+          LocaleContext.get()
+              .client_profile_change_profile_params_equal_passwords);
+      setError(
+          FormFieldValues.confirmPassword,
+          LocaleContext.get()
+              .client_profile_change_profile_params_equal_passwords);
     }
 
     try {
@@ -88,9 +96,14 @@ class ParamsProfileViewModel extends FormViewModel {
     var password = getValue(FormFieldValues.password).value ?? "";
 
     if (password != confirmPassword) {
-      setError(FormFieldValues.password, "As palavras-chaves devem ser iguais");
-      setError(FormFieldValues.confirmPassword,
-          "As palavras-chaves devem ser iguais");
+      setError(
+          FormFieldValues.password,
+          LocaleContext.get()
+              .client_profile_change_profile_params_equal_passwords);
+      setError(
+          FormFieldValues.confirmPassword,
+          LocaleContext.get()
+              .client_profile_change_profile_params_equal_passwords);
     }
 
     try {
@@ -120,8 +133,10 @@ class ParamsProfileViewModel extends FormViewModel {
       _navigationRouter.pop();
       _navigationRouter.push(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
-            text: "Uma conta com este perfil foi criada com sucesso!",
-            textButton: "Continuar",
+            text: LocaleContext.get()
+                .client_profile_change_profile_params_create_account,
+            textButton: LocaleContext.get()
+                .client_profile_change_profile_params_continue,
             action: () => _navigationRouter.pop(),
           ));
     } on HttpError catch (e) {

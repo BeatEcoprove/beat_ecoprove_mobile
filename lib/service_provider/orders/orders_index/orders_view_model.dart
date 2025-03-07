@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_params.dart';
 import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -68,7 +69,9 @@ class OrdersViewModel extends FormViewModel implements Clone {
     getAllActiveOptions();
     getAllServices();
     _selectedFilters.addAll({
-      "Ativos": {"false": "isDone"}
+      LocaleContext.get().service_provider_orders_index_actives: {
+        "false": "isDone"
+      }
     });
   }
 
@@ -136,7 +139,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
 
     options.addAll([
       FilterButtonItem(
-        text: "Ativos",
+        text: LocaleContext.get().service_provider_orders_index_actives,
         dimension: 50,
         content: const Icon(
           Icons.highlight_off_rounded,
@@ -147,7 +150,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
         tag: "isDone",
       ),
       FilterButtonItem(
-        text: "Concluídos",
+        text: LocaleContext.get().service_provider_orders_index_finished,
         dimension: 50,
         content: const Icon(
           Icons.check_circle_outline_rounded,
@@ -161,13 +164,18 @@ class OrdersViewModel extends FormViewModel implements Clone {
 
     _getActiveOptions = [
       FilterRow(
-        title: "Concluído",
+        title: LocaleContext.get().service_provider_orders_index_finish,
         options: options,
         hasOnlyOne: true,
       )
     ];
 
-    return [FilterRow(title: "Concluído", options: options, hasOnlyOne: true)];
+    return [
+      FilterRow(
+          title: LocaleContext.get().service_provider_orders_index_finish,
+          options: options,
+          hasOnlyOne: true)
+    ];
   }
 
   Future<List<FilterRow>> getAllColors() async {
@@ -197,12 +205,17 @@ class OrdersViewModel extends FormViewModel implements Clone {
 
     _getColors = [
       FilterRow(
-        title: 'Cor',
+        title: LocaleContext.get().service_provider_orders_index_color,
         options: colorItems,
         isCircular: true,
       )
     ];
-    return [FilterRow(title: 'Cor', options: colorItems, isCircular: true)];
+    return [
+      FilterRow(
+          title: LocaleContext.get().service_provider_orders_index_color,
+          options: colorItems,
+          isCircular: true)
+    ];
   }
 
   Future<List<FilterRow>> getAllBrands() async {
@@ -228,11 +241,15 @@ class OrdersViewModel extends FormViewModel implements Clone {
 
     _getBrands = [
       FilterRow(
-        title: 'Marca',
+        title: LocaleContext.get().service_provider_orders_index_brand,
         options: brandItems,
       )
     ];
-    return [FilterRow(title: 'Marca', options: brandItems)];
+    return [
+      FilterRow(
+          title: LocaleContext.get().service_provider_orders_index_brand,
+          options: brandItems)
+    ];
   }
 
   //TODO: CHANGE TO SERVICES OF THE COMPANY
@@ -309,12 +326,17 @@ class OrdersViewModel extends FormViewModel implements Clone {
 
     _getServices = [
       FilterRow(
-        title: 'Tipo de Serviços',
+        title: LocaleContext.get().service_provider_orders_index_services_types,
         options: options,
       )
     ];
 
-    return [FilterRow(title: "Tipo de Serviços", options: options)];
+    return [
+      FilterRow(
+          title:
+              LocaleContext.get().service_provider_orders_index_services_types,
+          options: options)
+    ];
   }
 
   Future getOrders() async {
@@ -369,7 +391,7 @@ class OrdersViewModel extends FormViewModel implements Clone {
       CoreRoutes.qrCode,
       extras: QRCodeParams(
         data: "orders/$orderId?clothId=$clothId&storeId=$storeId",
-        textButton: "Lojas",
+        textButton: LocaleContext.get().service_provider_orders_index_stores,
         action: () => {},
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_params.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make_profile_action_view_model.dart';
 import 'package:beat_ecoprove/core/widgets/application_background.dart';
@@ -74,7 +75,7 @@ class MakeProfileActionView extends ArgumentView<MakeProfileActionViewModel,
                       height: 6,
                     ),
                     FormattedButton(
-                      content: "Cancelar",
+                      content: LocaleContext.get().core_cancel,
                       buttonColor: AppColor.widgetBackground,
                       textColor: AppColor.black,
                       height: 46,

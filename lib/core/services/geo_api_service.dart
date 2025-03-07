@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -15,16 +16,16 @@ class GeoApiService {
       var parishes = convert.jsonDecode(jsonResult.body);
       data['Portugal'] = List<String>.from(parishes);
     } catch (e) {
-      data = const {
-        "Portugal": [
+      data = {
+        LocaleContext.get().core_geo_api_portugal: [
           "Póvoa de Varzim",
           "Vila do Conde",
         ],
-        "Inglaterra": [
+        LocaleContext.get().core_geo_api_england: [
           "Manchester",
           "York",
         ],
-        "França": [
+        LocaleContext.get().core_geo_api_france: [
           "Paris",
         ],
       };

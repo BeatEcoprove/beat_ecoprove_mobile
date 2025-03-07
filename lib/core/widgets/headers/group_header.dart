@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/headers/header.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:flutter/material.dart';
 
 class GroupHeader extends Header {
@@ -8,7 +10,7 @@ class GroupHeader extends Header {
   final VoidCallback? onGoBackPress;
 
   final String title;
-  final String state;
+  final GroupType state;
   final String numberMembers;
 
   const GroupHeader({
@@ -66,7 +68,7 @@ class GroupHeader extends Header {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6, right: 16),
                       child: Text(
-                        "$numberMembers membros",
+                        "$numberMembers ${LocaleContext.get().core_widgets_group_header}",
                         style: AppText.subHeader,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -93,7 +95,7 @@ class GroupHeader extends Header {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          state,
+                          state.displayValue,
                           style: AppText.textButton,
                           overflow: TextOverflow.ellipsis,
                         ),

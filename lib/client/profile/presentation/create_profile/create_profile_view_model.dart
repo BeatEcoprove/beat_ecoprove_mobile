@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/client/profile/contracts/register_profile_request.dart';
@@ -50,7 +51,7 @@ class CreateProfileViewModel extends FormViewModel {
 
       if (spaceCount == 0 || spaceCount > 1) {
         throw DomainException(
-            "Insira o seu primeiro e segundo nome separado por um espaço.");
+            LocaleContext.get().client_profile_create_profile_first_last_name);
       }
 
       var [firstName, lastName] = profileName.split(" ");
@@ -69,7 +70,9 @@ class CreateProfileViewModel extends FormViewModel {
 
       if (!isValid) {
         setError(
-            FormFieldValues.profileUserName, "O nome de utilizador já existe");
+            FormFieldValues.profileUserName,
+            LocaleContext.get()
+                .client_profile_create_profile_username_already_exists);
         return;
       }
     } on HttpError {
@@ -119,8 +122,10 @@ class CreateProfileViewModel extends FormViewModel {
       _navigationRouter.pop();
       _navigationRouter.push(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(
-              text: "Perfil criado com sucesso",
-              textButton: "Confirmar",
+              text: LocaleContext.get()
+                  .client_profile_create_profile_profile_created,
+              textButton:
+                  LocaleContext.get().client_profile_create_profile_confirm,
               action: () => _navigationRouter.pop()));
     } on HttpError catch (e) {
       _notificationProvider.showNotification(

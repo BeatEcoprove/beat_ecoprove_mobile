@@ -5,11 +5,13 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/group/contracts/register_group_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/register_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_description.dart';
 import 'package:beat_ecoprove/group/domain/value_objects/group_name.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,7 +34,7 @@ class CreateGroupViewModel extends FormViewModel {
       FormFieldValues.groupIsPublic,
       FormFieldValues.groupPicture,
     ]);
-    setValue(FormFieldValues.groupIsPublic, "Público");
+    setValue(FormFieldValues.groupIsPublic, GroupType.public);
     setValue(FormFieldValues.groupPicture, XFile(defaultImage));
   }
 
@@ -85,7 +87,7 @@ class CreateGroupViewModel extends FormViewModel {
       ));
 
       _notificationProvider.showNotification(
-        "Grupo criado com sucesso!",
+        LocaleContext.get().group_create_group_created,
         type: NotificationTypes.success,
       );
 

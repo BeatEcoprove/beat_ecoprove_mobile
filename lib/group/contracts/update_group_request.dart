@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateGroupRequest implements BaseMultiPartRequest {
@@ -6,7 +7,7 @@ class UpdateGroupRequest implements BaseMultiPartRequest {
   final String groupId;
   final String groupName;
   final String groupDescription;
-  final String groupIsPublic;
+  final GroupType groupIsPublic;
   final XFile groupPicture;
 
   UpdateGroupRequest(
@@ -23,7 +24,7 @@ class UpdateGroupRequest implements BaseMultiPartRequest {
     return {
       'name': groupName,
       'description': groupDescription,
-      'isPublic': groupIsPublic == "Público" ? "true" : "false",
+      'isPublic': groupIsPublic == GroupType.public ? "true" : "false",
       'avatarPicture': groupPicture,
     };
   }

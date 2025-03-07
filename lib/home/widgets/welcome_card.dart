@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/core/config/global.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/level_progress.dart';
 import 'package:flutter/material.dart';
 
@@ -57,8 +58,8 @@ class _WelcomeCardState extends State<WelcomeCard> {
                   Column(
                     crossAxisAlignment: alignment,
                     children: [
-                      const Text(
-                        "Olá!",
+                      Text(
+                        LocaleContext.get().home_widget_welcome_card_hi,
                         style: AppText.firstHeaderWhite,
                       ),
                       Text(

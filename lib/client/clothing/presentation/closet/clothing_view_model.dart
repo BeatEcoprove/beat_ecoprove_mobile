@@ -22,6 +22,7 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_params.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_params.dart';
@@ -265,7 +266,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       try {
         await _markClothAsDailyUseUseCase.handle(listToMark);
         _notificationProvider.showNotification(
-          "Estado/s atualizado/s!",
+          LocaleContext.get().client_clothing_closet_clothing_state_updated,
           type: NotificationTypes.success,
         );
       } on HttpError catch (e) {
@@ -286,7 +287,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       await _unMarkClothAsDailyUseUseCase.handle(listToUnMark);
 
       _notificationProvider.showNotification(
-        "Estado/s atualizado/s!",
+        LocaleContext.get().client_clothing_closet_clothing_state_updated,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -319,7 +320,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       });
 
       _notificationProvider.showNotification(
-        "Removido com sucesso!",
+        LocaleContext.get().client_clothing_closet_clothing_removed,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -384,7 +385,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
 
     _getColors = [
       FilterRow(
-        title: 'Cor',
+        title: LocaleContext.get().client_clothing_closet_clothing_color,
         options: colorItems,
         isCircular: true,
       )
@@ -418,11 +419,15 @@ class ClothingViewModel extends FormViewModel implements Clone {
 
     _getBrands = [
       FilterRow(
-        title: 'Marca',
+        title: LocaleContext.get().client_clothing_closet_clothing_brand,
         options: brandItems,
       )
     ];
-    return [FilterRow(title: 'Marca', options: brandItems)];
+    return [
+      FilterRow(
+          title: LocaleContext.get().client_clothing_closet_clothing_brand,
+          options: brandItems)
+    ];
   }
 
   Future<List<FilterRow>> getAllNestedProfiles() async {
@@ -448,7 +453,8 @@ class ClothingViewModel extends FormViewModel implements Clone {
         if (nestedProfiles.isNotEmpty) {
           _getNestedProfiles = [
             FilterRow(
-              title: 'Perfis',
+              title:
+                  LocaleContext.get().client_clothing_closet_clothing_profiles,
               options: profileItem,
             )
           ];
@@ -458,7 +464,11 @@ class ClothingViewModel extends FormViewModel implements Clone {
       print(e.toString());
     }
 
-    return [FilterRow(title: 'Perfis', options: profileItem)];
+    return [
+      FilterRow(
+          title: LocaleContext.get().client_clothing_closet_clothing_profiles,
+          options: profileItem)
+    ];
   }
 
   Future registerBucket(Map<String, List<String>> selectedCloth) async {
@@ -483,7 +493,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       );
 
       _notificationProvider.showNotification(
-        "Cesto criado!",
+        LocaleContext.get().client_clothing_closet_clothing_bucket_created,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {
@@ -505,9 +515,11 @@ class ClothingViewModel extends FormViewModel implements Clone {
     _navigationManager.push(
       CoreRoutes.selectService,
       extras: ServiceParams(
-        noResultsText: "Não existem cestos!",
+        noResultsText:
+            LocaleContext.get().client_clothing_closet_clothing_no_buckets,
         services: {
-          "Em que cesto pretende inserir esta peça?": items,
+          LocaleContext.get().client_clothing_closet_clothing_which_bucket:
+              items,
         },
       ),
     );
@@ -536,7 +548,8 @@ class ClothingViewModel extends FormViewModel implements Clone {
       );
 
       _notificationProvider.showNotification(
-        "Peça/s adicionada/s ao cesto com sucesso!",
+        LocaleContext.get()
+            .client_clothing_closet_clothing_garment_added_bucket,
         type: NotificationTypes.success,
       );
     } on HttpError catch (e) {

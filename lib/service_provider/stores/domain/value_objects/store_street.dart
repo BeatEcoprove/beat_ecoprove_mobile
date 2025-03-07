@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 class StoreStreet {
   final String name;
@@ -7,7 +8,7 @@ class StoreStreet {
 
   factory StoreStreet.create(String storeStreet) {
     if (storeStreet.isEmpty) {
-      throw DomainException("Por favor introduza a rua da loja!");
+      throw DomainException(LocaleContext.get().service_provider_stores_street);
     }
 
     return StoreStreet._(storeStreet);

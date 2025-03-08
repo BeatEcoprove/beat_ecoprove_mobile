@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 
 class ListDetailsView
     extends ArgumentView<ListDetailsViewModel, ListDetailsViewParams> {
+  final double paddingTop = 64;
+
   const ListDetailsView({
     super.key,
     required super.viewModel,
@@ -19,14 +21,32 @@ class ListDetailsView
   });
 
   Widget search() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 26),
-      child: DefaultFormattedTextField(
-        hintText: LocaleContext.get().core_search,
-        leftIcon: const Icon(Icons.search_rounded),
-        onChange: (search) => viewModel.setSearch(search),
-        initialValue: viewModel.getValue(FormFieldValues.search).value,
-        errorMessage: viewModel.getValue(FormFieldValues.search).error,
+    return DefaultFormattedTextField(
+      hintText: LocaleContext.get().core_search,
+      leftIcon: const Icon(Icons.search_rounded),
+      onChange: (search) => viewModel.setSearch(search),
+      initialValue: viewModel.getValue(FormFieldValues.search).value,
+      errorMessage: viewModel.getValue(FormFieldValues.search).error,
+    );
+  }
+
+  Widget header(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: paddingTop,
+      ),
+      child: Column(
+        children: [
+          Text(
+            args.title,
+            style: AppText.alternativeHeader,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          search(),
+        ],
       ),
     );
   }
@@ -62,39 +82,29 @@ class ListDetailsView
           child: SizedBox(
             height: double.infinity,
             width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 64,
-                    right: 16,
-                    left: 16,
-                  ),
-                  child: Column(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16, left: 16),
+              child: Column(
+                children: [
+                  Column(
                     children: [
-                      Text(
-                        args.title,
-                        style: AppText.alternativeHeader,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      search(),
-                      RecycleView(
-                        numberMaxItemsPage: args.numberMaxItemsPage,
-                        search:
-                            viewModel.getValue(FormFieldValues.search).value ??
-                                '',
-                        callback: (page, size) {
-                          return getSearch(page, size);
-                        },
-                      ),
+                      header(context),
+                      const SizedBox(height: 12),
                     ],
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: RecycleView(
+                      numberMaxItemsPage: args.numberMaxItemsPage,
+                      search:
+                          viewModel.getValue(FormFieldValues.search).value ??
+                              '',
+                      callback: (page, size) {
+                        return getSearch(page, size);
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

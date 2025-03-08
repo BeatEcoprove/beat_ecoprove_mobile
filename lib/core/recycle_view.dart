@@ -88,23 +88,20 @@ class _RecycleViewState extends State<RecycleView> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.78 - 26,
-      child: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: isLoading == true
-              ? items
-              : items.isEmpty
-                  ? [
-                      Text(
-                        LocaleContext.get().core_recycle_view,
-                        textAlign: TextAlign.center,
-                        style: AppText.smallSubHeader,
-                      )
-                    ]
-                  : items,
-        ),
+    return SingleChildScrollView(
+      controller: _scrollController,
+      child: Column(
+        children: isLoading == true
+            ? items
+            : items.isEmpty
+                ? [
+                    Text(
+                      LocaleContext.get().core_recycle_view,
+                      textAlign: TextAlign.center,
+                      style: AppText.smallSubHeader,
+                    )
+                  ]
+                : items,
       ),
     );
   }

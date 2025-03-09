@@ -19,9 +19,19 @@ class GetClothHistoryUseCase implements UseCase<HistoryActionRequest, Future> {
   Future<List<HistoryItem>> handle(HistoryActionRequest request) async {
     List<HistoryActionResult> historyActionResult = [];
     List<HistoryItem> clothHistory = [];
+    String params = '';
+
+    if (request.params.isNotEmpty) {
+      params = _prepareRequest(request.params);
+    }
 
     try {
-      historyActionResult = await _clothService.getClothHistory(request);
+      historyActionResult = await _clothService.getClothHistory(
+        request.clothId,
+        request.page,
+        request.pageSize,
+        params,
+      );
     } catch (e) {
       rethrow;
     }
@@ -42,5 +52,22 @@ class GetClothHistoryUseCase implements UseCase<HistoryActionRequest, Future> {
       clothHistory.add(result);
     }
     return clothHistory;
+  }
+
+  String _prepareRequest(Map<String, String> params) {
+    Set<String> tags = {};
+    String endPoint = '&';
+
+    for (var param in params.values) {
+      tags.add(param);
+    }
+
+    for (var tag in tags) {
+      endPoint +=
+          '$tag=${params.entries.where((entry) => entry.value.contains(tag)).map((entry) => entry.key).join(',')}';
+      endPoint += '&';
+    }
+
+    return endPoint;
   }
 }

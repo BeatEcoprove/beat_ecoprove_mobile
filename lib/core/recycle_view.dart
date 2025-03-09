@@ -38,14 +38,16 @@ class _RecycleViewState extends State<RecycleView> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didUpdateWidget(covariant RecycleView oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-    setState(() {
-      items.clear();
-      currentPage = defaultPage;
-    });
-    _loadMoreItems();
+    if (oldWidget.search != widget.search) {
+      setState(() {
+        items.clear();
+        currentPage = defaultPage;
+      });
+      _loadMoreItems();
+    }
   }
 
   Future<void> _loadMoreItems() async {

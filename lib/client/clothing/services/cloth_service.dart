@@ -1,5 +1,4 @@
 import 'package:beat_ecoprove/client/clothing/contracts/history/history_action_type.dart';
-import 'package:beat_ecoprove/client/clothing/contracts/history/requests/history_action_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/history/history_action_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/history/responses/dailyUseActivity_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/history/responses/maintenanceActivity_result.dart';
@@ -12,11 +11,15 @@ class ClothService {
   ClothService(this._httpClient);
 
   Future<List<HistoryActionResult>> getClothHistory(
-      HistoryActionRequest historyActionRequest) async {
+    String clothId,
+    int page,
+    int pageSize,
+    String params,
+  ) async {
+    //TODO: Add page, pageSize and search
     var json = await _httpClient.makeRequestJson<List<dynamic>>(
       method: HttpMethods.get,
-      path:
-          "profiles/closet/cloth/${historyActionRequest.clothId}/services/history",
+      path: "profiles/closet/cloth/$clothId/services/history",
       expectedCode: 200,
     );
 

@@ -24,7 +24,10 @@ class ListDetailsView
     return DefaultFormattedTextField(
       hintText: LocaleContext.get().core_search,
       leftIcon: const Icon(Icons.search_rounded),
-      onChange: (search) => viewModel.setSearch(search),
+      onChange: (search) {
+        viewModel.setSearch(search);
+        viewModel.refresh();
+      },
       initialValue: viewModel.getValue(FormFieldValues.search).value,
       errorMessage: viewModel.getValue(FormFieldValues.search).error,
     );
@@ -45,7 +48,7 @@ class ListDetailsView
           const SizedBox(
             height: 12,
           ),
-          search(),
+          if (args.hasSearchBar!) search(),
         ],
       ),
     );
@@ -94,6 +97,9 @@ class ListDetailsView
                   ),
                   Expanded(
                     child: RecycleView(
+                      key: ValueKey(
+                          viewModel.getValue(FormFieldValues.search).value ??
+                              ''),
                       numberMaxItemsPage: args.numberMaxItemsPage,
                       search:
                           viewModel.getValue(FormFieldValues.search).value ??

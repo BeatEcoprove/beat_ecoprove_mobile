@@ -71,7 +71,7 @@ class InfoClothView extends ArgumentView<InfoClothViewModel, InfoClothParams> {
                     OptionItem(
                       name: LocaleContext.get()
                           .client_clothing_info_card_cloth_actions_history,
-                      action: () => viewModel.getClothHistory(),
+                      action: () => viewModel.getClothHistory(context),
                     ),
                   ],
                 ),

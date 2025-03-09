@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
+import 'package:beat_ecoprove/core/domain/models/card_item.dart';
 import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
@@ -62,6 +63,8 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
       action: () => {},
     ),
   ];
+
+  final List<CardItem> clothesToTrade = [];
 
   GroupChatViewModel(
     this._notificationProvider,
@@ -281,9 +284,61 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     clearChatText();
   }
 
-  void sendTradeOffer(String groupId, BuildContext context) {
+  Future<void> getClothesToTrade(int page, int pageSize, String search) async {
     Map<String, String> param = {};
 
+    param.addAll({search: "search"});
+
+    try {
+      clothesToTrade.clear();
+
+      var result = await _getClothesUseCase.handle(
+        GetClothesUseCaseRequest(
+          page: page,
+          pageSize: pageSize,
+          params: param,
+        ),
+      );
+
+      clothesToTrade.addAll(result);
+    } on HttpError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+
+    notifyListeners();
+  }
+
+  List<Widget> _renderCards(List<CardItem> clothes, String groupId) {
+    return clothes
+        .map(
+          (e) => Container(
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            child: CompactListItemRoot(
+              click: () => {
+                _prepareTradeOffer(e.id, groupId),
+                _navigationRouter.pop(),
+              },
+              items: [
+                ImageTitleSubtitleHeader(
+                  widget: PresentImage(
+                    path: ServerImage(e.child),
+                  ),
+                  title: e.title,
+                  subTitle: e.brand!,
+                ),
+              ],
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  void sendTradeOffer(String groupId, BuildContext context) {
     _navigationRouter.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
@@ -291,41 +346,9 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
         numberMaxItemsPage:
             (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
-          param.clear();
-          param.addAll({searchTerm: "search"});
-          var clothes = await _getClothesUseCase.handle(
-            GetClothesUseCaseRequest(
-              page: page,
-              pageSize: pageSize,
-              params: param,
-            ),
-          );
+          await getClothesToTrade(page, pageSize, searchTerm);
 
-          return clothes
-              .where((cloth) =>
-                  cloth.title.toLowerCase().contains(searchTerm.toLowerCase()))
-              .map(
-            (cloth) {
-              return Container(
-                margin: const EdgeInsets.symmetric(vertical: 4),
-                child: CompactListItemRoot(
-                  click: () => {
-                    _prepareTradeOffer(cloth.id, groupId),
-                    _navigationRouter.pop(),
-                  },
-                  items: [
-                    ImageTitleSubtitleHeader(
-                      widget: PresentImage(
-                        path: ServerImage(cloth.child),
-                      ),
-                      title: cloth.title,
-                      subTitle: cloth.brand!,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ).toList();
+          return _renderCards(clothesToTrade, groupId);
         },
       ),
     );

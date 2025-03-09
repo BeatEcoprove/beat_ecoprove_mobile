@@ -14,11 +14,13 @@ class ListDetailsViewParams {
     int page,
     int pageSize,
   )? onSearchPagination;
+  final bool? hasSearchBar;
 
   ListDetailsViewParams({
     this.onSearch,
     this.onSearchPagination,
     required this.title,
     required this.numberMaxItemsPage,
+    this.hasSearchBar = true,
   });
 }

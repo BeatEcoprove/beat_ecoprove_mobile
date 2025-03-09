@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/get_current_maintenance_action_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/history/requests/history_action_request.dart';
+import 'package:beat_ecoprove/client/clothing/domain/models/history_item.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_history_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
@@ -43,6 +44,7 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     title: "",
     child: ServerConfig.defaultImage,
   );
+  final List<HistoryItem> clothHistories = [];
 
   InfoClothViewModel(
     this._navigationManager,
@@ -162,40 +164,67 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     }
   }
 
-  void getClothHistory() {
+  Future<void> getHistory(int page, int pageSize, String search) async {
+    Map<String, String> param = {};
+
+    param.addAll({search: "search"});
+
+    try {
+      clothHistories.clear();
+
+      var result = await _getClothHistoryUseCase.handle(
+        HistoryActionRequest(
+          arg!.index,
+          page: page,
+          pageSize: pageSize,
+          params: param,
+        ),
+      );
+
+      clothHistories.addAll(result);
+    } on HttpError catch (e) {
+      _notificationProvider.showNotification(
+        e.getError().title,
+        type: NotificationTypes.error,
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+
+    notifyListeners();
+  }
+
+  List<Widget> _renderCards(List<HistoryItem> clothHistory) {
+    return clothHistory
+        .map(
+          (e) => Container(
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            child: CompactListItemRoot(
+              items: [
+                TextHeader(
+                  title: e.actionName,
+                  subTitle: DatetimeService.formatDate(e.endedAt),
+                ),
+              ],
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  void getClothHistory(BuildContext context) {
     _navigationManager.push(
       CoreRoutes.listDetails,
       extras: ListDetailsViewParams(
         title:
             LocaleContext.get().client_clothing_info_card_cloth_garment_history,
-        numberMaxItemsPage: 500,
+        numberMaxItemsPage:
+            (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
+        hasSearchBar: false,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
-          var actionsHistory = await _getClothHistoryUseCase.handle(
-            HistoryActionRequest(
-              arg!.index,
-            ),
-          );
+          await getHistory(page, pageSize, searchTerm);
 
-          return actionsHistory
-              .where((clothHistory) => clothHistory.actionName
-                  .toLowerCase()
-                  .contains(searchTerm.toLowerCase()))
-              .map(
-            (clothHistory) {
-              return Container(
-                margin: const EdgeInsets.symmetric(vertical: 4),
-                child: CompactListItemRoot(
-                  items: [
-                    TextHeader(
-                      title: clothHistory.actionName,
-                      subTitle:
-                          DatetimeService.formatDate(clothHistory.endedAt),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ).toList();
+          return _renderCards(clothHistories);
         },
       ),
     );

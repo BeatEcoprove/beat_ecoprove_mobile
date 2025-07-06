@@ -135,7 +135,7 @@ class RegisterClothViewModel extends FormViewModel {
             radix: 16,
           ),
         ),
-        dimension: 50,
+        dimension: 60,
         tag: "color",
       ));
     }

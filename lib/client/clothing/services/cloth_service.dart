@@ -30,8 +30,6 @@ class ClothService {
           return HistoryActionDailyUseActivityResult(e);
         case HistoryActionType.maintenance:
           return HistoryActionMaintenanceActivityResult(e);
-        default:
-          return result;
       }
     }).toList();
   }

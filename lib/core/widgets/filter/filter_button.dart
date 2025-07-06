@@ -124,6 +124,8 @@ class _FilterButton extends State<FilterButton> {
       hasOnlyOne: option.hasOnlyOne,
       filterIsSelect: widget.filterIsSelect,
       onSelectionChanged: getAllFilters,
+      button: option.button,
+      onBeforeButtonTap: closeFilter,
     );
   }
 
@@ -161,6 +163,10 @@ class _FilterButton extends State<FilterButton> {
       context,
       createFilterCard(),
     );
+  }
+
+  void closeFilter() {
+    _overlay.remove();
   }
 
   @override

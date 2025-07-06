@@ -84,10 +84,6 @@ class ApplicationRouter<TView extends LinearView> {
             return ServiceProviderRoutes.serviceProvider;
           }
           break;
-        default:
-          if (checkCurrentPath(state)) {
-            return HomeRoutes.home;
-          }
       }
 
       return null;

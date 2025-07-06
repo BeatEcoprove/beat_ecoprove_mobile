@@ -10,7 +10,6 @@ import 'package:beat_ecoprove/core/widgets/application_background.dart';
 import 'package:beat_ecoprove/core/widgets/headers/standard_header.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
-import 'package:beat_ecoprove/core/widgets/service_button/service_button.dart';
 import 'package:beat_ecoprove/core/widgets/svg_image.dart';
 import 'package:beat_ecoprove/client/profile/presentation/prizes/prizes_view_model.dart';
 import 'package:flutter/material.dart';
@@ -176,82 +175,82 @@ class PrizesView extends LinearView<PrizesViewModel> {
     );
   }
 
-  Widget _categoriesCards() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        height: 150,
-        child: Row(
-          children: [
-            ServiceButton(
-              colorForeground: AppColor.buttonBackground,
-              colorBorder: AppColor.widgetBackground,
-              dimension: 120,
-              colorBackground: AppColor.widgetBackground,
-              object: const SvgImage(
-                path: 'assets/services/dry.svg',
-                width: 60,
-                height: 60,
-                color: AppColor.buttonBackground,
-              ),
-              title: LocaleContext.get().client_profile_prizes_dry,
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            ServiceButton(
-              colorForeground: AppColor.buttonBackground,
-              colorBorder: AppColor.widgetBackground,
-              dimension: 120,
-              colorBackground: AppColor.widgetBackground,
-              object: const SvgImage(
-                path: 'assets/services/wash.svg',
-                width: 70,
-                height: 70,
-                color: AppColor.buttonBackground,
-              ),
-              title: LocaleContext.get().client_profile_prizes_wash,
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            ServiceButton(
-              colorForeground: AppColor.buttonBackground,
-              colorBorder: AppColor.widgetBackground,
-              dimension: 120,
-              colorBackground: AppColor.widgetBackground,
-              object: const SvgImage(
-                path: 'assets/services/iron.svg',
-                width: 60,
-                height: 60,
-                color: AppColor.buttonBackground,
-              ),
-              title: LocaleContext.get().client_profile_prizes_iron,
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            ServiceButton(
-              colorForeground: AppColor.buttonBackground,
-              colorBorder: AppColor.widgetBackground,
-              dimension: 120,
-              colorBackground: AppColor.widgetBackground,
-              object: const SvgImage(
-                path: 'assets/services/repair.svg',
-                width: 60,
-                height: 60,
-                color: AppColor.buttonBackground,
-              ),
-              title: LocaleContext.get().client_profile_prizes_repair,
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _categoriesCards() {
+  //   return SingleChildScrollView(
+  //     scrollDirection: Axis.horizontal,
+  //     child: SizedBox(
+  //       height: 150,
+  //       child: Row(
+  //         children: [
+  //           ServiceButton(
+  //             colorForeground: AppColor.buttonBackground,
+  //             colorBorder: AppColor.widgetBackground,
+  //             dimension: 120,
+  //             colorBackground: AppColor.widgetBackground,
+  //             object: const SvgImage(
+  //               path: 'assets/services/dry.svg',
+  //               width: 60,
+  //               height: 60,
+  //               color: AppColor.buttonBackground,
+  //             ),
+  //             title: LocaleContext.get().client_profile_prizes_dry,
+  //           ),
+  //           const SizedBox(
+  //             width: 6,
+  //           ),
+  //           ServiceButton(
+  //             colorForeground: AppColor.buttonBackground,
+  //             colorBorder: AppColor.widgetBackground,
+  //             dimension: 120,
+  //             colorBackground: AppColor.widgetBackground,
+  //             object: const SvgImage(
+  //               path: 'assets/services/wash.svg',
+  //               width: 70,
+  //               height: 70,
+  //               color: AppColor.buttonBackground,
+  //             ),
+  //             title: LocaleContext.get().client_profile_prizes_wash,
+  //           ),
+  //           const SizedBox(
+  //             width: 6,
+  //           ),
+  //           ServiceButton(
+  //             colorForeground: AppColor.buttonBackground,
+  //             colorBorder: AppColor.widgetBackground,
+  //             dimension: 120,
+  //             colorBackground: AppColor.widgetBackground,
+  //             object: const SvgImage(
+  //               path: 'assets/services/iron.svg',
+  //               width: 60,
+  //               height: 60,
+  //               color: AppColor.buttonBackground,
+  //             ),
+  //             title: LocaleContext.get().client_profile_prizes_iron,
+  //           ),
+  //           const SizedBox(
+  //             width: 6,
+  //           ),
+  //           ServiceButton(
+  //             colorForeground: AppColor.buttonBackground,
+  //             colorBorder: AppColor.widgetBackground,
+  //             dimension: 120,
+  //             colorBackground: AppColor.widgetBackground,
+  //             object: const SvgImage(
+  //               path: 'assets/services/repair.svg',
+  //               width: 60,
+  //               height: 60,
+  //               color: AppColor.buttonBackground,
+  //             ),
+  //             title: LocaleContext.get().client_profile_prizes_repair,
+  //           ),
+  //           const SizedBox(
+  //             width: 6,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   SliverToBoxAdapter _buildAdvertisementSection() {
     return SliverToBoxAdapter(

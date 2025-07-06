@@ -14,6 +14,10 @@ class LanguageProvider extends ChangeNotifier {
   Stream<Locale> get localeStream => _localeSubject.stream;
   Locale get currentLocale => _localeSubject.value;
 
+  String getCurrentLocaleString() {
+    return '${currentLocale.languageCode}_${currentLocale.countryCode ?? ''}';
+  }
+
   Future<void> deviceLanguage() async {
     Locale deviceLocale = Locale(Platform.localeName.split('_')[0]);
     Locale defaultLocale =

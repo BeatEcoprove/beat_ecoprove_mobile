@@ -1,5 +1,10 @@
 import 'package:beat_ecoprove/application_router.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_brand_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
+import 'package:beat_ecoprove/core/presentation/brands/create_brand/create_brand_view.dart';
+import 'package:beat_ecoprove/core/presentation/brands/create_brand/create_brand_view_model.dart';
+import 'package:beat_ecoprove/core/presentation/brands/see_brands/see_brands_view.dart';
+import 'package:beat_ecoprove/core/presentation/brands/see_brands/see_brands_view_model.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_params.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view_model.dart';
@@ -24,6 +29,7 @@ import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_para
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view_model.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
@@ -68,6 +74,21 @@ extension CoreDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
       () => NoWifiViewModel(),
+    );
+
+    locator.registerFactory(
+      () => SeeBrandsViewModel(
+        router,
+        locator<StaticValuesProvider>(),
+      ),
+    );
+
+    locator.registerFactory(
+      () => CreateBrandViewModel(
+        notificationProvider,
+        router,
+        locator<CreateBrandUseCase>(),
+      ),
     );
   }
 
@@ -126,6 +147,18 @@ extension CoreDependencyInjection on DependencyInjection {
     locator.registerFactory(
       () => NoWifiView(
         viewModel: locator<NoWifiViewModel>(),
+      ),
+    );
+
+    locator.registerFactory(
+      () => SeeBrandsView(
+        viewModel: locator<SeeBrandsViewModel>(),
+      ),
+    );
+
+    locator.registerFactory(
+      () => CreateBrandView(
+        viewModel: locator<CreateBrandViewModel>(),
       ),
     );
   }

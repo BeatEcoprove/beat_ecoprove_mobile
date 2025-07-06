@@ -70,13 +70,6 @@ class NotificationProvider extends ViewModel implements INotificationProvider {
         );
 
         break;
-      default:
-        notification = NotificationBanner.info(
-          key: overlayKey,
-          message: message,
-          activeDuration: activeDuration,
-          animationDelay: animationDelay,
-        );
     }
 
     final overlayEntry = OverlayEntry(

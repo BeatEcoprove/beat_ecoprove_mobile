@@ -101,8 +101,6 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
         case ServiceStates.running:
           disableButton = true;
           return;
-        default:
-          disableButton = false;
       }
     } on HttpError catch (e) {
       _notificationProvider.showNotification(

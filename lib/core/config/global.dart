@@ -128,6 +128,12 @@ class AppText {
       fontWeight: FontWeight.bold,
       decoration: TextDecoration.none);
 
+  static const TextStyle smallHeaderGreen = TextStyle(
+      color: AppColor.primaryColor,
+      fontSize: title4,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.none);
+
   static const TextStyle textButton = TextStyle(
     color: AppColor.widgetBackground,
     fontSize: title5,

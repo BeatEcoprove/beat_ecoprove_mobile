@@ -42,8 +42,6 @@ class ClothItem extends CardItemTemplate {
         return extended(context);
       case Types.compact:
         return compact(context);
-      default:
-        return extended(context);
     }
   }
 

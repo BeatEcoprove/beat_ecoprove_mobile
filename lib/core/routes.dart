@@ -1,5 +1,7 @@
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
+import 'package:beat_ecoprove/core/presentation/brands/create_brand/create_brand_view.dart';
+import 'package:beat_ecoprove/core/presentation/brands/see_brands/see_brands_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_view/list_details_view.dart';
 import 'package:beat_ecoprove/core/presentation/list_widget_view/list_widget_view.dart';
 import 'package:beat_ecoprove/core/presentation/make_profile_action/make%20_profile_action_view.dart';
@@ -7,6 +9,7 @@ import 'package:beat_ecoprove/core/presentation/qr_code/qr_code_view.dart';
 import 'package:beat_ecoprove/core/presentation/read_qr_code/read_qr_code_view.dart';
 import 'package:beat_ecoprove/core/presentation/select_service/select_service_view.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view.dart';
+import 'package:beat_ecoprove/core/view.dart';
 
 import 'argument_view.dart';
 
@@ -42,6 +45,14 @@ extension CoreRoutes on AppRoute {
   static final AppRoute selectService = AppRoute(
     path: "select_service",
   );
+
+  static final AppRoute seeBrands = AppRoute(
+    path: "see_brands",
+  );
+
+  static final AppRoute createBrand = AppRoute(
+    path: "create_brand",
+  );
 }
 
 NavigationRoute coreRoutes = NavigationRoute(
@@ -75,6 +86,14 @@ NavigationRoute coreRoutes = NavigationRoute(
     NavigationRoute(
       route: CoreRoutes.selectService,
       view: (context, state) => ArgumentView.of<SelectServiceView>(state.extra),
+    ),
+    NavigationRoute(
+      route: CoreRoutes.seeBrands,
+      view: (context, state) => LinearView.of<SeeBrandsView>(),
+    ),
+    NavigationRoute(
+      route: CoreRoutes.createBrand,
+      view: (context, state) => LinearView.of<CreateBrandView>(),
     ),
   ],
 );

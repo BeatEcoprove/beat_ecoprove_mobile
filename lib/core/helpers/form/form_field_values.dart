@@ -47,6 +47,8 @@ enum FormFieldValues implements Comparable<FormFieldValues> {
   quantityItem(value: "quantityItem"),
   page(value: "page"),
   pageSize(value: "pageSize"),
+  brandImage(value: "brandAvatar"),
+  brandName(value: "brandName"),
   language(value: "language");
 
   final String value;

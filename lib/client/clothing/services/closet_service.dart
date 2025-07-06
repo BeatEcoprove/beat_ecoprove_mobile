@@ -3,6 +3,7 @@ import 'package:beat_ecoprove/client/clothing/contracts/bucket_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/change_bucket_name_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/closet_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/register_brand_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
@@ -133,6 +134,14 @@ class ClosetService {
         .toList();
 
     return resultList;
+  }
+
+  Future registerBrand(RegisterBrandRequest request) async {
+    await _httpClient.makeRequestMultiPart(
+        method: HttpMethods.post,
+        path: "extension/brands/create",
+        body: request,
+        expectedCode: 201);
   }
 
   Future<List<BrandResult>> getAllBrands() async {

@@ -326,8 +326,6 @@ class AppBackground extends StatelessWidget {
         return background9(content);
       case AppBackgrounds.createGroup:
         return background10(content);
-      default:
-        return background1(content);
     }
   }
 

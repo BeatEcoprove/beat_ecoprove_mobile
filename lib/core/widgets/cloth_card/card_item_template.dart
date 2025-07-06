@@ -314,8 +314,6 @@ class _CardItemTemplateState extends State<CardItemTemplate> {
         return extended(constraints, context);
       case Types.compact:
         return compact(constraints, context);
-      default:
-        return extended(constraints, context);
     }
   }
 

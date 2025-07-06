@@ -1,9 +1,12 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/icon_button_rectangular.dart';
 import 'package:flutter/material.dart';
 
 class FilterRowOptions extends StatefulWidget {
+  final VoidCallback? onBeforeButtonTap;
+
   final Function(Map<String, dynamic>, Set<String>) onSelectionChanged;
   final bool Function(String) filterIsSelect;
 
@@ -11,6 +14,7 @@ class FilterRowOptions extends StatefulWidget {
   final List<FilterButtonItem> filterOptions;
   final bool isCircular;
   final bool hasOnlyOne;
+  final VoidCallback? button;
 
   const FilterRowOptions({
     Key? key,
@@ -20,6 +24,8 @@ class FilterRowOptions extends StatefulWidget {
     required this.onSelectionChanged,
     required this.filterIsSelect,
     this.hasOnlyOne = false,
+    this.button,
+    this.onBeforeButtonTap,
   }) : super(key: key);
 
   @override
@@ -35,16 +41,37 @@ class _FilterRowOptionsState extends State<FilterRowOptions> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.title != null) ...[
-          Text(
-            widget.title!,
-            style: AppText.smallHeader,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-        ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (widget.title != null) ...[
+              Text(
+                widget.title!,
+                style: AppText.smallHeader,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+            if (widget.button != null) ...[
+              GestureDetector(
+                onTap: () => {
+                  widget.button?.call(),
+                  if (widget.onBeforeButtonTap != null)
+                    {
+                      widget.onBeforeButtonTap!(),
+                    },
+                },
+                child: Text(
+                  LocaleContext.get().core_see_more,
+                  textAlign: TextAlign.center,
+                  style: AppText.smallHeaderGreen,
+                ),
+              ),
+            ]
+          ],
+        ),
+        const SizedBox(
+          height: 4,
+        ),
         Wrap(
           alignment: WrapAlignment.start,
           runSpacing: 6,

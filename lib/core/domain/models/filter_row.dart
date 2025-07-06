@@ -5,12 +5,14 @@ class FilterRow {
   final String? title;
   final bool isCircular;
   final bool hasOnlyOne;
+  final VoidCallback? button;
 
   FilterRow({
     required this.options,
     this.title,
     this.isCircular = false,
     this.hasOnlyOne = false,
+    this.button,
   });
 }
 

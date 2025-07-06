@@ -421,6 +421,9 @@ class ClothingViewModel extends FormViewModel implements Clone {
       FilterRow(
         title: LocaleContext.get().client_clothing_closet_clothing_brand,
         options: brandItems,
+        button: () {
+          goToSeeBrands();
+        },
       )
     ];
     return [
@@ -576,6 +579,14 @@ class ClothingViewModel extends FormViewModel implements Clone {
           );
         },
       ),
+    );
+
+    await refetch();
+  }
+
+  void goToSeeBrands() async {
+    await _navigationManager.pushAsync(
+      CoreRoutes.seeBrands,
     );
 
     await refetch();

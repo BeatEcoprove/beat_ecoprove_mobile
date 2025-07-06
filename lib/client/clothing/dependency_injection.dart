@@ -5,6 +5,7 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_buckets_use_c
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_history_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_brand_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/closet/clothing_view_model.dart';
@@ -176,6 +177,10 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<GetPublicAdvertsUseCase>(),
         locator<GeoApiService>(),
       ),
+    );
+
+    locator.registerSingleton(
+      CreateBrandUseCase(clothingService),
     );
   }
 

@@ -17,6 +17,7 @@ class GroupHeader extends Header {
     required this.title,
     required this.state,
     required this.numberMembers,
+    super.bottomPadding = 0.0,
     this.helpPress,
     this.onGoBackPress,
     Key? key,

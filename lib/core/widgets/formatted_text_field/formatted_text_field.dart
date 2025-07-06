@@ -68,7 +68,6 @@ mixin BaseFormattedTextField<Page extends FormattedTextField>
       children: [
         LayoutBuilder(
           builder: (context, constraints) => Container(
-            height: 60,
             width: constraints.maxWidth,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(borderRadius),

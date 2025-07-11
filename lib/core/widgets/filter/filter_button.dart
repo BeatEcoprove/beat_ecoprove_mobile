@@ -1,6 +1,8 @@
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/filter_row.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/filter/filter_row_options.dart';
+import 'package:beat_ecoprove/core/widgets/horizontal_selector/filter_card_type.dart';
 import 'package:beat_ecoprove/core/widgets/overlay_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class FilterButton extends StatefulWidget {
   final double contentPaddingRight;
   final double contentPaddingTop;
   final bool needOnlyOne;
+  final bool showClearButton;
   final Function(Map<String, dynamic>) onSelectionChanged;
   final bool Function(String) filterIsSelect;
   final Map<String, dynamic> selectedFilters;
@@ -43,6 +46,7 @@ class FilterButton extends StatefulWidget {
     this.contentPaddingRight = 16,
     this.contentPaddingTop = 16,
     this.needOnlyOne = false,
+    this.showClearButton = false,
   });
 
   @override
@@ -50,13 +54,16 @@ class FilterButton extends StatefulWidget {
 }
 
 class _FilterButton extends State<FilterButton> {
+  Key filterCardKey = UniqueKey();
   late OverlayWidget _overlay;
-  late Map<String, dynamic> selectedFilterButtons = {...widget.selectedFilters};
+  Map<String, dynamic> selectedFilterButtons = {};
   late String selectedInRow = '';
 
   @override
   void initState() {
     super.initState();
+
+    selectedFilterButtons = {...widget.selectedFilters};
 
     _overlay = OverlayWidget(
       top: widget.overlayPaddingTop,
@@ -116,17 +123,34 @@ class _FilterButton extends State<FilterButton> {
     return false;
   }
 
+  bool _localFilterIsSelected(String key) {
+    return selectedFilterButtons.containsKey(key);
+  }
+
   FilterRowOptions renderRowOptions(FilterRow option) {
     return FilterRowOptions(
       title: option.title,
       isCircular: option.isCircular,
       filterOptions: option.options,
       hasOnlyOne: option.hasOnlyOne,
-      filterIsSelect: widget.filterIsSelect,
+      filterIsSelect: _localFilterIsSelected,
       onSelectionChanged: getAllFilters,
       button: option.button,
       onBeforeButtonTap: closeFilter,
     );
+  }
+
+  void _clearFilters() {
+    setState(() {
+      selectedFilterButtons.clear();
+      selectedInRow = '';
+      filterCardKey = UniqueKey();
+    });
+
+    widget.onSelectionChanged({});
+
+    _overlay.remove();
+    _toggleFilter(context);
   }
 
   Widget createFilterCard() {
@@ -149,6 +173,26 @@ class _FilterButton extends State<FilterButton> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (widget.showClearButton) ...[
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FilterCardType(
+                        title: LocaleContext.get().core_filter_clear,
+                        selected: false,
+                        onPress: _clearFilters,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+            ],
             for (var option in widget.options) ...[
               renderRowOptions(option),
             ],
@@ -161,7 +205,7 @@ class _FilterButton extends State<FilterButton> {
   void _toggleFilter(BuildContext context) {
     _overlay.create(
       context,
-      createFilterCard(),
+      (context) => createFilterCard(),
     );
   }
 

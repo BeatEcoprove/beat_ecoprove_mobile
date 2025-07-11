@@ -259,6 +259,7 @@ class ClothingView extends LinearView<ClothingViewModel> {
                     viewModel.changeFilterSelection(filter),
                 filterIsSelect: (filter) => viewModel.haveThisFilter(filter),
                 selectedFilters: viewModel.filterSelection,
+                showClearButton: true,
               ),
             ],
           ),

@@ -21,7 +21,7 @@ class OverlayWidget {
     this.buttonTop = 0,
   });
 
-  create(BuildContext context, Widget content) {
+  create(BuildContext context, WidgetBuilder builder) {
     _overlayEntry = OverlayEntry(
       builder: (context) => Stack(
         children: [
@@ -43,7 +43,7 @@ class OverlayWidget {
             right: right,
             bottom: bottom,
             top: top,
-            child: content,
+            child: builder(context),
           ),
           Positioned(
             right: right + buttonRight,

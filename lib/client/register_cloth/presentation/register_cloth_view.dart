@@ -43,7 +43,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
                   posLeft: 18,
                   child: _buildRegisterForm(context, viewModel),
                 ),
-                type: AppBackgrounds.registerClothBackground1,
+                type: AppBackgrounds.settings,
               ),
             ),
             SizedBox(
@@ -71,6 +71,7 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
       BuildContext context, RegisterClothViewModel viewModel) {
     const double textBoxGap = 12;
     const double dimension = 50;
+    const double gapDropDown = 4;
 
     return SingleChildScrollView(
       child: Padding(
@@ -110,34 +111,84 @@ class RegisterClothView extends LinearView<RegisterClothViewModel> {
             const SizedBox(
               height: textBoxGap,
             ),
-            FormattedDropDown(
-              options:
-                  ClothType.getAllTypes().map((e) => e.displayValue).toList(),
-              value: viewModel
-                  .getValue(FormFieldValues.clothType)
-                  .value
-                  .toString(),
-              onValueChanged: (value) =>
-                  viewModel.setValue(FormFieldValues.clothType, value),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  LocaleContext.get().client_register_category,
+                  style: AppText.subHeader,
+                ),
+                const SizedBox(
+                  height: gapDropDown,
+                ),
+                FormattedDropDown(
+                  options: ClothType.getAllTypes()
+                      .map((e) => e.displayValue)
+                      .toList(),
+                  value: viewModel
+                      .getValue(FormFieldValues.clothType)
+                      .value
+                      .toString(),
+                  onValueChanged: (value) =>
+                      viewModel.setValue(FormFieldValues.clothType, value),
+                ),
+              ],
             ),
             const SizedBox(
               height: textBoxGap,
             ),
-            FormattedDropDown(
-              options: ClothSize.getAllTypes(),
-              value: viewModel.getValue(FormFieldValues.clothSize).value,
-              onValueChanged: (value) =>
-                  viewModel.setValue(FormFieldValues.clothSize, value),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  LocaleContext.get().client_register_size,
+                  style: AppText.subHeader,
+                ),
+                const SizedBox(
+                  height: gapDropDown,
+                ),
+                FormattedDropDown(
+                  options: ClothSize.getAllTypes(),
+                  value: viewModel.getValue(FormFieldValues.clothSize).value,
+                  onValueChanged: (value) =>
+                      viewModel.setValue(FormFieldValues.clothSize, value),
+                ),
+              ],
             ),
             const SizedBox(
               height: textBoxGap,
             ),
             if (viewModel.getAllBrands().isNotEmpty)
-              FormattedDropDown(
-                options: viewModel.getAllBrands(),
-                value: viewModel.getValue(FormFieldValues.clothBrand).value,
-                onValueChanged: (value) =>
-                    viewModel.setValue(FormFieldValues.clothBrand, value),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        LocaleContext.get().client_register_brand,
+                        style: AppText.subHeader,
+                      ),
+                      GestureDetector(
+                        onTap: () => viewModel.goToCreateBrand(),
+                        child: Text(
+                          LocaleContext.get().client_register_cloth_add_brand,
+                          textAlign: TextAlign.center,
+                          style: AppText.smallHeaderGreen,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: gapDropDown,
+                  ),
+                  FormattedDropDown(
+                    options: viewModel.getAllBrands(),
+                    value: viewModel.getValue(FormFieldValues.clothBrand).value,
+                    onValueChanged: (value) =>
+                        viewModel.setValue(FormFieldValues.clothBrand, value),
+                  ),
+                ],
               ),
             const SizedBox(
               height: textBoxGap,

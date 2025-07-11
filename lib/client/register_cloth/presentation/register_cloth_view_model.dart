@@ -217,4 +217,8 @@ class RegisterClothViewModel extends FormViewModel {
   void goToReadQRCode() {
     _navigationRouter.push(CoreRoutes.readQRCode, extras: ReadQRCodeParams());
   }
+
+  void goToCreateBrand() async {
+    await _navigationRouter.pushAsync(CoreRoutes.createBrand);
+  }
 }

@@ -708,6 +708,8 @@
   "@core_brands_create_brand_created": {},
   "core_brands_create_brand_register": "Register Brand",
   "@core_brands_create_brand_register": {},
+  "core_filter_clear": "Clear",
+  "@core_filter_clear": {},
   "gender_male": "Male",
   "@gender_male": {},
   "gender_female": "Female",

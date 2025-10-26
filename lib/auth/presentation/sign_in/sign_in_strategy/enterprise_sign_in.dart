@@ -1,17 +1,19 @@
+import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sing_in_enterprise_request.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
-import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_enterprise_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/address.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in_strategy.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 
 class EnterpriseSignIn implements SignInStratagy {
-  final SignInEnterpriseUseCase _signInEnterpriseUseCase;
+  final AuthenticationService _authenticationService;
+  final Map<FormFieldValues, FormFieldModel> dataList;
 
-  EnterpriseSignIn(this._signInEnterpriseUseCase);
+  EnterpriseSignIn(this._authenticationService, this.dataList);
 
   @override
-  Future handleSignIn(Map<FormFieldValues, FormFieldModel> dataList) async {
+  Future<AuthResult> createProfile() async {
     var request = SignInEnterpriseRequest(
         name: getFormValue(dataList, FormFieldValues.name),
         typeOption: getFormValue(dataList, FormFieldValues.typeOption),
@@ -27,7 +29,11 @@ class EnterpriseSignIn implements SignInStratagy {
         email: getFormValue(dataList, FormFieldValues.email),
         password: getFormValue(dataList, FormFieldValues.password));
 
-    await _signInEnterpriseUseCase.handle(request);
+    try {
+      return await _authenticationService.createProfileEnterprise(request);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

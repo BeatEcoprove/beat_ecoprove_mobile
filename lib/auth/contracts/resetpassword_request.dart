@@ -2,15 +2,17 @@ import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 
 class ResetPasswordRequest implements BaseJsonRequest {
   final String code;
+  final String email;
   final String password;
 
   ResetPasswordRequest(
     this.code,
+    this.email,
     this.password,
   );
 
   @override
   Map<String, dynamic> toJson() {
-    return {"password": password};
+    return {"code": code, "email": email, "password": password};
   }
 }

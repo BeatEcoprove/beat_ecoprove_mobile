@@ -13,4 +13,5 @@ abstract class Tokens {
   static const String type = "type";
   static const String role = "role";
   static const String storeId = "store_id";
+  static const String profileId = "profile_id";
 }

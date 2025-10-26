@@ -108,4 +108,27 @@ class HttpClient {
 
     return _makeRequest(request, expectedCode);
   }
+
+  Future<U> makeRequestFormUrlEncoded<U>({
+    required String method,
+    required String path,
+    required BaseFormUrlEncodedRequest body,
+    Map<String, String>? headers,
+    int expectedCode = HttpStatusCodes.ok,
+  }) async {
+    var request = http.Request(method, Uri.parse("$_baseAddress/$path"));
+
+    if (headers != null) {
+      request.headers.addAll(headers);
+    }
+
+    request.headers.addAll({
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Accept-Language": LocaleContext.getCurrentLocaleString(),
+    });
+
+    request.bodyFields = body.toFormUrlEncoded();
+
+    return _makeRequest(request, expectedCode);
+  }
 }

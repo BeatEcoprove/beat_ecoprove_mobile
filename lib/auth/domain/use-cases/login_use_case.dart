@@ -1,5 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/login_request.dart';
+import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
+import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/core/domain/entities/consumer.dart';
 import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/organization.dart';
@@ -22,6 +24,7 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
   @override
   Future handle(LoginRequest request) async {
     AuthResult tokens;
+    ProfileResult profile;
 
     try {
       tokens = await _authenticationService.login(request);
@@ -35,6 +38,17 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
     // Get Token value to populate the User Object
     Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);
 
+    var profileId = decodedToken[Tokens.profileId];
+
+    try {
+      tokens = await _authenticationService.refreshTokens(RefreshTokensRequest(
+          refreshToken: tokens.refreshToken, profileId: profileId));
+
+      profile = await _authenticationService.getProfileData();
+    } catch (e) {
+      rethrow;
+    }
+
     // Authenticates the use on the app
     _authProvider.authenticate(
       Authentication(
@@ -42,40 +56,41 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
         refreshToken: tokens.refreshToken,
         user: switch (UserType.getOf(decodedToken[Tokens.type])) {
           UserType.consumer => Consumer(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              id: profile.id,
+              name: profile.username,
+              avatarUrl: profile.avatarUrl,
+              level: profile.level.toString(),
+              levelPercent: profile.levelPercentage.toString(),
+              sustainablePoints: profile.sustainabilityPoints.toString(),
+              ecoScore: profile.ecoScorePoints.toString(),
+              ecoCoins: profile.ecoCoins.toString(),
+              xp: profile.xp.toString(),
+              nextLevelXp: profile.nextLevelUp.toString(),
             ),
           UserType.organization => Organization(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              id: profile.id,
+              name: profile.username,
+              avatarUrl: profile.avatarUrl,
+              level: profile.level.toString(),
+              levelPercent: profile.levelPercentage.toString(),
+              sustainablePoints: profile.sustainabilityPoints.toString(),
+              ecoScore: profile.ecoScorePoints.toString(),
+              ecoCoins: profile.ecoCoins.toString(),
+              xp: profile.xp.toString(),
+              nextLevelXp: profile.nextLevelUp.toString(),
             ),
           UserType.employee => Employee(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              id: profile.id,
+              name: profile.username,
+              avatarUrl: profile.avatarUrl,
+              level: profile.level.toString(),
+              levelPercent: profile.levelPercentage.toString(),
+              sustainablePoints: profile.sustainabilityPoints.toString(),
+              ecoScore: profile.ecoScorePoints.toString(),
+              ecoCoins: profile.ecoCoins.toString(),
+              xp: profile.xp.toString(),
+              nextLevelXp: profile.nextLevelUp.toString(),
+              // FIXME: change when open service providers
               workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
               storeId: decodedToken[Tokens.storeId],
             ),

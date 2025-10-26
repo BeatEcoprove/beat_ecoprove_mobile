@@ -132,4 +132,23 @@ class HttpAuthClient implements HttpClient {
         },
         expectedCode: expectedCode);
   }
+
+  @override
+  Future<U> makeRequestFormUrlEncoded<U>(
+      {required String method,
+      required String path,
+      required BaseFormUrlEncodedRequest body,
+      Map<String, String>? headers,
+      int expectedCode = 200}) async {
+    await refreshTokens();
+
+    return _httpClient.makeRequestFormUrlEncoded(
+        method: method,
+        path: parseProfileId(path),
+        body: body,
+        headers: {
+          "Authorization": 'Bearer ${_authenticationProvider.accessToken}'
+        },
+        expectedCode: expectedCode);
+  }
 }

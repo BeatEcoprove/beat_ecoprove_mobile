@@ -1,7 +1,6 @@
 import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
-import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_enterprise_use_case.dart';
-import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_personal_use_case.dart';
+import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_use_case.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_code/insert_reset_code_view.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/insert_reset_code/insert_reset_code_view_model.dart';
 import 'package:beat_ecoprove/auth/presentation/forgot_password/reset_params.dart';
@@ -34,14 +33,7 @@ extension AuthDependencyInjection on DependencyInjection {
     );
 
     locator.registerSingleton(
-      SignInEnterpriseUseCase(
-        authenticationProvider,
-        authenticationService,
-      ),
-    );
-
-    locator.registerSingleton(
-      SignInPersonalUseCase(
+      SignInUseCase(
         authenticationProvider,
         authenticationService,
       ),
@@ -49,8 +41,6 @@ extension AuthDependencyInjection on DependencyInjection {
   }
 
   void _addViewModels(GetIt locator) {
-    var singInPersonalUseCase = locator<SignInPersonalUseCase>();
-    var singInEnterpriseUseCase = locator<SignInEnterpriseUseCase>();
     var authService = locator<AuthenticationService>();
 
     locator.registerFactory(
@@ -65,8 +55,7 @@ extension AuthDependencyInjection on DependencyInjection {
     locator.registerFactory(
       () => SignInViewModel(
         locator<INavigationManager>(),
-        singInPersonalUseCase,
-        singInEnterpriseUseCase,
+        locator<AuthenticationService>(),
         locator<INotificationProvider>(),
       ),
     );

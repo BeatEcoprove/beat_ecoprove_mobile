@@ -10,4 +10,5 @@ abstract class Tokens {
   static const String ecoCoins = "eco_coins";
   static const String xp = "current_xp";
   static const String nextLevelXp = "next_level_xp";
+  static const String profileId = "profile_id";
 }

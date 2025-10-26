@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/name.dart';
@@ -64,8 +63,8 @@ class CreateProfileViewModel extends FormViewModel {
 
   Future setProfileUserName(String profileUserName) async {
     try {
-      bool isValid = await _authenticationService
-          .validateFields(ValidateFieldRequest("username", profileUserName));
+      bool isValid =
+          await _authenticationService.validateUsernameField(profileUserName);
 
       if (!isValid) {
         setError(

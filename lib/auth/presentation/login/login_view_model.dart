@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/auth/contracts/forgotpassword_request.dart';
 import 'package:beat_ecoprove/auth/contracts/login_request.dart';
-import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/use-cases/login_use_case.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
@@ -80,8 +79,8 @@ class LoginViewModel extends FormViewModel {
       return;
     }
 
-    var checkIfEmailExists = await _authenticationService
-        .validateFields(ValidateFieldRequest("email", emailValue));
+    var checkIfEmailExists =
+        await _authenticationService.validateEmailField(emailValue);
 
     if (checkIfEmailExists) {
       return _notificationProvider.showNotification(

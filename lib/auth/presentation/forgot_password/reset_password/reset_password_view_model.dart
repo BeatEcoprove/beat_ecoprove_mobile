@@ -85,6 +85,7 @@ class ResetPasswordViewModel extends FormViewModel {
 
   void handleRefreshPassword(String code) async {
     var password = getValue(FormFieldValues.password).value ?? "";
+    var email = getValue(FormFieldValues.email).value ?? "";
     isLoading = true;
     notifyListeners();
 
@@ -92,6 +93,7 @@ class ResetPasswordViewModel extends FormViewModel {
       await _authenticationService.resetPassword(
         ResetPasswordRequest(
           code,
+          email,
           password,
         ),
       );

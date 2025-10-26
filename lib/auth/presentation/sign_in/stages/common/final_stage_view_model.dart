@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
@@ -32,8 +31,7 @@ class FinalStageViewModel extends StageViewModel {
     email = email.trim();
 
     try {
-      bool isValid = await _authenticationService
-          .validateFields(ValidateFieldRequest("email", email));
+      bool isValid = await _authenticationService.validateEmailField(email);
 
       if (!isValid) {
         setError(

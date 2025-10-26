@@ -5,3 +5,7 @@ abstract class BaseJsonRequest {
 abstract class BaseMultiPartRequest {
   Map<String, dynamic> toMultiPart();
 }
+
+abstract class BaseFormUrlEncodedRequest {
+  Map<String, String> toFormUrlEncoded();
+}

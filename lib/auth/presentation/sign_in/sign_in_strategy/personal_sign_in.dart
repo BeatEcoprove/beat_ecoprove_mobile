@@ -1,17 +1,19 @@
+import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/sign_in/sign_in_personal_request.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_model.dart';
-import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_personal_use_case.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in_strategy.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 
 class PersonalSignIn implements SignInStratagy {
-  final SignInPersonalUseCase _signInPersonalUseCase;
+  final AuthenticationService _authenticationService;
+  final Map<FormFieldValues, FormFieldModel> dataList;
 
-  PersonalSignIn(this._signInPersonalUseCase);
+  PersonalSignIn(this._authenticationService, this.dataList);
 
   @override
-  Future handleSignIn(Map<FormFieldValues, FormFieldModel> dataList) async {
+  Future<AuthResult> createProfile() async {
     var request = SignInPersonalRequest(
         name: getFormValue(dataList, FormFieldValues.name),
         bornDate: getFormValue(dataList, FormFieldValues.bornDate),
@@ -22,7 +24,11 @@ class PersonalSignIn implements SignInStratagy {
         password: getFormValue(dataList, FormFieldValues.password),
         phone: getFormValue(dataList, FormFieldValues.phone));
 
-    await _signInPersonalUseCase.handle(request);
+    try {
+      return await _authenticationService.createProfilePersonal(request);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

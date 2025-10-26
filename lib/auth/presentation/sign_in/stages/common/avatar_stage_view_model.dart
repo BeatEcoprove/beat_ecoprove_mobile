@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:beat_ecoprove/auth/contracts/validate_field_request.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/user_name.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
@@ -38,8 +37,8 @@ class AvatarStageViewModel extends StageViewModel {
     userName = userName.trim();
 
     try {
-      bool isValid = await _authenticationService
-          .validateFields(ValidateFieldRequest("username", userName));
+      bool isValid =
+          await _authenticationService.validateUsernameField(userName);
 
       if (!isValid) {
         setError(

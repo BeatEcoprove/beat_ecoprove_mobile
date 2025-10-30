@@ -24,11 +24,11 @@ class GroupResult {
       json['id'],
       json['name'],
       json['description'],
-      json['membersCount'],
-      json['sustainablePoints'],
+      json['member_count'],
+      json['sustainability_points'],
       json['xp'],
-      json['isPublic'],
-      json['avatarPicture'],
+      json['is_public'],
+      json['avatar_url'],
     );
   }
 }

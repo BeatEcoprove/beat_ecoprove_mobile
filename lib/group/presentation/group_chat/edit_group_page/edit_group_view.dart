@@ -121,7 +121,7 @@ class EditGroupView extends ArgumentView<EditGroupViewModel, EditGroupParams> {
                               textColor: Colors.white,
                               disabled: viewModel.thereAreErrors,
                               onPress: () async =>
-                                  await viewModel.updateGroup(),
+                                  await viewModel.updateGroup(args.group.id),
                             )
                           ],
                         ),

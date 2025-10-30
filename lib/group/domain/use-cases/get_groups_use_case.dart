@@ -6,12 +6,10 @@ import 'package:beat_ecoprove/group/services/group_service.dart';
 
 class GetGroupsUseCaseRequest {
   final Map<String, String> params;
-  final int page;
   final int pageSize;
 
   GetGroupsUseCaseRequest({
     Map<String, String>? params,
-    this.page = 1,
     this.pageSize = 10,
   }) : params = params ?? {};
 }
@@ -35,7 +33,6 @@ class GetGroupsUseCase
 
     try {
       groupsResult = await _groupService.getGroups(
-        request.page,
         request.pageSize,
         params,
       );
@@ -43,7 +40,7 @@ class GetGroupsUseCase
       rethrow;
     }
 
-    for (var privateGroup in groupsResult.privateGroups) {
+    for (var privateGroup in groupsResult.groups) {
       var card = GroupItem(
         id: privateGroup.id,
         name: privateGroup.name,
@@ -58,20 +55,21 @@ class GetGroupsUseCase
       privateGroups.add(card);
     }
 
-    for (var publicGroup in groupsResult.publicGroups) {
-      var card = GroupItem(
-        id: publicGroup.id,
-        name: publicGroup.name,
-        description: publicGroup.description,
-        isPublic: publicGroup.isPublic,
-        membersCount: publicGroup.membersCount,
-        sustainablePoints: publicGroup.sustainablePoints,
-        xp: publicGroup.xp,
-        avatarPicture: publicGroup.avatarPicture,
-      );
+    //FIXME: Enable when the server supports public groups
+    // for (var publicGroup in groupsResult.publicGroups) {
+    //   var card = GroupItem(
+    //     id: publicGroup.id,
+    //     name: publicGroup.name,
+    //     description: publicGroup.description,
+    //     isPublic: publicGroup.isPublic,
+    //     membersCount: publicGroup.membersCount,
+    //     sustainablePoints: publicGroup.sustainablePoints,
+    //     xp: publicGroup.xp,
+    //     avatarPicture: publicGroup.avatarPicture,
+    //   );
 
-      publicGroups.add(card);
-    }
+    //   publicGroups.add(card);
+    // }
 
     return GroupList(globals: publicGroups, mine: privateGroups);
   }

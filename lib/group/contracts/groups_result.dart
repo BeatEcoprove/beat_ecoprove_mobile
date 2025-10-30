@@ -1,18 +1,15 @@
 import 'package:beat_ecoprove/group/contracts/group_result.dart';
 
 class GroupsResult {
-  final List<GroupResult> publicGroups;
-  final List<GroupResult> privateGroups;
+  final List<GroupResult> groups;
 
   GroupsResult(
-    this.publicGroups,
-    this.privateGroups,
+    this.groups,
   );
 
   factory GroupsResult.fromJson(Map<String, dynamic> json) {
     return GroupsResult(
-      _convertJsonToGroupResult(json['publicGroups']),
-      _convertJsonToGroupResult(json['privateGroups']),
+      _convertJsonToGroupResult(json['data']),
     );
   }
 

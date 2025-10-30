@@ -1,14 +1,12 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 
-class ActionToMemberOfGroupRequest implements BaseJsonRequest {
+class LeaveGroupRequest implements BaseJsonRequest {
   final String memberId;
   final String groupId;
-  final String role;
 
-  ActionToMemberOfGroupRequest(
+  LeaveGroupRequest(
     this.memberId,
     this.groupId,
-    this.role,
   );
 
   @override

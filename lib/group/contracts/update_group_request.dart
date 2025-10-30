@@ -3,7 +3,6 @@ import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateGroupRequest implements BaseMultiPartRequest {
-  final String adminId;
   final String groupId;
   final String groupName;
   final String groupDescription;
@@ -11,7 +10,6 @@ class UpdateGroupRequest implements BaseMultiPartRequest {
   final XFile groupPicture;
 
   UpdateGroupRequest(
-    this.adminId,
     this.groupId,
     this.groupName,
     this.groupDescription,
@@ -24,8 +22,8 @@ class UpdateGroupRequest implements BaseMultiPartRequest {
     return {
       'name': groupName,
       'description': groupDescription,
-      'isPublic': groupIsPublic == GroupType.public ? "true" : "false",
-      'avatarPicture': groupPicture,
+      'is_public': groupIsPublic == GroupType.public ? "true" : "false",
+      'avatar_url': groupPicture,
     };
   }
 }

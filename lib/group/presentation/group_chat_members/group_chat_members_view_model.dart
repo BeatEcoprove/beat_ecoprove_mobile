@@ -17,6 +17,7 @@ import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/group/contracts/get_out_group_request.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/invite_member_request.dart';
+import 'package:beat_ecoprove/group/contracts/leave_group_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/despromove_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/invite_member_to_group_use_case.dart';
@@ -121,8 +122,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
 
   Future<void> leaveGroup(String memberId, String groupId) async {
     try {
-      await _leaveGroupUseCase
-          .handle(ActionToMemberOfGroupRequest(memberId, groupId));
+      await _leaveGroupUseCase.handle(LeaveGroupRequest(memberId, groupId));
 
       if (memberId == _user?.id) {
         await _navigationManager.pushAsync(HomeRoutes.home);
@@ -147,7 +147,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   Future<void> promoteMember(String memberId, String groupId) async {
     try {
       await _promoteMemberUseCase
-          .handle(ActionToMemberOfGroupRequest(memberId, groupId));
+          .handle(ActionToMemberOfGroupRequest(memberId, groupId, "moderator"));
 
       _notificationProvider.showNotification(
         LocaleContext.get().group_group_chat_members_promoted,
@@ -168,7 +168,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   Future<void> despromoveMember(String memberId, String groupId) async {
     try {
       await _despromoveMemberUseCase
-          .handle(ActionToMemberOfGroupRequest(memberId, groupId));
+          .handle(ActionToMemberOfGroupRequest(memberId, groupId, "member"));
 
       _notificationProvider.showNotification(
         LocaleContext.get().group_group_chat_members_demoted,

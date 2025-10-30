@@ -71,7 +71,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   }
 
   Future refetch() async {
-    await getGroups(1, numGroupsToShow, "");
+    await getGroups(numGroupsToShow, "");
   }
 
   @override
@@ -86,7 +86,7 @@ class GroupViewModel extends FormViewModel implements Clone {
     try {
       setValue<String>(FormFieldValues.search, search);
 
-      await getGroups(1, numGroupsToShowSearch, search);
+      await getGroups(numGroupsToShowSearch, search);
     } on DomainException catch (e) {
       setError(FormFieldValues.search, e.message);
     }
@@ -115,10 +115,7 @@ class GroupViewModel extends FormViewModel implements Clone {
 
   Future _handleAccept(InviteToGroupNotification notification) async {
     try {
-      await _groupService.acceptMember(AcceptMemberOnGroupRequest(
-        notification.groupId,
-        notification.code,
-      ));
+      await _groupService.acceptMember(InviteTokenRequest(notification.code));
 
       notifications.remove(notification);
 
@@ -140,10 +137,7 @@ class GroupViewModel extends FormViewModel implements Clone {
 
   Future _handleDenied(InviteToGroupNotification notification) async {
     try {
-      await _groupService.deniedMember(AcceptMemberOnGroupRequest(
-        notification.groupId,
-        notification.code,
-      ));
+      await _groupService.deniedMember(InviteTokenRequest(notification.code));
 
       notifications.remove(notification);
 
@@ -163,7 +157,7 @@ class GroupViewModel extends FormViewModel implements Clone {
     await refetch();
   }
 
-  Future<void> getGroups(int page, int pageSize, String search) async {
+  Future<void> getGroups(int pageSize, String search) async {
     Map<String, String> param = {};
 
     param.addAll({search: "search"});
@@ -175,7 +169,6 @@ class GroupViewModel extends FormViewModel implements Clone {
       publicGroups.clear();
 
       var result = await _getGroupsUseCase.handle(GetGroupsUseCaseRequest(
-        page: page,
         pageSize: pageSize,
         params: param,
       ));
@@ -210,7 +203,7 @@ class GroupViewModel extends FormViewModel implements Clone {
         numberMaxItemsPage:
             (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
-          await getGroups(page, pageSize, searchTerm);
+          await getGroups(pageSize, searchTerm);
 
           return func(privateGroups);
         },
@@ -227,7 +220,7 @@ class GroupViewModel extends FormViewModel implements Clone {
             (MediaQuery.sizeOf(context).height.ceil() / 70).ceil() + 2,
         title: LocaleContext.get().group_group_chat_global_groups,
         onSearchPagination: (searchTerm, vm, page, pageSize) async {
-          await getGroups(page, pageSize, searchTerm);
+          await getGroups(pageSize, searchTerm);
 
           return func(publicGroups);
         },

@@ -68,20 +68,20 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
               onPress: () => viewModel.goToChatMembers(args),
             ),
           ),
-          // Positioned(
-          //   top: 70,
-          //   right: 20,
-          //   child: CircularButton(
-          //     height: 46,
-          //     icon: const Icon(
-          //       Icons.mode_edit_outline_outlined,
-          //       color: AppColor.bottomNavigationBar,
-          //     ),
-          //     onPress: () async => viewModel.isLoading
-          //         ? {}
-          //         : await viewModel.updateGroup(args.id),
-          //   ),
-          // ),
+          Positioned(
+            top: 70,
+            right: 20,
+            child: CircularButton(
+              height: 46,
+              icon: const Icon(
+                Icons.mode_edit_outline_outlined,
+                color: AppColor.bottomNavigationBar,
+              ),
+              onPress: () async => viewModel.isLoading
+                  ? {}
+                  : await viewModel.updateGroup(args.id),
+            ),
+          ),
           // const Positioned(
           //   top: 70,
           //   right: 20,

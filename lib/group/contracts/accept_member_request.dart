@@ -1,16 +1,14 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 
-class AcceptMemberOnGroupRequest implements BaseJsonRequest {
-  final String groupId;
-  final String code;
+class InviteTokenRequest implements BaseJsonRequest {
+  final String token;
 
-  AcceptMemberOnGroupRequest(
-    this.groupId,
-    this.code,
+  InviteTokenRequest(
+    this.token,
   );
 
   @override
   Map<String, dynamic> toJson() {
-    return {};
+    return {"token": token};
   }
 }

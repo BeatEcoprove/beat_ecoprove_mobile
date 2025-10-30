@@ -11,6 +11,6 @@ class InviteMemberRequest implements BaseJsonRequest {
 
   @override
   Map<String, dynamic> toJson() {
-    return {};
+    return {"invitee_id": memberId, "role": 0};
   }
 }

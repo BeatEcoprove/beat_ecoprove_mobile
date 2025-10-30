@@ -35,14 +35,12 @@ class InviteToGroupHandler extends Handler<WebsocketInviteToGroup> {
   }
 
   Future _handleAccept(InviteToGroupNotification notification) async {
-    await groupService.acceptMember(
-        AcceptMemberOnGroupRequest(message.groupId, message.code));
+    await groupService.acceptMember(InviteTokenRequest(notification.code));
     notificationManager.removeNotification(notification);
   }
 
   Future _handleDenied(InviteToGroupNotification notification) async {
-    await groupService.deniedMember(
-        AcceptMemberOnGroupRequest(message.groupId, message.code));
+    await groupService.deniedMember(InviteTokenRequest(notification.code));
     notificationManager.removeNotification(notification);
   }
 }

@@ -11,7 +11,7 @@ class PromoteMemberUseCase
   @override
   Future handle(ActionToMemberOfGroupRequest request) async {
     try {
-      await _groupService.promoteMember(request);
+      await _groupService.changeMemberRole(request);
     } catch (e) {
       rethrow;
     }

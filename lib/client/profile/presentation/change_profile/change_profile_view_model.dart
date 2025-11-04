@@ -17,7 +17,7 @@ import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_para
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
@@ -86,8 +86,8 @@ class ChangeProfileViewModel extends ViewModel {
     }
 
     await refreshTokens();
-    DependencyInjection.locator<IWCNotifier>().logOut();
-    await DependencyInjection.locator<IWCNotifier>().logIn();
+    DependencyInjection.locator<IPhoenixWsNotifier>().logOut();
+    await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
     _notificationProvider.showNotification(
       LocaleContext.get().client_profile_change_profile_profile_alter,

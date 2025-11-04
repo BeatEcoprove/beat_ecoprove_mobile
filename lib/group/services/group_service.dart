@@ -104,7 +104,6 @@ class GroupService {
     );
   }
 
-  //FIXME:
   Future<ChatMessages> getMessages(String groupId) async {
     var response = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
@@ -112,7 +111,7 @@ class GroupService {
       expectedCode: 200,
     );
 
-    return ChatMessages.fromJson(response);
+    return ChatMessages.fromApi(response, groupId);
   }
 
   //FIXME:

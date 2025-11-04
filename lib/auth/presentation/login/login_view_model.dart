@@ -13,7 +13,7 @@ import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:flutter/material.dart';
 
@@ -128,7 +128,7 @@ class LoginViewModel extends FormViewModel {
 
     try {
       await _loginUseCase.handle(LoginRequest(email, password));
-      await DependencyInjection.locator<IWCNotifier>().logIn();
+      await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
       _navigationRouter.push(AppRoute.root);
     } on HttpError catch (e) {

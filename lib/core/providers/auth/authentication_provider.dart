@@ -8,7 +8,7 @@ import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/store.dart';
-import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -33,7 +33,7 @@ class AuthenticationProvider extends ViewModel {
 
     if (refreshToken.isEmpty || !validateToken(refreshToken)) return;
 
-    DependencyInjection.locator<IWCNotifier>().logIn();
+    DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
 
@@ -104,7 +104,7 @@ class AuthenticationProvider extends ViewModel {
   }
 
   Future logout() async {
-    DependencyInjection.locator<IWCNotifier>().logOut();
+    DependencyInjection.locator<IPhoenixWsNotifier>().logOut();
     await StorageService.clearValue(Store.refreshToken);
     _appUser = null;
     _isAuthenticated = false;

@@ -6,7 +6,7 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
-import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/despromove_group_member_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
@@ -110,7 +110,7 @@ extension GroupDependencyInjection on DependencyInjection {
         getDetailsUseCase,
         getClothesUseCase,
         router,
-        locator<IWCNotifier>(),
+        locator<IPhoenixWsNotifier>(),
         locator<GroupManager>(),
         locator<GroupService>(),
       ),

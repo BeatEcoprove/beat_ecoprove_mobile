@@ -15,8 +15,8 @@ import 'package:beat_ecoprove/core/providers/language_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/notifications/notification_manager.dart';
-import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
-import 'package:beat_ecoprove/core/providers/websockets/websocket_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_websocket_manager.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/services/country_codes_service.dart';
 import 'package:beat_ecoprove/core/services/geo_api_service.dart';
 import 'package:beat_ecoprove/core/services/internet_service.dart';
@@ -78,8 +78,8 @@ class DependencyInjection {
   }
 
   void registerWebsockets(GetIt locator) {
-    var ws = locator.registerSingleton<IWebSocketManager>(
-      SingleSessionManager(
+    var phoenixWs = locator.registerSingleton<IPhoenixWebSocketManager>(
+      PhoenixWebSocketManager(
         ServerConfig.websocketUrl,
       ),
     );
@@ -88,8 +88,8 @@ class DependencyInjection {
       () => GroupService(locator<HttpAuthClient>()),
     );
 
-    locator.registerSingleton<IWCNotifier>(SingleConnectionWsNotifier(
-      ws,
+    locator.registerSingleton<IPhoenixWsNotifier>(SinglePhoenixWsNotifier(
+      phoenixWs,
       locator<AuthenticationProvider>(),
       locator<LevelUpProvider>(),
       locator<INotificationProvider>(),

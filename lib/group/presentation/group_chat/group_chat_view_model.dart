@@ -16,7 +16,7 @@ import 'package:beat_ecoprove/core/providers/groups/group_borrowchat_message.dar
 import 'package:beat_ecoprove/core/providers/groups/group_chat_message.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/core/providers/websockets/single_ws_notifier.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/widgets/chat/chat_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/chat/content/chat_message_item.dart';
@@ -38,7 +38,7 @@ import 'package:flutter/material.dart';
 
 class GroupChatViewModel extends FormViewModel<GroupItem> {
   final INotificationProvider _notificationProvider;
-  final IWCNotifier _sessionWsNotifier;
+  final IPhoenixWsNotifier _sessionWsNotifier;
   final GroupService _groupService;
 
   final AuthenticationProvider _authProvider;
@@ -72,10 +72,10 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     this._getDetailsUseCase,
     this._getClothesUseCase,
     this._navigationRouter,
-    this._sessionWsNotifier,
+    IPhoenixWsNotifier sessionWsNotifier,
     this._groupManager,
     this._groupService,
-  ) {
+  ) : _sessionWsNotifier = sessionWsNotifier {
     _user = _authProvider.appUser;
     initializeFields([
       FormFieldValues.search,
@@ -91,7 +91,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     _groupManager.addListener(handleGroupMessage);
 
     if (arg != null) {
-      _sessionWsNotifier.enterGroup(arg!.id);
+      _sessionWsNotifier.joinGroup(arg!.id);
       await initGroupConnection(arg!.id);
     }
   }
@@ -254,7 +254,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   }
 
   void exitGroup(String groupId) {
-    _sessionWsNotifier.exitGroup(groupId);
+    _sessionWsNotifier.leaveGroup(groupId);
   }
 
   void setTextMessage(String text) {
@@ -273,7 +273,7 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
         throw DomainException(LocaleContext.get().group_group_chat_add_msg);
       }
 
-      _sessionWsNotifier.sendMessageOnGroup(groupId, text);
+      _sessionWsNotifier.sendTextMessage(groupId, text);
     } on DomainException catch (e) {
       _notificationProvider.showNotification(
         e.message,

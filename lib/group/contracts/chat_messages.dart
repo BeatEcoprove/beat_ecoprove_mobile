@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
 import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
-import 'package:beat_ecoprove/service_provider/stores/contracts/chat_rating_result.dart';
 
 class ChatMessages {
   List<ChatMessageResult> messages;
@@ -9,30 +8,20 @@ class ChatMessages {
     this.messages,
   );
 
-  factory ChatMessages.fromJson(List<dynamic> json) {
-    return ChatMessages(
-      _convertJsonToChatMessageResult(json),
-    );
-  }
+  factory ChatMessages.fromApi(Map<String, dynamic> response, String groupId) {
+    final List<dynamic> data = (response['data'] as List?) ?? [];
 
-  static List<ChatMessageResult> _convertJsonToChatMessageResult(
-      List<dynamic> groups) {
-    var group = groups.map((item) {
-      var {"type": type} = item;
+    final results = data.map((item) {
+      final type = (item['type'] ?? '').toString();
       switch (type) {
-        case "MessageResult":
-          return ChatMessageResult.fromJson(item);
-
-        case "BorrowMessageResult":
-          return ChatBorrowResult.fromJson(item);
-
-        case "RatingMessageResult":
-          return ChatRatingMessageResult.fromJson(item);
-
+        case 'borrow':
+          return ChatBorrowResult.fromNewApi(item, groupId);
+        case 'text':
         default:
-          return ChatMessageResult.fromJson(item);
+          return ChatMessageResult.fromNewApi(item, groupId);
       }
     }).toList();
-    return group;
+
+    return ChatMessages(results);
   }
 }

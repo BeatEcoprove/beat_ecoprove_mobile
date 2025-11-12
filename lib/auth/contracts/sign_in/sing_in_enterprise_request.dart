@@ -1,47 +1,40 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/address.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
-import 'package:image_picker/image_picker.dart';
 
-class SignInEnterpriseRequest implements BaseMultiPartRequest {
-  final String name;
-  final String typeOption;
+class SignInEnterpriseRequest implements BaseJsonRequest {
+  final String profileId;
+  final String firstName;
+  final String lastName;
+  final String displayName;
   final Phone phone;
-  final String country;
   final Address address;
-  final String userName;
-  final XFile avatarUrl;
-  final String email;
-  final String password;
+  final String country;
 
   SignInEnterpriseRequest({
-    required this.name,
-    required this.typeOption,
+    required this.profileId,
+    required this.firstName,
+    required this.lastName,
+    required this.displayName,
     required this.phone,
     required this.country,
     required this.address,
-    required this.userName,
-    required this.avatarUrl,
-    required this.email,
-    required this.password,
   });
 
   @override
-  Map<String, dynamic> toMultiPart() {
+  Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'typeOption': typeOption,
-      'countryCode': phone.countryCode,
-      'phone': phone.value.replaceAll(" ", ""),
-      'country': country,
+      'profile_id': profileId,
+      'first_name': firstName,
+      'last_name': lastName,
+      'display_name': displayName,
+      'biography': '',
+      'phone_number': phone.countryCode + phone.value.replaceAll(" ", ""),
       'street': address.street,
-      'port': address.port.toString(),
+      'country': country,
       'locality': address.locality,
-      'postalCode': address.postalCode.toString(),
-      'userName': userName,
-      'avatarPicture': avatarUrl,
-      'email': email,
-      'password': password,
+      'port': address.port.toString(),
+      'zip_code': address.postalCode.toString(),
     };
   }
 }

@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
+import 'package:beat_ecoprove/auth/services/registration_service.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/change_profile_view.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_page_params.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_profile_view.dart';
@@ -48,7 +49,11 @@ extension ProfileDependencyInjection on DependencyInjection {
     var exchangeService = locator<ExchangeService>();
     var feedbackService = locator<FeedbackService>();
 
-    locator.registerSingleton(RegisterProfileUseCase(profileService));
+    locator.registerSingleton(RegisterProfileUseCase(
+        profileService,
+        locator<AuthenticationService>(),
+        locator<RegistrationService>(),
+        locator<AuthenticationProvider>()));
     locator.registerSingleton(GetNestedProfilesUseCase(profileService));
     locator.registerSingleton(DeleteProfileUseCase(profileService));
     locator.registerSingleton(PromoteProfileUseCase(profileService));

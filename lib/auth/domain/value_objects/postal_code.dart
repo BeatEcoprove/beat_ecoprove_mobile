@@ -15,6 +15,10 @@ class PostalCode {
     return PostalCode._(value: postalCode);
   }
 
+  factory PostalCode.empty() {
+    return PostalCode._(value: '');
+  }
+
   @override
   String toString() {
     return value;

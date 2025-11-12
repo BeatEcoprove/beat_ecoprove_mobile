@@ -11,7 +11,7 @@ class ExchangeService {
     return await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path:
-          "extension/concurrency/convert?ecoCoins=${request.ecoCoins}&sustainabilityPoints=${request.sustainablePoints}",
+          "extensions/currency/convert?eco_coins=${request.ecoCoins}&sustainability_points=${request.sustainablePoints}",
       expectedCode: 200,
     );
   }

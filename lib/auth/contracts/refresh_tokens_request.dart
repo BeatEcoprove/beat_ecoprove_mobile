@@ -8,6 +8,10 @@ class RefreshTokensRequest implements BaseFormUrlEncodedRequest {
 
   @override
   Map<String, String> toFormUrlEncoded() {
-    return {"refreshToken": refreshToken, "profileId": profileId};
+    return {
+      "grant_type": "refresh_token",
+      "token": refreshToken,
+      "profile_id": profileId,
+    };
   }
 }

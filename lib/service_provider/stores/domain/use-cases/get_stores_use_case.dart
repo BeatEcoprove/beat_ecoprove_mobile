@@ -32,11 +32,13 @@ class GetStoresUseCase
     }
 
     try {
-      storeResult = await _storeService.getStores(
-        filters,
-        page: request.page,
-        pageSize: request.pageSize,
-      );
+      //FIXME: endpoint not ready yet
+      storeResult = [];
+      // storeResult = await _storeService.getStores(
+      //   filters,
+      //   page: request.page,
+      //   pageSize: request.pageSize,
+      // );
     } catch (e) {
       rethrow;
     }

@@ -12,7 +12,7 @@ class LevelProgress extends StatelessWidget {
   final Color color;
   final VoidCallback? onPress;
   final String url;
-  final double percent;
+  final int percent;
   final int level;
 
   const LevelProgress({
@@ -27,7 +27,7 @@ class LevelProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Tween<double> tween = Tween<double>(begin: 0, end: percent);
+    Tween<int> tween = Tween<int>(begin: 0, end: percent);
     double imgSize = 300;
 
     return SizedBox(
@@ -108,7 +108,7 @@ class LevelProgressPainter extends CustomPainter {
   Color lineColor = Colors.transparent;
   Color completeColor;
   double width;
-  double percent;
+  int percent;
 
   LevelProgressPainter({
     required this.completeColor,

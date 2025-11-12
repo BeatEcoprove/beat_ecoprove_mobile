@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
+import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/contracts/login_request.dart';
-import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/core/domain/entities/consumer.dart';
 import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/organization.dart';
@@ -12,19 +12,24 @@ import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/store.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 
 class LoginUseCase implements UseCase<LoginRequest, Future> {
   final AuthenticationProvider _authProvider;
   final AuthenticationService _authenticationService;
 
-  LoginUseCase(this._authProvider, this._authenticationService);
+  LoginUseCase(
+    this._authProvider,
+    this._authenticationService,
+  );
 
   @override
   Future handle(LoginRequest request) async {
     AuthResult tokens;
-    ProfileResult profile;
+    FinishProfileResult profileData;
 
     try {
       tokens = await _authenticationService.login(request);
@@ -41,10 +46,13 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
     var profileId = decodedToken[Tokens.profileId];
 
     try {
-      tokens = await _authenticationService.refreshTokens(RefreshTokensRequest(
-          refreshToken: tokens.refreshToken, profileId: profileId));
+      var refreshProfile = await _authProvider.refreshProfile(
+        AuthResult(tokens.accessToken, tokens.refreshToken),
+        profileId,
+      );
 
-      profile = await _authenticationService.getProfileData();
+      profileData = refreshProfile.profile;
+      tokens = refreshProfile.tokens;
     } catch (e) {
       rethrow;
     }
@@ -54,42 +62,48 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
       Authentication(
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
-        user: switch (UserType.getOf(decodedToken[Tokens.type])) {
+        user: switch (UserType.getOf(decodedToken[Tokens.role])) {
           UserType.consumer => Consumer(
-              id: profile.id,
-              name: profile.username,
-              avatarUrl: profile.avatarUrl,
-              level: profile.level.toString(),
-              levelPercent: profile.levelPercentage.toString(),
-              sustainablePoints: profile.sustainabilityPoints.toString(),
-              ecoScore: profile.ecoScorePoints.toString(),
-              ecoCoins: profile.ecoCoins.toString(),
-              xp: profile.xp.toString(),
-              nextLevelXp: profile.nextLevelUp.toString(),
+              id: profileData.id,
+              name: profileData.username,
+              avatarUrl: profileData.avatarUrl,
+              level: profileData.level.toString(),
+              levelPercent: profileData.levelPercentage.toString(),
+              sustainablePoints: profileData.sustainabilityPoints.toString(),
+              ecoScore: profileData.ecoScorePoints.toString(),
+              ecoCoins: profileData.ecoCoins.toString(),
+              xp: profileData.xp.toString(),
+              nextLevelXp: profileData.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  profileData.phoneCountry, profileData.phoneNumber),
             ),
           UserType.organization => Organization(
-              id: profile.id,
-              name: profile.username,
-              avatarUrl: profile.avatarUrl,
-              level: profile.level.toString(),
-              levelPercent: profile.levelPercentage.toString(),
-              sustainablePoints: profile.sustainabilityPoints.toString(),
-              ecoScore: profile.ecoScorePoints.toString(),
-              ecoCoins: profile.ecoCoins.toString(),
-              xp: profile.xp.toString(),
-              nextLevelXp: profile.nextLevelUp.toString(),
+              id: profileData.id,
+              name: profileData.username,
+              avatarUrl: profileData.avatarUrl,
+              level: profileData.level.toString(),
+              levelPercent: profileData.levelPercentage.toString(),
+              sustainablePoints: profileData.sustainabilityPoints.toString(),
+              ecoScore: profileData.ecoScorePoints.toString(),
+              ecoCoins: profileData.ecoCoins.toString(),
+              xp: profileData.xp.toString(),
+              nextLevelXp: profileData.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  profileData.phoneCountry, profileData.phoneNumber),
             ),
           UserType.employee => Employee(
-              id: profile.id,
-              name: profile.username,
-              avatarUrl: profile.avatarUrl,
-              level: profile.level.toString(),
-              levelPercent: profile.levelPercentage.toString(),
-              sustainablePoints: profile.sustainabilityPoints.toString(),
-              ecoScore: profile.ecoScorePoints.toString(),
-              ecoCoins: profile.ecoCoins.toString(),
-              xp: profile.xp.toString(),
-              nextLevelXp: profile.nextLevelUp.toString(),
+              id: profileData.id,
+              name: profileData.username,
+              avatarUrl: profileData.avatarUrl,
+              level: profileData.level.toString(),
+              levelPercent: profileData.levelPercentage.toString(),
+              sustainablePoints: profileData.sustainabilityPoints.toString(),
+              ecoScore: profileData.ecoScorePoints.toString(),
+              ecoCoins: profileData.ecoCoins.toString(),
+              xp: profileData.xp.toString(),
+              nextLevelXp: profileData.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  profileData.phoneCountry, profileData.phoneNumber),
               // FIXME: change when open service providers
               workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
               storeId: decodedToken[Tokens.storeId],
@@ -97,5 +111,8 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
         },
       ),
     );
+
+    var provider = DependencyInjection.locator<StaticValuesProvider>();
+    await provider.fetchAuthorizedValues();
   }
 }

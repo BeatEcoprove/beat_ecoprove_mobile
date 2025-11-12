@@ -13,5 +13,6 @@ class Organization extends User {
     required super.xp,
     required super.nextLevelXp,
     super.type = UserType.organization,
+    required super.phoneNumber,
   });
 }

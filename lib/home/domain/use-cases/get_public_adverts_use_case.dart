@@ -25,11 +25,13 @@ class GetPublicAdvertsUseCase
     List<AdvertResult> publicAdvertsResult;
 
     try {
-      publicAdvertsResult = await _serviceProviderService
-          .getPublicAdverts(GetPublicAdvertsUseCaseRequest(
-        page: request.page,
-        pageSize: request.pageSize,
-      ));
+      //FIXME: endpoint not ready yet
+      publicAdvertsResult = [];
+      // publicAdvertsResult = await _serviceProviderService
+      //     .getPublicAdverts(GetPublicAdvertsUseCaseRequest(
+      //   page: request.page,
+      //   pageSize: request.pageSize,
+      // ));
     } catch (e) {
       rethrow;
     }

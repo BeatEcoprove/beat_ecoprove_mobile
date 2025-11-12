@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in_strategy.dart';
 
-class SignInRequest implements BaseMultiPartRequest {
+class SignInRequest implements BaseJsonRequest {
   final String email;
   final String password;
   final String role;
@@ -15,7 +15,7 @@ class SignInRequest implements BaseMultiPartRequest {
   });
 
   @override
-  Map<String, dynamic> toMultiPart() {
+  Map<String, dynamic> toJson() {
     return {
       'email': email,
       'password': password,

@@ -6,8 +6,8 @@ class AuthResult {
 
   factory AuthResult.fromJson(Map<String, dynamic> json) {
     return AuthResult(
-      json['accessToken'],
-      json['refreshToken'],
+      json['access_token'],
+      json['refresh_token'],
     );
   }
 }

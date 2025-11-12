@@ -12,7 +12,7 @@ class Password {
     }
 
     if (!isLengthValid(password)) {
-      throw DomainException(LocaleContext.get().auth_password_btw_6_16);
+      throw DomainException(LocaleContext.get().auth_password_btw_8_16);
     }
 
     if (!containsNumber(password)) {
@@ -37,7 +37,7 @@ class Password {
   }
 
   static bool isLengthValid(String password) {
-    return password.length >= 6 && password.length <= 16;
+    return password.length >= 8 && password.length <= 16;
   }
 
   static bool containsNumber(String password) {

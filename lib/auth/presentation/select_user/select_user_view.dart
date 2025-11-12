@@ -57,7 +57,6 @@ class SelectUserView extends LinearView<SelectUserViewModel> {
                   viewModel.handleSignIn();
                 },
               ),
-              // Footer
             ],
           ),
         ),

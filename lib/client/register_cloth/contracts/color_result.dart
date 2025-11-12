@@ -9,8 +9,8 @@ class ColorResult {
 
   factory ColorResult.fromJson(Map<String, dynamic> json) {
     return ColorResult(
-      json['name'],
-      json['hex'],
+      json['name'] ?? '',
+      json['hex'] ?? '',
     );
   }
 }

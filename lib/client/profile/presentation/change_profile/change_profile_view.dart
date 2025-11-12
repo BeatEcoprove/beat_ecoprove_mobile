@@ -1,5 +1,5 @@
+import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/widgets/go_back.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
@@ -57,10 +57,9 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
                             ),
                             Column(children: [
                               _buildProfileItem(
-                                  viewModel.profilesResult.mainProfile,
-                                  viewModel,
+                                  viewModel.mainProfile, viewModel,
                                   isMain: true),
-                              ...viewModel.profilesResult.nestedProfiles
+                              ...viewModel.profilesResult
                                   .map((profile) =>
                                       _buildProfileItem(profile, viewModel))
                                   .toList(),
@@ -86,9 +85,8 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
                                     ),
                                     Points.ecoScore(
                                       points: [
-                                        viewModel.profilesResult.mainProfile,
-                                        ...viewModel
-                                            .profilesResult.nestedProfiles
+                                        viewModel.mainProfile,
+                                        ...viewModel.profilesResult
                                       ].fold(
                                           0,
                                           (previousValue, myObject) =>
@@ -142,7 +140,7 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
   }
 
   Widget _buildProfileItem(
-    ProfileResult profile,
+    FinishProfileResult profile,
     ChangeProfileViewModel viewModel, {
     bool isMain = false,
   }) {

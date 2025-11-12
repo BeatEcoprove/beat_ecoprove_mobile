@@ -14,6 +14,7 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view.dart';
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_view_model.dart';
 import 'package:beat_ecoprove/auth/routes.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
+import 'package:beat_ecoprove/auth/services/registration_service.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
@@ -41,13 +42,11 @@ extension AuthDependencyInjection on DependencyInjection {
   }
 
   void _addViewModels(GetIt locator) {
-    var authService = locator<AuthenticationService>();
-
     locator.registerFactory(
       () => LoginViewModel(
         locator<LoginUseCase>(),
         locator<INavigationManager>(),
-        authService,
+        locator<AuthenticationService>(),
         locator<INotificationProvider>(),
       ),
     );
@@ -55,8 +54,9 @@ extension AuthDependencyInjection on DependencyInjection {
     locator.registerFactory(
       () => SignInViewModel(
         locator<INavigationManager>(),
-        locator<AuthenticationService>(),
+        locator<RegistrationService>(),
         locator<INotificationProvider>(),
+        locator<SignInUseCase>(),
       ),
     );
 
@@ -69,7 +69,7 @@ extension AuthDependencyInjection on DependencyInjection {
     locator.registerFactory(
       () => ResetPasswordViewModel(
         locator<INavigationManager>(),
-        authService,
+        locator<AuthenticationService>(),
         locator<INotificationProvider>(),
       ),
     );

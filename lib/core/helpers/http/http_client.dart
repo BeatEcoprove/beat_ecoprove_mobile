@@ -10,15 +10,22 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert' as convert;
-
 import 'package:image_picker/image_picker.dart';
 
 class HttpClient {
-  final String _baseAddress = ServerConfig.backendUrl;
-  static const Duration timeOutDuration = Duration(seconds: 15);
+  final String _coreAddress = ServerConfig.backendUrl;
+  final String _authAddress = ServerConfig.authBackendUrl;
 
+  static const Duration timeOutDuration = Duration(seconds: 15);
   static const defaultHeaders = {"Content-Type": "application/json"};
   static const multipartFrom = {"Content-Type": "multipart/form-data"};
+
+  String _getBaseUrl(String path) {
+    if (path.toLowerCase().contains('auth')) {
+      return _authAddress;
+    }
+    return _coreAddress;
+  }
 
   Future<U> _makeRequest<U>(BaseRequest request, int expectedCode) async {
     String jsonResponse;
@@ -57,17 +64,18 @@ class HttpClient {
     return response;
   }
 
-  Future<U> makeRequestMultiPart<U>(
-      {required String method,
-      required String path,
-      required BaseMultiPartRequest body,
-      Map<String, String>? headers,
-      int expectedCode = HttpStatusCodes.ok}) async {
-    var request = http.MultipartRequest(
-        method,
-        Uri.parse(
-          "$_baseAddress/$path",
-        ));
+  Future<U> makeRequestMultiPart<U>({
+    required String method,
+    required String path,
+    required BaseMultiPartRequest body,
+    Map<String, String>? headers,
+    int expectedCode = HttpStatusCodes.ok,
+  }) async {
+    final baseUrl = _getBaseUrl(path);
+    final request = http.MultipartRequest(
+      method,
+      Uri.parse("$baseUrl/$path"),
+    );
 
     if (headers != null) {
       request.headers.addAll(headers);
@@ -76,25 +84,33 @@ class HttpClient {
     request.headers.addAll(multipartFrom);
     var fields = body.toMultiPart();
 
-    fields.forEach((key, value) async {
+    for (final entry in fields.entries) {
+      final key = entry.key;
+      final value = entry.value;
       if (value is String) {
         request.fields[key] = value;
       } else if (value is XFile && value.name != "default_avatar.png") {
-        request.files.add(await http.MultipartFile.fromPath(key, value.path,
-            filename: 'avatarPicture', contentType: MediaType('image', 'png')));
+        request.files.add(await http.MultipartFile.fromPath(
+          key,
+          value.path,
+          filename: 'avatarPicture',
+          contentType: MediaType('image', 'png'),
+        ));
       }
-    });
+    }
 
     return _makeRequest(request, expectedCode);
   }
 
-  Future<U> makeRequestJson<U>(
-      {required String method,
-      required String path,
-      BaseJsonRequest? body,
-      Map<String, String>? headers,
-      int expectedCode = HttpStatusCodes.ok}) async {
-    var request = http.Request(method, Uri.parse("$_baseAddress/$path"));
+  Future<U> makeRequestJson<U>({
+    required String method,
+    required String path,
+    BaseJsonRequest? body,
+    Map<String, String>? headers,
+    int expectedCode = HttpStatusCodes.ok,
+  }) async {
+    final baseUrl = _getBaseUrl(path);
+    var request = http.Request(method, Uri.parse("$baseUrl/$path"));
 
     if (headers != null) {
       request.headers.addAll(headers);
@@ -116,7 +132,8 @@ class HttpClient {
     Map<String, String>? headers,
     int expectedCode = HttpStatusCodes.ok,
   }) async {
-    var request = http.Request(method, Uri.parse("$_baseAddress/$path"));
+    final baseUrl = _getBaseUrl(path);
+    var request = http.Request(method, Uri.parse("$baseUrl/$path"));
 
     if (headers != null) {
       request.headers.addAll(headers);

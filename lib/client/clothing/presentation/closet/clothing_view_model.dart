@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
@@ -10,7 +11,6 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_dai
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_bucket_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/routes.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/brand_item.dart';
@@ -434,24 +434,21 @@ class ClothingViewModel extends FormViewModel implements Clone {
   }
 
   Future<List<FilterRow>> getAllNestedProfiles() async {
-    List<ProfileResult> nestedProfiles = [];
+    List<FinishProfileResult> nestedProfiles = [];
     List<FilterButtonItem> profileItem = [];
 
     try {
-      var profiles = await _getNestedProfilesUseCase.handle();
-      nestedProfiles = profiles.nestedProfiles;
+      nestedProfiles = (await _getNestedProfilesUseCase.handle()).profiles;
 
-      if (user?.name == profiles.mainProfile.username) {
-        for (var profile in nestedProfiles) {
-          profileItem.add(FilterButtonItem(
-            text: profile.username,
-            content: PresentImage(
-              path: ServerImage(profile.avatarUrl),
-            ),
-            value: profile.id,
-            tag: "profileId",
-          ));
-        }
+      for (var profile in nestedProfiles) {
+        profileItem.add(FilterButtonItem(
+          text: profile.username,
+          content: PresentImage(
+            path: ServerImage(profile.avatarUrl),
+          ),
+          value: profile.id,
+          tag: "profileId",
+        ));
 
         if (nestedProfiles.isNotEmpty) {
           _getNestedProfiles = [

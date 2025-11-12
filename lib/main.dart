@@ -15,6 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:provider/provider.dart';
 import 'package:beat_ecoprove/core/locales/l10n/app_localizations.dart';
+import 'package:beat_ecoprove/core/locales/locale_context.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -150,6 +151,10 @@ class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
+            builder: (context, child) {
+              LocaleContext.initializeContext(context);
+              return child ?? const SizedBox();
+            },
           );
         });
   }

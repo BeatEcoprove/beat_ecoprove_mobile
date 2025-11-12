@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class WelcomeCard extends StatefulWidget {
   final String userName;
-  final double levelPercent;
+  final int levelPercent;
   final int userLevel;
   final String userAvatarPictureUrl;
 

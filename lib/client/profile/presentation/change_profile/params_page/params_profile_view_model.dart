@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/email.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/password.dart';
@@ -11,7 +12,6 @@ import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/contracts/promote_profile_request.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/promote_profile_use_case.dart';
 import 'package:beat_ecoprove/core/routes.dart';
@@ -23,7 +23,7 @@ class ParamsProfileViewModel extends FormViewModel {
   final PromoteProfileUseCase _promoteProfileUseCase;
   final INavigationManager _navigationRouter;
   late final User? _user;
-  late NestedProfilesResult _profilesResult;
+  late List<FinishProfileResult> _profilesResult;
 
   ParamsProfileViewModel(
     this._notificationProvider,
@@ -33,7 +33,7 @@ class ParamsProfileViewModel extends FormViewModel {
     this._promoteProfileUseCase,
   ) {
     _user = _authProvider.appUser;
-    _profilesResult = NestedProfilesResult.empty();
+    _profilesResult = List<FinishProfileResult>.empty();
     initializeFields([
       FormFieldValues.email,
       FormFieldValues.password,
@@ -115,7 +115,7 @@ class ParamsProfileViewModel extends FormViewModel {
   }
 
   User? get user => _user;
-  NestedProfilesResult get profilesResult => _profilesResult;
+  List<FinishProfileResult> get profilesResult => _profilesResult;
 
   Future<void> promoteProfile(String profileId) async {
     try {

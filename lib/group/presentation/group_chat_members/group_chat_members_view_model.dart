@@ -77,7 +77,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   User? get user => _user;
 
   bool get isMember => _groupDetailsResult.members.any(
-        (member) => member.id == _user?.id,
+        (member) => member.profileId == _user?.id,
       );
 
   bool get isAdmin => _isAdmin;
@@ -85,11 +85,11 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   bool get isCreator => _isCreator;
 
   bool hasPrivilegies() {
-    return details.admins.map((elem) => elem.id).contains(user?.id);
+    return details.admins.map((elem) => elem.profileId).contains(user?.id);
   }
 
   bool hasCreatorPrivilegies() {
-    return details.creator.id == user?.id;
+    return details.creator.profileId == user?.id;
   }
 
   void setUserName(String userName) {
@@ -228,7 +228,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
 
           return profiles.profiles
               .where((element) => !_groupDetailsResult.members
-                  .any((member) => member.id == element.id))
+                  .any((member) => member.profileId == element.id))
               .map(
             (profile) {
               return Container(

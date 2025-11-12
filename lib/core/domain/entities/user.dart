@@ -1,15 +1,18 @@
+import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
+
 class User {
   final String id;
   final String name;
   final String avatarUrl;
   final int level;
-  final double levelPercent;
+  final int levelPercent;
   final int sustainablePoints;
   final int ecoScore;
   final int ecoCoins;
   final int xp;
   final int nextLevelXp;
   final UserType type;
+  final Phone phoneNumber;
 
   User({
     required this.id,
@@ -23,8 +26,9 @@ class User {
     required String xp,
     required String nextLevelXp,
     required this.type,
+    required this.phoneNumber,
   })  : level = int.parse(level),
-        levelPercent = double.tryParse(levelPercent) ?? 0,
+        levelPercent = int.tryParse(levelPercent) ?? 0,
         sustainablePoints = int.parse(sustainablePoints),
         ecoScore = int.parse(ecoScore),
         ecoCoins = int.parse(ecoCoins),
@@ -33,7 +37,7 @@ class User {
 }
 
 enum UserType implements Comparable<UserType> {
-  consumer(value: "consumer"),
+  consumer(value: "client"),
   organization(value: "organization"),
   employee(value: "employee");
 

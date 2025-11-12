@@ -10,7 +10,7 @@ class BrandResult {
   factory BrandResult.fromJson(Map<String, dynamic> json) {
     return BrandResult(
       json['name'],
-      json['brandAvatar'],
+      json['brand_avatar'],
     );
   }
 }

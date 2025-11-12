@@ -13,5 +13,6 @@ class Consumer extends User {
     required super.xp,
     required super.nextLevelXp,
     super.type = UserType.consumer,
+    required super.phoneNumber,
   });
 }

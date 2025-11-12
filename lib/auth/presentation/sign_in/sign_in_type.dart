@@ -25,7 +25,7 @@ class SignUseroptions {
     SignInViewModel viewModel,
   ) {
     switch (label) {
-      case "personal":
+      case "client":
         return [
           PersonalStage(
             controller: controller,
@@ -49,7 +49,7 @@ class SignUseroptions {
             controller: controller,
           ),
         ];
-      case "enterprise":
+      case "organization":
         return [
           EnterpriseStage(
             viewModel: EnterpriseStageViewModel(
@@ -85,8 +85,8 @@ class SignUseroptions {
     }
   }
 
-  static SignUseroptions personal = const SignUseroptions("personal");
-  static SignUseroptions enterprise = const SignUseroptions("enterprise");
+  static SignUseroptions personal = const SignUseroptions("client");
+  static SignUseroptions enterprise = const SignUseroptions("organization");
 
   static SignUseroptions getTypeOf(String? value) {
     if (value == null) {
@@ -94,9 +94,9 @@ class SignUseroptions {
     }
 
     switch (value) {
-      case "personal":
+      case "client":
         return SignUseroptions.personal;
-      case "enterprise":
+      case "organization":
         return SignUseroptions.enterprise;
       default:
         throw Exception("Invalid user type: $value");

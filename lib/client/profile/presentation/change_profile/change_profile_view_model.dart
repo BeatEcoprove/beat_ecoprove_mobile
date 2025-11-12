@@ -1,6 +1,7 @@
+import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
+import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
 import 'package:beat_ecoprove/client/profile/presentation/change_profile/params_page/params_page_params.dart';
 import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/consumer.dart';
@@ -20,7 +21,6 @@ import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/delete_profile_use_case.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -32,8 +32,7 @@ class ChangeProfileViewModel extends ViewModel {
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
   final DeleteProfileUseCase _deleteProfileUseCase;
   final INavigationManager _navigationRouter;
-  late final User? _user;
-  late NestedProfilesResult _profilesResult;
+  late List<FinishProfileResult> _profilesResult;
 
   ChangeProfileViewModel(
     this._notificationProvider,
@@ -43,16 +42,28 @@ class ChangeProfileViewModel extends ViewModel {
     this._deleteProfileUseCase,
     this._authService,
   ) {
-    _user = _authProvider.appUser;
-    _profilesResult = NestedProfilesResult.empty();
+    _profilesResult = List<FinishProfileResult>.empty();
   }
 
-  User? get user => _user;
-  NestedProfilesResult get profilesResult => _profilesResult;
+  FinishProfileResult get mainProfile => FinishProfileResult(
+        _authProvider.appUser!.id,
+        _authProvider.appUser!.name,
+        _authProvider.appUser!.level,
+        _authProvider.appUser!.levelPercent,
+        _authProvider.appUser!.sustainablePoints,
+        _authProvider.appUser!.ecoScore,
+        _authProvider.appUser!.avatarUrl,
+        _authProvider.appUser!.ecoCoins,
+        _authProvider.appUser!.xp,
+        _authProvider.appUser!.nextLevelXp,
+        _authProvider.appUser!.phoneNumber.value,
+        _authProvider.appUser!.phoneNumber.countryCode,
+      );
+  List<FinishProfileResult> get profilesResult => _profilesResult;
 
   Future<void> getNestedProfiles() async {
     try {
-      _profilesResult = await _getNestedProfilesUseCase.handle();
+      _profilesResult = (await _getNestedProfilesUseCase.handle()).profiles;
     } on HttpError catch (e) {
       _notificationProvider.showNotification(
         e.getError().title,
@@ -153,7 +164,7 @@ class ChangeProfileViewModel extends ViewModel {
       Authentication(
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
-        user: switch (UserType.getOf(decodedToken[Tokens.type])) {
+        user: switch (UserType.getOf(decodedToken[Tokens.role])) {
           UserType.consumer => Consumer(
               id: decodedToken[Tokens.id],
               name: decodedToken[Tokens.name],
@@ -165,6 +176,8 @@ class ChangeProfileViewModel extends ViewModel {
               ecoCoins: decodedToken[Tokens.ecoCoins],
               xp: decodedToken[Tokens.xp],
               nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              phoneNumber: Phone.create(decodedToken[Tokens.phoneCountry],
+                  decodedToken[Tokens.phoneNumber]),
             ),
           UserType.organization => Organization(
               id: decodedToken[Tokens.id],
@@ -177,6 +190,8 @@ class ChangeProfileViewModel extends ViewModel {
               ecoCoins: decodedToken[Tokens.ecoCoins],
               xp: decodedToken[Tokens.xp],
               nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              phoneNumber: Phone.create(decodedToken[Tokens.phoneCountry],
+                  decodedToken[Tokens.phoneNumber]),
             ),
           UserType.employee => Employee(
               id: decodedToken[Tokens.id],
@@ -189,6 +204,8 @@ class ChangeProfileViewModel extends ViewModel {
               ecoCoins: decodedToken[Tokens.ecoCoins],
               xp: decodedToken[Tokens.xp],
               nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              phoneNumber: Phone.create(decodedToken[Tokens.phoneCountry],
+                  decodedToken[Tokens.phoneNumber]),
               workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
               storeId: decodedToken[Tokens.storeId],
             ),
@@ -202,7 +219,7 @@ class ChangeProfileViewModel extends ViewModel {
     notifyListeners();
   }
 
-  void goToPromoteProfile(ProfileResult profile) {
+  void goToPromoteProfile(FinishProfileResult profile) {
     _navigationRouter.push(
       CoreRoutes.makeProfileAction,
       extras: MakeProfileActionViewParams(
@@ -214,7 +231,7 @@ class ChangeProfileViewModel extends ViewModel {
     );
   }
 
-  void goToDeleteProfile(ProfileResult profile) {
+  void goToDeleteProfile(FinishProfileResult profile) {
     _navigationRouter.push(
       CoreRoutes.makeProfileAction,
       extras: MakeProfileActionViewParams(

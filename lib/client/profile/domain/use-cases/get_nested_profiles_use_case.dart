@@ -3,17 +3,18 @@ import 'package:beat_ecoprove/client/profile/contracts/profiles_result.dart';
 import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
 
 class GetNestedProfilesUseCase
-    implements UseCaseAction<Future<NestedProfilesResult>> {
+    implements UseCaseAction<Future<ProfilesResult>> {
   final ProfileService _profileService;
 
   GetNestedProfilesUseCase(this._profileService);
 
   @override
-  Future<NestedProfilesResult> handle() async {
-    NestedProfilesResult profiles;
+  Future<ProfilesResult> handle() async {
+    ProfilesResult profiles;
 
     try {
-      profiles = await _profileService.getNestedProfiles();
+      //TODO: Change later, page, pageSize e search
+      profiles = await _profileService.getAllProfiles(1, 1000);
     } catch (e) {
       rethrow;
     }

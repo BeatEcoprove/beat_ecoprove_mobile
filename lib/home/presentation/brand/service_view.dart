@@ -4,6 +4,7 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
 import 'package:beat_ecoprove/core/domain/models/advert_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
+import 'package:beat_ecoprove/core/locales/l10n/app_localizations.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/services/datetime_service.dart';
 import 'package:beat_ecoprove/core/widgets/advertisement_card/advertisement_card.dart';
@@ -246,7 +247,8 @@ class ServiceView
                                             ? [
                                                 Center(
                                                   child: Text(
-                                                    LocaleContext.get()
+                                                    AppLocalizations.of(
+                                                            context)!
                                                         .home_brand_no_ads,
                                                     textAlign: TextAlign.center,
                                                     style:

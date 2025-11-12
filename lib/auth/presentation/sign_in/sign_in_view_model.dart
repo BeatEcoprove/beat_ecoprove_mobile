@@ -1,4 +1,6 @@
-import 'package:beat_ecoprove/auth/services/authentication_service.dart';
+import 'package:beat_ecoprove/auth/contracts/sign_in/sing_in_request.dart';
+import 'package:beat_ecoprove/auth/domain/use-cases/sign_in_use_case.dart';
+import 'package:beat_ecoprove/auth/services/registration_service.dart';
 import 'package:beat_ecoprove/core/helpers/http/errors/http_error.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
@@ -18,15 +20,17 @@ import 'package:beat_ecoprove/dependency_injection.dart';
 
 class SignInViewModel extends ViewModel {
   final INavigationManager _navigationRouter;
-  final AuthenticationService _authenticationService;
+  final RegistrationService _registrationService;
   final INotificationProvider _notificationProvider;
+  final SignInUseCase _signInUseCase;
 
   final Map<FormFieldValues, FormFieldModel> dataList = {};
 
   SignInViewModel(
     this._navigationRouter,
-    this._authenticationService,
+    this._registrationService,
     this._notificationProvider,
+    this._signInUseCase,
   );
 
   void persist(Map<FormFieldValues, FormFieldModel> data) {
@@ -39,15 +43,22 @@ class SignInViewModel extends ViewModel {
 
   Future handleSignIn(SignUseroptions signType) async {
     SignInStratagy strategy;
+    String email = dataList[FormFieldValues.email]!.value;
+    String password = dataList[FormFieldValues.password]!.value;
 
     if (signType.label == SignUseroptions.personal.label) {
-      strategy = PersonalSignIn(_authenticationService, dataList);
+      strategy = PersonalSignIn(_registrationService, dataList);
     } else {
-      strategy = EnterpriseSignIn(_authenticationService, dataList);
+      strategy = EnterpriseSignIn(_registrationService, dataList);
     }
 
     try {
-      await strategy.createProfile();
+      await _signInUseCase.handle(SignInRequest(
+        strategy: strategy,
+        email: email,
+        password: password,
+        role: signType.label,
+      ));
       await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
       await _navigationRouter.pushAsync(CoreRoutes.showCompleted,

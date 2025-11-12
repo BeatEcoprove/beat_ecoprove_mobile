@@ -1,4 +1,12 @@
+import 'dart:async';
+
+import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
+import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
+import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
+import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
 import 'package:beat_ecoprove/auth/routes.dart';
+import 'package:beat_ecoprove/auth/services/authentication_service.dart';
+import 'package:beat_ecoprove/auth/services/registration_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/consumer.dart';
 import 'package:beat_ecoprove/core/domain/entities/employee.dart';
 import 'package:beat_ecoprove/core/domain/entities/organization.dart';
@@ -8,6 +16,8 @@ import 'package:beat_ecoprove/core/helpers/tokens.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/store.dart';
+import 'package:beat_ecoprove/core/providers/auth/pre_authentication.dart';
+import 'package:beat_ecoprove/core/providers/auth/refresh_profile.dart';
 import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
@@ -37,45 +47,55 @@ class AuthenticationProvider extends ViewModel {
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
 
+    RefreshProfile result = await refreshProfile(
+        AuthResult(refreshToken, refreshToken), decodedToken[Tokens.profileId]);
+
     authenticate(
-      Authentication.bare(
-        refreshToken: refreshToken,
-        user: switch (UserType.getOf(decodedToken[Tokens.type])) {
+      Authentication(
+        accessToken: result.tokens.accessToken,
+        refreshToken: result.tokens.refreshToken,
+        user: switch (UserType.getOf(decodedToken[Tokens.role])) {
           UserType.consumer => Consumer(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              id: result.profile.id,
+              name: result.profile.username,
+              avatarUrl: result.profile.avatarUrl,
+              level: result.profile.level.toString(),
+              levelPercent: result.profile.levelPercentage.toString(),
+              sustainablePoints: result.profile.sustainabilityPoints.toString(),
+              ecoScore: result.profile.ecoScorePoints.toString(),
+              ecoCoins: result.profile.ecoCoins.toString(),
+              xp: result.profile.xp.toString(),
+              nextLevelXp: result.profile.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  result.profile.phoneCountry, result.profile.phoneNumber),
             ),
           UserType.organization => Organization(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              id: result.profile.id,
+              name: result.profile.username,
+              avatarUrl: result.profile.avatarUrl,
+              level: result.profile.level.toString(),
+              levelPercent: result.profile.levelPercentage.toString(),
+              sustainablePoints: result.profile.sustainabilityPoints.toString(),
+              ecoScore: result.profile.ecoScorePoints.toString(),
+              ecoCoins: result.profile.ecoCoins.toString(),
+              xp: result.profile.xp.toString(),
+              nextLevelXp: result.profile.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  result.profile.phoneCountry, result.profile.phoneNumber),
             ),
           UserType.employee => Employee(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
+              id: result.profile.id,
+              name: result.profile.username,
+              avatarUrl: result.profile.avatarUrl,
+              level: result.profile.level.toString(),
+              levelPercent: result.profile.levelPercentage.toString(),
+              sustainablePoints: result.profile.sustainabilityPoints.toString(),
+              ecoScore: result.profile.ecoScorePoints.toString(),
+              ecoCoins: result.profile.ecoCoins.toString(),
+              xp: result.profile.xp.toString(),
+              nextLevelXp: result.profile.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  result.profile.phoneCountry, result.profile.phoneNumber),
               workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
               storeId: decodedToken[Tokens.storeId],
             ),
@@ -103,6 +123,34 @@ class AuthenticationProvider extends ViewModel {
     notifyListeners();
   }
 
+  void preAuthenticate(PreAuthentication authentication) {
+    StorageService.setValue(Store.refreshToken, authentication.refreshToken);
+
+    _accessToken = authentication.accessToken;
+    _refreshToken = authentication.refreshToken;
+    _isAuthenticated = false;
+
+    notifyListeners();
+  }
+
+  Future<RefreshProfile> refreshProfile(
+      AuthResult token, String profileId) async {
+    AuthResult tokens;
+    FinishProfileResult profileData;
+
+    tokens = await DependencyInjection.locator<AuthenticationService>()
+        .refreshTokens(RefreshTokensRequest(
+            refreshToken: token.refreshToken, profileId: profileId));
+
+    preAuthenticate(PreAuthentication(
+        accessToken: tokens.accessToken, refreshToken: tokens.refreshToken));
+
+    profileData = await DependencyInjection.locator<RegistrationService>()
+        .getProfileData();
+
+    return RefreshProfile(tokens: tokens, profile: profileData);
+  }
+
   Future logout() async {
     DependencyInjection.locator<IPhoenixWsNotifier>().logOut();
     await StorageService.clearValue(Store.refreshToken);
@@ -119,6 +167,11 @@ class AuthenticationProvider extends ViewModel {
 
   void setProfile({String profileId = ""}) {
     this.profileId = profileId;
+
+    DependencyInjection.locator<AuthenticationService>().refreshTokens(
+        RefreshTokensRequest(
+            refreshToken: _refreshToken, profileId: profileId));
+
     notifyListeners();
   }
 
@@ -127,11 +180,7 @@ class AuthenticationProvider extends ViewModel {
       return false;
     }
 
-    if (validateToken(_accessToken!)) {
-      return false;
-    }
-
-    return true;
+    return validateToken(_accessToken!);
   }
 
   bool get isAuthenticated => _isAuthenticated;

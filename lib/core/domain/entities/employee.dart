@@ -17,6 +17,7 @@ class Employee extends User {
     required super.xp,
     required super.nextLevelXp,
     super.type = UserType.employee,
+    required super.phoneNumber,
     required this.workerType,
     required this.storeId,
   });

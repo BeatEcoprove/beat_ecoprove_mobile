@@ -1,42 +1,38 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/gender.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class SignInPersonalRequest implements BaseMultiPartRequest {
-  final String name;
-  final DateTime bornDate;
+class SignInPersonalRequest implements BaseJsonRequest {
+  final String profileId;
+  final String firstName;
+  final String lastName;
+  final String displayName;
+  final DateTime birthDate;
   final Gender gender;
-  final String userName;
-  final XFile avatarPicture;
-  final String email;
-  final String password;
   final Phone phone;
 
   SignInPersonalRequest({
-    required this.name,
-    required this.bornDate,
+    required this.profileId,
+    required this.firstName,
+    required this.lastName,
+    required this.displayName,
+    required this.birthDate,
     required this.gender,
-    required this.userName,
-    required this.avatarPicture,
-    required this.email,
-    required this.password,
     required this.phone,
   });
 
   @override
-  Map<String, dynamic> toMultiPart() {
+  Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'bornDate': DateFormat('yyyy-MM-dd').format(bornDate),
+      'profile_id': profileId,
+      'first_name': firstName,
+      'last_name': lastName,
+      'display_name': displayName,
+      'birth_date': DateFormat('yyyy-MM-dd').format(birthDate),
+      'biography': '',
       'gender': gender.value,
-      'userName': userName,
-      'avatarPicture': avatarPicture,
-      'email': email,
-      'password': password,
-      'countryCode': phone.countryCode,
-      'phone': phone.value.replaceAll(" ", ""),
+      'phone_number': phone.countryCode + phone.value.replaceAll(" ", ""),
     };
   }
 }

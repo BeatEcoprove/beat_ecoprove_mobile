@@ -18,6 +18,11 @@ class Address {
         street: street, port: port, locality: locality, postalCode: postalCode);
   }
 
+  factory Address.empty() {
+    return Address._(
+        street: "", port: 0, locality: "", postalCode: PostalCode.empty());
+  }
+
   @override
   String toString() {
     return "$street nº ${port.toString()} $locality $postalCode";

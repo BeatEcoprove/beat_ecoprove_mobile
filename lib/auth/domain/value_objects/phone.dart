@@ -10,6 +10,9 @@ class Phone {
   factory Phone.create(String code, String phone) {
     phone = phone.replaceAll(" ", "").trim();
 
+    //FIXME: Remove later (tem de vir do endpoint do perfil)
+    phone = phone == "" ? "965124786" : phone;
+
     // must have 9 characters long
     if (phone.length != 9) {
       throw DomainException(LocaleContext.get().auth_phone_must_9_numbers);

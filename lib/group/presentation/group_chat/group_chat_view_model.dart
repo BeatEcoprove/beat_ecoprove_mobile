@@ -379,9 +379,10 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
       isLoading = true;
       var groupDetails = await _getDetailsUseCase.handle(groupId);
 
-      List<String> adminsIds = groupDetails.admins.map((e) => e.id).toList();
+      List<String> adminsIds =
+          groupDetails.admins.map((e) => e.profileId).toList();
 
-      adminsIds.add(groupDetails.creator.id);
+      adminsIds.add(groupDetails.creator.profileId);
 
       await _navigationRouter.pushAsync(
         GroupRoutes.update,

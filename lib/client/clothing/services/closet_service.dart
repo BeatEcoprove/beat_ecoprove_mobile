@@ -122,7 +122,10 @@ class ClosetService {
 
   Future<List<ColorResult>> getAllColors() async {
     var result = await _httpClient.makeRequestJson(
-        method: HttpMethods.get, path: "extension/colors/", expectedCode: 200);
+      method: HttpMethods.get,
+      path: "extensions/colors",
+      expectedCode: 200,
+    );
 
     return convertToColorResultList(result);
   }
@@ -139,14 +142,17 @@ class ClosetService {
   Future registerBrand(RegisterBrandRequest request) async {
     await _httpClient.makeRequestMultiPart(
         method: HttpMethods.post,
-        path: "extension/brands/create",
+        path: "extensions/brands/create",
         body: request,
         expectedCode: 201);
   }
 
   Future<List<BrandResult>> getAllBrands() async {
     var result = await _httpClient.makeRequestJson(
-        method: HttpMethods.get, path: "extension/brands/", expectedCode: 200);
+      method: HttpMethods.get,
+      path: "extensions/brands",
+      expectedCode: 200,
+    );
 
     return convertToBrandResultList(result);
   }

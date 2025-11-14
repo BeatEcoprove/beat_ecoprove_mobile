@@ -31,8 +31,9 @@ class PhoenixWebSocketManager implements IPhoenixWebSocketManager {
 
     _session = IOWebSocketChannel.connect(wsUrl);
 
-    await _session!.ready;
-    isConnectionAlive = true;
+    //TODO: Check later
+    // await _session!.ready;
+    // isConnectionAlive = true;
     return _session!;
   }
 

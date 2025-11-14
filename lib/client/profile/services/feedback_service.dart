@@ -10,7 +10,7 @@ class FeedbackService {
   Future<void> sendFeedback(SendFeedbackRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.post,
-      path: "extensions/feedback",
+      path: "core/extensions/feedback",
       body: request,
       expectedCode: 200,
     );

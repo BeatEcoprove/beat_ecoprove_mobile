@@ -12,7 +12,7 @@ class AdvertsService {
   Future<List<AdvertResult>> getActiveAdverts() async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "adverts",
+      path: "core/adverts",
       expectedCode: 200,
     );
 
@@ -24,7 +24,7 @@ class AdvertsService {
   Future removeAdvert(RemoveAdvertRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.delete,
-      path: "adverts/${request.advertId}",
+      path: "core/adverts/${request.advertId}",
       body: request,
       expectedCode: 200,
     );
@@ -33,7 +33,7 @@ class AdvertsService {
   Future registerAdvert(RegisterAdvertRequest request) async {
     await _httpClient.makeRequestMultiPart(
       method: HttpMethods.post,
-      path: "adverts",
+      path: "core/adverts",
       body: request,
       expectedCode: 200,
     );

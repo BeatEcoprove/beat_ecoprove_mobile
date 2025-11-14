@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:image_picker/image_picker.dart';
 
-class RegisterClothRequest implements BaseMultiPartRequest {
+class RegisterClothRequest implements BaseJsonRequest {
   final String clothName;
   final String clothType;
   final String clothSize;
@@ -19,14 +19,15 @@ class RegisterClothRequest implements BaseMultiPartRequest {
   );
 
   @override
-  Map<String, dynamic> toMultiPart() {
+  Map<String, dynamic> toJson() {
     return {
       'name': clothName,
-      'clothType': clothType,
-      'clothSize': clothSize,
+      'cloth_type': clothType,
+      'cloth_size': clothSize,
       'brand': clothBrand,
       'color': clothColor,
-      'clothAvatar': clothImage,
+      //FIXME: Uncomment when backend is ready
+      // 'cloth_avatar': clothImage,
     };
   }
 }

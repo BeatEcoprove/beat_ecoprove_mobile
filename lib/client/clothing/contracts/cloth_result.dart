@@ -2,7 +2,6 @@ class ClothResult {
   final String id;
   final String name;
   final String type;
-  final String state;
   final String size;
   final String brand;
   final String color;
@@ -15,7 +14,6 @@ class ClothResult {
     this.id,
     this.name,
     this.type,
-    this.state,
     this.size,
     this.brand,
     this.color,
@@ -27,17 +25,16 @@ class ClothResult {
 
   factory ClothResult.fromJson(Map<String, dynamic> json) {
     return ClothResult(
-      json['id'],
-      json['name'],
-      json['type'],
-      json['clothState'],
-      json['size'],
-      json['brand'],
-      json['color'],
-      json['ecoScore'],
-      ClothStates.getOf(json['clothState']),
-      json['clothAvatar'],
-      json['profile'] != null ? json['profile']['avatarUrl'] : null,
+      json['id'] ?? '',
+      json['name'] ?? '',
+      json['type'] ?? '',
+      json['size'] ?? '',
+      json['brand'] ?? '',
+      json['color'] ?? '',
+      json['eco_score'] ?? 0,
+      ClothStates.getOf(json['cloth_state'] ?? 'Idle'),
+      json['cloth_avatar'] ?? '',
+      json['profile'] != null ? json['profile']['avatar_url'] ?? '' : null,
     );
   }
 }

@@ -57,7 +57,8 @@ extension ProfileDependencyInjection on DependencyInjection {
     locator.registerSingleton(GetNestedProfilesUseCase(profileService));
     locator.registerSingleton(DeleteProfileUseCase(profileService));
     locator.registerSingleton(PromoteProfileUseCase(profileService));
-    locator.registerSingleton(TradePointsUseCase(exchangeService));
+    locator.registerSingleton(
+        TradePointsUseCase(exchangeService, locator<AuthenticationProvider>()));
     locator.registerSingleton(SendFeedbackUseCase(feedbackService));
   }
 

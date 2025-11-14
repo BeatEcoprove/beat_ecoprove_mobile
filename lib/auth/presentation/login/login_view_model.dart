@@ -128,7 +128,8 @@ class LoginViewModel extends FormViewModel {
 
     try {
       await _loginUseCase.handle(LoginRequest(email, password));
-      await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
+      //FIXME: Ws
+      // await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
       _navigationRouter.push(AppRoute.root);
     } on HttpError catch (e) {

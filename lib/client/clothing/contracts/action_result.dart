@@ -13,10 +13,10 @@ class ActionResult {
 
   factory ActionResult.fromJson(Map<String, dynamic> json) {
     return ActionResult(
-      json['id'],
-      json['title'],
-      json['badge'],
-      json['sustainablePoints'],
+      json['id'] ?? '',
+      json['title'] ?? '',
+      json['badge'] ?? '',
+      json['sustainable_points'] ?? 0,
     );
   }
 }

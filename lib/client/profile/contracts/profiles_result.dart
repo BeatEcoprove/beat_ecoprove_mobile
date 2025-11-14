@@ -7,7 +7,7 @@ class ProfilesResult {
 
   factory ProfilesResult.fromJson(Map<String, dynamic> json) {
     return ProfilesResult(
-      _convertJsonToFinishProfileResultList(json['users']),
+      _convertJsonToFinishProfileResultList(json['profiles'] ?? []),
     );
   }
 

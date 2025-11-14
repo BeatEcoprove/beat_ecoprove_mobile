@@ -19,7 +19,7 @@ class GroupService {
   Future<GroupsResult> getGroups(int pageSize, String params) async {
     return GroupsResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "groups?limit=$pageSize&$params",
+      path: "messaging/groups?limit=$pageSize&$params",
       expectedCode: 200,
     ));
   }
@@ -28,7 +28,7 @@ class GroupService {
   // Future<GroupsResult> getPublicGroups(int pageSize, String params) async {
   //   return GroupsResult.fromJson(await _httpClient.makeRequestJson(
   //     method: HttpMethods.get,
-  //     path: "groups?limit=$pageSize&$params",
+  //     path: "messaging/groups?limit=$pageSize&$params",
   //     expectedCode: 200,
   //   ));
   // }
@@ -37,7 +37,7 @@ class GroupService {
   Future<GroupDetailsResult> getGroupDetails(String groupId) async {
     return GroupDetailsResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "groups/$groupId",
+      path: "messaging/groups/$groupId",
       expectedCode: 200,
     ));
   }
@@ -45,7 +45,7 @@ class GroupService {
   Future registerGroup(RegisterGroupRequest request) async {
     await _httpClient.makeRequestMultiPart(
       method: HttpMethods.post,
-      path: "groups",
+      path: "messaging/groups",
       body: request,
       expectedCode: 200,
     );
@@ -54,7 +54,7 @@ class GroupService {
   Future updateGroup(UpdateGroupRequest request) async {
     await _httpClient.makeRequestMultiPart(
       method: HttpMethods.put,
-      path: "groups/${request.groupId}",
+      path: "messaging/groups/${request.groupId}",
       body: request,
       expectedCode: 200,
     );
@@ -63,7 +63,7 @@ class GroupService {
   Future leaveGroup(LeaveGroupRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
-      path: "groups/${request.groupId}/kick",
+      path: "messaging/groups/${request.groupId}/kick",
       body: request,
       expectedCode: 200,
     );
@@ -72,7 +72,7 @@ class GroupService {
   Future changeMemberRole(ActionToMemberOfGroupRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
-      path: "groups/${request.groupId}/role?name=${request.role}",
+      path: "messaging/groups/${request.groupId}/role?name=${request.role}",
       expectedCode: 200,
     );
   }
@@ -80,7 +80,7 @@ class GroupService {
   Future acceptMember(InviteTokenRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
-      path: "invites/accept",
+      path: "messaging/invites/accept",
       body: request,
       expectedCode: 200,
     );
@@ -89,7 +89,7 @@ class GroupService {
   Future deniedMember(InviteTokenRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
-      path: "invites/decline",
+      path: "messaging/invites/decline",
       body: request,
       expectedCode: 200,
     );
@@ -98,7 +98,7 @@ class GroupService {
   Future inviteMember(InviteMemberRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
-      path: "groups/${request.groupId}/invites",
+      path: "messaging/groups/${request.groupId}/invites",
       body: request,
       expectedCode: 200,
     );
@@ -107,7 +107,7 @@ class GroupService {
   Future<ChatMessages> getMessages(String groupId) async {
     var response = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "groups/$groupId/messages?page=1&pageSize=10000",
+      path: "messaging/groups/$groupId/messages?page=1&pageSize=10000",
       expectedCode: 200,
     );
 
@@ -118,7 +118,7 @@ class GroupService {
   Future makeTrade(RegisterTradeRequest request) async {
     var response = await _httpClient.makeRequestJson(
       method: HttpMethods.post,
-      path: "groups/${request.groupId}/messages/${request.messageId}",
+      path: "messaging/groups/${request.groupId}/messages/${request.messageId}",
       body: request,
       expectedCode: 200,
     );

@@ -16,12 +16,12 @@ class OrderClothResult extends OrderResult {
 
   factory OrderClothResult.fromJson(Map<String, dynamic> json) {
     return OrderClothResult(
-      json['id'],
-      json['owner']['id'],
-      json['owner']['username'],
-      json['owner']['avatarUrl'],
-      _convertJsonToServiceTypeResult(json['services']),
-      ClothResult.fromJson(json['cloth']),
+      json['id'] ?? '',
+      json['owner']['id'] ?? '',
+      json['owner']['username'] ?? '',
+      json['owner']['avatar_url'] ?? '',
+      _convertJsonToServiceTypeResult(json['services'] ?? []),
+      ClothResult.fromJson(json['cloth'] ?? []),
     );
   }
 
@@ -48,12 +48,12 @@ class OrderBucketResult extends OrderResult {
 
   factory OrderBucketResult.fromJson(Map<String, dynamic> json) {
     return OrderBucketResult(
-      json['id'],
-      json['owner']['id'],
-      json['owner']['username'],
-      json['owner']['avatarUrl'],
-      _convertJsonToServiceTypeResult(json['services']),
-      BucketResult.fromJson(json['bucket']),
+      json['id'] ?? '',
+      json['owner']['id'] ?? '',
+      json['owner']['username'] ?? '',
+      json['owner']['avatar_url'] ?? '',
+      _convertJsonToServiceTypeResult(json['services'] ?? []),
+      BucketResult.fromJson(json['bucket'] ?? []),
     );
   }
 
@@ -82,7 +82,7 @@ class OrderResult {
   );
 
   factory OrderResult.fromJson(Map<String, dynamic> json) {
-    switch (json['orderType']) {
+    switch (json['order_type'] ?? '') {
       case "ordercloth":
         var result = OrderClothResult.fromJson(json);
 

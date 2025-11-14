@@ -13,8 +13,10 @@ class GetNestedProfilesUseCase
     ProfilesResult profiles;
 
     try {
+      //FIXME: WAITING FOR BACKEND IMPLEMENTATION
       //TODO: Change later, page, pageSize e search
-      profiles = await _profileService.getAllProfiles(1, 1000);
+      profiles = ProfilesResult([]);
+      // await _profileService.getAllProfiles(1, 1000);
     } catch (e) {
       rethrow;
     }

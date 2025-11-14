@@ -15,7 +15,7 @@ class GetCurrentMaintenanceActionRequest {
     return GetCurrentMaintenanceActionRequest(
       ClothResult.fromJson(json['cloth']),
       CurrentServiceResult.fromJson(json['service']),
-      json['maintenanceActivityId'],
+      json['maintenance_activity_id'],
       ServiceStates.getOf(json['status']),
     );
   }

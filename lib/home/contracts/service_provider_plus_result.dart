@@ -14,17 +14,17 @@ class ServiceProviderPlusResult extends ServiceProviderResult {
   );
 
   factory ServiceProviderPlusResult.fromJson(Map<String, dynamic> json) {
-    dynamic totalRating = json['totalRanking'];
+    dynamic totalRating = json['total_ranking'] ?? 0;
     if (totalRating is int) {
       totalRating = totalRating.toDouble();
     }
 
     return ServiceProviderPlusResult(
-      json['id'],
-      json['title'],
-      json['type'],
-      json['picture'],
-      json['services'],
+      json['id'] ?? '',
+      json['title'] ?? '',
+      json['type'] ?? '',
+      json['picture'] ?? '',
+      json['services'] ?? [],
       totalRating,
     );
   }

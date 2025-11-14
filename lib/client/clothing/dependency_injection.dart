@@ -30,7 +30,6 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/delete_card_use_c
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_bucket_use_case.dart';
-import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
@@ -104,10 +103,6 @@ extension ClothingDependencyInjection on DependencyInjection {
 
     locator.registerSingleton(
       MarkClothAsDailyUseUseCase(outfitService),
-    );
-
-    locator.registerSingleton(
-      UnMarkClothAsDailyUseUseCase(outfitService),
     );
 
     locator.registerSingleton(
@@ -189,7 +184,6 @@ extension ClothingDependencyInjection on DependencyInjection {
     var router = locator<INavigationManager>();
     var notificationProvider = locator<INotificationProvider>();
     var markClothAsDailyUseUseCase = locator<MarkClothAsDailyUseUseCase>();
-    var unMarkClothAsDailyUseUseCase = locator<UnMarkClothAsDailyUseUseCase>();
     var removeClothFromBucketUseCase = locator<RemoveClothFromBucketUseCase>();
     var changeBucketNameUseCase = locator<ChangeBucketNameUseCase>();
     var getClothHistoryUseCase = locator<GetClothHistoryUseCase>();
@@ -218,7 +212,6 @@ extension ClothingDependencyInjection on DependencyInjection {
         router,
         notificationProvider,
         markClothAsDailyUseUseCase,
-        unMarkClothAsDailyUseUseCase,
         getClothHistoryUseCase,
         locator<GetClothByIdUseCase>(),
         locator<ActionService>(),
@@ -231,7 +224,7 @@ extension ClothingDependencyInjection on DependencyInjection {
         bucketInfoManager,
         notificationProvider,
         removeClothFromBucketUseCase,
-        unMarkClothAsDailyUseUseCase,
+        markClothAsDailyUseUseCase,
         router,
       ),
     );
@@ -252,7 +245,6 @@ extension ClothingDependencyInjection on DependencyInjection {
         locator<GetNestedProfilesUseCase>(),
         locator<StaticValuesProvider>(),
         locator<MarkClothAsDailyUseUseCase>(),
-        locator<UnMarkClothAsDailyUseUseCase>(),
         locator<INavigationManager>(),
         locator<DeleteCardUseCase>(),
         locator<RegisterBucketUseCase>(),

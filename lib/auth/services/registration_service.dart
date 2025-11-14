@@ -13,7 +13,7 @@ class RegistrationService {
   Future<ProfileResult> getTokenData() async {
     return ProfileResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "auth/profiles/me",
+      path: "auth/account/profiles/me",
       expectedCode: 200,
     ));
   }
@@ -21,7 +21,7 @@ class RegistrationService {
   Future<FinishProfileResult> getProfileData() async {
     return FinishProfileResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/me",
+      path: "core/profiles/me",
       expectedCode: 200,
     ));
   }
@@ -30,7 +30,7 @@ class RegistrationService {
       SignInPersonalRequest request) async {
     return FinishProfileResult.fromJson(await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "profiles/client",
+        path: "core/profiles/client",
         body: request,
         expectedCode: 201));
   }
@@ -39,7 +39,7 @@ class RegistrationService {
       SignInEnterpriseRequest request) async {
     return FinishProfileResult.fromJson(await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "profiles/organization",
+        path: "core/profiles/organization",
         body: request,
         expectedCode: 201));
   }

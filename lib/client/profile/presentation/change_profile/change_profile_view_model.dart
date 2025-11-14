@@ -98,7 +98,8 @@ class ChangeProfileViewModel extends ViewModel {
 
     await refreshTokens();
     DependencyInjection.locator<IPhoenixWsNotifier>().logOut();
-    await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
+    //FIXME: Ws
+    // await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
     _notificationProvider.showNotification(
       LocaleContext.get().client_profile_change_profile_profile_alter,

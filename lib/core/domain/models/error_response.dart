@@ -29,9 +29,9 @@ class ErrorResponse {
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) {
     return ErrorResponse(
-      json['type'],
-      json['title'],
-      json['status'],
+      json['type'] ?? '',
+      json['title'] ?? '',
+      json['status'] ?? '',
     );
   }
 }

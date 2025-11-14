@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:beat_ecoprove/core/config/server_config.dart';
 
 class ServerImage implements ImageProvider<NetworkImage> {
   final NetworkImage _provider;
 
   ServerImage(String path)
-      : _provider =
-            NetworkImage(Uri.parse('${ServerConfig.blobUrl}/$path').toString());
+      : _provider = NetworkImage(Uri.parse(path).toString());
 
   @override
   ImageStream createStream(ImageConfiguration configuration) {

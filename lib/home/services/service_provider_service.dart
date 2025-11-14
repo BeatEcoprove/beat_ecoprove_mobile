@@ -18,7 +18,7 @@ class ServiceProviderService {
   }) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "providers?page=$page&pageSize=$pageSize",
+      path: "core/providers?page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 
@@ -31,7 +31,7 @@ class ServiceProviderService {
       String serviceProviderId) async {
     var serviceProviderJson = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "providers/$serviceProviderId",
+      path: "core/providers/$serviceProviderId",
       expectedCode: 200,
     );
 
@@ -45,7 +45,8 @@ class ServiceProviderService {
   }) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "providers/$serviceProviderId/stores?page=$page&pageSize=$pageSize",
+      path:
+          "core/providers/$serviceProviderId/stores?page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 
@@ -56,7 +57,8 @@ class ServiceProviderService {
       GetPublicAdvertsUseCaseRequest request) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "public/adverts?page=${request.page}&pageSize=${request.pageSize}",
+      path:
+          "core/public/adverts?page=${request.page}&pageSize=${request.pageSize}",
       expectedCode: 200,
     );
 
@@ -70,7 +72,7 @@ class ServiceProviderService {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
       path:
-          "providers/${request.serviceProviderId}/adverts?page=${request.page}&pageSize=${request.pageSize}",
+          "core/providers/${request.serviceProviderId}/stores/adverts?page=${request.page}&pageSize=${request.pageSize}",
       expectedCode: 200,
     );
 
@@ -82,7 +84,7 @@ class ServiceProviderService {
   Future<StoreResult> getStoreById(String providerId, String storeId) async {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "providers/$providerId/stores/$storeId",
+      path: "core/providers/$providerId/stores/$storeId",
       expectedCode: 200,
     );
 

@@ -5,6 +5,6 @@ class HistoryActionResult {
   final DateTime endedAt;
 
   HistoryActionResult.fromJson(Map<String, dynamic> json)
-      : type = HistoryActionType.getOf(json['type']),
-        endedAt = DateTime.parse(json['endedAt']);
+      : type = HistoryActionType.getOf(json['type'] ?? ''),
+        endedAt = DateTime.parse(json['ended_at'] ?? '');
 }

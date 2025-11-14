@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/get_current_maintenance_action_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/history/requests/history_action_request.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/mark_cloth_in_use_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/models/history_item.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_history_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
-import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_cloth/info_cloth_parms.dart';
 import 'package:beat_ecoprove/client/clothing/services/action_service.dart';
 import 'package:beat_ecoprove/core/config/server_config.dart';
@@ -30,7 +30,6 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
   final INavigationManager _navigationManager;
   final INotificationProvider _notificationProvider;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
-  final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final GetClothHistoryUseCase _getClothHistoryUseCase;
   final GetClothByIdUseCase _getClothByIdUseCase;
   final ActionService _actionService;
@@ -50,7 +49,6 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
     this._navigationManager,
     this._notificationProvider,
     this._markClothAsDailyUseUseCase,
-    this._unMarkClothAsDailyUseUseCase,
     this._getClothHistoryUseCase,
     this._getClothByIdUseCase,
     this._actionService,
@@ -126,7 +124,8 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
 
   Future _markClothAsDailyUse(List<String> idsCloth) async {
     try {
-      await _markClothAsDailyUseUseCase.handle(idsCloth);
+      await _markClothAsDailyUseUseCase
+          .handle(MarkClothAsDailyUseRequest(clothIds: idsCloth, usage: true));
 
       _notificationProvider.showNotification(
         LocaleContext.get()
@@ -145,7 +144,8 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
 
   Future _unMarkClothAsDailyUse(List<String> idsCloth) async {
     try {
-      await _unMarkClothAsDailyUseUseCase.handle(idsCloth);
+      await _markClothAsDailyUseUseCase
+          .handle(MarkClothAsDailyUseRequest(clothIds: idsCloth, usage: false));
 
       _notificationProvider.showNotification(
         LocaleContext.get()
@@ -247,7 +247,6 @@ class InfoClothViewModel extends ViewModel<InfoClothParams> implements Clone {
       _navigationManager,
       _notificationProvider,
       _markClothAsDailyUseUseCase,
-      _unMarkClothAsDailyUseUseCase,
       _getClothHistoryUseCase,
       _getClothByIdUseCase,
       _actionService,

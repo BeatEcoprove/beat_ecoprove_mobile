@@ -13,7 +13,7 @@ class ActionService {
   Future<List<ServiceResult>> getAllServices() async {
     var result = await _httpClient.makeRequestJson<List<dynamic>>(
       method: HttpMethods.get,
-      path: "services",
+      path: "core/services",
       expectedCode: 200,
     );
 
@@ -23,7 +23,7 @@ class ActionService {
   Future<List<ServiceResult>> getClothAvailableServices(String clothId) async {
     var result = await _httpClient.makeRequestJson<List<dynamic>>(
       method: HttpMethods.get,
-      path: "profiles/closet/cloth/$clothId/services",
+      path: "core/profiles/closet/cloth/$clothId/services",
       expectedCode: 200,
     );
 
@@ -40,7 +40,7 @@ class ActionService {
     return await _httpClient.makeRequestJson(
       method: HttpMethods.post,
       path:
-          "profiles/closet/cloth/${request.clothId}/services/${request.serviceId}/perform/${request.actionId}",
+          "core/profiles/closet/cloth/${request.clothId}/services/${request.serviceId}/perform/${request.actionId}",
       expectedCode: 200,
     );
   }
@@ -50,7 +50,7 @@ class ActionService {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.post,
       path:
-          "profiles/closet/cloth/${request.serviceId}/services/${request.actionId}/finish",
+          "core/profiles/closet/cloth/${request.serviceId}/services/${request.actionId}/finish",
       expectedCode: 200,
     );
 
@@ -62,7 +62,7 @@ class ActionService {
     return GetCurrentMaintenanceActionRequest.fromJson(
         await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/closet/cloth/$clothId/services/current",
+      path: "core/profiles/closet/cloth/$clothId/services/current",
       expectedCode: 200,
     ));
   }

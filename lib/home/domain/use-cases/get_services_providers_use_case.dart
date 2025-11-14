@@ -54,13 +54,11 @@ class GetServicesProvidersUseCase
     List<ServiceProviderItem> servicesProviders = [];
 
     try {
-      //FIXME: user don't have scope (providers:view)
-      servicesProvidersResult = [];
-      // servicesProvidersResult =
-      //     await _serviceProviderService.getServicesProviders(
-      //   page: request.page,
-      //   pageSize: request.pageSize,
-      // );
+      servicesProvidersResult =
+          await _serviceProviderService.getServicesProviders(
+        page: request.page,
+        pageSize: request.pageSize,
+      );
     } catch (e) {
       rethrow;
     }

@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/client/clothing/contracts/mark_cloth_in_use_request.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 
@@ -6,23 +7,13 @@ class OutfitService {
 
   OutfitService(this._httpClient);
 
-  Future markClothAsInUse(List<String> idsCloth) async {
-    for (var idCloth in idsCloth) {
+  Future markClothAsInUse(MarkClothAsDailyUseRequest request) async {
+    for (var idCloth in request.clothIds) {
       await _httpClient.makeRequestJson(
-          method: HttpMethods.put,
-          path: "profiles/closet/cloth/$idCloth/use",
-          expectedCode: 200);
-    }
-
-    return;
-  }
-
-  Future unMarkClothAsInUse(List<String> idsCloth) async {
-    for (var idCloth in idsCloth) {
-      await _httpClient.makeRequestJson(
-          method: HttpMethods.put,
-          path: "profiles/closet/cloth/$idCloth/unUse",
-          expectedCode: 200);
+        method: HttpMethods.patch,
+        path: "core/profiles/closet/cloth/$idCloth/usage?use=${request.usage}",
+        expectedCode: 200,
+      );
     }
 
     return;

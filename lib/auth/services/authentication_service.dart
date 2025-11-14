@@ -16,7 +16,7 @@ class AuthenticationService {
   Future<PingServerResult> pingServer() async {
     return PingServerResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "health",
+      path: "core/health",
       expectedCode: 200,
     ));
   }
@@ -24,7 +24,7 @@ class AuthenticationService {
   Future<AuthResult> signIn(SignInRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "auth/sign-up",
+        path: "auth/account/sign-up",
         body: request,
         expectedCode: 201));
   }
@@ -32,7 +32,7 @@ class AuthenticationService {
   Future<AuthResult> refreshTokens(RefreshTokensRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestFormUrlEncoded(
         method: HttpMethods.post,
-        path: "auth/token",
+        path: "auth/account/token",
         body: request,
         expectedCode: 200));
   }
@@ -40,7 +40,7 @@ class AuthenticationService {
   Future<AuthResult> login(LoginRequest request) async {
     return AuthResult.fromJson(await _httpClient.makeRequestFormUrlEncoded(
       method: HttpMethods.post,
-      path: "auth/token",
+      path: "auth/account/token",
       body: request,
       expectedCode: 200,
     ));
@@ -49,7 +49,7 @@ class AuthenticationService {
   Future<void> sendForgotPassword(ForgotPasswordRequest request) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "auth/forgot-password",
+        path: "auth/account/forgot-password",
         body: request,
         expectedCode: 200);
   }
@@ -57,7 +57,7 @@ class AuthenticationService {
   Future<void> resetPassword(ResetPasswordRequest request) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "auth/reset-password",
+        path: "auth/account/reset-password",
         body: request,
         expectedCode: 200);
   }
@@ -65,7 +65,7 @@ class AuthenticationService {
   Future<bool> validateEmailField(String email) async {
     var result = await _httpClient.makeRequestJson(
         method: HttpMethods.get,
-        path: "auth/availability/check-field?email=$email",
+        path: "auth/account/availability/check-field?email=$email",
         expectedCode: 200);
 
     return !(bool.tryParse(result['message']) ?? true);

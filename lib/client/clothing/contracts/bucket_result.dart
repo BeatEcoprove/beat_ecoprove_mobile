@@ -13,9 +13,9 @@ class BucketResult {
 
   factory BucketResult.fromJson(Map<String, dynamic> json) {
     return BucketResult(
-      json['id'],
-      json['name'],
-      _convertJsonToClothResult(json['associatedCloth']),
+      json['id'] ?? '',
+      json['name'] ?? '',
+      _convertJsonToClothResult(json['associated_cloth'] ?? []),
     );
   }
 

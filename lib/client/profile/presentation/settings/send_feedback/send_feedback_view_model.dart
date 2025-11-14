@@ -55,6 +55,7 @@ class SendFeedbackViewModel extends FormViewModel {
   Future sendFeedback() async {
     try {
       await _sendFeedbackUseCase.handle(SendFeedbackRequest(
+        _authProvider.profileId,
         getValue(FormFieldValues.name).value ?? "",
         getValue(FormFieldValues.groupDescription).value ?? "",
       ));

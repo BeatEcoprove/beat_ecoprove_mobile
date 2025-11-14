@@ -37,7 +37,7 @@ class GetClosetUseCase
 
     try {
       outfitBucketResult = await _clothingService.getOutfit();
-      outfitBucketResult.id = "outfit";
+      outfitBucketResult.id = "Outfit";
       closetResult = await _clothingService.getCloset(
         filters,
         page: request.page,

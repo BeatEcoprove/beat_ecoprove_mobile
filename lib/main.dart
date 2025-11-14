@@ -28,9 +28,8 @@ void main() async {
 
   var internetService = DependencyInjection.locator<InternetService>();
 
-  if (await internetService.checkServerApiConnection()) {
-    await DependencyInjection.locator<AuthenticationProvider>().checkAuth();
-
+  if (await internetService.checkServerApiConnection() &&
+      await DependencyInjection.locator<AuthenticationProvider>().checkAuth()) {
     var provider = DependencyInjection.locator<StaticValuesProvider>();
     await provider.fetchStaticValues();
   }

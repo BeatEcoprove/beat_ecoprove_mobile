@@ -1,8 +1,9 @@
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/mark_cloth_in_use_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/remove_cloth_from_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/errors/no_clothes_exception.dart';
+import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/remove_cloth_from_bucket_use_case.dart';
-import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/presentation/info_card/info_bucket/info_bucket_params.dart';
 import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
@@ -18,14 +19,14 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
   final IBucketInfoManager<String> _bucketInfoManager;
   final INotificationProvider _notificationProvider;
   final RemoveClothFromBucketUseCase _removeClothFromBucketUseCase;
-  final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
+  final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
   final INavigationManager _navigationRouter;
 
   InfoBucketViewModel(
     this._bucketInfoManager,
     this._notificationProvider,
     this._removeClothFromBucketUseCase,
-    this._unMarkClothAsDailyUseUseCase,
+    this._markClothAsDailyUseUseCase,
     this._navigationRouter,
   );
 
@@ -102,7 +103,8 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
             .client_clothing_info_card_bucket_info_error_no_garments_selected);
       }
 
-      await _unMarkClothAsDailyUseUseCase.handle(clothes.toList());
+      await _markClothAsDailyUseUseCase.handle(
+          MarkClothAsDailyUseRequest(clothIds: clothes.toList(), usage: false));
 
       card.child
           .where((element) => idsCloth.contains(element.id))
@@ -156,7 +158,7 @@ class InfoBucketViewModel extends ViewModel<InfoBucketParams> implements Clone {
       _bucketInfoManager,
       _notificationProvider,
       _removeClothFromBucketUseCase,
-      _unMarkClothAsDailyUseUseCase,
+      _markClothAsDailyUseUseCase,
       _navigationRouter,
     );
   }

@@ -12,8 +12,8 @@ class ClosetResult {
 
   factory ClosetResult.fromJson(Map<String, dynamic> json) {
     return ClosetResult(
-      _convertJsonToClothResult(json['cloths']),
-      _convertJsonToBucketResult(json['buckets']),
+      _convertJsonToClothResult(json['cloths'] ?? []),
+      _convertJsonToBucketResult(json['buckets'] ?? []),
     );
   }
 

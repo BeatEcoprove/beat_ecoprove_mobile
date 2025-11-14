@@ -22,11 +22,11 @@ class ServiceResult {
 
   factory ServiceResult.fromJson(Map<String, dynamic> json) {
     return ServiceResult(
-      json['id'],
-      json['title'],
-      json['badge'],
-      json['description'],
-      _convertJsonToActionResults(json['actions']),
+      json['id'] ?? '',
+      json['title'] ?? '',
+      json['badge'] ?? '',
+      json['description'] ?? '',
+      _convertJsonToActionResults(json['actions'] ?? []),
     );
   }
 

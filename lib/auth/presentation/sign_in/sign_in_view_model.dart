@@ -59,7 +59,8 @@ class SignInViewModel extends ViewModel {
         password: password,
         role: signType.label,
       ));
-      await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
+      //FIXME: Ws
+      // await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
       await _navigationRouter.pushAsync(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(

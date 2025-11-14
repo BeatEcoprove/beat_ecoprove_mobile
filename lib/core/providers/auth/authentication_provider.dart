@@ -35,15 +35,19 @@ class AuthenticationProvider extends ViewModel {
     _accessToken = null;
   }
 
-  Future checkAuth() async {
+  Future<bool> checkAuth() async {
     String refreshToken =
         await StorageService.getValue(Store.refreshToken) ?? '';
 
     _refreshToken = refreshToken;
 
-    if (refreshToken.isEmpty || !validateToken(refreshToken)) return;
+    if (refreshToken.isEmpty || !validateToken(refreshToken)) {
+      logout();
+      return false;
+    }
 
-    DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
+    //FIXME: Ws
+    // DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
 
@@ -102,6 +106,8 @@ class AuthenticationProvider extends ViewModel {
         },
       ),
     );
+
+    return true;
   }
 
   bool validateToken(String refreshToken) {
@@ -137,6 +143,8 @@ class AuthenticationProvider extends ViewModel {
       AuthResult token, String profileId) async {
     AuthResult tokens;
     FinishProfileResult profileData;
+
+    await Future.delayed(const Duration(microseconds: 500));
 
     tokens = await DependencyInjection.locator<AuthenticationService>()
         .refreshTokens(RefreshTokensRequest(

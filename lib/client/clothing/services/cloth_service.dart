@@ -19,7 +19,7 @@ class ClothService {
     //TODO: Add page, pageSize and search
     var json = await _httpClient.makeRequestJson<List<dynamic>>(
       method: HttpMethods.get,
-      path: "profiles/closet/cloth/$clothId/services/history",
+      path: "core/profiles/closet/cloth/$clothId/services/history",
       expectedCode: 200,
     );
 

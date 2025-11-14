@@ -20,7 +20,7 @@ class AdvertResult {
   );
 
   factory AdvertResult.fromJson(Map<String, dynamic> json) {
-    var type = switch (json['type']) {
+    var type = switch (json['type'] ?? '') {
       'advertisement' =>
         LocaleContext.get().service_provider_profile_profile_advertisement,
       'promotion' =>
@@ -32,13 +32,13 @@ class AdvertResult {
     };
 
     var result = AdvertResult(
-      json['id'],
-      json['picture'],
+      json['id'] ?? '',
+      json['picture'] ?? '',
       type,
-      DateTime.parse(json['beginAt']),
-      DateTime.parse(json['endAt']),
-      json['title'],
-      json['description'],
+      DateTime.parse(json['begin_at']),
+      DateTime.parse(json['end_at']),
+      json['title'] ?? '',
+      json['description'] ?? '',
     );
 
     return result;

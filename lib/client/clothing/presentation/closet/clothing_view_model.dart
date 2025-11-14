@@ -2,6 +2,7 @@ import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/add_cloths_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/cloth_result.dart';
+import 'package:beat_ecoprove/client/clothing/contracts/mark_cloth_in_use_request.dart';
 import 'package:beat_ecoprove/client/clothing/contracts/register_bucket_request.dart';
 import 'package:beat_ecoprove/client/clothing/domain/data/filters.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/add_cloths_bucket_use_case.dart';
@@ -9,7 +10,6 @@ import 'package:beat_ecoprove/client/clothing/domain/use-cases/delete_card_use_c
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_closet_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/mark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/register_bucket_use_case.dart';
-import 'package:beat_ecoprove/client/clothing/domain/use-cases/unmark_cloth_as_daily_use_use_case.dart';
 import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
@@ -43,7 +43,6 @@ class ClothingViewModel extends FormViewModel implements Clone {
   final GetNestedProfilesUseCase _getNestedProfilesUseCase;
   final StaticValuesProvider _valuesProvider;
   final MarkClothAsDailyUseUseCase _markClothAsDailyUseUseCase;
-  final UnMarkClothAsDailyUseUseCase _unMarkClothAsDailyUseUseCase;
   final DeleteCardUseCase _deleteCardUseCase;
   final RegisterBucketUseCase _registerBucketUseCase;
   final AddClothsBucketUseCase _addClothsBucketUseCase;
@@ -72,7 +71,6 @@ class ClothingViewModel extends FormViewModel implements Clone {
     this._getNestedProfilesUseCase,
     this._valuesProvider,
     this._markClothAsDailyUseUseCase,
-    this._unMarkClothAsDailyUseUseCase,
     this._navigationManager,
     this._deleteCardUseCase,
     this._registerBucketUseCase,
@@ -161,7 +159,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
       selectedCloth.values.every(
         (cards) => cards.isEmpty,
       ) &&
-      !selectedCloth.keys.any((element) => element == "outfit");
+      !selectedCloth.keys.any((element) => element == "Outfit");
 
   bool haveThisFilter(String filter) => filterSelection.containsKey(filter);
 
@@ -264,7 +262,8 @@ class ClothingViewModel extends FormViewModel implements Clone {
 
     if (listToMark.isNotEmpty) {
       try {
-        await _markClothAsDailyUseUseCase.handle(listToMark);
+        await _markClothAsDailyUseUseCase.handle(
+            MarkClothAsDailyUseRequest(clothIds: listToMark, usage: true));
         _notificationProvider.showNotification(
           LocaleContext.get().client_clothing_closet_clothing_state_updated,
           type: NotificationTypes.success,
@@ -284,7 +283,8 @@ class ClothingViewModel extends FormViewModel implements Clone {
         .toList();
 
     try {
-      await _unMarkClothAsDailyUseUseCase.handle(listToUnMark);
+      await _markClothAsDailyUseUseCase.handle(
+          MarkClothAsDailyUseRequest(clothIds: listToUnMark, usage: false));
 
       _notificationProvider.showNotification(
         LocaleContext.get().client_clothing_closet_clothing_state_updated,
@@ -341,7 +341,7 @@ class ClothingViewModel extends FormViewModel implements Clone {
     AppRoute routePath;
 
     if (isBucketItem(card)) {
-      if (card.id == "outfit") {
+      if (card.id == "Outfit") {
         routePath = ClothingRoutes.setOutfitDetails(card.id);
       } else {
         routePath = ClothingRoutes.setBucketDetails(card.id);
@@ -598,7 +598,6 @@ class ClothingViewModel extends FormViewModel implements Clone {
       _getNestedProfilesUseCase,
       _valuesProvider,
       _markClothAsDailyUseUseCase,
-      _unMarkClothAsDailyUseUseCase,
       _navigationManager,
       _deleteCardUseCase,
       _registerBucketUseCase,

@@ -13,7 +13,7 @@ class RegisterBucketRequest implements BaseJsonRequest {
   Map<String, dynamic> toJson() {
     return {
       'name': bucketName,
-      'clothIds': bucketIdsItems,
+      'cloth_ids': bucketIdsItems,
     };
   }
 }

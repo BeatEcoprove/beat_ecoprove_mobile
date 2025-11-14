@@ -45,7 +45,7 @@ class InfoBucketView
           cardsType: Types.compact,
           action: "removeFromBucket",
           actionToOptionRemoveFromBucket: (idCloth) async {
-            args.card.id == "outfit"
+            args.card.id == "Outfit"
                 ? await viewModel.unMarkClothsFromBucket(args.card, idCloth)
                 : await viewModel.removeClothFromBucket(
                     args.card, idCloth, args.card.id);
@@ -59,7 +59,7 @@ class InfoBucketView
   Widget showOptionsMenu(InfoBucketViewModel viewModel) {
     return WithOptionsFooter(
       options: [
-        if (args.card.id == "outfit") ...{
+        if (args.card.id == "Outfit") ...{
           OptionItem(
             name: LocaleContext.get()
                 .client_clothing_info_card_bucket_info_deselect_use,

@@ -22,7 +22,7 @@ class GetBucketsUseCase implements UseCaseAction<Future<Map<String, String>>> {
     }
 
     for (var bucket in buckets) {
-      if (bucket.id == "outfit") {
+      if (bucket.id == "Outfit") {
         continue;
       }
 

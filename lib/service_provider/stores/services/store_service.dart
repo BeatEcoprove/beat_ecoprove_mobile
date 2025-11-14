@@ -21,7 +21,7 @@ class StoreService {
   }) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "stores/own?page=$page&pageSize=$pageSize$filters",
+      path: "core/stores/own?page=$page&pageSize=$pageSize$filters",
       expectedCode: 200,
     );
 
@@ -31,7 +31,7 @@ class StoreService {
   Future registerStore(RegisterStoreRequest request) async {
     await _httpClient.makeRequestMultiPart(
       method: HttpMethods.post,
-      path: "stores",
+      path: "core/stores",
       body: request,
       expectedCode: 200,
     );
@@ -40,7 +40,7 @@ class StoreService {
   Future removeStore(RemoveStoreRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.delete,
-      path: "stores/${request.storeId}",
+      path: "core/stores/${request.storeId}",
       body: request,
       expectedCode: 200,
     );
@@ -53,7 +53,7 @@ class StoreService {
   }) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "stores/$storeId/workers?page=$page&pageSize=$pageSize",
+      path: "core/stores/$storeId/workers?page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 
@@ -65,7 +65,7 @@ class StoreService {
   Future addWorker(AddWorkerRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.post,
-      path: "stores/${request.storeId}/workers",
+      path: "core/stores/${request.storeId}/workers",
       body: request,
       expectedCode: 200,
     );
@@ -74,7 +74,7 @@ class StoreService {
   Future removeWorker(RemoveWorkerRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.delete,
-      path: "stores/${request.storeId}/workers/${request.id}",
+      path: "core/stores/${request.storeId}/workers/${request.id}",
       body: request,
       expectedCode: 200,
     );
@@ -83,7 +83,7 @@ class StoreService {
   Future changeWorkerType(ChangeWorkerPermissionRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.patch,
-      path: "stores/${request.storeId}/workers/${request.id}/switch",
+      path: "core/stores/${request.storeId}/workers/${request.id}/switch",
       body: request,
       expectedCode: 200,
     );
@@ -96,7 +96,7 @@ class StoreService {
   }) async {
     List<dynamic> response = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "stores/$storeId/ratings?page=$page&pageSize=$pageSize",
+      path: "core/stores/$storeId/ratings?page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 

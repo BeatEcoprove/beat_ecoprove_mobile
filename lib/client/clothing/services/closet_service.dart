@@ -24,7 +24,7 @@ class ClosetService {
   }) async {
     return ClosetResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/closet?page=$page&pageSize=$pageSize$filters",
+      path: "core/profiles/closet?page=$page&pageSize=$pageSize$filters",
       expectedCode: 200,
     ));
   }
@@ -32,55 +32,59 @@ class ClosetService {
   Future<ClosetResult> getBuckets() async {
     return ClosetResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/closet?page=1&pageSize=10",
+      path: "core/profiles/closet/buckets?page=1&pageSize=10",
       expectedCode: 200,
     ));
   }
 
   Future<BucketResult> getOutfit() async {
-    return BucketResult.fromJson(await _httpClient.makeRequestJson(
+    var result = BucketResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/closet/outfit",
+      path: "core/profiles/closet/outfit",
       expectedCode: 200,
     ));
+
+    return result;
   }
 
   Future<ClothResult> getClothById(String clothId) async {
     return ClothResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/closet/cloth/$clothId",
-      expectedCode: 201,
+      path: "core/profiles/closet/cloths/$clothId",
+      expectedCode: 200,
     ));
   }
 
   Future deleteCloth(String clothId) async {
     await _httpClient.makeRequestJson(
-        method: HttpMethods.delete,
-        path: "profiles/closet/cloth/$clothId",
-        expectedCode: 201);
+      method: HttpMethods.delete,
+      path: "core/profiles/closet/cloths/$clothId",
+      expectedCode: 200,
+    );
   }
 
   Future deleteBucket(String bucketId) async {
     await _httpClient.makeRequestJson(
-        method: HttpMethods.delete,
-        path: "profiles/closet/bucket/$bucketId",
-        expectedCode: 201);
+      method: HttpMethods.delete,
+      path: "core/profiles/closet/buckets/$bucketId",
+      expectedCode: 200,
+    );
   }
 
   Future<BucketResult> getBucket(String bucketId) async {
     return BucketResult.fromJson(
       await _httpClient.makeRequestJson(
         method: HttpMethods.get,
-        path: "profiles/closet/bucket/$bucketId",
+        path: "core/profiles/closet/buckets/$bucketId",
         expectedCode: 201,
       ),
     );
   }
 
   Future registerCloth(RegisterClothRequest request) async {
-    var clothResult = await _httpClient.makeRequestMultiPart(
+    var clothResult = await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "profiles/closet/cloth",
+        path: "core/profiles/closet/cloths",
         body: request,
         expectedCode: 201);
 
@@ -90,7 +94,7 @@ class ClosetService {
   Future registerBucket(RegisterBucketRequest request) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "profiles/closet/bucket",
+        path: "core/profiles/closet/buckets",
         body: request,
         expectedCode: 201);
   }
@@ -98,7 +102,7 @@ class ClosetService {
   Future changeBucketName(ChangeBucketNameRequest request) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.patch,
-        path: "profiles/closet/bucket/${request.bucketId}",
+        path: "core/profiles/closet/buckets/${request.bucketId}",
         body: request,
         expectedCode: 200);
   }
@@ -106,7 +110,7 @@ class ClosetService {
   Future addClothToBucket(AddClothsBucketRequest request) async {
     await _httpClient.makeRequestJson(
         method: HttpMethods.put,
-        path: "profiles/closet/bucket/${request.bucketId}/add",
+        path: "core/profiles/closet/bucket/${request.bucketId}/add",
         body: request,
         expectedCode: 201);
   }
@@ -114,7 +118,7 @@ class ClosetService {
   Future removeClothFromBucket(RemoveClothFromBucketRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.put,
-      path: "profiles/closet/bucket/${request.bucketId}/remove",
+      path: "core/profiles/closet/buckets/${request.bucketId}",
       body: request,
       expectedCode: 201,
     );
@@ -123,7 +127,7 @@ class ClosetService {
   Future<List<ColorResult>> getAllColors() async {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "extensions/colors",
+      path: "core/extensions/colors",
       expectedCode: 200,
     );
 
@@ -142,7 +146,7 @@ class ClosetService {
   Future registerBrand(RegisterBrandRequest request) async {
     await _httpClient.makeRequestMultiPart(
         method: HttpMethods.post,
-        path: "extensions/brands/create",
+        path: "core/extensions/brands/create",
         body: request,
         expectedCode: 201);
   }
@@ -150,7 +154,7 @@ class ClosetService {
   Future<List<BrandResult>> getAllBrands() async {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "extensions/brands",
+      path: "core/extensions/brands",
       expectedCode: 200,
     );
 

@@ -16,7 +16,7 @@ class ProfileService {
       {String search = ""}) async {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles?search=$search&page=$page&pageSize=$pageSize",
+      path: "core/profiles?search=$search&page=$page&pageSize=$pageSize",
       expectedCode: 200,
     );
 
@@ -26,7 +26,7 @@ class ProfileService {
   Future removeNestedProfile(String profileId) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.delete,
-      path: "profiles/$profileId",
+      path: "core/profiles/$profileId",
       expectedCode: 200,
     );
   }
@@ -34,7 +34,7 @@ class ProfileService {
   Future promoteNestedProfile(PromoteProfileRequest request) async {
     await _httpClient.makeRequestJson(
       method: HttpMethods.put,
-      path: "profiles/${request.profileId}/promote",
+      path: "core/profiles/${request.profileId}/promote",
       body: request,
       expectedCode: 200,
     );
@@ -43,7 +43,7 @@ class ProfileService {
   Future<AuthResult> registerProfile() async {
     return await _httpClient.makeRequestJson(
       method: HttpMethods.post,
-      path: "auth/profiles/reserve",
+      path: "auth/account/profiles/reserve",
       expectedCode: 200,
     );
   }
@@ -54,7 +54,7 @@ class ProfileService {
   ) async {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "profiles/notifications",
+      path: "core/profiles/notifications",
       expectedCode: 200,
     );
 
@@ -62,9 +62,9 @@ class ProfileService {
       var notifications = result.map((json) {
         var {
           "title": title,
-          "groupName": groupName,
-          "groupId": groupId,
-          "invitorId": senderId,
+          "group_name": groupName,
+          "group_id": groupId,
+          "invitor_id": senderId,
           "code": code,
         } = json;
 

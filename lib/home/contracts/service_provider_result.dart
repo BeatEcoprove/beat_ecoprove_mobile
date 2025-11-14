@@ -13,10 +13,10 @@ class ServiceProviderResult {
 
   factory ServiceProviderResult.fromJson(Map<String, dynamic> json) {
     return ServiceProviderResult(
-      json['id'],
-      json['title'],
-      json['type'],
-      json['picture'],
+      json['id'] ?? '',
+      json['title'] ?? '',
+      json['type'] ?? '',
+      json['picture'] ?? '',
     );
   }
 }

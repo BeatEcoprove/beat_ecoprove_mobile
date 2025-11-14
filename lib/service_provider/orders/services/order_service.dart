@@ -34,7 +34,7 @@ class OrderService {
   }) async {
     List<dynamic> result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "orders?page=$page&pageSize=$pageSize$filters",
+      path: "core/orders?page=$page&pageSize=$pageSize$filters",
       expectedCode: 200,
     );
 

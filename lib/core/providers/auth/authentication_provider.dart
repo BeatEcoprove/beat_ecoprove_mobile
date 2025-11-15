@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
@@ -51,8 +52,13 @@ class AuthenticationProvider extends ViewModel {
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
 
-    RefreshProfile result = await refreshProfile(
-        AuthResult(refreshToken, refreshToken), decodedToken[Tokens.profileId]);
+    RefreshProfile result;
+    try {
+      result = await refreshProfile(AuthResult(refreshToken, refreshToken),
+          decodedToken[Tokens.profileId]);
+    } catch (e) {
+      return false;
+    }
 
     authenticate(
       Authentication(
@@ -146,9 +152,18 @@ class AuthenticationProvider extends ViewModel {
 
     await Future.delayed(const Duration(microseconds: 500));
 
-    tokens = await DependencyInjection.locator<AuthenticationService>()
-        .refreshTokens(RefreshTokensRequest(
-            refreshToken: token.refreshToken, profileId: profileId));
+    try {
+      tokens = await DependencyInjection.locator<AuthenticationService>()
+          .refreshTokens(RefreshTokensRequest(
+              refreshToken: token.refreshToken, profileId: profileId));
+    } catch (e) {
+      if (_isCertificateError(e)) {
+        await logout();
+        rethrow;
+      }
+
+      rethrow;
+    }
 
     preAuthenticate(PreAuthentication(
         accessToken: tokens.accessToken, refreshToken: tokens.refreshToken));
@@ -176,11 +191,40 @@ class AuthenticationProvider extends ViewModel {
   void setProfile({String profileId = ""}) {
     this.profileId = profileId;
 
-    DependencyInjection.locator<AuthenticationService>().refreshTokens(
-        RefreshTokensRequest(
-            refreshToken: _refreshToken, profileId: profileId));
+    () async {
+      try {
+        await DependencyInjection.locator<AuthenticationService>()
+            .refreshTokens(RefreshTokensRequest(
+                refreshToken: _refreshToken, profileId: profileId));
+      } catch (e) {
+        if (_isCertificateError(e)) {
+          await logout();
+        }
+      }
+    }();
 
     notifyListeners();
+  }
+
+  bool _isCertificateError(Object? e) {
+    if (e == null) return false;
+
+    if (e is HandshakeException) return true;
+    if (e is TlsException) return true;
+    if (e is SocketException) {
+      final msg = e.message.toLowerCase();
+      if (msg.contains('handshake') ||
+          msg.contains('cert') ||
+          msg.contains('tls')) {
+        return true;
+      }
+    }
+
+    final s = e.toString().toLowerCase();
+    return s.contains('certificate') ||
+        s.contains('handshake') ||
+        s.contains('tls') ||
+        s.contains('cert verify');
   }
 
   bool accessTokenIsValid() {

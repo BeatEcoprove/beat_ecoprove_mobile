@@ -144,11 +144,11 @@ class ClosetService {
   }
 
   Future registerBrand(RegisterBrandRequest request) async {
-    await _httpClient.makeRequestMultiPart(
+    await _httpClient.makeRequestJson(
         method: HttpMethods.post,
-        path: "core/extensions/brands/create",
+        path: "core/extensions/brands",
         body: request,
-        expectedCode: 201);
+        expectedCode: 200);
   }
 
   Future<List<BrandResult>> getAllBrands() async {

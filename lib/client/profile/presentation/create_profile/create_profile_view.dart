@@ -127,12 +127,13 @@ class CreateProfileView extends LinearView<CreateProfileViewModel> {
                           SizedBox(
                             height: textBoxGap,
                           ),
-                          CircleAvatarChooser(
-                            height: 140,
-                            color: AppColor.widgetSecondary,
-                            imageProvider: viewModel.getProfilePicture(),
-                            onPress: () => viewModel.getImageFromGallery(),
-                          ),
+                          //FIXME: Enable profile picture upload later
+                          // CircleAvatarChooser(
+                          //   height: 140,
+                          //   color: AppColor.widgetSecondary,
+                          //   imageProvider: viewModel.getProfilePicture(),
+                          //   onPress: () => viewModel.getImageFromGallery(),
+                          // ),
                           SizedBox(
                             height: 2 * textBoxGap,
                           ),

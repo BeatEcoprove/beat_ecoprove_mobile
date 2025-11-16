@@ -5,9 +5,9 @@ class ProfilesResult {
 
   ProfilesResult(this.profiles);
 
-  factory ProfilesResult.fromJson(Map<String, dynamic> json) {
+  factory ProfilesResult.fromJson(List<dynamic> json) {
     return ProfilesResult(
-      _convertJsonToFinishProfileResultList(json['profiles'] ?? []),
+      _convertJsonToFinishProfileResultList(json),
     );
   }
 

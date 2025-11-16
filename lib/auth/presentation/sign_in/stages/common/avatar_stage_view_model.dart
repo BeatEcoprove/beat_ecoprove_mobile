@@ -48,7 +48,10 @@ class AvatarStageViewModel extends StageViewModel {
 
         return;
       }
-    } on HttpError {}
+    } on HttpError {
+      //FIXME: Handle error properly
+      // return;
+    }
 
     try {
       setValue<String>(

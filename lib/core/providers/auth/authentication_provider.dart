@@ -55,7 +55,7 @@ class AuthenticationProvider extends ViewModel {
     RefreshProfile result;
     try {
       result = await refreshProfile(AuthResult(refreshToken, refreshToken),
-          decodedToken[Tokens.profileId]);
+          profileId: decodedToken[Tokens.profileId]);
     } catch (e) {
       return false;
     }
@@ -136,21 +136,19 @@ class AuthenticationProvider extends ViewModel {
   }
 
   void preAuthenticate(PreAuthentication authentication) {
-    StorageService.setValue(Store.refreshToken, authentication.refreshToken);
-
     _accessToken = authentication.accessToken;
-    _refreshToken = authentication.refreshToken;
     _isAuthenticated = false;
 
     notifyListeners();
   }
 
-  Future<RefreshProfile> refreshProfile(
-      AuthResult token, String profileId) async {
+  Future<RefreshProfile> refreshProfile(AuthResult token,
+      {String profileId = ""}) async {
     AuthResult tokens;
     FinishProfileResult profileData;
 
-    await Future.delayed(const Duration(microseconds: 500));
+    //FIXME: Alter delay time
+    await Future.delayed(const Duration(seconds: 2));
 
     try {
       tokens = await DependencyInjection.locator<AuthenticationService>()
@@ -165,8 +163,7 @@ class AuthenticationProvider extends ViewModel {
       rethrow;
     }
 
-    preAuthenticate(PreAuthentication(
-        accessToken: tokens.accessToken, refreshToken: tokens.refreshToken));
+    preAuthenticate(PreAuthentication(accessToken: tokens.accessToken));
 
     profileData = await DependencyInjection.locator<RegistrationService>()
         .getProfileData();

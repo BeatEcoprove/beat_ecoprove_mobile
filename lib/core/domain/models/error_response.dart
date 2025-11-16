@@ -31,7 +31,7 @@ class ErrorResponse {
     return ErrorResponse(
       json['type'] ?? '',
       json['title'] ?? '',
-      json['status'] ?? '',
+      json['status'] ?? 0,
     );
   }
 }

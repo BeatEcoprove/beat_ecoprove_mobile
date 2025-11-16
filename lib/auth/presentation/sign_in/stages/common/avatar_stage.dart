@@ -46,12 +46,13 @@ class AvatarStage extends Stage<AvatarStageViewModel> {
                   const SizedBox(
                     height: 54,
                   ),
-                  CircleAvatarChooser(
-                    height: 200,
-                    color: AppColor.widgetSecondary,
-                    imageProvider: viewModel.getAvatarImage(),
-                    onPress: () => viewModel.getImageFromGallery(),
-                  )
+                  //FIXME: Enable profile picture upload later
+                  // CircleAvatarChooser(
+                  //   height: 200,
+                  //   color: AppColor.widgetSecondary,
+                  //   imageProvider: viewModel.getAvatarImage(),
+                  //   onPress: () => viewModel.getImageFromGallery(),
+                  // )
                 ],
               ),
             ),

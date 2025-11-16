@@ -40,14 +40,14 @@ class SignInUseCase implements UseCase<SignInRequest, Future> {
     var role = decodedToken[Tokens.role];
 
     try {
-      _authProvider.preAuthenticate(PreAuthentication(
-          accessToken: tokens.accessToken, refreshToken: tokens.refreshToken));
+      _authProvider
+          .preAuthenticate(PreAuthentication(accessToken: tokens.accessToken));
 
       await request.strategy.createProfile();
 
       refreshProfile = await _authProvider.refreshProfile(
         tokens,
-        profileId,
+        profileId: profileId,
       );
     } catch (e) {
       rethrow;

@@ -43,7 +43,7 @@ class FinishProfileResult {
       json['eco_coins'] ?? 0,
       json['xp'] ?? 0,
       json['next_level_up'] ?? 0,
-      json['phone_number'] ?? '',
+      json['phone_number'] ?? '000000000',
       json['phone_country'] ?? '',
     );
   }

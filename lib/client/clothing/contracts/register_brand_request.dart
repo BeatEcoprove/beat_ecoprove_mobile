@@ -1,7 +1,7 @@
 import 'package:beat_ecoprove/auth/contracts/common/base_request.dart';
 import 'package:image_picker/image_picker.dart';
 
-class RegisterBrandRequest implements BaseMultiPartRequest {
+class RegisterBrandRequest implements BaseJsonRequest {
   final String brandName;
   final XFile brandImage;
 
@@ -11,10 +11,10 @@ class RegisterBrandRequest implements BaseMultiPartRequest {
   );
 
   @override
-  Map<String, dynamic> toMultiPart() {
+  Map<String, dynamic> toJson() {
     return {
       'name': brandName,
-      'clothAvatar': brandImage,
+      // 'cloth_avatar': brandImage,
     };
   }
 }

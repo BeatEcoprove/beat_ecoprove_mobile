@@ -75,7 +75,8 @@ class CreateProfileViewModel extends FormViewModel {
         return;
       }
     } on HttpError {
-      return;
+      //FIXME: Handle error properly
+      // return;
     }
 
     try {

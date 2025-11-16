@@ -49,11 +49,8 @@ extension ProfileDependencyInjection on DependencyInjection {
     var exchangeService = locator<ExchangeService>();
     var feedbackService = locator<FeedbackService>();
 
-    locator.registerSingleton(RegisterProfileUseCase(
-        profileService,
-        locator<AuthenticationService>(),
-        locator<RegistrationService>(),
-        locator<AuthenticationProvider>()));
+    locator.registerSingleton(RegisterProfileUseCase(profileService,
+        locator<RegistrationService>(), locator<AuthenticationProvider>()));
     locator.registerSingleton(GetNestedProfilesUseCase(profileService));
     locator.registerSingleton(DeleteProfileUseCase(profileService));
     locator.registerSingleton(PromoteProfileUseCase(profileService));

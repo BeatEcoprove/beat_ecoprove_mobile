@@ -48,7 +48,7 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
     try {
       var refreshProfile = await _authProvider.refreshProfile(
         AuthResult(tokens.accessToken, tokens.refreshToken),
-        profileId,
+        profileId: profileId,
       );
 
       profileData = refreshProfile.profile;

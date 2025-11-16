@@ -90,7 +90,7 @@ class CreateBrandViewModel extends FormViewModel {
       print(e.toString());
     }
 
-    // _navigationRouter.pop();
+    _navigationRouter.pop();
     notifyListeners();
   }
 }

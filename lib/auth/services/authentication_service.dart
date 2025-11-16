@@ -71,7 +71,7 @@ class AuthenticationService {
     return !(bool.tryParse(result['message']) ?? true);
   }
 
-//FIXME: Check later
+//FIXME: Check later (need server implementation)
   Future<bool> validateUsernameField(String username) async {
     var result = await _httpClient.makeRequestJson(
         method: HttpMethods.get,

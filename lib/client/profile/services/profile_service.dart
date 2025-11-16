@@ -16,7 +16,7 @@ class ProfileService {
       {String search = ""}) async {
     var result = await _httpClient.makeRequestJson(
       method: HttpMethods.get,
-      path: "core/profiles?search=$search&page=$page&pageSize=$pageSize",
+      path: "core/profiles",
       expectedCode: 200,
     );
 
@@ -41,10 +41,12 @@ class ProfileService {
   }
 
   Future<AuthResult> registerProfile() async {
-    return await _httpClient.makeRequestJson(
-      method: HttpMethods.post,
-      path: "auth/account/profiles/reserve",
-      expectedCode: 200,
+    return AuthResult.fromJson(
+      await _httpClient.makeRequestJson(
+        method: HttpMethods.post,
+        path: "auth/account/profiles/reserve",
+        expectedCode: 201,
+      ),
     );
   }
 

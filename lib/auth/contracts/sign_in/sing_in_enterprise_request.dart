@@ -10,6 +10,7 @@ class SignInEnterpriseRequest implements BaseJsonRequest {
   final Phone phone;
   final Address address;
   final String country;
+  final String picture;
 
   SignInEnterpriseRequest({
     required this.profileId,
@@ -19,6 +20,7 @@ class SignInEnterpriseRequest implements BaseJsonRequest {
     required this.phone,
     required this.country,
     required this.address,
+    required this.picture,
   });
 
   @override
@@ -35,6 +37,7 @@ class SignInEnterpriseRequest implements BaseJsonRequest {
       'locality': address.locality,
       'port': address.port.toString(),
       'zip_code': address.postalCode.toString(),
+      'picture': picture,
     };
   }
 }

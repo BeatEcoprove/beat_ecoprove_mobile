@@ -8,6 +8,7 @@ class RegisterClothRequest implements BaseJsonRequest {
   final String clothBrand;
   final String clothColor;
   final XFile clothImage;
+  late String? picture;
 
   RegisterClothRequest(
     this.clothName,
@@ -26,8 +27,7 @@ class RegisterClothRequest implements BaseJsonRequest {
       'cloth_size': clothSize,
       'brand': clothBrand,
       'color': clothColor,
-      //FIXME: Uncomment when backend is ready
-      // 'cloth_avatar': clothImage,
+      'picture': picture,
     };
   }
 }

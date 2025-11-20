@@ -7,6 +7,7 @@ class RegisterProfileRequest {
   final Gender profileGender;
   final XFile profilePicture;
   final String profileUserName;
+  late String? picture;
 
   RegisterProfileRequest(
     this.profileName,

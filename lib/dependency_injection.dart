@@ -21,6 +21,7 @@ import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart
 import 'package:beat_ecoprove/core/services/country_codes_service.dart';
 import 'package:beat_ecoprove/core/services/geo_api_service.dart';
 import 'package:beat_ecoprove/core/services/internet_service.dart';
+import 'package:beat_ecoprove/core/services/upload_image_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/group/dependency_injection.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
@@ -60,6 +61,9 @@ class DependencyInjection {
         authService,
       ),
     );
+
+    locator
+        .registerFactory(() => UploadImageService(locator<HttpAuthClient>()));
 
     locator.registerSingleton(
       RegistrationService(locator<HttpAuthClient>()),

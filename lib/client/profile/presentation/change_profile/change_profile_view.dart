@@ -163,11 +163,12 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
           (viewModel.nestedProfile != profile.id) && !isMain
               ? WithOptionsFooter(
                   options: [
-                    OptionItem(
-                      name: LocaleContext.get()
-                          .client_profile_change_profile_promote,
-                      action: () => viewModel.goToPromoteProfile(profile),
-                    ),
+                    //FIXME: Feature disabled for now
+                    // OptionItem(
+                    //   name: LocaleContext.get()
+                    //       .client_profile_change_profile_promote,
+                    //   action: () => viewModel.goToPromoteProfile(profile),
+                    // ),
                     OptionItem(
                       name: LocaleContext.get()
                           .client_profile_change_profile_remove,

@@ -75,15 +75,15 @@ class ChangeProfileViewModel extends ViewModel {
     }
   }
 
-  String get nestedProfile => _authProvider.profileId;
+  String get mainProfileId => _authProvider.mainProfileId;
   bool get isNestedProfilesEmpty => _authProvider.profileId.isNotEmpty;
 
   bool selectedProfile(String profileId, bool isMain) {
-    if (isMain && nestedProfile.isEmpty) {
+    if (isMain && mainProfileId.isEmpty) {
       return true;
     }
 
-    if (nestedProfile.isNotEmpty && nestedProfile == profileId) {
+    if (mainProfileId.isNotEmpty && mainProfileId == profileId) {
       return true;
     }
 

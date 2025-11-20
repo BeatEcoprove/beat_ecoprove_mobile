@@ -71,7 +71,7 @@ class RegisterProfileUseCase
               birthDate: request.profileBirthDate,
               gender: request.profileGender,
               phone: _authenticationProvider.appUser!.phoneNumber,
-              picture: request.picture!,
+              picture: request.picture ?? '',
             ),
           );
           break;
@@ -85,7 +85,7 @@ class RegisterProfileUseCase
               phone: _authenticationProvider.appUser!.phoneNumber,
               address: Address.empty(),
               country: '',
-              picture: request.picture!,
+              picture: request.picture ?? '',
             ),
           );
           break;
@@ -99,7 +99,7 @@ class RegisterProfileUseCase
               birthDate: request.profileBirthDate,
               gender: request.profileGender,
               phone: _authenticationProvider.appUser!.phoneNumber,
-              picture: request.picture!,
+              picture: request.picture ?? '',
             ),
           );
       }

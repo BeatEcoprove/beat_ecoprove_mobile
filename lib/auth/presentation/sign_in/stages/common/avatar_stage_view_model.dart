@@ -63,7 +63,12 @@ class AvatarStageViewModel extends StageViewModel {
 
   void getImageFromGallery() async {
     final picker = ImagePicker();
-    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+      maxHeight: 800,
+      maxWidth: 600,
+    );
 
     if (pickedFile != null) {
       setValue<XFile>(FormFieldValues.avatar, pickedFile);

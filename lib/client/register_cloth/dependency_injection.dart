@@ -6,6 +6,7 @@ import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/client/register_cloth/domain/use-cases/register_cloth_use_case.dart';
 import 'package:beat_ecoprove/client/register_cloth/presentation/register_cloth_view_model.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
+import 'package:beat_ecoprove/core/services/upload_image_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
 
@@ -15,7 +16,10 @@ extension RegisterClothInjection on DependencyInjection {
   void _addUseCases(GetIt locator) {
     var closetService = locator<ClosetService>();
 
-    locator.registerSingleton(RegisterClothUseCase(closetService));
+    locator.registerSingleton(RegisterClothUseCase(
+      closetService,
+      locator<UploadImageService>(),
+    ));
   }
 
   void _addViewModels(GetIt locator) {

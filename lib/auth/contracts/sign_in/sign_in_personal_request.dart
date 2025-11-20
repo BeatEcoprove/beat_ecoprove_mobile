@@ -11,6 +11,7 @@ class SignInPersonalRequest implements BaseJsonRequest {
   final DateTime birthDate;
   final Gender gender;
   final Phone phone;
+  final String picture;
 
   SignInPersonalRequest({
     required this.profileId,
@@ -20,6 +21,7 @@ class SignInPersonalRequest implements BaseJsonRequest {
     required this.birthDate,
     required this.gender,
     required this.phone,
+    required this.picture,
   });
 
   @override
@@ -33,6 +35,7 @@ class SignInPersonalRequest implements BaseJsonRequest {
       'biography': '',
       'gender': gender.value,
       'phone_number': phone.countryCode + phone.value.replaceAll(" ", ""),
+      'picture': picture,
     };
   }
 }

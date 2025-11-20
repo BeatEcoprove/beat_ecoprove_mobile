@@ -15,12 +15,14 @@ import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/routes.dart';
+import 'package:beat_ecoprove/core/services/upload_image_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 
 class SignInViewModel extends ViewModel {
   final INavigationManager _navigationRouter;
   final RegistrationService _registrationService;
+  final UploadImageService _imageService;
   final INotificationProvider _notificationProvider;
   final SignInUseCase _signInUseCase;
 
@@ -29,6 +31,7 @@ class SignInViewModel extends ViewModel {
   SignInViewModel(
     this._navigationRouter,
     this._registrationService,
+    this._imageService,
     this._notificationProvider,
     this._signInUseCase,
   );
@@ -47,9 +50,10 @@ class SignInViewModel extends ViewModel {
     String password = dataList[FormFieldValues.password]!.value;
 
     if (signType.label == SignUseroptions.personal.label) {
-      strategy = PersonalSignIn(_registrationService, dataList);
+      strategy = PersonalSignIn(_registrationService, _imageService, dataList);
     } else {
-      strategy = EnterpriseSignIn(_registrationService, dataList);
+      strategy =
+          EnterpriseSignIn(_registrationService, _imageService, dataList);
     }
 
     try {

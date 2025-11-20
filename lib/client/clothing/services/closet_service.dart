@@ -148,7 +148,7 @@ class ClosetService {
         method: HttpMethods.post,
         path: "core/extensions/brands",
         body: request,
-        expectedCode: 200);
+        expectedCode: 201);
   }
 
   Future<List<BrandResult>> getAllBrands() async {

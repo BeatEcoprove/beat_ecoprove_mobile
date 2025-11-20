@@ -15,6 +15,7 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/language_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/services/upload_image_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/delete_profile_use_case.dart';
 import 'package:beat_ecoprove/client/profile/domain/use-cases/get_nested_profiles_use_case.dart';
@@ -49,8 +50,12 @@ extension ProfileDependencyInjection on DependencyInjection {
     var exchangeService = locator<ExchangeService>();
     var feedbackService = locator<FeedbackService>();
 
-    locator.registerSingleton(RegisterProfileUseCase(profileService,
-        locator<RegistrationService>(), locator<AuthenticationProvider>()));
+    locator.registerSingleton(RegisterProfileUseCase(
+      profileService,
+      locator<RegistrationService>(),
+      locator<UploadImageService>(),
+      locator<AuthenticationProvider>(),
+    ));
     locator.registerSingleton(GetNestedProfilesUseCase(profileService));
     locator.registerSingleton(DeleteProfileUseCase(profileService));
     locator.registerSingleton(PromoteProfileUseCase(profileService));

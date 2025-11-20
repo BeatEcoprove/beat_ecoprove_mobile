@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
 import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/contracts/refresh_tokens_request.dart';
 import 'package:beat_ecoprove/auth/domain/value_objects/phone.dart';
@@ -151,6 +152,7 @@ class ChangeProfileViewModel extends ViewModel {
 
   Future refreshTokens() async {
     String refreshToken = _authProvider.refreshToken;
+    FinishProfileResult profileData;
 
     var tokens = await _authService.refreshTokens(
       RefreshTokensRequest(
@@ -161,52 +163,68 @@ class ChangeProfileViewModel extends ViewModel {
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);
 
+    var profileId = decodedToken[Tokens.profileId];
+
+    try {
+      var refreshProfile = await _authProvider.refreshProfile(
+        AuthResult(tokens.accessToken, tokens.refreshToken),
+        profileId: profileId,
+      );
+
+      profileData = refreshProfile.profile;
+      tokens = refreshProfile.tokens;
+    } catch (e) {
+      rethrow;
+    }
+
+    // Authenticates the use on the app
     _authProvider.authenticate(
       Authentication(
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
         user: switch (UserType.getOf(decodedToken[Tokens.role])) {
           UserType.consumer => Consumer(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
-              phoneNumber: Phone.create(decodedToken[Tokens.phoneCountry],
-                  decodedToken[Tokens.phoneNumber]),
+              id: profileData.id,
+              name: profileData.username,
+              avatarUrl: profileData.avatarUrl,
+              level: profileData.level.toString(),
+              levelPercent: profileData.levelPercentage.toString(),
+              sustainablePoints: profileData.sustainabilityPoints.toString(),
+              ecoScore: profileData.ecoScorePoints.toString(),
+              ecoCoins: profileData.ecoCoins.toString(),
+              xp: profileData.xp.toString(),
+              nextLevelXp: profileData.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  profileData.phoneCountry, profileData.phoneNumber),
             ),
           UserType.organization => Organization(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
-              phoneNumber: Phone.create(decodedToken[Tokens.phoneCountry],
-                  decodedToken[Tokens.phoneNumber]),
+              id: profileData.id,
+              name: profileData.username,
+              avatarUrl: profileData.avatarUrl,
+              level: profileData.level.toString(),
+              levelPercent: profileData.levelPercentage.toString(),
+              sustainablePoints: profileData.sustainabilityPoints.toString(),
+              ecoScore: profileData.ecoScorePoints.toString(),
+              ecoCoins: profileData.ecoCoins.toString(),
+              xp: profileData.xp.toString(),
+              nextLevelXp: profileData.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  profileData.phoneCountry, profileData.phoneNumber),
             ),
           UserType.employee => Employee(
-              id: decodedToken[Tokens.id],
-              name: decodedToken[Tokens.name],
-              avatarUrl: decodedToken[Tokens.avatarUrl],
-              level: decodedToken[Tokens.level],
-              levelPercent: decodedToken[Tokens.levelPercent],
-              sustainablePoints: decodedToken[Tokens.sustainablePoints],
-              ecoScore: decodedToken[Tokens.ecoScore],
-              ecoCoins: decodedToken[Tokens.ecoCoins],
-              xp: decodedToken[Tokens.xp],
-              nextLevelXp: decodedToken[Tokens.nextLevelXp],
-              phoneNumber: Phone.create(decodedToken[Tokens.phoneCountry],
-                  decodedToken[Tokens.phoneNumber]),
+              id: profileData.id,
+              name: profileData.username,
+              avatarUrl: profileData.avatarUrl,
+              level: profileData.level.toString(),
+              levelPercent: profileData.levelPercentage.toString(),
+              sustainablePoints: profileData.sustainabilityPoints.toString(),
+              ecoScore: profileData.ecoScorePoints.toString(),
+              ecoCoins: profileData.ecoCoins.toString(),
+              xp: profileData.xp.toString(),
+              nextLevelXp: profileData.nextLevelUp.toString(),
+              phoneNumber: Phone.create(
+                  profileData.phoneCountry, profileData.phoneNumber),
+              // FIXME: change when open service providers
               workerType: EmployeeType.getOf(decodedToken[Tokens.role]),
               storeId: decodedToken[Tokens.storeId],
             ),

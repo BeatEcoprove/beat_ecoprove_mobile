@@ -18,6 +18,7 @@ import 'package:beat_ecoprove/auth/services/registration_service.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
+import 'package:beat_ecoprove/core/services/upload_image_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
 
@@ -55,6 +56,7 @@ extension AuthDependencyInjection on DependencyInjection {
       () => SignInViewModel(
         locator<INavigationManager>(),
         locator<RegistrationService>(),
+        locator<UploadImageService>(),
         locator<INotificationProvider>(),
         locator<SignInUseCase>(),
       ),

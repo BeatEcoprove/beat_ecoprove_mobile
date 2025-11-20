@@ -43,7 +43,7 @@ class GroupService {
   }
 
   Future registerGroup(RegisterGroupRequest request) async {
-    await _httpClient.makeRequestMultiPart(
+    await _httpClient.makeRequestJson(
       method: HttpMethods.post,
       path: "messaging/groups",
       body: request,

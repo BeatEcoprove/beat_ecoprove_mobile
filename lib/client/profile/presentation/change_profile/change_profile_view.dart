@@ -160,7 +160,7 @@ class ChangeProfileView extends LinearView<ChangeProfileViewModel> {
             sustainablePoints: profile.sustainabilityPoints,
             ecoScorePoints: profile.ecoScorePoints,
           ),
-          (viewModel.nestedProfile != profile.id) && !isMain
+          (viewModel.mainProfileId != profile.id) && !isMain
               ? WithOptionsFooter(
                   options: [
                     //FIXME: Feature disabled for now

@@ -30,6 +30,7 @@ class AuthenticationProvider extends ViewModel {
   late User? _appUser;
   late String? _accessToken;
   late String _refreshToken = '';
+  late String mainProfileId = '';
 
   AuthenticationProvider() {
     _appUser = null;
@@ -39,8 +40,11 @@ class AuthenticationProvider extends ViewModel {
   Future<bool> checkAuth() async {
     String refreshToken =
         await StorageService.getValue(Store.refreshToken) ?? '';
+    String _mainProfileId =
+        await StorageService.getValue(Store.profileId) ?? '';
 
     _refreshToken = refreshToken;
+    mainProfileId = _mainProfileId;
 
     if (refreshToken.isEmpty || !validateToken(refreshToken)) {
       logout();

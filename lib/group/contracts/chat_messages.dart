@@ -8,20 +8,27 @@ class ChatMessages {
     this.messages,
   );
 
-  factory ChatMessages.fromApi(Map<String, dynamic> response, String groupId) {
+  static Future<ChatMessages> fromApi(
+      Map<String, dynamic> response, String groupId) async {
     final List<dynamic> data = (response['data'] as List?) ?? [];
 
-    final results = data.map((item) {
+    final futures = data.map((item) async {
       final type = (item['type'] ?? '').toString();
-      switch (type) {
-        case 'borrow':
-          return ChatBorrowResult.fromNewApi(item, groupId);
-        case 'text':
-        default:
-          return ChatMessageResult.fromNewApi(item, groupId);
+      try {
+        switch (type) {
+          case 'borrow':
+            return await ChatBorrowResult.fromNewApi(item, groupId);
+          case 'text':
+          default:
+            return await ChatMessageResult.fromNewApi(item, groupId);
+        }
+      } catch (e) {
+        print(e.toString());
+        rethrow;
       }
     }).toList();
 
+    final results = await Future.wait(futures);
     return ChatMessages(results);
   }
 }

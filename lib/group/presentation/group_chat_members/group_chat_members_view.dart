@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_r
 import 'package:beat_ecoprove/core/widgets/floating_button.dart';
 import 'package:beat_ecoprove/core/widgets/formatted_text_field/default_formatted_text_field.dart';
 import 'package:beat_ecoprove/core/widgets/headers/group_header.dart';
+import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_members_view_model.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +37,11 @@ class GroupChatMembersView
   Widget build(BuildContext context, GroupChatMembersViewModel viewModel) {
     return Scaffold(
       appBar: GroupHeader(
-        title: args.title,
-        state: args.state,
-        numberMembers: args.numberMembers.toString(),
+        title: args.groupDetailsResult.name,
+        state: args.groupDetailsResult.isPublic
+            ? GroupType.public
+            : GroupType.private,
+        numberMembers: args.groupDetailsResult.membersCount.toString(),
       ),
       body: AppBackground(
         content: Stack(
@@ -94,7 +97,7 @@ class GroupChatMembersView
                               Padding(
                                 padding: const EdgeInsets.only(top: 5),
                                 child: Text(
-                                  "${args.numberMembers} ${LocaleContext.get().group_group_chat_members_members_low}",
+                                  "${args.groupDetailsResult.membersCount} ${LocaleContext.get().group_group_chat_members_members_low}",
                                   style: AppText.subHeader,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -103,117 +106,117 @@ class GroupChatMembersView
                           ),
                         ],
                       ),
-                      // Column(
-                      //   children: viewModel.details.members
-                      //       .map(
-                      //         (member) => Container(
-                      //           margin: const EdgeInsets.symmetric(
-                      //             vertical: 8,
-                      //           ),
-                      //           child: (!viewModel.isCreator &&
-                      //                   !viewModel.isAdmin &&
-                      //                   viewModel.user?.id != member.profileId)
-                      //               ? CompactListItemRoot(
-                      //                   height: HeightCard.height88,
-                      //                   padding: PaddingCard.padding0,
-                      //                   items: [
-                      //                     ProfileHeader(
-                      //                       title: member.username,
-                      //                       userLevel: member.level,
-                      //                       sustainablePoints:
-                      //                           member.sustainabilityPoints,
-                      //                       ecoScorePoints:
-                      //                           member.ecoScorePoints,
-                      //                     ),
-                      //                     const WithoutOptionsFooter()
-                      //                   ],
-                      //                 )
-                      //               : CompactListItemRoot(
-                      //                   height: HeightCard.height88,
-                      //                   padding: PaddingCard.padding0,
-                      //                   items: [
-                      //                     ProfileHeader(
-                      //                       title: member.username,
-                      //                       userLevel: member.level,
-                      //                       sustainablePoints:
-                      //                           member.sustainabilityPoints,
-                      //                       ecoScorePoints:
-                      //                           member.ecoScorePoints,
-                      //                     ),
-                      //                     (member.id !=
-                      //                             viewModel.details.creator.id)
-                      //                         ? WithOptionsFooter(
-                      //                             options: [
-                      //                               if (viewModel.user?.id !=
-                      //                                   member.id)
-                      //                                 OptionItem(
-                      //                                     name: viewModel
-                      //                                             .details
-                      //                                             .admins
-                      //                                             .any((e) =>
-                      //                                                 e.id ==
-                      //                                                 member.id)
-                      //                                         ? LocaleContext
-                      //                                                 .get()
-                      //                                             .group_group_chat_members_demote
-                      //                                         : LocaleContext
-                      //                                                 .get()
-                      //                                             .group_group_chat_members_promote,
-                      //                                     action: () async => {
-                      //                                           viewModel
-                      //                                                   .details
-                      //                                                   .admins
-                      //                                                   .any((e) =>
-                      //                                                       e.id ==
-                      //                                                       member
-                      //                                                           .id)
-                      //                                               ? await viewModel
-                      //                                                   .despromoveMember(
-                      //                                                   member
-                      //                                                       .id,
-                      //                                                   args.groupId,
-                      //                                                 )
-                      //                                               : await viewModel
-                      //                                                   .promoteMember(
-                      //                                                   member
-                      //                                                       .id,
-                      //                                                   args.groupId,
-                      //                                                 )
-                      //                                         }),
-                      //                               OptionItem(
-                      //                                   name: viewModel
-                      //                                               .user?.id !=
-                      //                                           member.id
-                      //                                       ? LocaleContext
-                      //                                               .get()
-                      //                                           .group_group_chat_members_remove_group
-                      //                                       : LocaleContext
-                      //                                               .get()
-                      //                                           .group_group_chat_members_get_out_group,
-                      //                                   action: () async => {
-                      //                                         await viewModel
-                      //                                             .leaveGroup(
-                      //                                           member.id,
-                      //                                           args.groupId,
-                      //                                         )
-                      //                                       }),
-                      //                             ],
-                      //                           )
-                      //                         : const WithoutOptionsFooter(),
-                      //                   ],
-                      //                 ),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      // ),
+                      Column(
+                        children: viewModel.details.members!.profiles
+                            .map(
+                              (member) => Container(
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                ),
+                                child:
+                                    (!viewModel.isCreator &&
+                                            !viewModel.isAdmin &&
+                                            viewModel.user?.id != member.id)
+                                        ? CompactListItemRoot(
+                                            height: HeightCard.height88,
+                                            padding: PaddingCard.padding0,
+                                            items: [
+                                              ProfileHeader(
+                                                title: member.username,
+                                                userLevel: member.level,
+                                                sustainablePoints:
+                                                    member.sustainabilityPoints,
+                                                ecoScorePoints:
+                                                    member.ecoScorePoints,
+                                              ),
+                                              const WithoutOptionsFooter()
+                                            ],
+                                          )
+                                        : CompactListItemRoot(
+                                            height: HeightCard.height88,
+                                            padding: PaddingCard.padding0,
+                                            items: [
+                                              ProfileHeader(
+                                                title: member.username,
+                                                userLevel: member.level,
+                                                sustainablePoints:
+                                                    member.sustainabilityPoints,
+                                                ecoScorePoints:
+                                                    member.ecoScorePoints,
+                                              ),
+                                              (member.id !=
+                                                      viewModel
+                                                          .details.creator.id)
+                                                  ? WithOptionsFooter(
+                                                      options: [
+                                                        if (viewModel
+                                                                .user?.id !=
+                                                            member.id)
+                                                          OptionItem(
+                                                              name: viewModel
+                                                                      .details
+                                                                      .admins!
+                                                                      .profiles
+                                                                      .any((e) =>
+                                                                          e.id ==
+                                                                          member
+                                                                              .id)
+                                                                  ? LocaleContext
+                                                                          .get()
+                                                                      .group_group_chat_members_demote
+                                                                  : LocaleContext
+                                                                          .get()
+                                                                      .group_group_chat_members_promote,
+                                                              action:
+                                                                  () async => {
+                                                                        viewModel.details.admins!.profiles.any((e) =>
+                                                                                e.id ==
+                                                                                member.id)
+                                                                            ? await viewModel.despromoveMember(
+                                                                                member.id,
+                                                                                args.groupDetailsResult.id,
+                                                                              )
+                                                                            : await viewModel.promoteMember(
+                                                                                member.id,
+                                                                                args.groupDetailsResult.id,
+                                                                              )
+                                                                      }),
+                                                        OptionItem(
+                                                            name: viewModel.user
+                                                                        ?.id !=
+                                                                    member.id
+                                                                ? LocaleContext
+                                                                        .get()
+                                                                    .group_group_chat_members_remove_group
+                                                                : LocaleContext
+                                                                        .get()
+                                                                    .group_group_chat_members_get_out_group,
+                                                            action: () async =>
+                                                                {
+                                                                  await viewModel
+                                                                      .leaveGroup(
+                                                                    member.id,
+                                                                    args.groupDetailsResult
+                                                                        .id,
+                                                                  )
+                                                                }),
+                                                      ],
+                                                    )
+                                                  : const WithoutOptionsFooter(),
+                                            ],
+                                          ),
+                              ),
+                            )
+                            .toList(),
+                      ),
                       const SizedBox(
                         height: 26,
                       ),
-                      Text(
-                        LocaleContext.get().group_group_chat_members_admins,
-                        style: AppText.titleToScrollSection,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      // Text(
+                      //   LocaleContext.get().group_group_chat_members_admins,
+                      //   style: AppText.titleToScrollSection,
+                      //   overflow: TextOverflow.ellipsis,
+                      // ),
                       // Column(
                       //   children: viewModel.details.admins
                       //       .map(
@@ -297,7 +300,7 @@ class GroupChatMembersView
                 ),
               ),
             ),
-            if (viewModel.isMember)
+            if (viewModel.isCreator || viewModel.isAdmin)
               Positioned(
                 bottom: 36,
                 right: 26,

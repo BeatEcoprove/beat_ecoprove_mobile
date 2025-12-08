@@ -4,7 +4,6 @@ import 'package:beat_ecoprove/auth/presentation/login/login_view.dart';
 import 'package:beat_ecoprove/auth/services/authentication_service.dart';
 import 'package:beat_ecoprove/auth/services/registration_service.dart';
 import 'package:beat_ecoprove/client/dependency_injection.dart';
-import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/dependency_injection.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_client.dart';
@@ -88,13 +87,11 @@ class DependencyInjection {
 
   void registerWebsockets(GetIt locator) {
     var phoenixWs = locator.registerSingleton<IPhoenixWebSocketManager>(
-      PhoenixWebSocketManager(
-        ServerConfig.websocketUrl,
-      ),
+      PhoenixWebSocketManager(),
     );
 
-    locator.registerFactory(
-      () => GroupService(locator<HttpAuthClient>()),
+    locator.registerSingleton<GroupService>(
+      GroupService(locator<HttpAuthClient>()),
     );
 
     locator.registerSingleton<IPhoenixWsNotifier>(SinglePhoenixWsNotifier(

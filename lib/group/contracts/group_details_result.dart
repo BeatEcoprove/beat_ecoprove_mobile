@@ -1,4 +1,5 @@
-import 'package:beat_ecoprove/client/profile/contracts/profile_result.dart';
+import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
+import 'package:beat_ecoprove/auth/contracts/public_profile_result.dart';
 
 class GroupDetailsResult {
   final String id;
@@ -9,9 +10,11 @@ class GroupDetailsResult {
   final int xp;
   final bool isPublic;
   final String avatarPicture;
-  final ProfileResult creator;
-  final List<ProfileResult> members;
-  final List<ProfileResult> admins;
+  final FinishProfileResult creator;
+  final List<dynamic> membersIds;
+  final List<dynamic> adminsIds;
+  late PublicProfilesResult? members = PublicProfilesResult.empty();
+  late PublicProfilesResult? admins = PublicProfilesResult.empty();
 
   GroupDetailsResult(
     this.id,
@@ -23,8 +26,8 @@ class GroupDetailsResult {
     this.isPublic,
     this.avatarPicture,
     this.creator,
-    this.members,
-    this.admins,
+    this.membersIds,
+    this.adminsIds,
   );
 
   factory GroupDetailsResult.empty() {
@@ -37,7 +40,7 @@ class GroupDetailsResult {
       0,
       false,
       '',
-      ProfileResult.empty(),
+      FinishProfileResult.empty(),
       [],
       [],
     );
@@ -45,26 +48,17 @@ class GroupDetailsResult {
 
   factory GroupDetailsResult.fromJson(Map<String, dynamic> json) {
     return GroupDetailsResult(
-      json['id'],
-      json['name'],
-      json['description'],
-      json['members_count'],
-      json['sustainability_points'],
-      json['xp'],
-      json['is_public'],
-      json['avatar_url'],
-      ProfileResult.fromJson(json['creator']),
-      _convertJsonToProfileResultList(json['members']),
-      _convertJsonToProfileResultList(json['admins']),
+      json['id'] ?? '',
+      json['name'] ?? '',
+      json['description'] ?? '',
+      json['members_count'] ?? 0,
+      (json['sustainability_points'] as double).toInt(),
+      (json['xp'] as double).toInt(),
+      json['is_public'] ?? false,
+      json['avatar_url'] ?? '',
+      FinishProfileResult.fromJson(json['creator'] ?? {}),
+      json['members'] ?? [],
+      json['mods'] ?? [],
     );
-  }
-
-  static List<ProfileResult> _convertJsonToProfileResultList(
-      List<dynamic> groups) {
-    var group = groups.map((item) {
-      return ProfileResult.fromJson(item);
-    }).toList();
-
-    return group;
   }
 }

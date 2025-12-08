@@ -2,7 +2,6 @@ import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
-import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
@@ -27,22 +26,20 @@ import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
 import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
 import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
+import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/register_trade_request.dart';
-import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
-import 'package:beat_ecoprove/group/domain/value_objects/group_type.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat/edit_group_page/edit_group_params.dart';
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:flutter/material.dart';
 
-class GroupChatViewModel extends FormViewModel<GroupItem> {
+class GroupChatViewModel extends FormViewModel<GroupChatParams> {
   final INotificationProvider _notificationProvider;
   final IPhoenixWsNotifier _sessionWsNotifier;
   final GroupService _groupService;
 
   final AuthenticationProvider _authProvider;
-  final GetDetailsUseCase _getDetailsUseCase;
   final GetClothesUseCase _getClothesUseCase;
   final INavigationManager _navigationRouter;
   final GroupManager _groupManager;
@@ -69,7 +66,6 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   GroupChatViewModel(
     this._notificationProvider,
     this._authProvider,
-    this._getDetailsUseCase,
     this._getClothesUseCase,
     this._navigationRouter,
     IPhoenixWsNotifier sessionWsNotifier,
@@ -91,8 +87,8 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     _groupManager.addListener(handleGroupMessage);
 
     if (arg != null) {
-      _sessionWsNotifier.joinGroup(arg!.id);
-      await initGroupConnection(arg!.id);
+      _sessionWsNotifier.joinGroup(arg!.groupDetailsResult.id);
+      await initGroupConnection(arg!.groupDetailsResult.id);
     }
   }
 
@@ -377,17 +373,16 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
   Future updateGroup(String groupId) async {
     try {
       isLoading = true;
-      var groupDetails = await _getDetailsUseCase.handle(groupId);
 
       List<String> adminsIds =
-          groupDetails.admins.map((e) => e.profileId).toList();
+          arg!.groupDetailsResult.admins!.profiles.map((e) => e.id).toList();
 
-      adminsIds.add(groupDetails.creator.profileId);
+      adminsIds.add(arg!.groupDetailsResult.creator.id);
 
       await _navigationRouter.pushAsync(
         GroupRoutes.update,
         extras: EditGroupParams(
-          group: groupDetails,
+          group: arg!.groupDetailsResult,
           adminId: adminsIds,
         ),
       );
@@ -402,13 +397,10 @@ class GroupChatViewModel extends FormViewModel<GroupItem> {
     isLoading = false;
   }
 
-  void goToChatMembers(GroupItem arguments) => _navigationRouter.push(
+  void goToChatMembers(GroupDetailsResult arguments) => _navigationRouter.push(
         GroupRoutes.members,
         extras: GroupChatParams(
-          groupId: arguments.id,
-          title: arguments.name,
-          state: arguments.isPublic ? GroupType.public : GroupType.private,
-          numberMembers: arguments.membersCount.toString(),
+          groupDetailsResult: arguments,
         ),
       );
 }

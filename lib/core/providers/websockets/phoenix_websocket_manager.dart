@@ -1,73 +1,97 @@
+import 'dart:async';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:beat_ecoprove/core/config/server_config.dart';
 import 'package:beat_ecoprove/core/providers/websockets/dtos/phoenix_message.dart';
-import 'package:web_socket_channel/io.dart';
 import 'dart:convert' as convert;
 
 abstract class IPhoenixWebSocketManager {
+  Future<Stream<dynamic>> createChannel(String jwtToken);
   void sendMessage(PhoenixMessage message);
   void close();
-  Future<IOWebSocketChannel> createChannel(String jwtToken);
   bool isAlive();
   Stream<dynamic> get stream;
 }
 
 class PhoenixWebSocketManager implements IPhoenixWebSocketManager {
-  final Uri url;
-  late String authorizationToken = '';
-  late bool isConnectionAlive = false;
-  IOWebSocketChannel? _session;
-
-  PhoenixWebSocketManager(String url) : url = Uri.parse(url);
+  WebSocketChannel? _channel;
+  Stream<dynamic>? _broadcastStream;
+  StreamController<dynamic>? _controller;
+  String? _currentToken;
+  bool _isFullyConnected = false;
 
   @override
-  Future<IOWebSocketChannel> createChannel(String jwtToken) async {
-    var baseUrl = Uri.parse(ServerConfig.websocketUrl);
-    authorizationToken = jwtToken;
+  Future<Stream<dynamic>> createChannel(String jwtToken) async {
+    if (_broadcastStream != null && _currentToken == jwtToken && isAlive()) {
+      return _broadcastStream!;
+    }
 
-    final wsUrl = baseUrl.replace(queryParameters: {
-      ...baseUrl.queryParameters,
-      'token': authorizationToken,
-    });
+    close();
+    _currentToken = jwtToken;
+    _isFullyConnected = false;
 
-    _session = IOWebSocketChannel.connect(wsUrl);
+    final uri = Uri.parse(ServerConfig.websocketUrl).replace(
+      queryParameters: {'token': jwtToken},
+    );
+    print('Conectando WebSocket: $uri');
+    try {
+      _channel = IOWebSocketChannel.connect(
+        uri,
+        headers: {
+          'Origin': 'http://localhost',
+        },
+      );
 
-    //TODO: Check later
-    // await _session!.ready;
-    // isConnectionAlive = true;
-    return _session!;
+      await _channel!.ready;
+
+      _controller = StreamController<dynamic>.broadcast();
+      _broadcastStream = _controller!.stream;
+
+      _channel!.stream.listen(
+        _controller!.add,
+        onError: _controller!.addError,
+        onDone: () {
+          _controller!.close();
+          print('WebSocket fechado pelo servidor');
+        },
+      );
+
+      _isFullyConnected = true;
+      print('WebSocket conectado com sucesso via web_socket_channel!');
+      return _broadcastStream!;
+    } catch (e, s) {
+      _isFullyConnected = false;
+      close();
+      print('Erro fatal WebSocket: $e\n$s');
+      rethrow;
+    }
   }
 
   @override
   void sendMessage(PhoenixMessage message) {
-    if (_session == null || !isAlive()) {
-      throw Exception('WebSocket não está conectado');
+    if (!_isFullyConnected || _channel == null) {
+      throw Exception('WebSocket não conectado (ainda não ready)');
     }
-
-    var jsonContent = message.toJson();
-    var jsonString = convert.jsonEncode(jsonContent);
-
-    _session!.sink.add(jsonString);
+    _channel!.sink.add(convert.jsonEncode(message.toJson()));
   }
 
   @override
   void close() {
-    if (isAlive() && _session != null) {
-      _session!.sink.close();
-      isConnectionAlive = false;
-      _session = null;
-    }
+    _isFullyConnected = false;
+    _controller?.close();
+    _controller = null;
+    _broadcastStream = null;
+    _channel?.sink.close();
+    _channel = null;
   }
 
   @override
-  bool isAlive() {
-    return _session != null && _session!.closeCode == null;
-  }
+  bool isAlive() => _channel != null && _broadcastStream != null;
 
   @override
   Stream<dynamic> get stream {
-    if (_session == null) {
-      throw Exception('WebSocket não está conectado');
-    }
-    return _session!.stream;
+    if (_broadcastStream == null)
+      throw StateError('Chame createChannel primeiro');
+    return _broadcastStream!;
   }
 }

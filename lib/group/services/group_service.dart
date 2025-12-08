@@ -33,7 +33,6 @@ class GroupService {
   //   ));
   // }
 
-  // FIXME: See Server
   Future<GroupDetailsResult> getGroupDetails(String groupId) async {
     return GroupDetailsResult.fromJson(await _httpClient.makeRequestJson(
       method: HttpMethods.get,
@@ -47,7 +46,7 @@ class GroupService {
       method: HttpMethods.post,
       path: "messaging/groups",
       body: request,
-      expectedCode: 200,
+      expectedCode: 201,
     );
   }
 
@@ -62,7 +61,7 @@ class GroupService {
 
   Future leaveGroup(LeaveGroupRequest request) async {
     await _httpClient.makeRequestJson(
-      method: HttpMethods.patch,
+      method: HttpMethods.delete,
       path: "messaging/groups/${request.groupId}/kick",
       body: request,
       expectedCode: 200,
@@ -111,7 +110,7 @@ class GroupService {
       expectedCode: 200,
     );
 
-    return ChatMessages.fromApi(response, groupId);
+    return await ChatMessages.fromApi(response, groupId);
   }
 
   //FIXME:

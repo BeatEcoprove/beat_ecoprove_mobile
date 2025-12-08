@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
-import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/groups/group_manager.dart';
@@ -55,7 +54,10 @@ extension GroupDependencyInjection on DependencyInjection {
     );
 
     locator.registerSingleton(
-      GetDetailsUseCase(groupService),
+      GetDetailsUseCase(
+        groupService,
+        locator<ProfileService>(),
+      ),
     );
 
     locator.registerSingleton(
@@ -94,6 +96,7 @@ extension GroupDependencyInjection on DependencyInjection {
       () => GroupViewModel(
         notificationProvider,
         authProvider,
+        getDetailsUseCase,
         getGroupsUseCase,
         router,
         notificationManager,
@@ -106,7 +109,6 @@ extension GroupDependencyInjection on DependencyInjection {
       () => GroupChatViewModel(
         notificationProvider,
         authProvider,
-        getDetailsUseCase,
         getClothesUseCase,
         router,
         locator<IPhoenixWsNotifier>(),
@@ -119,7 +121,6 @@ extension GroupDependencyInjection on DependencyInjection {
       () => GroupChatMembersViewModel(
         notificationProvider,
         authProvider,
-        getDetailsUseCase,
         leaveGroupUseCase,
         promoteGroupMemberUseCase,
         despromoveGroupMemberUseCase,
@@ -166,7 +167,7 @@ extension GroupDependencyInjection on DependencyInjection {
       ),
     );
 
-    locator.registerFactoryParam<GroupChatView, GroupItem, void>(
+    locator.registerFactoryParam<GroupChatView, GroupChatParams, void>(
       (params, _) => GroupChatView(
         viewModel: locator<GroupChatViewModel>(),
         args: params,

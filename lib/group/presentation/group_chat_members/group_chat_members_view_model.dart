@@ -19,7 +19,6 @@ import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
 import 'package:beat_ecoprove/group/contracts/invite_member_request.dart';
 import 'package:beat_ecoprove/group/contracts/leave_group_request.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/despromove_group_member_use_case.dart';
-import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/invite_member_to_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/leave_group_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/promote_group_member_use_case.dart';
@@ -31,7 +30,6 @@ import 'package:flutter/material.dart';
 class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final INotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
-  final GetDetailsUseCase _getDetailsUseCase;
   final LeaveGroupUseCase _leaveGroupUseCase;
   final PromoteMemberUseCase _promoteMemberUseCase;
   final DespromoveMemberUseCase _despromoveMemberUseCase;
@@ -40,14 +38,12 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   final ProfileService _profileService;
 
   late final User? _user;
-  late GroupDetailsResult _groupDetailsResult;
-  late bool _isAdmin;
-  late bool _isCreator;
+  late bool _isAdmin = false;
+  late bool _isCreator = false;
 
   GroupChatMembersViewModel(
     this._notificationProvider,
     this._authProvider,
-    this._getDetailsUseCase,
     this._leaveGroupUseCase,
     this._promoteMemberUseCase,
     this._despromoveMemberUseCase,
@@ -56,7 +52,6 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     this._profileService,
   ) {
     _user = _authProvider.appUser;
-    _groupDetailsResult = GroupDetailsResult.empty();
 
     initializeFields([
       FormFieldValues.userName,
@@ -70,14 +65,14 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
 
   Future refetch() async {
     if (arg != null) {
-      await getDetails(arg!.groupId);
+      await getDetails(arg!.groupDetailsResult.id);
     }
   }
 
   User? get user => _user;
 
-  bool get isMember => _groupDetailsResult.members.any(
-        (member) => member.profileId == _user?.id,
+  bool get isMember => arg!.groupDetailsResult.members!.profiles.any(
+        (member) => member.id == _user?.id,
       );
 
   bool get isAdmin => _isAdmin;
@@ -85,11 +80,11 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   bool get isCreator => _isCreator;
 
   bool hasPrivilegies() {
-    return details.admins.map((elem) => elem.profileId).contains(user?.id);
+    return details.admins!.profiles.map((elem) => elem.id).contains(user?.id);
   }
 
   bool hasCreatorPrivilegies() {
-    return details.creator.profileId == user?.id;
+    return details.creator.id == user?.id;
   }
 
   void setUserName(String userName) {
@@ -101,11 +96,10 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
     }
   }
 
-  GroupDetailsResult get details => _groupDetailsResult;
+  GroupDetailsResult get details => arg!.groupDetailsResult;
 
   Future<void> getDetails(String groupId) async {
     try {
-      _groupDetailsResult = await _getDetailsUseCase.handle(groupId);
       _isAdmin = hasPrivilegies();
       _isCreator = hasCreatorPrivilegies();
     } on HttpError catch (e) {
@@ -227,15 +221,15 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
           );
 
           return profiles.profiles
-              .where((element) => !_groupDetailsResult.members
-                  .any((member) => member.profileId == element.id))
+              .where((element) => !arg!.groupDetailsResult.members!.profiles
+                  .any((member) => member.id == element.id))
               .map(
             (profile) {
               return Container(
                 margin: const EdgeInsets.symmetric(vertical: 4),
                 child: CompactListItemRoot(
-                  click: () async =>
-                      await inviteToGroup(arg!.groupId, profile.id),
+                  click: () async => await inviteToGroup(
+                      arg!.groupDetailsResult.id, profile.id),
                   items: [
                     ImageTitleSubtitleHeader(
                       widget: PresentImage(

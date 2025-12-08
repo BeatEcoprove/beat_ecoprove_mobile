@@ -13,6 +13,7 @@ import 'package:beat_ecoprove/core/domain/models/store.dart';
 import 'package:beat_ecoprove/core/helpers/json_decoder.dart';
 import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -111,6 +112,12 @@ class LoginUseCase implements UseCase<LoginRequest, Future> {
         },
       ),
     );
+
+    try {
+      await DependencyInjection.locator<IPhoenixWsNotifier>().reconnect();
+    } catch (e) {
+      print(e);
+    }
 
     var provider = DependencyInjection.locator<StaticValuesProvider>();
     await provider.fetchAuthorizedValues();

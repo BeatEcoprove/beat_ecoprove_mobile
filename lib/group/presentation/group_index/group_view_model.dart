@@ -16,7 +16,9 @@ import 'package:beat_ecoprove/core/providers/notifications/types/invite_group_no
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/group/contracts/accept_member_request.dart';
+import 'package:beat_ecoprove/group/domain/use-cases/get_details_use_case.dart';
 import 'package:beat_ecoprove/group/domain/use-cases/get_groups_use_case.dart';
+import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:beat_ecoprove/group/routes.dart';
 import 'package:beat_ecoprove/group/services/group_service.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   final INotificationProvider _notificationProvider;
   final AuthenticationProvider _authProvider;
   final NotificationManager _notificationManager;
+  final GetDetailsUseCase _getDetailsUseCase;
   final GetGroupsUseCase _getGroupsUseCase;
   final INavigationManager _navigationRouter;
   final ProfileService _profileService;
@@ -42,6 +45,7 @@ class GroupViewModel extends FormViewModel implements Clone {
   GroupViewModel(
     this._notificationProvider,
     this._authProvider,
+    this._getDetailsUseCase,
     this._getGroupsUseCase,
     this._navigationRouter,
     this._notificationManager,
@@ -231,7 +235,9 @@ class GroupViewModel extends FormViewModel implements Clone {
   Future gotToChatGroup(GroupItem item) async {
     await _navigationRouter.pushAsync(
       GroupRoutes.chat,
-      extras: item,
+      extras: GroupChatParams(
+        groupDetailsResult: await _getDetailsUseCase.handle(item.id),
+      ),
     );
     await refetch();
   }
@@ -241,6 +247,7 @@ class GroupViewModel extends FormViewModel implements Clone {
     var clone = GroupViewModel(
       _notificationProvider,
       _authProvider,
+      _getDetailsUseCase,
       _getGroupsUseCase,
       _navigationRouter,
       _notificationManager,

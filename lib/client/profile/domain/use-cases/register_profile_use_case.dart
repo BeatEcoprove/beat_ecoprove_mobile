@@ -44,7 +44,7 @@ class RegisterProfileUseCase
       tokens = await _profileService.registerProfile();
 
       //FIXME: Alter delay time
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(microseconds: 5));
 
       // Get Token value to populate the User Object
       Map<String, dynamic> decodedToken = JwtDecoder.decode(tokens.accessToken);

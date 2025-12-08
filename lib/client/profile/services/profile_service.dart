@@ -1,4 +1,5 @@
 import 'package:beat_ecoprove/auth/contracts/common/auth_result.dart';
+import 'package:beat_ecoprove/auth/contracts/public_profile_result.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_auth_client.dart';
 import 'package:beat_ecoprove/core/helpers/http/http_methods.dart';
 import 'package:beat_ecoprove/core/providers/notifications/types/invite_group_notification.dart';
@@ -11,6 +12,17 @@ class ProfileService {
   ProfileService(
     this._httpClient,
   );
+
+  Future<PublicProfilesResult> getProfileDataById(
+      List<dynamic> profileIds) async {
+    final idsParam = profileIds.join(',');
+
+    return PublicProfilesResult.fromJson(await _httpClient.makeRequestJson(
+      method: HttpMethods.get,
+      path: "core/profiles/public?ids=$idsParam",
+      expectedCode: 200,
+    ));
+  }
 
   Future<ProfilesResult> getAllProfiles(int page, int pageSize,
       {String search = ""}) async {
@@ -54,25 +66,32 @@ class ProfileService {
     Future Function(InviteToGroupNotification) handleAcceptNotification,
     Future Function(InviteToGroupNotification) handleDeniedNotification,
   ) async {
-    var result = await _httpClient.makeRequestJson(
-      method: HttpMethods.get,
-      path: "core/profiles/notifications",
-      expectedCode: 200,
-    );
-
     try {
-      var notifications = result.map((json) {
-        var {
-          "title": title,
-          "group_name": groupName,
-          "group_id": groupId,
-          "invitor_id": senderId,
-          "code": code,
-        } = json;
+      var result = await _httpClient.makeRequestJson(
+        method: HttpMethods.get,
+        path: "messaging/notifications",
+        expectedCode: 200,
+      );
+
+      if (result is! Map<String, dynamic> || result['data'] == null) {
+        return [];
+      }
+
+      final List<dynamic> data = result['data'];
+
+      final List<InviteToGroupNotification> invites = data.map((json) {
+        final String code = json['id'] as String;
+        final Map<String, dynamic> metadata =
+            json['metadata'] as Map<String, dynamic>;
+        final String title = json['title'] as String? ?? "Group invitation";
+        final String body = json['body'] as String;
+
+        final String groupId = metadata['reference_id'] as String;
+        final String senderId = metadata['actor_id'] as String;
 
         return InviteToGroupNotification(
-          groupName,
           title,
+          body,
           (notification) async => await handleAcceptNotification(
               notification as InviteToGroupNotification),
           (notification) async => await handleDeniedNotification(
@@ -83,7 +102,7 @@ class ProfileService {
         );
       }).toList();
 
-      return List<InviteToGroupNotification>.from(notifications);
+      return List<InviteToGroupNotification>.from(invites);
     } catch (e) {
       print(e.toString());
       return [];

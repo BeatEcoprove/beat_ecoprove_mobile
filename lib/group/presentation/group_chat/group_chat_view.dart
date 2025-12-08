@@ -1,6 +1,5 @@
 import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/config/global.dart';
-import 'package:beat_ecoprove/core/domain/models/group_item.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/locales/locale_context.dart';
 import 'package:beat_ecoprove/core/widgets/circular_button.dart';
@@ -11,7 +10,7 @@ import 'package:beat_ecoprove/group/presentation/group_chat/group_chat_view_mode
 import 'package:beat_ecoprove/group/presentation/group_chat_members/group_chat_params.dart';
 import 'package:flutter/material.dart';
 
-class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
+class GroupChatView extends ArgumentView<GroupChatViewModel, GroupChatParams> {
   const GroupChatView({
     super.key,
     required super.viewModel,
@@ -25,18 +24,17 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
     double maxWidth = MediaQuery.of(context).size.width - lateralPadding;
 
     var params = GroupChatParams(
-      groupId: args.id,
-      title: args.name,
-      state: args.isPublic ? GroupType.public : GroupType.private,
-      numberMembers: args.membersCount.toString(),
+      groupDetailsResult: args.groupDetailsResult,
     );
 
     return Scaffold(
       appBar: GroupHeader(
-        onGoBackPress: () => viewModel.exitGroup(args.id),
-        title: params.title,
-        state: params.state,
-        numberMembers: params.numberMembers,
+        onGoBackPress: () => viewModel.exitGroup(args.groupDetailsResult.id),
+        title: params.groupDetailsResult.name,
+        state: params.groupDetailsResult.isPublic
+            ? GroupType.public
+            : GroupType.private,
+        numberMembers: params.groupDetailsResult.membersCount.toString(),
       ),
       body: Stack(
         children: [
@@ -65,7 +63,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                 Icons.people_alt_rounded,
                 color: AppColor.bottomNavigationBar,
               ),
-              onPress: () => viewModel.goToChatMembers(args),
+              onPress: () => viewModel.goToChatMembers(args.groupDetailsResult),
             ),
           ),
           Positioned(
@@ -79,7 +77,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
               ),
               onPress: () async => viewModel.isLoading
                   ? {}
-                  : await viewModel.updateGroup(args.id),
+                  : await viewModel.updateGroup(args.groupDetailsResult.id),
             ),
           ),
           // const Positioned(
@@ -119,7 +117,7 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                     onTap: () => viewModel.thereAreErrors
                         ? {}
                         : {
-                            viewModel.sendMessage(args.id),
+                            viewModel.sendMessage(args.groupDetailsResult.id),
                             FocusScope.of(context).requestFocus(FocusNode())
                           },
                     child: Container(
@@ -141,7 +139,8 @@ class GroupChatView extends ArgumentView<GroupChatViewModel, GroupItem> {
                     width: 4,
                   ),
                   InkWell(
-                    onTap: () => viewModel.sendTradeOffer(args.id, context),
+                    onTap: () => viewModel.sendTradeOffer(
+                        args.groupDetailsResult.id, context),
                     child: Container(
                       width: 52,
                       height: 60,

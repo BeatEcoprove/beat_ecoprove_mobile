@@ -51,9 +51,6 @@ class AuthenticationProvider extends ViewModel {
       return false;
     }
 
-    //FIXME: Ws
-    // DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
-
     Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
 
     RefreshProfile result;
@@ -152,7 +149,7 @@ class AuthenticationProvider extends ViewModel {
     FinishProfileResult profileData;
 
     //FIXME: Alter delay time
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(microseconds: 5));
 
     try {
       tokens = await DependencyInjection.locator<AuthenticationService>()

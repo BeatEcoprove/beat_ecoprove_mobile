@@ -26,7 +26,7 @@ class MainSkeletonViewModel extends ViewModel {
     return [
       LinearView.of<HomeView>(),
       LinearView.of<ClothingView>(),
-      // LinearView.of<GroupView>(),
+      LinearView.of<GroupView>(),
       LinearView.of<ProfileView>(),
     ];
   }

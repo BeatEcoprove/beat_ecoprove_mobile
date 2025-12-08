@@ -7,6 +7,7 @@ import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/services/internet_service.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,8 +29,9 @@ void main() async {
 
   var internetService = DependencyInjection.locator<InternetService>();
 
-  if (await internetService.checkServerApiConnection() &&
-      await DependencyInjection.locator<AuthenticationProvider>().checkAuth()) {
+  var isAuthenticated =
+      await DependencyInjection.locator<AuthenticationProvider>().checkAuth();
+  if (await internetService.checkServerApiConnection() && isAuthenticated) {
     var provider = DependencyInjection.locator<StaticValuesProvider>();
     await provider.fetchStaticValues();
   }
@@ -59,6 +61,7 @@ void main() async {
       ],
       child: MainApp(
         appRouter: app.navigationManager.router,
+        isAuthenticated: isAuthenticated,
       ),
     ),
   );
@@ -66,10 +69,12 @@ void main() async {
 
 class MainApp extends StatefulWidget {
   final GoRouter appRouter;
+  final bool isAuthenticated;
 
   const MainApp({
     super.key,
     required this.appRouter,
+    required this.isAuthenticated,
   });
 
   @override
@@ -78,12 +83,20 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   AppUpdateInfo? _updateInfo;
+  bool _isFirstResume = true;
 
   @override
   void initState() {
     super.initState();
     _checkForUpdate();
     WidgetsBinding.instance.addObserver(this);
+
+    if (widget.isAuthenticated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
+      });
+    }
+
     DependencyInjection.locator<LanguageProvider>().initializeLanguage();
   }
 
@@ -124,6 +137,17 @@ class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _languageProvider.deviceLanguage();
+
+      if (_isFirstResume) {
+        _isFirstResume = false;
+        return;
+      }
+
+      try {
+        DependencyInjection.locator<IPhoenixWsNotifier>().reconnect();
+      } catch (e) {
+        print('WebSocket reconnect error: $e');
+      }
     }
   }
 

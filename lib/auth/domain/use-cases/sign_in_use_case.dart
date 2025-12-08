@@ -11,6 +11,7 @@ import 'package:beat_ecoprove/core/providers/auth/authentication_provider.dart';
 import 'package:beat_ecoprove/core/providers/auth/pre_authentication.dart';
 import 'package:beat_ecoprove/core/providers/auth/refresh_profile.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
+import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/use_case.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
@@ -80,6 +81,12 @@ class SignInUseCase implements UseCase<SignInRequest, Future> {
     );
 
     StorageService.setValue(Store.profileId, refreshProfile.profile.id);
+
+    try {
+      await DependencyInjection.locator<IPhoenixWsNotifier>().reconnect();
+    } catch (e) {
+      print(e);
+    }
 
     var provider = DependencyInjection.locator<StaticValuesProvider>();
     await provider.fetchAuthorizedValues();

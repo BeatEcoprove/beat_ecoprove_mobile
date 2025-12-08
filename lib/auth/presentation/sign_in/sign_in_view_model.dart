@@ -13,11 +13,9 @@ import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_strategy/sign_in
 import 'package:beat_ecoprove/auth/presentation/sign_in/sign_in_type.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
-import 'package:beat_ecoprove/core/providers/websockets/phoenix_ws_notifier.dart';
 import 'package:beat_ecoprove/core/routes.dart';
 import 'package:beat_ecoprove/core/services/upload_image_service.dart';
 import 'package:beat_ecoprove/core/view_model.dart';
-import 'package:beat_ecoprove/dependency_injection.dart';
 
 class SignInViewModel extends ViewModel {
   final INavigationManager _navigationRouter;
@@ -63,8 +61,6 @@ class SignInViewModel extends ViewModel {
         password: password,
         role: signType.label,
       ));
-      //FIXME: Ws
-      // await DependencyInjection.locator<IPhoenixWsNotifier>().logIn();
 
       await _navigationRouter.pushAsync(CoreRoutes.showCompleted,
           extras: ShowCompletedViewParams(

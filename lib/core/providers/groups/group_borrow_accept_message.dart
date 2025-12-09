@@ -9,6 +9,7 @@ class GroupBorrowAcceptMessage extends GroupBaseMessage {
     super.senderId,
     super.type,
     super.messageId,
+    super.createdAt,
     this.clothId,
     this.isAccepted,
   );

@@ -51,7 +51,7 @@ class GroupDetailsResult {
       json['id'] ?? '',
       json['name'] ?? '',
       json['description'] ?? '',
-      json['members_count'] ?? 0,
+      json['member_count'] ?? 0,
       (json['sustainability_points'] as double).toInt(),
       (json['xp'] as double).toInt(),
       json['is_public'] ?? false,

@@ -27,11 +27,12 @@ class PhoenixGroupBorrowHandler extends PhoenixHandler {
       groupManager.pushMessage(GroupBorrowChatMessage(
         phoenixMessage.messageId,
         phoenixMessage.groupId,
-        phoenixMessage.content,
         phoenixMessage.memberId,
+        message.event,
+        phoenixMessage.createdAt ?? DateTime.now(),
+        phoenixMessage.content,
         phoenixMessage.username,
         phoenixMessage.avatarPicture ?? '',
-        message.event,
         garment['avatar']?.toString() ?? garment['image_url']?.toString() ?? '',
         garment['title']?.toString() ?? garment['name']?.toString() ?? '',
         garment['brand']?.toString() ?? '',
@@ -41,7 +42,7 @@ class PhoenixGroupBorrowHandler extends PhoenixHandler {
         false,
       ));
     } catch (e) {
-      print('Erro ao processar mensagem de empréstimo: $e');
+      print(e.toString());
     }
   }
 }

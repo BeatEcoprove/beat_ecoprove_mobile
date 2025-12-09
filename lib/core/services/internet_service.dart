@@ -21,7 +21,7 @@ class InternetServiceImpl extends InternetService {
       wifiOn = results.contains(ConnectivityResult.wifi) ||
           results.contains(ConnectivityResult.ethernet) ||
           results.contains(ConnectivityResult.mobile);
-      print(wifiOn);
+
       _eventProvider.sendNotification(ChangeWifiStatusEvent(wifiOn));
     });
   }

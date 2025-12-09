@@ -24,14 +24,15 @@ class PhoenixGroupTextHandler extends PhoenixHandler {
       groupManager.pushMessage(GroupChatMessage(
         phoenixMessage.messageId,
         phoenixMessage.groupId,
-        phoenixMessage.content,
         phoenixMessage.memberId,
+        message.event,
+        phoenixMessage.createdAt ?? DateTime.now(),
+        phoenixMessage.content,
         phoenixMessage.username,
         phoenixMessage.avatarPicture ?? '',
-        message.event,
       ));
     } catch (e) {
-      print('Erro ao processar mensagem de texto: $e');
+      print(e.toString());
     }
   }
 }

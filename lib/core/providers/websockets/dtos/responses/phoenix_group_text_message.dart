@@ -15,28 +15,17 @@ class PhoenixGroupTextMessage {
       : messageId = message.payload['id']?.toString() ?? '',
         groupId = message.payload['group_id']?.toString() ??
             _extractGroupIdFromTopic(message.topic),
+        memberId = message.payload['sender_id']?.toString() ?? '',
+        createdAt =
+            DateTime.tryParse(message.payload['inserted_at'].toString()) ??
+                DateTime.now(),
         content = message.payload['content']?.toString() ?? '',
-        memberId = message.payload['sender_id']?.toString() ??
-            message.payload['member_id']?.toString() ??
-            message.payload['memberId']?.toString() ??
-            '',
-        username = message.payload['username']?.toString() ??
-            message.payload['member']?['username']?.toString() ??
-            '',
-        avatarPicture = message.payload['avatar_picture']?.toString() ??
-            message.payload['avatarPicture']?.toString() ??
-            message.payload['member']?['avatar_picture']?.toString(),
-        createdAt = message.payload['inserted_at'] != null
-            ? DateTime.tryParse(message.payload['inserted_at'].toString())
-            : (message.payload['created_at'] != null
-                ? DateTime.tryParse(
-                    message.payload['created_at'].toString(),
-                  )
-                : null),
+        username = message.payload['username']?.toString() ?? '',
+        avatarPicture = message.payload['avatar_picture']?.toString() ?? '',
         mentions = message.payload['mentions'] is List
             ? List<String>.from(message.payload['mentions'])
             : [],
-        replyTo = message.payload['reply_to']?.toString();
+        replyTo = message.payload['reply_to']?.toString() ?? '';
 
   static String _extractGroupIdFromTopic(String topic) {
     if (topic.startsWith('group:')) {

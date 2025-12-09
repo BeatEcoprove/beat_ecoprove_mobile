@@ -62,7 +62,7 @@ abstract class PhoenixNotifier {
 
       return null;
     } catch (e) {
-      print('Erro ao processar mensagem Phoenix: $e');
+      print('Error processing Phoenix message: $e');
       return null;
     }
   }

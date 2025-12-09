@@ -6,9 +6,10 @@ abstract class GroupBaseMessage {
   final DateTime createdAt;
 
   GroupBaseMessage(
+    this.messageId,
     this.groupId,
     this.senderId,
     this.type,
-    this.messageId,
-  ) : createdAt = DateTime.now();
+    this.createdAt,
+  );
 }

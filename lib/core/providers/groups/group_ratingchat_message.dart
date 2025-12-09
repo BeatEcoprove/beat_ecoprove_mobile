@@ -10,6 +10,7 @@ class GroupRatingChatMessage extends GroupChatMessage {
     super.senderId,
     super.username,
     super.avatarPicture,
+    super.createdAt,
     super.type,
     this.rating,
   );

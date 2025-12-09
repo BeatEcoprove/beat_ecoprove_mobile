@@ -14,6 +14,9 @@ abstract class IPhoenixWsNotifier extends PhoenixNotifier {
   final IPhoenixWebSocketManager websocketManager;
   final AuthenticationProvider authenticationProvider;
   StreamSubscription<dynamic>? _subscription;
+  Timer? _reconnectTimer;
+  bool _shouldReconnect = true;
+  int _reconnectAttempts = 0;
 
   late bool isGraceFullExit = false;
   final Set<String> _joinedTopics = {};
@@ -29,41 +32,97 @@ abstract class IPhoenixWsNotifier extends PhoenixNotifier {
   );
 
   String get accessToken => authenticationProvider.accessToken;
-  bool get isTokenAvailable => accessToken.isEmpty;
+  bool get isTokenAvailable => accessToken.isNotEmpty;
 
   bool isTopicJoined(String topic) => _joinedTopics.contains(topic);
 
   Future _listen() async {
-    if (isTokenAvailable || _subscription != null) {
+    if (!isTokenAvailable || _subscription != null) {
+      print(
+          '⚠️ Unable to connect: token=${isTokenAvailable}, sub=${_subscription != null}');
       return;
     }
+
+    print('🔌 Starting WebSocket connection...');
 
     try {
       var stream = await websocketManager.createChannel(accessToken);
 
       _subscription = stream.listen(
         (event) {
+          _reconnectAttempts = 0;
+          print('📨 Event received in the notifier');
           var handler = getPhoenixMessage(event);
           handler?.handle();
         },
-        onDone: () {
+        onDone: () async {
+          print('🔚 Stream ended');
           _subscription = null;
           websocketManager.close();
-          _joinedTopics.clear();
-          print("WebSocket closed by the server");
+
+          if (_shouldReconnect && !isGraceFullExit) {
+            print('🔄 Scheduling reconnection...');
+            await _scheduleReconnect();
+          } else {
+            _joinedTopics.clear();
+          }
         },
-        onError: (error) {
+        onError: (error) async {
+          print('❌ Error in stream: $error');
           _subscription = null;
-          print('WebSocket error: $error');
+
+          if (_shouldReconnect && !isGraceFullExit) {
+            await _scheduleReconnect();
+          }
         },
       );
     } catch (e) {
-      print('Error connecting to WebSocket: $e');
+      print('❌ Error connecting to WebSocket: $e');
       _subscription = null;
+
+      if (_shouldReconnect && !isGraceFullExit) {
+        await _scheduleReconnect();
+      }
     }
   }
 
+  Future<void> _scheduleReconnect() async {
+    _reconnectTimer?.cancel();
+
+    final delay = Duration(
+      seconds: (2 << _reconnectAttempts).clamp(2, 30),
+    );
+
+    _reconnectAttempts++;
+    print('Reconnecting in ${delay.inSeconds}s (attempt $_reconnectAttempts)');
+
+    _reconnectTimer = Timer(delay, () async {
+      await _reconnectWithTopics();
+    });
+  }
+
+  Future<void> _reconnectWithTopics() async {
+    final topicsToRejoin = List<String>.from(_joinedTopics);
+    _joinedTopics.clear();
+
+    await reconnect();
+
+    for (final topic in topicsToRejoin) {
+      if (topic.startsWith('group:')) {
+        final groupId = topic.replaceFirst('group:', '');
+        await joinGroup(groupId);
+      } else if (topic.startsWith('notification:')) {
+        final memberId = topic.replaceFirst('notification:', '');
+        await joinNotifications(memberId);
+      }
+    }
+
+    print('Reconnected and rejoined ${topicsToRejoin.length} topics');
+  }
+
   Future logIn() async {
+    _shouldReconnect = true;
+    isGraceFullExit = false;
     await _listen();
   }
 
@@ -76,6 +135,8 @@ abstract class IPhoenixWsNotifier extends PhoenixNotifier {
   }
 
   void logOut() {
+    _shouldReconnect = false;
+    _reconnectTimer?.cancel();
     _subscription?.cancel();
     _subscription = null;
     websocketManager.close();

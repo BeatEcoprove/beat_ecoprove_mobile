@@ -37,8 +37,6 @@ class _HorizontalSelectorListStoreState
           selectedItems.add(title);
         }
 
-        print(selectedItems);
-
         widget.onSelectionChanged(selectedItems);
       }),
       title: items.values.toList()[i],

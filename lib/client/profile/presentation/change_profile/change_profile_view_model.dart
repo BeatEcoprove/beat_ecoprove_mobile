@@ -103,7 +103,7 @@ class ChangeProfileViewModel extends ViewModel {
     try {
       await DependencyInjection.locator<IPhoenixWsNotifier>().reconnect();
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
 
     _notificationProvider.showNotification(

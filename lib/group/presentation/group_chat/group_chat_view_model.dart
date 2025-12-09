@@ -1,7 +1,9 @@
 import 'package:beat_ecoprove/auth/domain/errors/domain_exception.dart';
 import 'package:beat_ecoprove/client/clothing/domain/use-cases/get_clothes_use_case%20.dart';
+import 'package:beat_ecoprove/client/profile/services/profile_service.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/domain/models/card_item.dart';
+import 'package:beat_ecoprove/core/domain/models/chat.dart';
 import 'package:beat_ecoprove/core/domain/models/optionItem.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_field_values.dart';
 import 'package:beat_ecoprove/core/helpers/form/form_view_model.dart';
@@ -24,6 +26,7 @@ import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_h
 import 'package:beat_ecoprove/core/widgets/compact_list_item/compact_list_item_root.dart';
 import 'package:beat_ecoprove/core/widgets/present_image.dart';
 import 'package:beat_ecoprove/core/widgets/server_image.dart';
+import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/group/contracts/chat_borrow_result.dart';
 import 'package:beat_ecoprove/group/contracts/chat_message_result.dart';
 import 'package:beat_ecoprove/group/contracts/group_details_result.dart';
@@ -92,7 +95,7 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
     }
   }
 
-  void handleGroupMessage() {
+  void handleGroupMessage() async {
     var recentMessage = _groupManager.getMessage();
 
     if (recentMessage == null) {
@@ -100,10 +103,58 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
     }
 
     if (recentMessage is GroupChatMessage) {
-      return addMessage(_messageBody(recentMessage));
+      try {
+        final senderData = await DependencyInjection.locator<ProfileService>()
+            .getProfileDataById([recentMessage.senderId]);
+
+        final enrichedMessage = EnrichedGroupChatMessage(
+          messageId: recentMessage.messageId,
+          senderId: recentMessage.senderId,
+          content: recentMessage.content,
+          createdAt: recentMessage.createdAt,
+          groupId: recentMessage.groupId,
+          type: recentMessage.type,
+          username: senderData.profiles.first.username,
+          avatarPicture: senderData.profiles.first.avatarUrl,
+        );
+
+        return addMessage(_messageBody(enrichedMessage));
+      } catch (e) {
+        print(e.toString());
+      }
     }
 
-    handleBorrowAcceptedRequest(recentMessage as GroupBorrowAcceptMessage);
+    if (recentMessage is GroupBorrowChatMessage) {
+      try {
+        final senderData = await DependencyInjection.locator<ProfileService>()
+            .getProfileDataById([recentMessage.senderId]);
+
+        final enrichedMessage = EnrichedGroupBorrowChatMessage(
+          messageId: recentMessage.messageId,
+          senderId: recentMessage.senderId,
+          content: recentMessage.content,
+          createdAt: recentMessage.createdAt,
+          groupId: recentMessage.groupId,
+          type: recentMessage.type,
+          username: senderData.profiles.first.username,
+          avatarPicture: senderData.profiles.first.avatarUrl,
+          clothAvatar: recentMessage.clothAvatar,
+          clothTitle: recentMessage.clothTitle,
+          clothBrand: recentMessage.clothBrand,
+          clothColor: recentMessage.clothColor,
+          clothSize: recentMessage.clothSize,
+          clothEcoScore: recentMessage.clothEcoScore,
+        );
+
+        return addMessage(_messageBody(enrichedMessage));
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+
+    if (recentMessage is GroupBorrowAcceptMessage) {
+      return handleBorrowAcceptedRequest(recentMessage);
+    }
   }
 
   void handleBorrowAcceptedRequest(GroupBorrowAcceptMessage recentMessage) {
@@ -113,9 +164,8 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
 
     var foundMessage = messages.elementAt(index);
     var content = foundMessage.items.elementAt(0) as ChatTradeItem;
-    messages.removeAt(index);
 
-    addMessage(ChatItemRoot(
+    messages[index] = ChatItemRoot(
       userIsSender: foundMessage.userIsSender,
       avatarUrl: foundMessage.avatarUrl,
       createdAt: foundMessage.createdAt,
@@ -134,25 +184,38 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
         )
       ],
       messageId: foundMessage.messageId,
-    ));
+      options: foundMessage.options,
+      click: foundMessage.click,
+    );
+
+    notifyListeners();
   }
 
   @override
   void dispose() {
     _groupManager.removeListener(handleGroupMessage);
+    chatTextController.dispose();
     super.dispose();
   }
 
   User? get user => _user;
 
   void addMessage(ChatItemRoot message) {
+    final existingIndex = messages.indexWhere(
+      (m) => m.messageId == message.messageId,
+    );
+
+    if (existingIndex != -1) {
+      return;
+    }
+
     messages.add(message);
     notifyListeners();
   }
 
   ChatItemRoot _messageBody(dynamic message) {
     switch (message.runtimeType) {
-      case GroupChatMessage:
+      case EnrichedGroupChatMessage:
       case ChatMessageResult:
         return ChatItemRoot(
           userIsSender: message.senderId == _user?.id,
@@ -169,7 +232,7 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
           messageId: message.messageId,
         );
 
-      case GroupBorrowChatMessage:
+      case EnrichedGroupBorrowChatMessage:
       case ChatBorrowResult:
         return ChatItemRoot(
           userIsSender: message.senderId == _user?.id,
@@ -187,26 +250,28 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
               clothColor: message.clothColor,
               clothSize: message.clothSize,
               clothEcoScore: message.clothEcoScore,
-              isBlocked: message.isAccepted,
+              isBlocked:
+                  message is ChatBorrowResult ? message.isAccepted : false,
             ),
           ],
           click: () async => await handleTradeOffer(message),
           messageId: message.messageId,
         );
+
       default:
         return ChatItemRoot(
-          userIsSender: message.senderId == _user?.id,
-          avatarUrl: message.avatarPicture,
-          createdAt: message.createdAt,
+          userIsSender: false,
+          avatarUrl: '',
+          createdAt: DateTime.now(),
           options: messageOptions,
           items: [
             ChatMessageItem(
-              userName: message.username,
-              messageText: message.content,
-              sendAt: message.createdAt,
+              userName: 'Unknown',
+              messageText: 'Unknown message type',
+              sendAt: DateTime.now(),
             )
           ],
-          messageId: message.messageId,
+          messageId: 'unknown',
         );
     }
   }
@@ -270,14 +335,13 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
       }
 
       _sessionWsNotifier.sendTextMessage(groupId, text);
+      clearChatText();
     } on DomainException catch (e) {
       _notificationProvider.showNotification(
         e.message,
         type: NotificationTypes.error,
       );
     }
-
-    clearChatText();
   }
 
   Future<void> getClothesToTrade(int page, int pageSize, String search) async {

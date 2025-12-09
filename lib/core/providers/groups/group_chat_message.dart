@@ -8,10 +8,11 @@ class GroupChatMessage extends GroupBaseMessage {
   GroupChatMessage(
     super.messageId,
     super.groupId,
-    this.content,
     super.senderId,
+    super.type,
+    super.createdAt,
+    this.content,
     this.username,
     this.avatarPicture,
-    super.type,
   );
 }

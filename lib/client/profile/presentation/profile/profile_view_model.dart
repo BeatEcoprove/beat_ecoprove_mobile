@@ -9,22 +9,20 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/medal_item.dart';
 import 'package:beat_ecoprove/client/profile/domain/models/medal.dart';
 
-class ProfileViewModel extends ViewModel implements Clone {
+class ProfileViewModel extends ViewModel {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
 
 //TODO: REMOVE AND CREATE A USE CASE AND A SERVICE TO GET USER MEDALS
   final List<Medal> medals = [];
-  late final User? _user;
 
   ProfileViewModel(
     this._authProvider,
     this._navigationRouter,
-  ) {
-    _user = _authProvider.appUser;
-  }
+  );
 
-  User? get user => _user;
+  User? get user => _authProvider.appUser;
+
   List<MedalItem> get medalItems => medals
       .map(
         (medal) => MedalItem(
@@ -34,6 +32,11 @@ class ProfileViewModel extends ViewModel implements Clone {
         ),
       )
       .toList();
+
+  Future<void> refresh() async {
+    await _authProvider.checkAuth();
+    notifyListeners();
+  }
 
   void settings() {
     _navigationRouter.push(ProfileRoutes.settings);
@@ -56,14 +59,6 @@ class ProfileViewModel extends ViewModel implements Clone {
               .toList();
         },
       ),
-    );
-  }
-
-  @override
-  ProfileViewModel clone() {
-    return ProfileViewModel(
-      _authProvider,
-      _navigationRouter,
     );
   }
 }

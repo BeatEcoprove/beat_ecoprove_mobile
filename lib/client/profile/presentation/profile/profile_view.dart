@@ -26,30 +26,35 @@ class ProfileView extends LinearView<ProfileViewModel> {
         hasSettings: true,
         settingsPress: () => viewModel.settings(),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 26),
-          child: Column(
-            children: [
-              Center(
-                child: Column(
-                  children: [
-                    _header(context),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    const Line(
-                      width: 250,
-                      color: AppColor.separatedLine,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    _medals(viewModel),
-                  ],
+      body: RefreshIndicator(
+        onRefresh: () => viewModel.refresh(),
+        color: AppColor.primaryColor,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 26),
+            child: Column(
+              children: [
+                Center(
+                  child: Column(
+                    children: [
+                      _header(context),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Line(
+                        width: 250,
+                        color: AppColor.separatedLine,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      _medals(viewModel),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

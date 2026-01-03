@@ -441,7 +441,7 @@ class GroupChatViewModel extends FormViewModel<GroupChatParams> {
       List<String> adminsIds =
           arg!.groupDetailsResult.admins!.profiles.map((e) => e.id).toList();
 
-      adminsIds.add(arg!.groupDetailsResult.creator.id);
+      adminsIds.add(arg!.groupDetailsResult.creatorId);
 
       await _navigationRouter.pushAsync(
         GroupRoutes.update,

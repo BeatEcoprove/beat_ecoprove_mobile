@@ -25,8 +25,7 @@ class ChatMessageResult {
     final metadata = (item['metadata'] as Map?) ?? {};
     final payload = (item['payload'] as Map?) ?? {};
 
-    final createdAtRaw =
-        (item['inserted_at'] ?? item['created_at'])?.toString();
+    final createdAtRaw = item['inserted_at']?.toString();
 
     final senderId = metadata['sender_id']?.toString() ?? '';
 

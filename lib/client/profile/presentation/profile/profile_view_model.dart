@@ -9,7 +9,7 @@ import 'package:beat_ecoprove/core/view_model.dart';
 import 'package:beat_ecoprove/core/widgets/medal_item.dart';
 import 'package:beat_ecoprove/client/profile/domain/models/medal.dart';
 
-class ProfileViewModel extends ViewModel {
+class ProfileViewModel extends ViewModel implements Clone {
   final AuthenticationProvider _authProvider;
   final INavigationManager _navigationRouter;
 
@@ -35,7 +35,7 @@ class ProfileViewModel extends ViewModel {
 
   Future<void> refresh() async {
     await _authProvider.checkAuth();
-    notifyListeners();
+    safeNotify();
   }
 
   void settings() {
@@ -59,6 +59,14 @@ class ProfileViewModel extends ViewModel {
               .toList();
         },
       ),
+    );
+  }
+
+  @override
+  ProfileViewModel clone() {
+    return ProfileViewModel(
+      _authProvider,
+      _navigationRouter,
     );
   }
 }

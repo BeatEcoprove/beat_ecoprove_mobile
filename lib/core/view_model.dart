@@ -10,6 +10,19 @@ abstract class Clone<TClass> {
 abstract class ViewModel<TViewArgument> with ChangeNotifier {
   late TViewArgument? arg;
 
+  bool _disposed = false;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @protected
+  void safeNotify() {
+    if (!_disposed) notifyListeners();
+  }
+
   void setArgument(TViewArgument arg) {
     this.arg = arg;
     notifyListeners();

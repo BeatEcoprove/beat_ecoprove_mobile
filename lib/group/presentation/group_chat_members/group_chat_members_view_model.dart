@@ -84,7 +84,7 @@ class GroupChatMembersViewModel extends FormViewModel<GroupChatParams> {
   }
 
   bool hasCreatorPrivilegies() {
-    return details.creator.id == user?.id;
+    return details.creatorId == user?.id;
   }
 
   void setUserName(String userName) {

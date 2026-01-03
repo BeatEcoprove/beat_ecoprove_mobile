@@ -1,4 +1,3 @@
-import 'package:beat_ecoprove/auth/contracts/profile_result.dart';
 import 'package:beat_ecoprove/auth/contracts/public_profile_result.dart';
 
 class GroupDetailsResult {
@@ -10,7 +9,7 @@ class GroupDetailsResult {
   final int xp;
   final bool isPublic;
   final String avatarPicture;
-  final FinishProfileResult creator;
+  final String creatorId;
   final List<dynamic> membersIds;
   final List<dynamic> adminsIds;
   late PublicProfilesResult? members = PublicProfilesResult.empty();
@@ -25,7 +24,7 @@ class GroupDetailsResult {
     this.xp,
     this.isPublic,
     this.avatarPicture,
-    this.creator,
+    this.creatorId,
     this.membersIds,
     this.adminsIds,
   );
@@ -40,7 +39,7 @@ class GroupDetailsResult {
       0,
       false,
       '',
-      FinishProfileResult.empty(),
+      '',
       [],
       [],
     );
@@ -56,7 +55,7 @@ class GroupDetailsResult {
       (json['xp'] as double).toInt(),
       json['is_public'] ?? false,
       json['avatar_url'] ?? '',
-      FinishProfileResult.fromJson(json['creator'] ?? {}),
+      json['creator'] ?? '',
       json['members'] ?? [],
       json['mods'] ?? [],
     );

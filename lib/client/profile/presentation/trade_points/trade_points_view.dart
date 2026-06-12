@@ -158,7 +158,6 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
           spacing: 8,
           children: [
             Container(
-              // height: 60,
               width: 140,
               padding: const EdgeInsets.all(0),
               decoration: const BoxDecoration(
@@ -245,7 +244,6 @@ class TradePointsView extends LinearView<TradePointsViewModel> {
           spacing: 8,
           children: [
             Container(
-              height: 60,
               width: 140,
               padding: const EdgeInsets.all(0),
               decoration: const BoxDecoration(

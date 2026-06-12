@@ -61,7 +61,7 @@ class ActionService {
       String clothId) async {
     return GetCurrentMaintenanceActionRequest.fromJson(
         await _httpClient.makeRequestJson(
-      method: HttpMethods.get,
+      method: HttpMethods.patch,
       path: "core/profiles/closet/cloth/$clothId/services/current",
       expectedCode: 200,
     ));

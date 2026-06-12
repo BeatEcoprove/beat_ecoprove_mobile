@@ -73,6 +73,12 @@ class CreateGroupViewModel extends FormViewModel {
   ImageProvider getGroupPicture() {
     if (getValue<XFile>(FormFieldValues.groupPicture).value!.path ==
         defaultImage) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setError(
+          FormFieldValues.groupPicture,
+          LocaleContext.get().group_create_group_picture_error,
+        );
+      });
       return const AssetImage(defaultImage);
     }
 
@@ -88,7 +94,7 @@ class CreateGroupViewModel extends FormViewModel {
         getValue(FormFieldValues.groupName).value ?? "",
         getValue(FormFieldValues.groupDescription).value ?? "",
         getValue(FormFieldValues.groupIsPublic).value ?? "",
-        getValue(FormFieldValues.groupPicture).value ?? "",
+        getValue(FormFieldValues.groupPicture).value,
       ));
 
       _notificationProvider.showNotification(

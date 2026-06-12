@@ -498,6 +498,8 @@
   "@group_domain_type_private": {},
   "group_create_group_created": "Group successfully created!",
   "@group_create_group_created": {},
+  "group_create_group_picture_error": "You need to select an image for the group.",
+  "@group_create_group_picture_error": {},
   "group_create_group_create": "Create a Group",
   "@group_create_group_create": {},
   "group_create_group_name": "Name",

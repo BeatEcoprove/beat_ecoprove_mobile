@@ -22,7 +22,7 @@ class GetPublicAdvertsUseCase
 
   @override
   Future<List<AdvertItem>> handle(request) async {
-    List<AdvertResult> publicAdvertsResult;
+    List<AdvertResult> publicAdvertsResult = [];
 
     try {
       publicAdvertsResult = await _serviceProviderService
@@ -31,7 +31,8 @@ class GetPublicAdvertsUseCase
         pageSize: request.pageSize,
       ));
     } catch (e) {
-      rethrow;
+      // rethrow;
+      return [];
     }
 
     var advertsResult = publicAdvertsResult.map((ad) {

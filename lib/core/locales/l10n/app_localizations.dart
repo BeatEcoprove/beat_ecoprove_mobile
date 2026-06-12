@@ -8,8 +8,6 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_en.dart';
 import 'app_localizations_pt.dart';
 
-// ignore_for_file: type=lint
-
 /// Callers can lookup localized strings with an instance of AppLocalizations
 /// returned by `AppLocalizations.of(context)`.
 ///
@@ -18,7 +16,7 @@ import 'app_localizations_pt.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'gen_l10n/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -62,8 +60,7 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,8 +68,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -84,8 +80,7 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -383,7 +378,7 @@ abstract class AppLocalizations {
   /// No description provided for @auth_password_btw_8_16.
   ///
   /// In en, this message translates to:
-  /// **'The password must be between 6 and 16 characters long'**
+  /// **'The password must be between 8 and 16 characters long'**
   String get auth_password_btw_8_16;
 
   /// No description provided for @auth_password_must_insert.
@@ -1592,6 +1587,12 @@ abstract class AppLocalizations {
   /// **'Group successfully created!'**
   String get group_create_group_created;
 
+  /// No description provided for @group_create_group_picture_error.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to select an image for the group.'**
+  String get group_create_group_picture_error;
+
   /// No description provided for @group_create_group_create.
   ///
   /// In en, this message translates to:
@@ -2142,8 +2143,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Email sent!'**
-  String
-      get service_provider_stores_store_index_store_workers_add_worker_email_sent;
+  String get service_provider_stores_store_index_store_workers_add_worker_email_sent;
 
   /// No description provided for @service_provider_stores_store_index_store_workers_add_worker_back.
   ///
@@ -2155,8 +2155,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Enter your employee\'s e-mail address'**
-  String
-      get service_provider_stores_store_index_store_workers_add_worker_worker_email;
+  String get service_provider_stores_store_index_store_workers_add_worker_worker_email;
 
   /// No description provided for @service_provider_stores_store_index_store_workers_add_worker_name.
   ///
@@ -2174,8 +2173,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Continue'**
-  String
-      get service_provider_stores_store_index_store_workers_add_worker_continue;
+  String get service_provider_stores_store_index_store_workers_add_worker_continue;
 
   /// No description provided for @service_provider_stores_store_index_store_workers_worker_removed.
   ///
@@ -2268,8 +2266,7 @@ abstract class AppLocalizations {
   String get language_en;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -2278,25 +2275,25 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'pt':
-      return AppLocalizationsPt();
+    case 'en': return AppLocalizationsEn();
+    case 'pt': return AppLocalizationsPt();
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

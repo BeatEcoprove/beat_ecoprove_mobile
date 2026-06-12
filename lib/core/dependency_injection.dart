@@ -28,6 +28,8 @@ import 'package:beat_ecoprove/core/presentation/select_service/select_service_vi
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_params.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view.dart';
 import 'package:beat_ecoprove/core/presentation/show_compled/show_completed_view_model.dart';
+import 'package:beat_ecoprove/core/presentation/terms/terms_view.dart';
+import 'package:beat_ecoprove/core/presentation/terms/terms_view_model.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/providers/static_values_provider.dart';
 import 'package:beat_ecoprove/core/routes.dart';
@@ -74,6 +76,12 @@ extension CoreDependencyInjection on DependencyInjection {
 
     locator.registerFactory(
       () => NoWifiViewModel(),
+    );
+
+    locator.registerFactory(
+      () => TermsViewModel(
+        router,
+      ),
     );
 
     locator.registerFactory(
@@ -147,6 +155,12 @@ extension CoreDependencyInjection on DependencyInjection {
     locator.registerFactory(
       () => NoWifiView(
         viewModel: locator<NoWifiViewModel>(),
+      ),
+    );
+
+    locator.registerFactory(
+      () => TermsView(
+        viewModel: locator<TermsViewModel>(),
       ),
     );
 

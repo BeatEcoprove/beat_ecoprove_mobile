@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/providers/event_provider.dart';
 import 'package:beat_ecoprove/core/providers/level_up_provider.dart';
 import 'package:beat_ecoprove/core/providers/notification_provider.dart';
 import 'package:beat_ecoprove/core/services/internet_service.dart';
+import 'package:beat_ecoprove/core/services/storage_service.dart';
 import 'package:beat_ecoprove/core/view.dart';
 import 'package:beat_ecoprove/dependency_injection.dart';
 import 'package:beat_ecoprove/home/routes.dart';
@@ -55,6 +56,15 @@ class ApplicationRouter<TView extends LinearView> {
 
       if (!internetService.wifiOn) {
         return AuthRoutes.noWifi;
+      }
+
+      bool termsAccepted =
+          bool.parse(StorageService.getValueSync('terms') ?? 'false');
+      if (!termsAccepted) {
+        if (state.fullPath != AuthRoutes.terms.navigationPath) {
+          return AuthRoutes.terms;
+        }
+        return null;
       }
 
       if (!authProvider.isAuthenticated) {

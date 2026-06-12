@@ -1058,6 +1058,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get service_provider_stores_store_index_store_workers_workers => 'Funcionários';
 
   @override
+  String get terms_continue => 'Continuar';
+
+  @override
+  String get terms_i_have_read_and_accept => 'Li e aceito os termos e condições';
+
+  @override
+  String get terms_terms_and_conditions => 'Termos e Condições';
+
+  @override
   String get core_brands_see_brands_report => 'Denunciar';
 
   @override

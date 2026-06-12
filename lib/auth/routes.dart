@@ -9,6 +9,7 @@ import 'package:beat_ecoprove/core/argument_view.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 import 'package:beat_ecoprove/core/presentation/no_wifi/no_wifi_view.dart';
+import 'package:beat_ecoprove/core/presentation/terms/terms_view.dart';
 import 'package:beat_ecoprove/core/view.dart';
 
 extension AuthRoutes on AppRoute {
@@ -40,6 +41,10 @@ extension AuthRoutes on AppRoute {
 
   static final AppRoute noWifi = AppRoute(
     path: "no_wifi",
+  );
+
+  static final AppRoute terms = AppRoute(
+    path: 'terms',
   );
 }
 
@@ -75,6 +80,10 @@ final NavigationRoute authRoute = NavigationRoute(
     NavigationRoute(
       route: AuthRoutes.noWifi,
       view: (context, state) => LinearView.of<NoWifiView>(),
+    ),
+    NavigationRoute(
+      route: AuthRoutes.terms,
+      view: (context, state) => LinearView.of<TermsView>(),
     ),
   ],
 );

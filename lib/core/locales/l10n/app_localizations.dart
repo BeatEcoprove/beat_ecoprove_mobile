@@ -16,7 +16,7 @@ import 'app_localizations_pt.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'gen_l10n/app_localizations.dart';
+/// import 'l10n/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -2198,6 +2198,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Employees'**
   String get service_provider_stores_store_index_store_workers_workers;
+
+  /// No description provided for @terms_continue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get terms_continue;
+
+  /// No description provided for @terms_i_have_read_and_accept.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and accept the Terms and Conditions'**
+  String get terms_i_have_read_and_accept;
+
+  /// No description provided for @terms_terms_and_conditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get terms_terms_and_conditions;
 
   /// No description provided for @core_brands_see_brands_report.
   ///

@@ -15,6 +15,10 @@ class StorageService {
     return _store.get(key) as T;
   }
 
+  static T? getValueSync<T>(String key) {
+    return _store.get(key) as T?;
+  }
+
   static Future clearValue(String key) async {
     return await _store.remove(key);
   }

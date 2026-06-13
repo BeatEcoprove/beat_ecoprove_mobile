@@ -2217,6 +2217,54 @@ abstract class AppLocalizations {
   /// **'Terms and Conditions'**
   String get terms_terms_and_conditions;
 
+  /// No description provided for @game_quiz_already_done.
+  ///
+  /// In en, this message translates to:
+  /// **'You have already completed today\'s quiz!'**
+  String get game_quiz_already_done;
+
+  /// No description provided for @game_quiz_come_back_tomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Come back tomorrow for 5 new questions'**
+  String get game_quiz_come_back_tomorrow;
+
+  /// No description provided for @game_quiz_go_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Back'**
+  String get game_quiz_go_back;
+
+  /// No description provided for @game_quiz_completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz completed!'**
+  String get game_quiz_completed;
+
+  /// No description provided for @game_quiz_correct_answers.
+  ///
+  /// In en, this message translates to:
+  /// **'correct answers'**
+  String get game_quiz_correct_answers;
+
+  /// No description provided for @game_quiz_coins_gained.
+  ///
+  /// In en, this message translates to:
+  /// **'Eco-Coins gained'**
+  String get game_quiz_coins_gained;
+
+  /// No description provided for @game_quiz_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get game_quiz_next;
+
+  /// No description provided for @game_quiz_result.
+  ///
+  /// In en, this message translates to:
+  /// **'View Result'**
+  String get game_quiz_result;
+
   /// No description provided for @core_brands_see_brands_report.
   ///
   /// In en, this message translates to:

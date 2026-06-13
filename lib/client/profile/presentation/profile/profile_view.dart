@@ -68,6 +68,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
     double heightProfileImage,
     double leftGiftButton,
     double rightProfileButton,
+    double rightGameButton,
   ) {
     return Column(children: [
       Stack(children: [
@@ -109,6 +110,19 @@ class ProfileView extends LinearView<ProfileViewModel> {
               color: AppColor.widgetBackground,
             ),
             onPress: () => viewModel.goChangeProfile(),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: (width / 2) - rightGameButton,
+          child: CircularButton(
+            height: 46,
+            colorBackground: AppColor.primaryColor,
+            icon: const Icon(
+              Icons.sports_esports_rounded,
+              color: AppColor.widgetBackground,
+            ),
+            onPress: () => viewModel.goGame(),
           ),
         ),
         if (!isEcoScoreInRow)
@@ -235,6 +249,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
       175,
       160,
       175,
+      150,
     );
   }
 
@@ -249,6 +264,7 @@ class ProfileView extends LinearView<ProfileViewModel> {
       125,
       130,
       130,
+      105,
     );
   }
 

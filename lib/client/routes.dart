@@ -1,6 +1,7 @@
 import 'package:beat_ecoprove/client/clothing/routes.dart';
 import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/client/register_cloth/routes.dart';
+import 'package:beat_ecoprove/client/game/routes.dart';
 import 'package:beat_ecoprove/core/navigation/app_route.dart';
 import 'package:beat_ecoprove/core/navigation/navigation_route.dart';
 
@@ -16,5 +17,6 @@ NavigationRoute clientRoutes = NavigationRoute(
     clothingRoute,
     profileRoute,
     registerClothRoute,
+    gameRoute,
   ],
 );

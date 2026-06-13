@@ -1067,6 +1067,30 @@ class AppLocalizationsPt extends AppLocalizations {
   String get terms_terms_and_conditions => 'Termos e Condições';
 
   @override
+  String get game_quiz_already_done => 'Você já completou o quiz de hoje!';
+
+  @override
+  String get game_quiz_come_back_tomorrow => 'Volte amanhã para 5 novas perguntas';
+
+  @override
+  String get game_quiz_go_back => 'Voltar';
+
+  @override
+  String get game_quiz_completed => 'Quiz completo!';
+
+  @override
+  String get game_quiz_correct_answers => 'respostas corretas';
+
+  @override
+  String get game_quiz_coins_gained => 'Eco-Coins ganhas';
+
+  @override
+  String get game_quiz_next => 'Próxima';
+
+  @override
+  String get game_quiz_result => 'Ver Resultado';
+
+  @override
   String get core_brands_see_brands_report => 'Denunciar';
 
   @override

@@ -1,3 +1,4 @@
+import 'package:beat_ecoprove/client/game/routes.dart';
 import 'package:beat_ecoprove/client/profile/routes.dart';
 import 'package:beat_ecoprove/core/domain/entities/user.dart';
 import 'package:beat_ecoprove/core/helpers/navigation/navigation_manager.dart';
@@ -45,6 +46,8 @@ class ProfileViewModel extends ViewModel implements Clone {
   void goPrizes() => _navigationRouter.push(ProfileRoutes.prizes);
 
   void goChangeProfile() => _navigationRouter.push(ProfileRoutes.changeProfile);
+
+  void goGame() => _navigationRouter.push(GameRoutes.game);
 
   void goListDetails() {
     _navigationRouter.push(

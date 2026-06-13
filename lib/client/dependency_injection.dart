@@ -1,5 +1,6 @@
 import 'package:beat_ecoprove/application_router.dart';
 import 'package:beat_ecoprove/client/clothing/dependency_injection.dart';
+import 'package:beat_ecoprove/client/game/dependency_injection.dart';
 import 'package:beat_ecoprove/client/profile/dependency_injection.dart';
 import 'package:beat_ecoprove/client/register_cloth/dependency_injection.dart';
 import 'package:beat_ecoprove/client/routes.dart';
@@ -10,6 +11,7 @@ extension ClientDepedencyInjection on DependencyInjection {
     addProfile();
     addCloset();
     addRegisterCloth();
+    addGame();
 
     applicationRouter.addRoute(clientRoutes);
   }
